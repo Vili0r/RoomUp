@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+Documents/Projects/RoomUp/data.ms/indexes/13bf6b2b-9ff9-4de9-9a53-ad921f714eb7/data.mdb filter=lfs diff=lfs merge=lfs -text
+Documents/Projects/RoomUp/data.ms/indexes/3c2d0aeb-061b-429f-84b8-973d8bd90947/data.mdb filter=lfs diff=lfs merge=lfs -text
+Documents/Projects/RoomUp/data.ms/indexes/ed1fd84b-72e7-4679-9358-0be7b7731217/data.mdb filter=lfs diff=lfs merge=lfs -text
