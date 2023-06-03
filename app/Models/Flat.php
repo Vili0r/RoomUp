@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\Size;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Searchable;
 
 class Flat extends Model
@@ -108,5 +109,10 @@ class Flat extends Model
             // 'flatmate_ids' => $this->faltmate->pluck('id')->toArray(),
             // 'availability_ids' => $this->availability->pluck('id')->toArray(),
         ];
+    }
+
+    public function scopeMaxPrice(Builder $query, $price): Builder
+    {
+        return $query->where('cost', '<=', $price);
     }
 }

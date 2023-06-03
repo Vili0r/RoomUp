@@ -4,10 +4,33 @@ import { BsSliders } from "react-icons/bs";
 import { SlMap } from "react-icons/sl";
 import { FilterModal, Filters, MapCard, PropertyCard } from "@/Components";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { MeiliSearch } from "meilisearch";
+import { MdOutlineApartment, MdOutlineBedroomParent } from "react-icons/md";
+import { BsHouseFill } from "react-icons/bs";
+import { ImOffice } from "react-icons/im";
+import { MultiRangeSlider, Amenities } from "@/Components";
+import { router } from "@inertiajs/react";
+import { BsCheck } from "react-icons/bs";
+
+const places = [
+    { id: 1, title: "Apartment", image: MdOutlineApartment },
+    { id: 2, title: "Full House", image: BsHouseFill },
+    { id: 3, title: "Office", image: ImOffice },
+    { id: 4, title: "Room", image: MdOutlineBedroomParent },
+];
+
+const bedrooms = [
+    { id: 1, title: "Studio" },
+    { id: 2, title: "1" },
+    { id: 3, title: "2" },
+    { id: 4, title: "3" },
+    { id: 5, title: "4" },
+    { id: 6, title: "5+" },
+];
 
 const Search = (props) => {
+    const { flats, size, type, amenities } = usePage().props;
     const [isOpen, setIsOpen] = useState(false);
     const [toggleMap, setToggleMap] = useState(false);
     const [query, setQuery] = useState("");
@@ -15,6 +38,23 @@ const Search = (props) => {
     const [selectedHitIndex, setSelectedHitIndex] = useState(0);
     const [client, setClient] = useState(null);
     const indexUids = ["flats", "shareds", "rooms"];
+    const [toggleActiveButton, setToggleActiveButton] = useState(1);
+    const [toggleActivePlace, setToggleActivePlace] = useState(1);
+    const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
+    const currentUrl = window.location.href;
+    console.log(flats);
+
+    const activeButton = (index) => {
+        setToggleActiveButton(index);
+    };
+
+    const activePlace = (index) => {
+        setToggleActivePlace(index);
+    };
+
+    const activeBedroom = (index) => {
+        setToggleActiveBedrooms(index);
+    };
 
     const closeModal = () => {
         setIsOpen(false);
@@ -22,6 +62,40 @@ const Search = (props) => {
 
     const openModal = () => {
         setIsOpen(true);
+    };
+
+    const handleFilterChange = (filterName, filterValue) => {
+        const url = new URL(currentUrl);
+        const searchParams = new URLSearchParams(url.search);
+        const filters = JSON.parse(searchParams.get("filter") || "{}");
+
+        if (filterName && filterValue) {
+            filters[filterName] = filterValue;
+        }
+
+        searchParams.delete("filter");
+
+        Object.entries(filters).forEach(([key, value]) => {
+            searchParams.append(`filter[${key}]`, value);
+        });
+
+        url.search = searchParams.toString();
+        console.log(url.search);
+
+        router.visit(url.pathname + url.search, { preserveScroll: true });
+    };
+
+    const handleSizeChange = (index) => {
+        handleFilterChange("size", index);
+    };
+
+    const handleTypeChange = (index) => {
+        handleFilterChange("type", index);
+    };
+
+    const handlePriceChange = (event) => {
+        const priceValue = event.target.value;
+        handleFilterChange("max_price", priceValue);
     };
 
     useEffect(() => {
@@ -64,7 +138,120 @@ const Search = (props) => {
                     <FilterModal isOpen={isOpen} closeModal={closeModal} />
                     <div className="grid grid-cols-4 gap-12 mt-10">
                         <div className="lg:flex flex-col items-center lg:pl-[40px] lg:pr-[15px] space-y-2 hidden">
-                            <Filters />
+                            <div className="pl-[20px] [@media(max-width:480px)]:pl-0">
+                                <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1 [@media(max-width:440px)]:flex-col">
+                                    <button
+                                        onClick={() => activeButton(1)}
+                                        className={
+                                            toggleActiveButton == "1"
+                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black px-[3rem] rounded-xl [@media(max-width:440px)]:py-3"
+                                                : "text-black hover:text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs px-[3rem] bg-white hover:bg-black rounded-xl py-2"
+                                        }
+                                    >
+                                        Rent
+                                    </button>
+                                    <button
+                                        onClick={() => activeButton(2)}
+                                        className={
+                                            toggleActiveButton == "2"
+                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black px-[3rem] rounded-xl [@media(max-width:440px)]:py-3"
+                                                : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm px-[3rem] bg-white hover:bg-black rounded-xl py-2"
+                                        }
+                                    >
+                                        Flatmate
+                                    </button>
+                                </div>
+                                <div className="mt-[2rem]">
+                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                        Type of places
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-3 [@media(max-width:350px)]:gap-x-7 lg:space-y-2 xl:gap-3 mt-[1rem] place-items-center">
+                                        {places.map((places, index) => (
+                                            <div
+                                                onClick={() => {
+                                                    activePlace(index);
+                                                    handleTypeChange(index);
+                                                }}
+                                                key={places.id}
+                                                className={`${
+                                                    toggleActivePlace == index
+                                                        ? "border-black"
+                                                        : "border-[#f3f3f3] [@media(max-width:340px)]:border-0"
+                                                } h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
+                                            >
+                                                <places.image className="mt-6 font-popp w-7 h-7" />
+                                                <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
+                                                    {places.title}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="mt-[2rem]">
+                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                        Price Range
+                                    </p>
+
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15000"
+                                        className="mt-2"
+                                        onChange={handlePriceChange}
+                                    />
+                                </div>
+                                <div className="mt-[2rem]">
+                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                        Bedroom
+                                    </p>
+                                    <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:400px)]:grid [@media(max-width:400px)]:grid-cols-3">
+                                        {bedrooms.map((bedroom, index) => (
+                                            <div
+                                                onClick={() => {
+                                                    activeBedroom(index);
+                                                    handleSizeChange(index);
+                                                }}
+                                                key={bedroom.id}
+                                                className={`${
+                                                    toggleActiveBedrooms ==
+                                                    index
+                                                        ? "bg-black text-white"
+                                                        : "bg-white text-black"
+                                                } p-1 py-2 px-3 lg:px-[9px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
+                                            >
+                                                <span className="font-popp text-md">
+                                                    {bedroom.title}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="mt-[2rem] lg:px-2 xl:px-0">
+                                    <p className="text-sm font-semibold font-popp">
+                                        Amenities
+                                    </p>
+                                    <div className="mt-[1rem] place-items-center">
+                                        {amenities.map((amenity, index) => (
+                                            <div
+                                                key={amenity.id}
+                                                className="flex justify-between mb-2"
+                                            >
+                                                <span className="mt-1 text-sm font-popp">
+                                                    {amenity.name}
+                                                </span>
+                                                <label className="relative cursor-pointer">
+                                                    <input
+                                                        id="checkbox-1"
+                                                        type="checkbox"
+                                                        className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
+                                                    />
+                                                    <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <MapCard
                             toggleMap={toggleMap}

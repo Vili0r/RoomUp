@@ -4,6 +4,7 @@ import { BsHouseFill } from "react-icons/bs";
 import { ImOffice } from "react-icons/im";
 import MultiRangeSlider from "./MultiRangeSlider";
 import Amenities from "./Amenities";
+import { router } from "@inertiajs/react";
 
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
@@ -21,7 +22,8 @@ const bedrooms = [
     { id: 6, title: "5+" },
 ];
 
-const Filters = () => {
+const Filters = (props) => {
+    props.sizeChange(sizeFilter);
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [toggleActivePlace, setToggleActivePlace] = useState(1);
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
@@ -36,6 +38,10 @@ const Filters = () => {
 
     const activeBedroom = (index) => {
         setToggleActiveBedrooms(index);
+    };
+
+    const sizeFilter = () => {
+        router.visit("/search");
     };
 
     return (
@@ -105,7 +111,10 @@ const Filters = () => {
                 <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:400px)]:grid [@media(max-width:400px)]:grid-cols-3">
                     {bedrooms.map((bedroom, index) => (
                         <div
-                            onClick={() => activeBedroom(index)}
+                            onClick={() => {
+                                activeBedroom(index);
+                                sizeFilter();
+                            }}
                             key={bedroom.id}
                             className={`${
                                 toggleActiveBedrooms == index
