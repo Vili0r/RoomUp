@@ -25,7 +25,7 @@ class FlatSeeder extends Seeder
                 'description' => 'Flat Description' . $i,
                 'cost' => rand(100, 1000),
                 'deposit' => rand(100, 1000),
-                'size' => rand(1, 10),
+                'size' => rand(1, 6),
                 'type' => rand(1, 3),
                 'live_at' => $liveDateTime,
                 'what_i_am' => rand(1, 2),

@@ -18,9 +18,14 @@ class SharedIndexResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'available_rooms' => $this->available_rooms,
+            //'available_from' => $this->available_from,
             'live_at' => $this->live_at,
+            //'size' => $this->size,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
+            // 'address' => $this->whenLoaded('address', function () {
+            //     return new AddressResource($this->address);
+            // }),
         ];
     }
 }

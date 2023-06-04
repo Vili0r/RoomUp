@@ -23,6 +23,12 @@ class FlatIndexResource extends JsonResource
             'cost' => $this->cost,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
+            'address' => $this->whenLoaded('address', function () {
+                return new AddressResource($this->address);
+            }),
+            'availability' => $this->whenLoaded('availability', function () {
+                return new AvailabilityResource($this->availability);
+            }),
         ];
     }
 }

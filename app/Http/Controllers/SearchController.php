@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Size;
-use App\Enums\Type;
 use App\Http\Resources\FlatIndexResource;
 use App\Http\Resources\SharedIndexResource;
-use App\Http\Resources\EnumResource;
 use App\Models\Flat;
 use App\Models\Shared;
 use Illuminate\Http\Request;
@@ -24,18 +21,44 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $query = null;
+        $results = [];
+        $searchType = $request->input('search_type', 'flats');
+
+        if ($searchType === 'flats') {
+            $query = QueryBuilder::for(Flat::class)
+                ->allowedFilters($this->allowedFilters())
+                ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
+                ->latest();
+
+            // Apply filters based on user input
+            // ...
+
+            $results = FlatIndexResource::collection($query->paginate(15));
+        } elseif ($searchType === 'shareds') {
+            $query = QueryBuilder::for(Shared::class)
+                ->allowedFilters(['size'])
+                ->with(['amenities', 'address', 'transport', 'advertiser'])
+                ->latest();
+
+            // Apply filters based on user input
+            // ...
+
+            $results = SharedIndexResource::collection($query->paginate(15));
+        }
+
+        //dd($results);
         return Inertia::render('Home/Search',[
-            'size' => EnumResource::collection(Size::cases()),
-            'type' => EnumResource::collection(Type::cases()),
             'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'flats' => FlatIndexResource::collection(
-                QueryBuilder::for(Flat::class)
-                    ->allowedFilters($this->allowedFilters())
-                    ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
-                    ->latest()
-                    ->paginate(15)
-            ),
-            'shareds' => SharedIndexResource::collection(Shared::latest()->paginate(15)),
+            'results' => $results,
+            // 'flats' => FlatIndexResource::collection(
+            //     QueryBuilder::for(Flat::class)
+            //         ->allowedFilters($this->allowedFilters())
+            //         ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
+            //         ->latest()
+            //         ->paginate(15)
+            // ),
+            // 'shareds' => SharedIndexResource::collection(Shared::latest()->paginate(15)),
         ]);
     }
 

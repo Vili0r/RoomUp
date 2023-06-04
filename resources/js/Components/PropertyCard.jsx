@@ -3,13 +3,19 @@ import { AiTwotoneHeart } from "react-icons/ai";
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { FaBath } from "react-icons/fa";
 import { RiRulerFill } from "react-icons/ri";
+import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { Link } from "@inertiajs/react";
+import moment from "moment";
+import { HousePlaceholder } from "@/assets";
 
-const PropertyCard = () => {
+const PropertyCard = ({ results }) => {
+    const showImage = () => {
+        return "/storage/";
+    };
     return (
         <div className="col-span-4 p-4 md:p-2 lg:p-0 md:col-span-2 lg:col-span-1">
             <div className="grid [@media(min-width:520px)]:grid-cols-2 [@media(min-width:800px)]:grid-cols-1 gap-y-10 gap-x-4 md:gap-6">
-                <div className="h-full xs:mb-[-8.85rem] md:mb-[-5rem] -mb-11 lg:mb-[4.25rem] lg:ml-[-20px] xl:mr-2 bg-white shadow-md rounded-3xl overflow-hidden relative">
+                {/* <div className="h-full xs:mb-[-8.85rem] md:mb-[-5rem] -mb-11 lg:mb-[4.25rem] lg:ml-[-20px] xl:mr-2 bg-white shadow-md rounded-3xl overflow-hidden relative">
                     <Link>
                         <img
                             src="https://tse2.mm.bing.net/th?id=OIP.ZveDuZq9YL_RGwK3deyWbAHaG_&pid=Api&P=0"
@@ -52,7 +58,52 @@ const PropertyCard = () => {
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                {results?.data.map((result) => (
+                    <div key={result.id} className="mx-2">
+                        <Link>
+                            <img
+                                className="bg-cover rounded-lg"
+                                src={
+                                    result.images[0]
+                                        ? showImage() + result.images[0]
+                                        : HousePlaceholder
+                                }
+                                alt=""
+                            />
+                        </Link>
+                        <div className="flex flex-row items-start justify-between mt-4">
+                            <Link>
+                                <div>
+                                    <p className="text-sm font-bold text-gray-800">
+                                        {result.address?.address_1},
+                                        {result.address?.area}
+                                    </p>
+                                    <p className="text-sm text-gray-800">
+                                        {result.title}
+                                    </p>
+                                    <p className="text-sm text-gray-800">
+                                        Available from{" "}
+                                        {/* {moment(
+                                            result.availability.available_from
+                                        ).format("MMM DD, YYYY")} */}
+                                    </p>
+                                    <p className="mt-2 text-sm text-gray-800">
+                                        {" "}
+                                        <strong>${result.cost}</strong> month
+                                    </p>
+                                </div>
+                            </Link>
+                            <div className="flex flex-row items-center">
+                                <dt className="sr-only">Saved</dt>
+                                <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
+                                    <MdOutlineBookmarkAdd className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
+                                    <span>(128)</span>
+                                </dd>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
             <div className="text-center">
                 <button className="px-2 py-3 bg-[#f3f3f3] mx-auto text-sm font-semibold rounded-xl font-popp mt-10 text-black">

@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsSliders } from "react-icons/bs";
 import { SlMap } from "react-icons/sl";
-import { FilterModal, Filters, MapCard, PropertyCard } from "@/Components";
+import {
+    FilterModal,
+    Filters,
+    MapCard,
+    PropertyCard,
+    LoadingSkeleton,
+} from "@/Components";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { MeiliSearch } from "meilisearch";
@@ -16,21 +22,21 @@ import { BsCheck } from "react-icons/bs";
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
     { id: 2, title: "Full House", image: BsHouseFill },
-    { id: 3, title: "Office", image: ImOffice },
+    { id: 3, title: "Property", image: ImOffice },
     { id: 4, title: "Room", image: MdOutlineBedroomParent },
 ];
 
 const bedrooms = [
-    { id: 1, title: "Studio" },
-    { id: 2, title: "1" },
-    { id: 3, title: "2" },
-    { id: 4, title: "3" },
-    { id: 5, title: "4" },
-    { id: 6, title: "5+" },
+    { id: 1, title: "Studio/1" },
+    { id: 2, title: "2" },
+    { id: 3, title: "3" },
+    { id: 4, title: "4" },
+    { id: 5, title: "5" },
+    { id: 6, title: "6+" },
 ];
 
 const Search = (props) => {
-    const { flats, size, type, amenities } = usePage().props;
+    const { results, amenities } = usePage().props;
     const [isOpen, setIsOpen] = useState(false);
     const [toggleMap, setToggleMap] = useState(false);
     const [query, setQuery] = useState("");
@@ -42,7 +48,7 @@ const Search = (props) => {
     const [toggleActivePlace, setToggleActivePlace] = useState(1);
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
     const currentUrl = window.location.href;
-    console.log(flats);
+    console.log(results);
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
@@ -65,32 +71,56 @@ const Search = (props) => {
     };
 
     const handleFilterChange = (filterName, filterValue) => {
-        const url = new URL(currentUrl);
-        const searchParams = new URLSearchParams(url.search);
-        const filters = JSON.parse(searchParams.get("filter") || "{}");
+        let url = new URL(currentUrl);
+        let searchParams = new URLSearchParams(url.search);
+        let filters = JSON.parse(searchParams.get("filter") || "{}");
 
         if (filterName && filterValue) {
+            filters[filterName] = filterValue;
+        }
+
+        if (filterName === "type" && filterValue === 4) {
+            // Reset the URL and filters when selecting type 4
+            url = new URL("/search", window.location.origin);
+            searchParams = new URLSearchParams();
+            filters = {};
+        } else if (filterName === "type" && filterValue !== 4) {
+            // Reset the URL and filters when switching from type 4 to other types
+            url = new URL("/search", window.location.origin);
+            searchParams = new URLSearchParams();
+            filters = {};
             filters[filterName] = filterValue;
         }
 
         searchParams.delete("filter");
 
         Object.entries(filters).forEach(([key, value]) => {
-            searchParams.append(`filter[${key}]`, value);
+            searchParams.set(`filter[${key}]`, value);
         });
 
         url.search = searchParams.toString();
-        console.log(url.search);
 
-        router.visit(url.pathname + url.search, { preserveScroll: true });
+        if (filterName === "type" && filterValue === 4) {
+            router.visit(
+                url.pathname + url.search,
+                {
+                    data: {
+                        search_type: "shareds",
+                    },
+                },
+                { preserveScroll: true }
+            );
+        } else {
+            router.visit(url.pathname + url.search, { preserveScroll: true });
+        }
     };
 
-    const handleSizeChange = (index) => {
-        handleFilterChange("size", index);
+    const handleSizeChange = (id) => {
+        handleFilterChange("size", id);
     };
 
-    const handleTypeChange = (index) => {
-        handleFilterChange("type", index);
+    const handleTypeChange = (id) => {
+        handleFilterChange("type", id);
     };
 
     const handlePriceChange = (event) => {
@@ -170,7 +200,7 @@ const Search = (props) => {
                                             <div
                                                 onClick={() => {
                                                     activePlace(index);
-                                                    handleTypeChange(index);
+                                                    handleTypeChange(places.id);
                                                 }}
                                                 key={places.id}
                                                 className={`${
@@ -209,7 +239,9 @@ const Search = (props) => {
                                             <div
                                                 onClick={() => {
                                                     activeBedroom(index);
-                                                    handleSizeChange(index);
+                                                    handleSizeChange(
+                                                        bedroom.id
+                                                    );
                                                 }}
                                                 key={bedroom.id}
                                                 className={`${
@@ -231,7 +263,7 @@ const Search = (props) => {
                                         Amenities
                                     </p>
                                     <div className="mt-[1rem] place-items-center">
-                                        {amenities.map((amenity, index) => (
+                                        {amenities.map((amenity) => (
                                             <div
                                                 key={amenity.id}
                                                 className="flex justify-between mb-2"
@@ -257,7 +289,8 @@ const Search = (props) => {
                             toggleMap={toggleMap}
                             setToggleMap={setToggleMap}
                         />
-                        <PropertyCard />
+
+                        <PropertyCard results={results} />
                     </div>
                     <div
                         className="fixed bottom-[6rem] left-[5rem] md:hidden"

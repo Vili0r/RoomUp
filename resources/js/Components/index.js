@@ -36,6 +36,7 @@ import StepTwo from "./StepTwo";
 import StepFour from "./StepFour";
 import CurrentFlatmate from "./CurrentFlatmate";
 import NewFlatmate from "./NewFlatmate";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 export {
     AccordionItem,
@@ -77,4 +78,5 @@ export {
     CurrentFlatmate,
     NewFlatmate,
     FlatStepOne,
+    LoadingSkeleton,
 };

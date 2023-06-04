@@ -24,7 +24,7 @@ class SharedSeeder extends Seeder
                 'title' => 'Shared' . $i,
                 'description' => 'Shared Description' . $i,
                 'available_rooms' => rand(1, 10),
-                'size' => rand(1, 10),
+                'size' => rand(1, 6),
                 'type' => rand(1, 3),
                 'current_occupants' => rand(0, 10),
                 'what_i_am' => rand(1, 5),
