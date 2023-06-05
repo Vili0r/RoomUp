@@ -12,6 +12,7 @@ const PropertyCard = ({ results }) => {
     const showImage = () => {
         return "/storage/";
     };
+    //console.log(results);
     return (
         <div className="col-span-4 p-4 md:p-2 lg:p-0 md:col-span-2 lg:col-span-1">
             <div className="grid [@media(min-width:520px)]:grid-cols-2 [@media(min-width:800px)]:grid-cols-1 gap-y-10 gap-x-4 md:gap-6">
@@ -84,13 +85,18 @@ const PropertyCard = ({ results }) => {
                                     </p>
                                     <p className="text-sm text-gray-800">
                                         Available from{" "}
-                                        {/* {moment(
-                                            result.availability.available_from
-                                        ).format("MMM DD, YYYY")} */}
+                                        <span className="font-semibold">
+                                            {moment(
+                                                result.availability
+                                                    ? result.availability
+                                                          .available_from
+                                                    : result.rooms
+                                                          .available_from
+                                            ).format("MMM DD, YYYY")}
+                                        </span>
                                     </p>
                                     <p className="mt-2 text-sm text-gray-800">
-                                        {" "}
-                                        <strong>${result.cost}</strong> month
+                                        <strong>${result.cost}</strong> /month
                                     </p>
                                 </div>
                             </Link>
@@ -106,9 +112,12 @@ const PropertyCard = ({ results }) => {
                 ))}
             </div>
             <div className="text-center">
-                <button className="px-2 py-3 bg-[#f3f3f3] mx-auto text-sm font-semibold rounded-xl font-popp mt-10 text-black">
+                <Link
+                    href={results?.links.next}
+                    className="px-2 py-3 bg-[#f3f3f3] mx-auto text-sm font-semibold rounded-xl font-popp mt-10 text-black"
+                >
                     ... 15 more
-                </button>
+                </Link>
             </div>
         </div>
     );

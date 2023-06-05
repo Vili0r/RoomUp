@@ -23,26 +23,26 @@ class DatabaseSeeder extends Seeder
         $this->callWith(UserSeeder::class, [
             'users' => 100
         ]);
-        $this->callWith(SharedSeeder::class, [
-            'count' => 10000
-        ]);
-        $this->callWith(FlatSeeder::class, [
-            'count' => 10000
-        ]);
-        $this->callWith(AddressSeeder::class, [
-            'count' => 100
-        ]);
-        $this->callWith(AdvertiserSeeder::class, [
-            'count' => 100
-        ]);
-        $this->callWith(FlatmateSeeder::class, [
-            'count' => 100
-        ]);
-        $this->callWith(TransportSeeder::class, [
-            'count' => 100
-        ]);
-        $this->callWith(RoomSeeder::class, [
-            'count' => 20000
-        ]);
+        // $this->callWith(SharedSeeder::class, [
+        //     'count' => 10000
+        // ]);
+        // $this->callWith(FlatSeeder::class, [
+        //     'count' => 10000
+        // ]);
+        // $this->callWith(AddressSeeder::class, [
+        //     'count' => 100
+        // ]);
+        // $this->callWith(AdvertiserSeeder::class, [
+        //     'count' => 100
+        // ]);
+        // $this->callWith(FlatmateSeeder::class, [
+        //     'count' => 100
+        // ]);
+        // $this->callWith(TransportSeeder::class, [
+        //     'count' => 100
+        // ]);
+        // $this->callWith(RoomSeeder::class, [
+        //     'count' => 20000
+        // ]);
     }
 }

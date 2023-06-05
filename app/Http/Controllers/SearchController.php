@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FlatIndexResource;
-use App\Http\Resources\SharedIndexResource;
 use App\Models\Flat;
 use App\Models\Shared;
 use Illuminate\Http\Request;
@@ -12,6 +10,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\QueryFilters\AmenityQueryFilter;
 use App\Http\Resources\AmenitiesResource;
+use App\Http\Resources\FlatSearchResultResource;
+use App\Http\Resources\SharedSearchResultResource;
 use App\Models\Amenity;
 
 class SearchController extends Controller
@@ -24,51 +24,64 @@ class SearchController extends Controller
         $query = null;
         $results = [];
         $searchType = $request->input('search_type', 'flats');
+        dd(Flat::search('2000')->get());
+
 
         if ($searchType === 'flats') {
-            $query = QueryBuilder::for(Flat::class)
-                ->allowedFilters($this->allowedFilters())
+            $query = QueryBuilder::for(Flat::withoutGlobalScope('individual'))
+                ->allowedFilters($this->allowedFlatFilters())
                 ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
+                ->tap(function ($builder) use ($request) {
+                    if(filled($request->search)){
+                        return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
+                    }
+                })
                 ->latest();
 
             // Apply filters based on user input
             // ...
 
-            $results = FlatIndexResource::collection($query->paginate(15));
+            $results = FlatSearchResultResource::collection($query->paginate(15)->appends($request->query()));
         } elseif ($searchType === 'shareds') {
-            $query = QueryBuilder::for(Shared::class)
-                ->allowedFilters(['size'])
-                ->with(['amenities', 'address', 'transport', 'advertiser'])
+            $query = QueryBuilder::for(Shared::withoutGlobalScope('individual'))
+                ->allowedFilters($this->allowedSharedFilters())
+                ->with(['amenities', 'address', 'transport', 'advertiser', 'rooms'])
+                ->tap(function ($builder) use ($request) {
+                    if(filled($request->search)){
+                        return $builder->whereIn('id', Shared::search($request->search)->get()->pluck('id'));
+                    }
+                })
                 ->latest();
 
             // Apply filters based on user input
             // ...
 
-            $results = SharedIndexResource::collection($query->paginate(15));
+            $results = SharedSearchResultResource::collection($query->paginate(15)->appends($request->query()));
         }
 
-        //dd($results);
         return Inertia::render('Home/Search',[
+            'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'amenities' => AmenitiesResource::collection(Amenity::all()),
             'results' => $results,
-            // 'flats' => FlatIndexResource::collection(
-            //     QueryBuilder::for(Flat::class)
-            //         ->allowedFilters($this->allowedFilters())
-            //         ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
-            //         ->latest()
-            //         ->paginate(15)
-            // ),
-            // 'shareds' => SharedIndexResource::collection(Shared::latest()->paginate(15)),
         ]);
     }
 
-    protected function allowedFilters()
+    protected function allowedFlatFilters()
     {
         return [
             'size',
             'type',
             AllowedFilter::custom('amenity', new AmenityQueryFilter()),
             AllowedFilter::scope('max_price'),
+        ];
+    }
+    
+    protected function allowedSharedFilters()
+    {
+        return [
+            'size',
+            AllowedFilter::custom('amenity', new AmenityQueryFilter()),
+            // AllowedFilter::scope('max_price'),
         ];
     }
 }

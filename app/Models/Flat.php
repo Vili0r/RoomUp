@@ -43,15 +43,15 @@ class Flat extends Model
         'images' => 'array',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        // Disable the global scope temporarily during indexing
-        if (app()->runningInConsole()) {
-            static::withoutGlobalScope(FilterByUser::class)->searchable();
-        }
-    }
+    //     // Disable the global scope temporarily during indexing
+    //     if (app()->runningInConsole()) {
+    //         static::withoutGlobalScope(FilterByUser::class)->searchable();
+    //     }
+    // }
 
     public function user(): BelongsTo
     {
@@ -90,7 +90,6 @@ class Flat extends Model
 
     public function toSearchableArray(): array
     {
-        // $addresses = Flat::with('address')->get()->pluck('id');
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -102,12 +101,6 @@ class Flat extends Model
             'furnished' => $this->furnished,
             'images' => $this->images,
             'created_at' => $this->created_at->format('Y-m-d'),
-            // 'amenities_ids' => $this->amenities->pluck('id')->toArray(),
-            // 'address_ids' => $addresses->toArray(),
-            // 'transport_ids' => $this->transport->pluck('id')->toArray(),
-            // 'advertiser_ids' => $this->advertiser->pluck('id')->toArray(),
-            // 'flatmate_ids' => $this->faltmate->pluck('id')->toArray(),
-            // 'availability_ids' => $this->availability->pluck('id')->toArray(),
         ];
     }
 

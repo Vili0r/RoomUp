@@ -18,7 +18,7 @@ trait FilterByUser
             $model->user_id = auth()->id();
         });
 
-        self::addGlobalScope(function(Builder $builder) {
+        self::addGlobalScope('individual',function(Builder $builder) {
             $builder->where('user_id', auth()->id());
         });
     }

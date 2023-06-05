@@ -61,15 +61,15 @@ class Shared extends Model
         'images' => 'array',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        // Disable the global scope temporarily during indexing
-        if (app()->runningInConsole()) {
-            static::withoutGlobalScope(FilterByUser::class)->searchable();
-        }
-    }
+    //     // Disable the global scope temporarily during indexing
+    //     if (app()->runningInConsole()) {
+    //         static::withoutGlobalScope(FilterByUser::class)->searchable();
+    //     }
+    // }
 
     public function user(): BelongsTo
     {
@@ -117,12 +117,6 @@ class Shared extends Model
             'images' => $this->images,
             'available_rooms' => $this->available_rooms,
             'created_at' => $this->created_at->format('Y-m-d'),
-            // 'amenities_ids' => $this->amenities()->pluck('id')->toArray(),
-            // 'address_ids' => $this->address()->pluck('id')->toArray(),
-            // 'transport_ids' => $this->transport()->pluck('id')->toArray(),
-            // 'advertiser_ids' => $this->address()->pluck('id')->toArray(),
-            // 'flatmate_ids' => $this->flatmate()->pluck('id')->toArray(),
-            // 'rooms_ids' => $this->rooms()->pluck('id')->toArray(),
         ];
     }
 }
