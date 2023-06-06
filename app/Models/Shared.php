@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Shared extends Model
 {
@@ -61,15 +63,28 @@ class Shared extends Model
         'images' => 'array',
     ];
 
-    // public static function boot()
-    // {
-    //     parent::boot();
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::addGlobalScope('filter_by_user', function (Builder $builder) {
+            if (Auth::check() && !self::isSearchQuery()) {
+                $builder->where('user_id', Auth::user()->id);
+            }
+        });
+    }
+    
+    private static function isSearchQuery()
+    {
+        return isset(request()->query()['search']);
+    }
 
-    //     // Disable the global scope temporarily during indexing
-    //     if (app()->runningInConsole()) {
-    //         static::withoutGlobalScope(FilterByUser::class)->searchable();
-    //     }
-    // }
+    public static function makeAllSearchable()
+    {
+        static::withoutGlobalScope('filter_by_user')->searchable();
+
+        parent::makeAllSearchable();
+    }
 
     public function user(): BelongsTo
     {

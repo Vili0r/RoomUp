@@ -9,8 +9,14 @@ class AmenityQueryFilter implements Filter
 {
     public function __invoke(Builder $query, $value, string $property)
     {
-        $query->whereHas('amenities', function ($query) use ($value) {
-            $query->where('name', $value);
-        });
+        if (is_array($value)) {
+            $query->whereHas('amenities', function ($query) use ($value) {
+                $query->whereIn('id', $value);
+            });
+        } else {
+            $query->whereHas('amenities', function ($query) use ($value) {
+                $query->where('id', $value[0]);
+            });
+        }
     }
 }

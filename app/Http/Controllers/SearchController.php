@@ -24,11 +24,13 @@ class SearchController extends Controller
         $query = null;
         $results = [];
         $searchType = $request->input('search_type', 'flats');
-        dd(Flat::search('2000')->get());
+        // dd(Flat::query()->whereHas('amenities', function ($query) {
+        //     $query->where('id', [2,4]);
+        // })->get());
 
 
         if ($searchType === 'flats') {
-            $query = QueryBuilder::for(Flat::withoutGlobalScope('individual'))
+            $query = QueryBuilder::for(Flat::withoutGlobalScope('filter_by_user'))
                 ->allowedFilters($this->allowedFlatFilters())
                 ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
                 ->tap(function ($builder) use ($request) {
@@ -43,7 +45,7 @@ class SearchController extends Controller
 
             $results = FlatSearchResultResource::collection($query->paginate(15)->appends($request->query()));
         } elseif ($searchType === 'shareds') {
-            $query = QueryBuilder::for(Shared::withoutGlobalScope('individual'))
+            $query = QueryBuilder::for(Shared::withoutGlobalScope('filter_by_user'))
                 ->allowedFilters($this->allowedSharedFilters())
                 ->with(['amenities', 'address', 'transport', 'advertiser', 'rooms'])
                 ->tap(function ($builder) use ($request) {

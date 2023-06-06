@@ -40,13 +40,14 @@ const Search = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [toggleMap, setToggleMap] = useState(false);
     const [query, setQuery] = useState(selectedQueries.search || "");
+    const [selectedAmenities, setSelectedAmenities] = useState([]);
     // const [searchResults, setSearchResults] = useState(null);
     // const [selectedHitIndex, setSelectedHitIndex] = useState(0);
     // const [client, setClient] = useState(null);
     //const indexUids = ["flats", "shareds", "rooms"];
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const currentUrl = window.location.href;
-    //console.log(selectedQueries);
+    console.log(selectedQueries);
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
@@ -60,6 +61,7 @@ const Search = (props) => {
         setIsOpen(true);
     };
 
+    console.log(selectedAmenities);
     const handleFilterChange = (filterName, filterValue) => {
         let url = new URL(currentUrl);
         let searchParams = new URLSearchParams(url.search);
@@ -117,6 +119,24 @@ const Search = (props) => {
         const priceValue = event.target.value;
         handleFilterChange("max_price", priceValue);
     };
+
+    const handleAmenityChange = (id) => {
+        // Check if the ID already exists in selectedAmenities
+        // const isSelected = selectedAmenities.includes(id);
+
+        // if (isSelected) {
+        //     // Remove the ID from the selectedAmenities array
+        //     setSelectedAmenities(
+        //         selectedAmenities.filter((amenityId) => amenityId !== id)
+        //     );
+        // } else {
+        //     // Add the ID to the selectedAmenities array
+        //     setSelectedAmenities([...selectedAmenities, id]);
+        // }
+        handleFilterChange("amenity", id);
+    };
+
+    //handleFilterChange("amenity", selectedAmenities);
 
     //Front End Meilisearch implementation
     // useEffect(() => {
@@ -280,6 +300,14 @@ const Search = (props) => {
                                                     <input
                                                         id="checkbox-1"
                                                         type="checkbox"
+                                                        onChange={() =>
+                                                            handleAmenityChange(
+                                                                amenity.id
+                                                            )
+                                                        }
+                                                        checked={selectedAmenities.includes(
+                                                            amenity.id
+                                                        )}
                                                         className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
                                                     />
                                                     <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />

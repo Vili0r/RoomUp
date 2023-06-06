@@ -13,6 +13,7 @@ use App\Enums\Size;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Flat extends Model
@@ -43,15 +44,28 @@ class Flat extends Model
         'images' => 'array',
     ];
 
-    // public static function boot()
-    // {
-    //     parent::boot();
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::addGlobalScope('filter_by_user', function (Builder $builder) {
+            if (Auth::check() && !self::isSearchQuery()) {
+                $builder->where('user_id', Auth::user()->id);
+            }
+        });
+    }
+    
+    private static function isSearchQuery()
+    {
+        return isset(request()->query()['search']);
+    }
 
-    //     // Disable the global scope temporarily during indexing
-    //     if (app()->runningInConsole()) {
-    //         static::withoutGlobalScope(FilterByUser::class)->searchable();
-    //     }
-    // }
+    public static function makeAllSearchable()
+    {
+        static::withoutGlobalScope('filter_by_user')->searchable();
+
+        parent::makeAllSearchable();
+    }
 
     public function user(): BelongsTo
     {
