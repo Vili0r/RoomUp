@@ -22,8 +22,7 @@ const bedrooms = [
     { id: 6, title: "5+" },
 ];
 
-const Filters = (props) => {
-    props.sizeChange(sizeFilter);
+const Filters = () => {
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [toggleActivePlace, setToggleActivePlace] = useState(1);
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
@@ -38,10 +37,6 @@ const Filters = (props) => {
 
     const activeBedroom = (index) => {
         setToggleActiveBedrooms(index);
-    };
-
-    const sizeFilter = () => {
-        router.visit("/search");
     };
 
     return (

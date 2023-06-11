@@ -5,6 +5,8 @@ import Filters from "./Filters";
 import MapCard from "./MapCard";
 import PropertyCard from "./PropertyCard";
 import FilterModal from "./FilterModal";
+import PlaceAdModal from "./PlaceAdModal";
+import SearchModal from "./SearchModal";
 import MessageModal from "./MessageModal";
 import MultiRangeSlider from "./MultiRangeSlider";
 import Amenities from "./Amenities";
@@ -48,6 +50,8 @@ export {
     PropertyCard,
     Filters,
     FilterModal,
+    PlaceAdModal,
+    SearchModal,
     MessageModal,
     MultiRangeSlider,
     Amenities,

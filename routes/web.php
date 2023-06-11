@@ -16,6 +16,7 @@ use App\Http\Controllers\FlatAvailabilityController;
 use App\Http\Controllers\FlatController;
 use App\Http\Controllers\FlatDeletePhotoContoller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ModalSearchContoller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
@@ -38,8 +39,6 @@ use Illuminate\Support\Facades\Route;
 //Home Page
 Route::get('/', [HomeController::class, 'welcome'])
     ->name('welcome'); 
-Route::get('/place-ad', [HomeController::class, 'placeAd'])
-    ->name('place-ad');
 Route::get('/blog', [HomeController::class, 'blog'])
     ->name('blog');
 Route::get('/about-us', [HomeController::class, 'aboutUs'])

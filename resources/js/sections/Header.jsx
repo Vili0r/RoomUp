@@ -5,11 +5,46 @@ import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
+import { PlaceAdModal, SearchModal } from "@/Components";
+import axios from "axios";
 
 const Header = ({ user }) => {
     const { theme, handleTheme } = useContext(ThemeContext);
     const [navColor, setNavColor] = useState(false);
     const { url } = usePage();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [amenities, setAmenities] = useState(null);
+    const [searchResults, setSearchResults] = useState(null);
+    const [selectedQueries, setSelectedQueries] = useState({});
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    const openModal = () => {
+        setIsOpen(true);
+    };
+
+    const closeSearchModal = () => {
+        setIsSearchModalOpen(false);
+    };
+
+    const openSearchModal = () => {
+        setIsSearchModalOpen(true);
+
+        axios
+            .get("/api/search-modal")
+            .then((response) => {
+                setAmenities(response.data.amenities);
+                setSearchResults(response.data.results);
+                setSelectedQueries(response.data.selectedQueries);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+    console.log(amenities);
 
     const changeColor = () => {
         if (window.scrollY >= 50) {
@@ -65,8 +100,8 @@ const Header = ({ user }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                href={route("place-ad")}
+                            <button
+                                onClick={openModal}
                                 className="flex justify-between items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
                                 <RiAdvertisementLine
@@ -76,8 +111,17 @@ const Header = ({ user }) => {
                                 <span className="[@media(max-width:799px)]:hidden font-popp md:m-[-2rem]">
                                     Place Ad
                                 </span>
-                            </Link>
+                            </button>
                         </li>
+                        <PlaceAdModal isOpen={isOpen} closeModal={closeModal} />
+                        <SearchModal
+                            isOpen={isSearchModalOpen}
+                            closeModal={closeSearchModal}
+                            amenities={amenities}
+                            searchResults={searchResults}
+                            selectedQueries={selectedQueries}
+                        />
+
                         <li>
                             <Link
                                 href={route("blog")}
@@ -93,8 +137,8 @@ const Header = ({ user }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                href={route("search")}
+                            <button
+                                onClick={openSearchModal}
                                 className="flex justify-between items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
                                 <AiOutlineTeam
@@ -104,7 +148,7 @@ const Header = ({ user }) => {
                                 <span className="[@media(max-width:799px)]:hidden font-popp md:m-[-2rem]">
                                     Search
                                 </span>
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </div>
