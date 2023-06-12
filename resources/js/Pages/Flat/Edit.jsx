@@ -177,8 +177,6 @@ const Edit = (props) => {
         return response;
     };
 
-    console.log(flat);
-
     return (
         <AuthenticatedLayout
             auth={props.auth}
