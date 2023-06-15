@@ -60,6 +60,8 @@ class ModalSearchContoller extends Controller
             $results = SharedSearchResultResource::collection($query->paginate(15)->appends($request->query()));
         }
 
+        dd($results);
+
         return response()->json([
             'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'amenities' => AmenitiesResource::collection(Amenity::all()),

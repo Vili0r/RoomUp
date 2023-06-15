@@ -24,32 +24,22 @@ const bedrooms = [
     { id: 6, title: "6+" },
 ];
 
-const SearchModal = ({
-    isOpen,
-    closeModal,
-    amenities,
-    searchResults,
-    selectedQueries,
-}) => {
+const SearchModal = ({ isOpen, closeModal, amenities }) => {
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [step, setStep] = useState(1);
-    const [toggleActivePlace, setToggleActivePlace] = useState(1);
+    const [type, setType] = useState(1);
+    const [size, setSize] = useState(1);
+    const [price, setPrice] = useState(300);
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
-    const currentUrl = window.location.href;
-    console.log(selectedQueries);
+    const [searchResults, setSearchResults] = useState(null);
+    const [selectedQueries, setSelectedQueries] = useState({});
+    // const currentUrl = window.location.href;
+    //console.log(selectedQueries);
+    console.log(searchResults, selectedQueries);
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
-        console.log("place");
-    };
-
-    const activePlace = (index) => {
-        setToggleActivePlace(index);
-    };
-
-    const activeBedroom = (index) => {
-        setToggleActiveBedrooms(index);
     };
 
     //next step
@@ -59,79 +49,96 @@ const SearchModal = ({
     const handleBack = () => {
         setStep(step - 1);
     };
-    const handleFilterSubmit = (filterName, filterValue) => {
-        let url = new URL(currentUrl);
-        let searchParams = new URLSearchParams(url.search);
-        let filters = JSON.parse(searchParams.get("filter") || "{}");
 
-        if (filterName && filterValue) {
-            filters[filterName] = filterValue;
+    // const handleFilterSubmit = (filterName, filterValue) => {
+    //     let url = new URL(currentUrl);
+    //     let searchParams = new URLSearchParams(url.search);
+    //     let filters = JSON.parse(searchParams.get("filter") || "{}");
+
+    //     if (filterName && filterValue) {
+    //         filters[filterName] = filterValue;
+    //     }
+
+    //     if (filterName === "type" && filterValue === 4) {
+    //         // Reset the URL and filters when selecting type 4
+    //         url = new URL("/search", window.location.origin);
+    //         searchParams = new URLSearchParams();
+    //         filters = {};
+    //     } else if (filterName === "type" && filterValue !== 4) {
+    //         // Reset the URL and filters when switching from type 4 to other types
+    //         url = new URL("/search", window.location.origin);
+    //         searchParams = new URLSearchParams();
+    //         filters = {};
+    //         filters[filterName] = filterValue;
+    //     }
+
+    //     searchParams.delete("filter");
+
+    //     Object.entries(filters).forEach(([key, value]) => {
+    //         searchParams.set(`filter[${key}]`, value);
+    //     });
+
+    //     url.search = searchParams.toString();
+
+    //     if (filterName === "type" && filterValue === 4) {
+    //         router.visit(
+    //             url.pathname + url.search,
+    //             {
+    //                 data: {
+    //                     search_type: "shareds",
+    //                 },
+    //             },
+    //             { preserveScroll: true }
+    //         );
+    //     } else {
+    //         router.visit(url.pathname + url.search, { preserveScroll: true });
+    //     }
+    // };
+
+    const handleFilterSubmit = () => {
+        let href = "api/search-modal?";
+
+        if (type !== "") {
+            href += "filter[type]=" + type + "&";
         }
-
-        if (filterName === "type" && filterValue === 4) {
-            // Reset the URL and filters when selecting type 4
-            url = new URL("/search", window.location.origin);
-            searchParams = new URLSearchParams();
-            filters = {};
-        } else if (filterName === "type" && filterValue !== 4) {
-            // Reset the URL and filters when switching from type 4 to other types
-            url = new URL("/search", window.location.origin);
-            searchParams = new URLSearchParams();
-            filters = {};
-            filters[filterName] = filterValue;
+        if (size !== "") {
+            href += "filter[size]=" + size + "&";
         }
+        if (price !== "") {
+            href += "filter[max_price]=" + price;
+        }
+        // if (country.length) {
+        //     href += "&filter[country_id]=" + country;
+        // }
+        //console.log(type, size, price, href);
 
-        searchParams.delete("filter");
-
-        Object.entries(filters).forEach(([key, value]) => {
-            searchParams.set(`filter[${key}]`, value);
-        });
-
-        url.search = searchParams.toString();
-
-        if (filterName === "type" && filterValue === 4) {
-            router.visit(
-                url.pathname + url.search,
-                {
-                    data: {
+        if (type === 4) {
+            axios
+                .get(href, {
+                    params: {
                         search_type: "shareds",
                     },
-                },
-                { preserveScroll: true }
-            );
+                })
+                .then((response) => {
+                    setSearchResults(response.data.results);
+                    setSelectedQueries(response.data.selectedQueries);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         } else {
-            router.visit(url.pathname + url.search, { preserveScroll: true });
+            axios
+                .get(href)
+                .then((response) => {
+                    setSearchResults(response.data.results);
+                    setSelectedQueries(response.data.selectedQueries);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         }
     };
 
-    const handleSizeChange = (id) => {
-        handleFilterChange("size", id);
-    };
-
-    const handleTypeChange = (id) => {
-        handleFilterChange("type", id);
-    };
-
-    const handlePriceChange = (event) => {
-        const priceValue = event.target.value;
-        handleFilterChange("max_price", priceValue);
-    };
-
-    const handleAmenityChange = (id) => {
-        // Check if the ID already exists in selectedAmenities
-        // const isSelected = selectedAmenities.includes(id);
-
-        // if (isSelected) {
-        //     // Remove the ID from the selectedAmenities array
-        //     setSelectedAmenities(
-        //         selectedAmenities.filter((amenityId) => amenityId !== id)
-        //     );
-        // } else {
-        //     // Add the ID to the selectedAmenities array
-        //     setSelectedAmenities([...selectedAmenities, id]);
-        // }
-        handleFilterChange("amenity", id);
-    };
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -169,6 +176,13 @@ const SearchModal = ({
                                                 <h1 className="text-[40px] font-bold tracking-tight text-[#2f2963]">
                                                     Find your property
                                                 </h1>
+                                                <p className="mt-5 opacity-50">
+                                                    Select through the multiple
+                                                    filter to find your ideal
+                                                    room or property.
+                                                </p>
+
+                                                <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1 [@media(max-width:440px)]:flex-col"></div>
                                                 <button
                                                     onClick={handleFilterSubmit}
                                                     className="relative inline-flex items-center justify-center px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
@@ -180,42 +194,55 @@ const SearchModal = ({
                                                 </button>
                                             </div>
 
-                                            <div className="flex flex-col items-center space-y-2">
+                                            <div className="flex justify-center space-y-2">
                                                 <div className="">
-                                                    {step == "1" && (
+                                                    {step == 1 && (
                                                         <>
-                                                            <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1 [@media(max-width:440px)]:flex-col">
+                                                            <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem] [@media(max-width:440px)]:flex-col ml-5">
                                                                 <button
                                                                     onClick={() =>
-                                                                        setToggleActiveButton(
+                                                                        activeButton(
                                                                             1
                                                                         )
                                                                     }
-                                                                    className={
-                                                                        toggleActiveButton ==
-                                                                        "1"
-                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black px-[3rem] rounded-xl [@media(max-width:440px)]:py-3"
-                                                                            : "text-black hover:text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs px-[3rem] bg-white hover:bg-black rounded-xl py-2"
-                                                                    }
                                                                 >
-                                                                    Rent
+                                                                    <span
+                                                                        className={`${
+                                                                            toggleActiveButton ==
+                                                                            "1"
+                                                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black rounded-xl [@media(max-width:440px)]:py-3"
+                                                                                : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm h-8 bg-white hover:bg-black rounded-xl"
+                                                                        } absolute font-semibold inline-flex items-center h-[2.5rem] w-[8rem] justify-center transition-all duration-150 transform items-center-full ease ease-in-out group-hover:translate-x-full`}
+                                                                    >
+                                                                        Rent
+                                                                    </span>
+                                                                    <span className="relative invisible">
+                                                                        Rent
+                                                                    </span>
                                                                 </button>
-                                                                <PrimaryButton
+                                                                <button
                                                                     onClick={() =>
-                                                                        setToggleActiveButton(
+                                                                        activeButton(
                                                                             2
                                                                         )
                                                                     }
-                                                                    className={
-                                                                        toggleActiveButton ==
-                                                                        "2"
-                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black px-[3rem] rounded-xl [@media(max-width:440px)]:py-3"
-                                                                            : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm px-[3rem] bg-white hover:bg-black rounded-xl py-2"
-                                                                    }
                                                                 >
-                                                                    Flatmate
-                                                                </PrimaryButton>
+                                                                    <span
+                                                                        className={`${
+                                                                            toggleActiveButton ==
+                                                                            "2"
+                                                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black h-8 rounded-xl [@media(max-width:440px)]:py-3"
+                                                                                : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm bg-white hover:bg-black rounded-xl after:bg-black after:w-1/6 after:rounded-r-xl after:h-full after:border-black after:border-none after:absolute after:top-0 after:left-0"
+                                                                        } absolute font-semibold transition-all  duration-150 inline-flex h-[2.5rem] w-[8rem] items-center justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full`}
+                                                                    >
+                                                                        Flatmate
+                                                                    </span>
+                                                                    <span className="relative invisible">
+                                                                        Flatmate
+                                                                    </span>
+                                                                </button>
                                                             </div>
+
                                                             <div className="mt-[2rem]">
                                                                 <p className="text-sm font-semibold font-popp">
                                                                     Type of
@@ -229,19 +256,19 @@ const SearchModal = ({
                                                                         ) => (
                                                                             <div
                                                                                 onClick={() =>
-                                                                                    activePlace(
-                                                                                        index
+                                                                                    setType(
+                                                                                        places.id
                                                                                     )
                                                                                 }
                                                                                 key={
                                                                                     places.id
                                                                                 }
                                                                                 className={`${
-                                                                                    toggleActivePlace ==
-                                                                                    index
+                                                                                    type ==
+                                                                                    places.id
                                                                                         ? "border-black"
-                                                                                        : "border-[#f3f3f3] [@media(max-width:340px)]:border-0"
-                                                                                } h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
+                                                                                        : "border-[#f1f0f0] [@media(max-width:340px)]:border-0"
+                                                                                } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
                                                                             >
                                                                                 <places.image className="mt-6 font-popp w-7 h-7" />
                                                                                 <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
@@ -275,7 +302,7 @@ const SearchModal = ({
                                                             </div>
                                                         </>
                                                     )}
-                                                    {step == "2" && (
+                                                    {step == 2 && (
                                                         <>
                                                             <div className="mt-[2rem]">
                                                                 <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
@@ -286,15 +313,18 @@ const SearchModal = ({
                                                                     type="range"
                                                                     min="0"
                                                                     max="15000"
-                                                                    className="mt-2"
+                                                                    className="relative mt-2"
                                                                     value={
-                                                                        selectedQueries
-                                                                            .filter
-                                                                            ?.max_price ||
-                                                                        0
+                                                                        price
                                                                     }
-                                                                    onChange={
-                                                                        handlePriceChange
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setPrice(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
                                                                     }
                                                                 />
                                                             </div>
@@ -311,21 +341,19 @@ const SearchModal = ({
                                                                         ) => (
                                                                             <div
                                                                                 onClick={() =>
-                                                                                    activeBedroom(
-                                                                                        index
+                                                                                    setSize(
+                                                                                        bedroom.id
                                                                                     )
                                                                                 }
                                                                                 key={
                                                                                     bedroom.id
                                                                                 }
                                                                                 className={`${
-                                                                                    selectedQueries
-                                                                                        .filter
-                                                                                        ?.size ==
+                                                                                    size ==
                                                                                     bedroom.id
                                                                                         ? "bg-black text-white"
                                                                                         : "bg-white text-black"
-                                                                                } p-1 py-2 px-3 lg:px-[9px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
+                                                                                } relative p-1 py-2 px-6 lg:px-[19px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
                                                                             >
                                                                                 <span className="font-popp text-md">
                                                                                     {
@@ -338,7 +366,7 @@ const SearchModal = ({
                                                                 </div>
                                                             </div>
 
-                                                            <div className="flex justify-end mt-6 space-x-2">
+                                                            <div className="flex justify-center mt-6 space-x-2">
                                                                 <PrimaryButton
                                                                     onClick={
                                                                         handleBack
@@ -375,9 +403,9 @@ const SearchModal = ({
                                                         </>
                                                     )}
 
-                                                    {step == "3" && (
+                                                    {step == 3 && (
                                                         <>
-                                                            <div className="mt-[2rem] lg:px-2 xl:px-0">
+                                                            <div className="mt-[2rem]">
                                                                 <p className="text-sm font-semibold font-popp">
                                                                     Amenities
                                                                 </p>

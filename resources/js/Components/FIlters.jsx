@@ -22,7 +22,7 @@ const bedrooms = [
     { id: 6, title: "5+" },
 ];
 
-const Filters = () => {
+const Filters = ({ amenities }) => {
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [toggleActivePlace, setToggleActivePlace] = useState(1);
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
@@ -33,6 +33,7 @@ const Filters = () => {
 
     const activePlace = (index) => {
         setToggleActivePlace(index);
+        console.log(index);
     };
 
     const activeBedroom = (index) => {
@@ -108,7 +109,6 @@ const Filters = () => {
                         <div
                             onClick={() => {
                                 activeBedroom(index);
-                                sizeFilter();
                             }}
                             key={bedroom.id}
                             className={`${
@@ -124,7 +124,7 @@ const Filters = () => {
                     ))}
                 </div>
             </div>
-            <Amenities />
+            <Amenities amenities={amenities} />
         </div>
     );
 };

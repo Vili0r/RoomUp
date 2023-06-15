@@ -1,12 +1,12 @@
 import React from "react";
 import { BsCheck } from "react-icons/bs";
 
-const Amenities = (amenities) => {
+const Amenities = ({ amenities }) => {
     return (
         <div className="mt-[2rem] lg:px-2 xl:px-0">
             <p className="text-sm font-semibold font-popp">Amenities</p>
             <div className="mt-[1rem] place-items-center">
-                {amenities.map((facility, index) => (
+                {amenities?.map((facility, index) => (
                     <div
                         key={facility.id}
                         className="flex justify-between mb-2"

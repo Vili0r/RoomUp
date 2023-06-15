@@ -30,7 +30,8 @@ const Header = ({ user }) => {
         setIsSearchModalOpen(false);
     };
 
-    const openSearchModal = () => {
+    const openSearchModal = (e) => {
+        e.stopPropagation();
         setIsSearchModalOpen(true);
 
         axios
@@ -44,7 +45,6 @@ const Header = ({ user }) => {
                 console.error("Error:", error);
             });
     };
-    console.log(amenities);
 
     const changeColor = () => {
         if (window.scrollY >= 50) {
@@ -118,7 +118,6 @@ const Header = ({ user }) => {
                             isOpen={isSearchModalOpen}
                             closeModal={closeSearchModal}
                             amenities={amenities}
-                            searchResults={searchResults}
                             selectedQueries={selectedQueries}
                         />
 
