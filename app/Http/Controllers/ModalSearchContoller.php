@@ -22,7 +22,9 @@ class ModalSearchContoller extends Controller
     {
         $query = null;
         $results = [];
-        $searchType = $request->input('search_type', 'flats');
+        dd($request);
+        $searchType = $request->input('search_type');
+        
         // dd(Flat::query()->whereHas('amenities', function ($query) {
         //     $query->where('id', [2,4]);
         // })->get());

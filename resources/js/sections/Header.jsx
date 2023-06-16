@@ -6,17 +6,13 @@ import { FaBloggerB } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
 import { PlaceAdModal, SearchModal } from "@/Components";
-import axios from "axios";
 
-const Header = ({ user }) => {
+const Header = ({ user, selectedQueries }) => {
     const { theme, handleTheme } = useContext(ThemeContext);
     const [navColor, setNavColor] = useState(false);
     const { url } = usePage();
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-    const [amenities, setAmenities] = useState(null);
-    const [searchResults, setSearchResults] = useState(null);
-    const [selectedQueries, setSelectedQueries] = useState({});
 
     const closeModal = () => {
         setIsOpen(false);
@@ -30,20 +26,8 @@ const Header = ({ user }) => {
         setIsSearchModalOpen(false);
     };
 
-    const openSearchModal = (e) => {
-        e.stopPropagation();
+    const openSearchModal = () => {
         setIsSearchModalOpen(true);
-
-        axios
-            .get("/api/search-modal")
-            .then((response) => {
-                setAmenities(response.data.amenities);
-                setSearchResults(response.data.results);
-                setSelectedQueries(response.data.selectedQueries);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
     };
 
     const changeColor = () => {
@@ -117,7 +101,6 @@ const Header = ({ user }) => {
                         <SearchModal
                             isOpen={isSearchModalOpen}
                             closeModal={closeSearchModal}
-                            amenities={amenities}
                             selectedQueries={selectedQueries}
                         />
 

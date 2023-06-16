@@ -24,19 +24,27 @@ const bedrooms = [
     { id: 6, title: "6+" },
 ];
 
-const SearchModal = ({ isOpen, closeModal, amenities }) => {
+const amenities = [
+    { id: 1, name: "Furnished" },
+    { id: 2, name: "Parking" },
+    { id: 3, name: "Garden" },
+    { id: 4, name: "Garage" },
+    { id: 5, name: "Balcony" },
+    { id: 6, name: "Disable Access" },
+    { id: 7, name: "Living Room" },
+    { id: 8, name: "Broadband" },
+];
+
+const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [step, setStep] = useState(1);
-    const [type, setType] = useState(1);
-    const [size, setSize] = useState(1);
-    const [price, setPrice] = useState(300);
+    const [type, setType] = useState("");
+    const [size, setSize] = useState("");
+    const [price, setPrice] = useState("");
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
     const [searchResults, setSearchResults] = useState(null);
-    const [selectedQueries, setSelectedQueries] = useState({});
-    // const currentUrl = window.location.href;
-    //console.log(selectedQueries);
-    console.log(searchResults, selectedQueries);
+    console.log(selectedQueries);
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
@@ -96,9 +104,9 @@ const SearchModal = ({ isOpen, closeModal, amenities }) => {
     // };
 
     const handleFilterSubmit = () => {
-        let href = "api/search-modal?";
+        let href = "/search?";
 
-        if (type !== "") {
+        if (type !== "" && type !== 4) {
             href += "filter[type]=" + type + "&";
         }
         if (size !== "") {
@@ -113,29 +121,17 @@ const SearchModal = ({ isOpen, closeModal, amenities }) => {
         //console.log(type, size, price, href);
 
         if (type === 4) {
-            axios
-                .get(href, {
-                    params: {
+            router.visit(
+                href,
+                {
+                    data: {
                         search_type: "shareds",
                     },
-                })
-                .then((response) => {
-                    setSearchResults(response.data.results);
-                    setSelectedQueries(response.data.selectedQueries);
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
+                },
+                { preserveScroll: true }
+            );
         } else {
-            axios
-                .get(href)
-                .then((response) => {
-                    setSearchResults(response.data.results);
-                    setSelectedQueries(response.data.selectedQueries);
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
+            router.visit(href, { preserveScroll: true });
         }
     };
 
@@ -267,7 +263,7 @@ const SearchModal = ({ isOpen, closeModal, amenities }) => {
                                                                                     type ==
                                                                                     places.id
                                                                                         ? "border-black"
-                                                                                        : "border-[#f1f0f0] [@media(max-width:340px)]:border-0"
+                                                                                        : "border-gray-200 [@media(max-width:340px)]:border-0"
                                                                                 } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
                                                                             >
                                                                                 <places.image className="mt-6 font-popp w-7 h-7" />
