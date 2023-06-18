@@ -15,10 +15,12 @@ class SharedSearchResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => "shared",
             'id' => $this->id,
             'title' => $this->title,
             'available_rooms' => $this->available_rooms,
             'live_at' => $this->live_at,
+            'is_favourite' => $this->is_favourite,
             'size' => $this->size,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,

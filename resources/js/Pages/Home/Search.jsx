@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Head, usePage } from "@inertiajs/react";
-import { PropertyCard } from "@/Components";
+import { Loading, PropertyCard } from "@/Components";
 import GuestLayout from "@/Layouts/GuestLayout";
 
 const Search = (props) => {
-    const { results, selectedQueries } = usePage().props;
+    const { results, selectedQueries, loading } = usePage().props;
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        setIsLoading(loading);
+    }, [results]);
 
     return (
         <GuestLayout user={props.auth.user} selectedQueries={selectedQueries}>
             <Head title="Search Results" />
             <div className="">
-                <PropertyCard results={results} />
+                {!isLoading ? <PropertyCard results={results} /> : <Loading />}
             </div>
         </GuestLayout>
     );

@@ -1,8 +1,9 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { AiOutlineMail } from "react-icons/ai";
 
-const MessageModal = ({ isOpen, closeModal }) => {
+const MessageModal = ({ isOpen, closeModal, name }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -18,8 +19,8 @@ const MessageModal = ({ isOpen, closeModal }) => {
                     <div className="fixed inset-0 bg-black bg-opacity-25" />
                 </Transition.Child>
 
-                <div className="fixed inset-0 overflow-y-auto xs:p-10 xxs:p-6 p-4">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <div className="fixed inset-0 p-4 overflow-y-auto xs:p-10 xxs:p-6">
+                    <div className="flex items-center justify-center min-h-full p-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -29,12 +30,12 @@ const MessageModal = ({ isOpen, closeModal }) => {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                            <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                 <Dialog.Title
                                     as="h3"
                                     className="text-lg font-medium leading-6 text-gray-900 font-popp"
                                 >
-                                    Sent a Message to Alex
+                                    Sent a Message to {name}
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
@@ -44,12 +45,12 @@ const MessageModal = ({ isOpen, closeModal }) => {
                                                 name="name"
                                                 id="ame"
                                                 placeholder="Full Name"
-                                                className="peer w-full rounded-md border border-gray-300 px-3 py-3 shadow shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                                className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                 autoComplete="off"
                                             />
                                             <label
                                                 htmlFor="name"
-                                                className="pointer-events-none font-popp absolute top-0 left-0 ml-3 origin-left -translate-y-1/2 transform bg-white px-1 text-sm text-gray-500 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                             >
                                                 Full Name
                                             </label>
@@ -60,12 +61,12 @@ const MessageModal = ({ isOpen, closeModal }) => {
                                                 name="email"
                                                 id="email"
                                                 placeholder="Email Address"
-                                                className="peer w-full rounded-md border border-gray-300 px-3 py-3 shadow shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                                className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                 autoComplete="off"
                                             />
                                             <label
                                                 htmlFor="email"
-                                                className="pointer-events-none font-popp absolute top-0 left-0 ml-3 origin-left -translate-y-1/2 transform bg-white px-1 text-sm text-gray-500 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                             >
                                                 Email Address
                                             </label>
@@ -76,12 +77,12 @@ const MessageModal = ({ isOpen, closeModal }) => {
                                                 name="message"
                                                 id="message"
                                                 placeholder="Mes"
-                                                className="peer w-full block h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 rounded-md border border-gray-300 shadow shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                                className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                 autoComplete="off"
                                             />
                                             <label
                                                 htmlFor="message"
-                                                className="pointer-events-none font-popp absolute top-0 left-0 ml-3 origin-left -translate-y-1/2 transform bg-white px-1 text-sm text-gray-500 transition-all duration-100 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                             >
                                                 Message
                                             </label>
@@ -89,13 +90,20 @@ const MessageModal = ({ isOpen, closeModal }) => {
                                     </p>
                                 </div>
 
-                                <div className="mb-4 mt-10">
+                                <div className="mt-10 mb-4">
                                     <button
-                                        type="button"
-                                        className="inline-flex font-popp items-center justify-center px-4 py-2 font-medium text-white transition-colors bg-[#F1C40F] rounded-full hover:bg-[#AED6F1] focus:outline-none"
                                         onClick={closeModal}
+                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
                                     >
-                                        Message Alex
+                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                            <AiOutlineMail className="w-5 h-5" />
+                                        </span>
+                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                            Sent Message
+                                        </span>
+                                        <span className="relative invisible">
+                                            Sent Message
+                                        </span>
                                     </button>
                                 </div>
                             </Dialog.Panel>

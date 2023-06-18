@@ -64,8 +64,8 @@ class SearchController extends Controller
 
         return Inertia::render('Home/Search',[
             'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
             'results' => $results,
+            'loading' => false,
         ]);
     }
 

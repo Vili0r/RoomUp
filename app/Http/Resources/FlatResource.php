@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class FlatResource extends JsonResource
 {
@@ -15,15 +16,17 @@ class FlatResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => 'flat',
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'size' => $this->size,
-            'type' => $this->type,
+            'type' => Str::replace('_', ' ', $this->type->name) ?? '',
             'cost' => $this->cost,
             'deposit' => $this->deposit,
-            'what_i_am' => $this->what_i_am,
+            'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
             'live_at' => $this->live_at,
+            'is_favourite' => $this->is_favourite,
             'featured' => $this->featured,
             'available' => $this->available,
             'created_at' => $this->created_at->toDateTimeString(),

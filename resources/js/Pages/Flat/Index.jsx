@@ -91,7 +91,7 @@ export default function Index(props) {
                                     </div>
                                     <div className="mt-3 md:mt-0">
                                         <Link
-                                            href="/place-ad"
+                                            href={route("flat.create")}
                                             className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Add property

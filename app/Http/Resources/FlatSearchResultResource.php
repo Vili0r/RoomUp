@@ -15,11 +15,13 @@ class FlatSearchResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => "flat",
             'id' => $this->id,
             'title' => $this->title,
             'size' => $this->size,
             'type' => $this->type,
             'live_at' => $this->live_at,
+            'is_favourite' => $this->is_favourite,
             'cost' => $this->cost,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,

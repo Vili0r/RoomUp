@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class SharedResource extends JsonResource
 {
@@ -15,15 +16,17 @@ class SharedResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => "shared",
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'available_rooms' => $this->available_rooms,
             'size' => $this->size,
-            'type' => $this->type,
+            'type' => Str::replace('_', ' ', $this->type->name) ?? '',
             'current_occupants' => $this->current_occupants,
-            'what_i_am' => $this->what_i_am,
+            'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
             'live_at' => $this->live_at,
+            'is_favourite' => $this->is_favourite,
             'featured' => $this->featured,
             'available' => $this->available,
             'current_flatmate_age' => $this->current_flatmate_age,

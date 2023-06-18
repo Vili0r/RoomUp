@@ -11,7 +11,6 @@ import MessageModal from "./MessageModal";
 import MultiRangeSlider from "./MultiRangeSlider";
 import Amenities from "./Amenities";
 import PropertyDetailsAmenities from "./PropertyDetailsAmenities";
-import Address from "./Address";
 import PhotoGallery from "./PhotoGallery";
 import AdvertisedBy from "./AdvertisedBy";
 import PrimaryButton from "./PrimaryButton";
@@ -26,6 +25,7 @@ import Checkbox from "./Checkbox";
 import CreateSteps from "./CreateSteps";
 import Pagination from "./Pagination";
 import MultiSelect from "./MultiSelect";
+import Loading from "./Loading";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import TableRow from "./TableRow";
@@ -39,6 +39,7 @@ import StepFour from "./StepFour";
 import CurrentFlatmate from "./CurrentFlatmate";
 import NewFlatmate from "./NewFlatmate";
 import LoadingSkeleton from "./LoadingSkeleton";
+import PropertyDetails from "./PropertyDetails";
 
 export {
     AccordionItem,
@@ -55,7 +56,6 @@ export {
     MessageModal,
     MultiRangeSlider,
     Amenities,
-    Address,
     PhotoGallery,
     PropertyDetailsAmenities,
     AdvertisedBy,
@@ -67,6 +67,7 @@ export {
     Dropdown,
     Modal,
     SecondaryButton,
+    Loading,
     Checkbox,
     CreateSteps,
     Pagination,
@@ -83,4 +84,5 @@ export {
     NewFlatmate,
     FlatStepOne,
     LoadingSkeleton,
+    PropertyDetails,
 };

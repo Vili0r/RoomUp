@@ -44,7 +44,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [price, setPrice] = useState("");
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
     const [searchResults, setSearchResults] = useState(null);
-    console.log(selectedQueries);
 
     const activeButton = (index) => {
         setToggleActiveButton(index);

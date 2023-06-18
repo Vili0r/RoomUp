@@ -15,13 +15,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FlatAvailabilityController;
 use App\Http\Controllers\FlatController;
 use App\Http\Controllers\FlatDeletePhotoContoller;
+use App\Http\Controllers\FlatIsFavouriteController;
+use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ModalSearchContoller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
+use App\Http\Controllers\SharedIsFavouriteController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +54,11 @@ Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
 Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
     ->where('provider', 'google|facebook');
 
+//Get single property
+Route::get('/property/{model}/{id}', SinglePropertyController::class)
+    ->where('model', 'shared|flat')
+    ->name('property.show');
+
 Route::group(['middleware' => ['auth', 'verified']], function() {
 
     //Dashboard controller
@@ -74,17 +81,23 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::put('/flat/{flat}/availability', FlatAvailabilityController::class)
         ->name('flat.availability');
     
+    //Route to change favourite on shared property
+    Route::put('/property/shared/{shared}/favourite', SharedIsFavouriteController::class);
+    
+    //Route to change favourite on flat property
+    Route::put('/property/flat/{flat}/favourite', FlatIsFavouriteController::class);
+    
     //Route to delete photos
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class)
-    ->name('shared.deletePhotos.destroy');
+        ->name('shared.deletePhotos.destroy');
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoContoller::class)
-    ->name('flat.deletePhotos.destroy');
+        ->name('flat.deletePhotos.destroy');
 
     //Temporary image upload - FilePond
     Route::post('/upload', TemporaryImageUploadController::class);
     //Temporary image delete - FilePond
     Route::delete('/revert/{folder}', TemporaryImageDeleteController::class)
-    ->name('revert.image');
+        ->name('revert.image');
 
     //Resource controller
     Route::resource('/flat', FlatController::class);

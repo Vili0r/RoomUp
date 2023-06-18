@@ -1,31 +1,50 @@
 import React, { useState } from "react";
-import { Popular1, Popular2, Popular3, Popular4, Popular5 } from "@/assets";
+import { router } from "@inertiajs/react";
+import { HousePlaceholder } from "@/assets";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { MdOutlinePhotoSizeSelectActual, MdOutlineClose } from "react-icons/md";
 
-const PhotoGallery = () => {
+const PhotoGallery = ({ images, title, id, model, is_favourite }) => {
     const [showAllPhotos, setShowAllPhotos] = useState(false);
+    const showImage = () => {
+        return "/storage/";
+    };
+
+    const toggleFavourite = (id, model, favourite) => {
+        router.put(`/property/${model}/${id}/favourite`, {
+            is_favourite: !favourite,
+        });
+    };
 
     if (showAllPhotos) {
         return (
             <div className="absolute top-0 left-0 w-[100%] z-[100] h-[100%]">
-                <div className="bg-white p-8 grid gap-4">
+                <div className="grid gap-4 p-8 bg-white">
                     <div>
-                        <h2 className="text-3xl mr-48">Photos of ....</h2>
+                        <h2 className="mr-48 text-3xl">
+                            Photos of
+                            <span className="text-indigo-700"> {title}</span>
+                        </h2>
                         <button
                             onClick={() => setShowAllPhotos(false)}
-                            className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-3xl shadow shadow-black bg-white text-black"
+                            className="fixed flex gap-1 px-4 py-2 text-black bg-white right-12 top-8 rounded-3xl group"
                         >
-                            <MdOutlineClose className="w-6 h-6" />
-                            Close photos
+                            <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                            <span className="absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
+                            <span className="relative text-black group-hover:text-white">
+                                Close photos
+                            </span>
                         </button>
                     </div>
                     <div className="p-5 sm:p-8">
                         <div className="columns-1 gap-5 sm:columns-2 sm:gap-8 md:columns-3 lg:columns-4 [&>img:not(:first-child)]:mt-8">
-                            <img src={Popular1} alt="" />
-                            <img src={Popular2} alt="" />
-                            <img src={Popular3} alt="" />
-                            <img src={Popular4} alt="" />
-                            <img src={Popular5} alt="" />
+                            {images.map((image, index) => (
+                                <img
+                                    key={index}
+                                    src={showImage() + image}
+                                    alt={HousePlaceholder}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -34,31 +53,30 @@ const PhotoGallery = () => {
     }
 
     return (
-        <div className="mt-8 relative">
-            <div className="md:grid md:grid-cols-[2fr_1fr] md:gap-2 rounded-2xl overflow-hidden">
-                <div>
-                    <img
-                        onClick={() => setShowAllPhotos(true)}
-                        className="aspect-square cursor-pointer object-cover h-full [@media(max-width:800px)]:w-[100%]"
-                        src={Popular1}
-                        alt=""
+        <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
+            <img
+                onClick={() => setShowAllPhotos(true)}
+                className="object-cover w-full h-full cursor-pointer"
+                src={images[0] ? showImage() + images[0] : HousePlaceholder}
+                alt={title}
+            />
+            <div className="absolute top-5 right-5">
+                <div
+                    onClick={() => toggleFavourite(id, model, is_favourite)}
+                    className="relative transition cursor-pointer hover:opacity-80"
+                >
+                    <AiOutlineHeart
+                        size={28}
+                        className="fill-white absolute -top-[2px] -right-[2px]"
                     />
-                </div>
-                <div className="md:grid hidden">
-                    <img
-                        onClick={() => setShowAllPhotos(true)}
-                        className="aspect-square cursor-pointer object-cover"
-                        src={Popular2}
-                        alt=""
+                    <AiFillHeart
+                        size={24}
+                        className={
+                            is_favourite
+                                ? "fill-rose-500"
+                                : "fill-neutral-500/70"
+                        }
                     />
-                    <div className="overflow-hidden">
-                        <img
-                            onClick={() => setShowAllPhotos(true)}
-                            className="aspect-square cursor-pointer object-cover relative top-2"
-                            src={Popular3}
-                            alt=""
-                        />
-                    </div>
                 </div>
             </div>
             <button
