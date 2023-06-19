@@ -35,6 +35,16 @@ class Address extends Model
             'area' => $this->area,
             'city' => $this->city,
             'post_code' => $this->post_code,
+            'owner' => [
+                'id' => $this->owner->id,
+                'title' => $this->owner->title,
+                'description' => $this->owner->description,
+                'cost' => $this->owner->cost ?? '',
+                'size' => $this->owner->size,
+                'type' => $this->owner->type,
+                'images' => $this->owner->images,
+                'created_at' => $this->owner->created_at->format('Y-m-d'),  
+            ],
         ];
     }
 }
