@@ -1,19 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { slideIn, staggerContainer, textVariant } from "../utils/motion";
 import { Link } from "@inertiajs/react";
 import { home } from "@/assets";
 import { FiMapPin } from "react-icons/fi";
-import { SecondaryButton, PrimaryButton, Modal } from "@/Components";
+import { AiOutlineClose } from "react-icons/ai";
+import { PrimaryButton, Modal } from "@/Components";
 import { MeiliSearch } from "meilisearch";
-import debounce from "lodash.debounce";
+import { DebounceInput } from "react-debounce-input";
+import { HousePlaceholder } from "@/assets";
 
 const Hero = () => {
     const [openQueryModal, setOpenQueryModal] = useState(false);
     const [query, setQuery] = useState("");
     const [searchResults, setSearchResults] = useState(null);
     const [selectedHitIndex, setSelectedHitIndex] = useState(0);
+    const [totlaHits, setTotalHits] = useState(0);
     const [client, setClient] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const showImage = () => {
+        return "/storage/";
+    };
 
     const closeModal = () => {
         setOpenQueryModal(false);
@@ -30,19 +37,17 @@ const Hero = () => {
 
     const search = async (query) => {
         if (query) {
-            const response = await client.index("addresses").search(query);
-            setSearchResults(response);
-            console.log(searchResults);
+            const response = await client
+                .index("addresses")
+                .search(query, { limit: 10 });
+
+            console.log(response);
+            setSearchResults(response.hits);
+            setTotalHits(response.estimatedTotalHits);
+            setIsLoading(true);
         }
     };
-    const debouncedSearch = debounce(search, 300); // Debounce the search function with a delay of 300 milliseconds
 
-    useEffect(() => {
-        debouncedSearch(query);
-        console.log(query);
-    }, [query]);
-
-    const submit = () => {};
     return (
         <section
             className="section pb-[0] max-xs:pt-[2rem] max-[320px]:mb-[-3rem]"
@@ -96,21 +101,37 @@ const Hero = () => {
                         </span>
                     </div>
                     <Modal show={openQueryModal} onClose={closeModal}>
-                        <form onSubmit={submit} className="p-6">
-                            <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                Enter the address or a post code
-                            </h2>
+                        <div className="p-6">
+                            <div className="flex justify-between">
+                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    Enter the address or a post code
+                                </h2>
+                                <button onClick={closeModal}>
+                                    <AiOutlineClose size={20} />
+                                </button>
+                            </div>
 
                             <div className="relative mt-5">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    id="search"
+                                {/* <input
+                                    type="search"
+                                    name="query"
+                                    id="query"
                                     placeholder="Address..."
                                     value={query}
                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                     autoComplete="off"
                                     onChange={(e) => setQuery(e.target.value)}
+                                /> */}
+                                <DebounceInput
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    placeholder="Search here..."
+                                    minLength={1}
+                                    debounceTimeout={500}
+                                    onChange={(e) => {
+                                        search(e.target.value);
+                                        setQuery(e.target.value);
+                                    }}
+                                    value={query}
                                 />
                                 <label
                                     htmlFor="email"
@@ -119,17 +140,67 @@ const Hero = () => {
                                     Address or Post Code
                                 </label>
                             </div>
+                            {isLoading && (
+                                <div className="top-[85px] right-[30px] mt-3 mr-4 spinner"></div>
+                            )}
 
+                            {query.length > 1 &&
+                                (searchResults?.length > 0 ? (
+                                    <div className="w-full mt-4 text-sm rounded">
+                                        <ul>
+                                            {searchResults.map(
+                                                (property, index) => (
+                                                    <li className="border-b border-gray-200">
+                                                        <Link
+                                                            href={route(
+                                                                "property.show",
+                                                                [
+                                                                    property.model,
+                                                                    property.id,
+                                                                ]
+                                                            )}
+                                                            key={index}
+                                                            className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
+                                                        >
+                                                            <img
+                                                                src={
+                                                                    property
+                                                                        .owner
+                                                                        .images[0]
+                                                                        ? showImage() +
+                                                                          property
+                                                                              .owner
+                                                                              .images[0]
+                                                                        : HousePlaceholder
+                                                                }
+                                                                className="w-[6rem]"
+                                                            />
+                                                            <span className="ml-4">
+                                                                {
+                                                                    property
+                                                                        .owner
+                                                                        .title
+                                                                }
+                                                            </span>
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                        Found: <span>{totlaHits}</span>{" "}
+                                        result(s)
+                                    </div>
+                                ) : (
+                                    <div className="px-3 py-3">
+                                        No results for "{query}"
+                                    </div>
+                                ))}
                             <div className="flex justify-end mt-6">
-                                <SecondaryButton onClick={closeModal}>
-                                    Cancel
-                                </SecondaryButton>
-
                                 <PrimaryButton className="px-4 py-2 ml-3 text-white bg-black rounded-lg">
                                     Search
                                 </PrimaryButton>
                             </div>
-                        </form>
+                        </div>
                     </Modal>
 
                     <div className="flex gap-3 justify-between w-[75%]">

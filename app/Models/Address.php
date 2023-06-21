@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laravel\Scout\Searchable;
+use Illuminate\Support\Str;
 
 class Address extends Model
 {
@@ -35,6 +36,7 @@ class Address extends Model
             'area' => $this->area,
             'city' => $this->city,
             'post_code' => $this->post_code,
+            'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
                 'id' => $this->owner->id,
                 'title' => $this->owner->title,

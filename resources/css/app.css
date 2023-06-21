@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.spinner {
+  position: absolute;
+}
+
 * {
     font-family: 'Popp', sans-serif;
 }
