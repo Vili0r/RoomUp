@@ -13,31 +13,29 @@ use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\SharedSearchResultResource;
 use App\Models\Amenity;
+use Inertia\Response;
 
 class SearchController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $query = null;
         $results = [];
         $searchType = $request->input('search_type', 'flats');
-        // dd(Flat::query()->whereHas('amenities', function ($query) {
-        //     $query->where('id', [2,4]);
-        // })->get());
 
 
         if ($searchType === 'flats') {
             $query = QueryBuilder::for(Flat::withoutGlobalScope('filter_by_user'))
                 ->allowedFilters($this->allowedFlatFilters())
                 ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
-                ->tap(function ($builder) use ($request) {
-                    if(filled($request->search)){
-                        return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
-                    }
-                })
+                // ->tap(function ($builder) use ($request) {
+                //     if(filled($request->search)){
+                //         return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
+                //     }
+                // })
                 ->latest();
 
             // Apply filters based on user input
@@ -48,11 +46,11 @@ class SearchController extends Controller
             $query = QueryBuilder::for(Shared::withoutGlobalScope('filter_by_user'))
                 ->allowedFilters($this->allowedSharedFilters())
                 ->with(['amenities', 'address', 'transport', 'advertiser', 'rooms'])
-                ->tap(function ($builder) use ($request) {
-                    if(filled($request->search)){
-                        return $builder->whereIn('id', Shared::search($request->search)->get()->pluck('id'));
-                    }
-                })
+                // ->tap(function ($builder) use ($request) {
+                //     if(filled($request->search)){
+                //         return $builder->whereIn('id', Shared::search($request->search)->get()->pluck('id'));
+                //     }
+                // })
                 ->latest();
 
             // Apply filters based on user input

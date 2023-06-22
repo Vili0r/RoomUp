@@ -7,7 +7,7 @@ const MapCard = ({ toggleMap, setToggleMap }) => {
             className={
                 toggleMap
                     ? "fixed top-0 left-0 w-[100%] z-[100] h-[100%]"
-                    : "px-2 rounded-xl col-span-2 overflow-hidden [@media(max-width:799px)]:hidden md:h-[930px]"
+                    : "px-2 rounded-xl col-span-2 overflow-hidden [@media(max-width:1024px)]:hidden md:h-[930px]"
             }
         >
             <iframe
@@ -26,7 +26,7 @@ const MapCard = ({ toggleMap, setToggleMap }) => {
             >
                 <button
                     onClick={() => setToggleMap(false)}
-                    className="fixed flex justify-center gap-2 py-3 p-3 text-sm bg-gray-800 rounded-full text-white font-popp font-semibold"
+                    className="fixed flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full font-popp"
                 >
                     Show List
                     <VscListSelection className="mt-[3px]" />

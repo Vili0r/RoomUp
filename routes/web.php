@@ -18,6 +18,7 @@ use App\Http\Controllers\FlatDeletePhotoContoller;
 use App\Http\Controllers\FlatIsFavouriteController;
 use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HomeSearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
@@ -47,6 +48,8 @@ Route::get('/about-us', [HomeController::class, 'aboutUs'])
     ->name('about-us');
 Route::get('/search', SearchController::class)
     ->name('search');
+Route::get('/home-search', HomeSearchController::class)
+    ->name('home-search');
   
 //Socials routes
 Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])

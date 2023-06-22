@@ -19,10 +19,10 @@ const PropertyCard = ({ results }) => {
     return (
         <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="grid grid-cols-1 mt-[6rem] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-6 gap-8">
-                {results.data.map((result) => (
+                {results.data.map((result, index) => (
                     <div
                         className="col-span-1 cursor-pointer group"
-                        key={result.title}
+                        key={index}
                     >
                         <div className="flex flex-col w-full gap-2">
                             <div className="relative w-full overflow-hidden aspect-square rounded-xl">
@@ -87,13 +87,13 @@ const PropertyCard = ({ results }) => {
                                         <p className="text-sm text-gray-800">
                                             Available from{" "}
                                             <span className="font-semibold">
-                                                {moment(
+                                                {/* {moment(
                                                     result.availability
                                                         ? result.availability
                                                               .available_from
                                                         : result.rooms
                                                               .available_from
-                                                ).format("MMM DD, YYYY")}
+                                                ).format("MMM DD, YYYY")} */}
                                             </span>
                                         </p>
                                         <p className="mt-2 text-sm text-gray-800">

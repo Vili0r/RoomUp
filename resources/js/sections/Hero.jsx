@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { slideIn, staggerContainer, textVariant } from "../utils/motion";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { home } from "@/assets";
 import { FiMapPin } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -40,11 +40,18 @@ const Hero = () => {
             const response = await client
                 .index("addresses")
                 .search(query, { limit: 10 });
-
-            console.log(response);
             setSearchResults(response.hits);
             setTotalHits(response.estimatedTotalHits);
             setIsLoading(true);
+        }
+    };
+
+    const handleSearch = () => {
+        if (query) {
+            router.visit("/home-search", {
+                data: { search: query },
+                preserveScroll: true,
+            });
         }
     };
 
@@ -144,7 +151,7 @@ const Hero = () => {
                                 <div className="top-[85px] right-[30px] mt-3 mr-4 spinner"></div>
                             )}
 
-                            {query.length > 1 &&
+                            {query.length >= 1 &&
                                 (searchResults?.length > 0 ? (
                                     <div className="w-full mt-4 text-sm rounded">
                                         <ul>
@@ -196,7 +203,10 @@ const Hero = () => {
                                     </div>
                                 ))}
                             <div className="flex justify-end mt-6">
-                                <PrimaryButton className="px-4 py-2 ml-3 text-white bg-black rounded-lg">
+                                <PrimaryButton
+                                    onClick={handleSearch}
+                                    className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
+                                >
                                     Search
                                 </PrimaryButton>
                             </div>
