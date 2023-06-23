@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -64,6 +65,24 @@ class User extends Authenticatable
     public function flats(): HasMany
     {
         return $this->hasMany(Flat::class);
+    }
+
+    public function favouriteFlats(): MorphToMany
+    {
+        return $this->morphedByMany(Flat::class, 'favouriteable')
+            ->withPivot(['created_at']);
+    }
+    
+    public function favouriteShareds(): MorphToMany
+    {
+        return $this->morphedByMany(Shared::class, 'favouriteable')
+            ->withPivot(['created_at']);
+    }
+    
+    public function favouriteRooms(): MorphToMany
+    {
+        return $this->morphedByMany(Room::class, 'favouriteable')
+            ->withPivot(['created_at']);
     }
 
     public function blogs()

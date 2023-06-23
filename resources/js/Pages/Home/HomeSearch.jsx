@@ -1,31 +1,47 @@
 import React, { useState, useEffect } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, Link, router } from "@inertiajs/react";
-import { Loading, MapCard } from "@/Components";
+import { Loading, MapCard, PrimaryButton } from "@/Components";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { SlMap } from "react-icons/sl";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {
+    AiOutlineHeart,
+    AiFillHeart,
+    AiOutlineSearch,
+    AiOutlineClose,
+} from "react-icons/ai";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
+import { DebounceInput } from "react-debounce-input";
 
 const HomeSearch = (props) => {
-    const { properties, loading } = usePage().props;
+    const { properties, loading, selectedQueries } = usePage().props;
     const [isLoading, setIsLoading] = useState(true);
     const [toggleMap, setToggleMap] = useState(false);
-    useEffect(() => {
-        setIsLoading(loading);
-    }, [properties]);
-    console.log(properties);
+    const [query, setQuery] = useState(selectedQueries.search || "");
 
     const showImage = () => {
         return "/storage/";
     };
 
-    const toggleFavourite = (id, model, favourite) => {
-        router.put(`/property/${model}/${id}/favourite`, {
-            is_favourite: !favourite,
-        });
+    const submit = (e, id, model) => {
+        e.preventDefault();
+
+        router.post(`/${model}/${id}/favourite`);
     };
+
+    const search = async (query) => {
+        if (query) {
+            router.reload({
+                data: { search: query },
+                preserveScroll: true,
+            });
+        }
+    };
+
+    useEffect(() => {
+        setIsLoading(loading);
+    }, [properties]);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -33,6 +49,29 @@ const HomeSearch = (props) => {
             <div className="">
                 {!isLoading ? (
                     <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 mt-[5rem]">
+                        <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                            <AiOutlineSearch className="w-7 h-7" />
+                            <DebounceInput
+                                value={query}
+                                minLength={1}
+                                debounceTimeout={500}
+                                onChange={(e) => {
+                                    search(e.target.value);
+                                    setQuery(e.target.value);
+                                }}
+                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                                placeholder="Enter address, city or zipcode"
+                            />
+                            <button
+                                onClick={() => {
+                                    setQuery("");
+                                    search("");
+                                }}
+                                className="absolute top-5 right-5"
+                            >
+                                <AiOutlineClose size={28} />
+                            </button>
+                        </div>
                         <div className="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-4">
                             <MapCard
                                 toggleMap={toggleMap}
@@ -70,34 +109,34 @@ const HomeSearch = (props) => {
                                                     />
                                                 </Link>
 
-                                                <div className="absolute top-3 right-3">
-                                                    <div
-                                                        onClick={() =>
-                                                            toggleFavourite(
-                                                                property.owner
-                                                                    .id,
-                                                                property.model,
-                                                                property.owner
-                                                                    .is_favourite
-                                                            )
-                                                        }
-                                                        className="relative transition cursor-pointer hover:opacity-80"
-                                                    >
-                                                        <AiOutlineHeart
-                                                            size={28}
-                                                            className="fill-white absolute -top-[2px] -right-[2px]"
-                                                        />
-                                                        <AiFillHeart
-                                                            size={24}
-                                                            className={
-                                                                property.owner
-                                                                    .is_favourite
-                                                                    ? "fill-rose-500"
-                                                                    : "fill-neutral-500/70"
-                                                            }
-                                                        />
+                                                <form
+                                                    onSubmit={(e) =>
+                                                        submit(
+                                                            e,
+                                                            property.id,
+                                                            property.model
+                                                        )
+                                                    }
+                                                >
+                                                    <div className="absolute top-3 right-3">
+                                                        <PrimaryButton className="relative transition cursor-pointer hover:opacity-80">
+                                                            <AiOutlineHeart
+                                                                size={28}
+                                                                className="fill-white absolute -top-[2px] -right-[2px]"
+                                                            />
+                                                            <AiFillHeart
+                                                                size={24}
+                                                                className={
+                                                                    property
+                                                                        .owner
+                                                                        .favouritedBy
+                                                                        ? "fill-rose-500"
+                                                                        : "fill-neutral-500/70"
+                                                                }
+                                                            />
+                                                        </PrimaryButton>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
                                             <Link
                                                 href={route("property.show", [

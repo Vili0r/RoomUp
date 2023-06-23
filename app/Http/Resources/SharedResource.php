@@ -26,7 +26,7 @@ class SharedResource extends JsonResource
             'current_occupants' => $this->current_occupants,
             'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
             'live_at' => $this->live_at,
-            'is_favourite' => $this->is_favourite,
+            'favouritedBy' => $this->favouritedBy(auth()->user()),
             'featured' => $this->featured,
             'available' => $this->available,
             'current_flatmate_age' => $this->current_flatmate_age,

@@ -30,7 +30,7 @@ class AddressSearchResultResource extends JsonResource
                 'size' => $this->owner->size,
                 'type' => $this->owner->type,
                 'images' => $this->owner->images,
-                'is_favourite' => $this->owner->is_favourite,
+                'favouritedBy' => $this->owner->favouritedBy(auth()->user()),
                 'created_at' => $this->owner->created_at->format('Y-m-d'),  
             ],
         ];

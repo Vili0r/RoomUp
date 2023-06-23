@@ -12,18 +12,22 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavouriteIndexController;
 use App\Http\Controllers\FlatAvailabilityController;
 use App\Http\Controllers\FlatController;
 use App\Http\Controllers\FlatDeletePhotoContoller;
+use App\Http\Controllers\FlatFavouriteController;
 use App\Http\Controllers\FlatIsFavouriteController;
 use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSearchController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomFavouriteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
+use App\Http\Controllers\SharedFavouriteController;
 use App\Http\Controllers\SharedIsFavouriteController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
@@ -83,12 +87,22 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Route to change availability on flat property
     Route::put('/flat/{flat}/availability', FlatAvailabilityController::class)
         ->name('flat.availability');
+
+    //Flat Favourite Controller
+    Route::post('/flat/{flat}/favourite', [FlatFavouriteController::class, 'store'])
+        ->name('flat.favourite.store');
     
-    //Route to change favourite on shared property
-    Route::put('/property/shared/{shared}/favourite', SharedIsFavouriteController::class);
+    //Shared Favourite Controller
+    Route::post('/shared/{shared}/favourite', [SharedFavouriteController::class, 'store'])
+        ->name('shared.favourite.store');
     
-    //Route to change favourite on flat property
-    Route::put('/property/flat/{flat}/favourite', FlatIsFavouriteController::class);
+    //Shared Favourite Controller
+    Route::post('/room/{room}/favourite', [RoomFavouriteController::class, 'store'])
+        ->name('room.favourite.store');
+    
+    //Route to get all favourites' properties
+    Route::get('/favourites', FavouriteIndexController::class)
+        ->name('favourites.index');
     
     //Route to delete photos
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class)

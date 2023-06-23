@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('shareds', function (Blueprint $table) {
-            $table->boolean('is_favourite')->nullable()->default(0);
+        Schema::create('favouriteables', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('favouriteable_id');
+            $table->string('favouriteable_type');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('shareds', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('favouriteables');
     }
 };

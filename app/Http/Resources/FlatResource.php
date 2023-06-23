@@ -26,7 +26,7 @@ class FlatResource extends JsonResource
             'deposit' => $this->deposit,
             'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
             'live_at' => $this->live_at,
-            'is_favourite' => $this->is_favourite,
+            'favouritedBy' => $this->favouritedBy(auth()->user()),
             'featured' => $this->featured,
             'available' => $this->available,
             'created_at' => $this->created_at->toDateTimeString(),

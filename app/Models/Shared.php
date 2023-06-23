@@ -21,6 +21,7 @@ use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Auth;
 
 class Shared extends Model
@@ -119,6 +120,20 @@ class Shared extends Model
     public function rooms(): MorphMany
     {
         return $this->morphMany(Room::class, 'owner');
+    }
+
+    public function favourites(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'favouriteable');
+    }
+
+    public function favouritedBy(?User $user)
+    {
+        if ($user === null) {
+            return false;
+        }
+        
+        return $this->favourites->contains($user);
     }
 
     public function toSearchableArray(): array

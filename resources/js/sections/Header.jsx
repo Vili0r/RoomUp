@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 import ThemeContext from "../context/ThemeContext";
 import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
-import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineTeam, AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
 import { PlaceAdModal, SearchModal } from "@/Components";
 
@@ -61,12 +61,25 @@ const Header = ({ user, selectedQueries }) => {
                     />
                     <span
                         className={`
-              ${navColor ? "text-gray-500 " : "text-gray-400"}
-                self-center ml-2  text-xl font-[500] whitespace-nowrap font-popp`}
+                            ${navColor ? "text-gray-500 " : "text-gray-400"}
+                                self-center ml-2  text-xl font-[500] whitespace-nowrap font-popp`}
                     >
                         RoomUp
                     </span>
                 </Link>
+
+                {/* {url.includes("/home-search") && (
+                    <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                        <AiOutlineSearch className="w-7 h-7" />
+                        <input
+                            type="text"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                            placeholder="Enter address, city or zipcode"
+                        />
+                    </div>
+                )} */}
                 <div className="[@media(max-width:799px)]:fixed [@media(max-width:799px)]:bottom-[2rem] [@media(max-width:799px)]:bg-[#fff] [@media(max-width:799px)]:shadow [@media(max-width:799px)]:shadow-gray-400 [@media(max-width:799px)]:w-[90%] [@media(max-width:799px)]:left-0 [@media(max-width:799px)]:right-0 [@media(max-width:799px)]:mx-auto [@media(max-width:799px)]:p-3 [@media(max-width:799px)]:rounded-[1.25rem] [@media(max-width:320px)]:px-[0rem] [@media(min-width:576px)]:w-[324px] w-[initial] ml-[auto] md:mr-[3rem]">
                     <ul className="flex justify-between items-center gap-[2.5rem] [@media(max-width:350px)]:gap-[2rem] xxs:gap-[2.25rem] [@media(max-width:320px)]:ml-[-0.5rem]">
                         <li>

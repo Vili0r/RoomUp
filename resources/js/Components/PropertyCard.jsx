@@ -4,16 +4,18 @@ import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { Link, router } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
+import { PrimaryButton } from "@/Components";
 
 const PropertyCard = ({ results }) => {
     const showImage = () => {
         return "/storage/";
     };
 
-    const toggleFavourite = (id, model, favourite) => {
-        router.put(`/property/${model}/${id}/favourite`, {
-            is_favourite: !favourite,
-        });
+    //Handling on submit favourite event
+    const submit = (e, id, model) => {
+        e.preventDefault();
+
+        router.post(`/${model}/${id}/favourite`);
     };
 
     return (
@@ -43,31 +45,28 @@ const PropertyCard = ({ results }) => {
                                     />
                                 </Link>
 
-                                <div className="absolute top-3 right-3">
-                                    <div
-                                        onClick={() =>
-                                            toggleFavourite(
-                                                result.id,
-                                                result.model,
-                                                result.is_favourite
-                                            )
-                                        }
-                                        className="relative transition cursor-pointer hover:opacity-80"
-                                    >
-                                        <AiOutlineHeart
-                                            size={28}
-                                            className="fill-white absolute -top-[2px] -right-[2px]"
-                                        />
-                                        <AiFillHeart
-                                            size={24}
-                                            className={
-                                                result.is_favourite
-                                                    ? "fill-rose-500"
-                                                    : "fill-neutral-500/70"
-                                            }
-                                        />
+                                <form
+                                    onSubmit={(e) =>
+                                        submit(e, result.id, result.model)
+                                    }
+                                >
+                                    <div className="absolute top-3 right-3">
+                                        <PrimaryButton className="relative transition cursor-pointer hover:opacity-80">
+                                            <AiOutlineHeart
+                                                size={28}
+                                                className="fill-white absolute -top-[2px] -right-[2px]"
+                                            />
+                                            <AiFillHeart
+                                                size={24}
+                                                className={
+                                                    result.favouritedBy
+                                                        ? "fill-rose-500"
+                                                        : "fill-neutral-500/70"
+                                                }
+                                            />
+                                        </PrimaryButton>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                             <Link
                                 href={route("property.show", [

@@ -10,6 +10,7 @@ use App\Enums\MinimumStay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 
 class Room extends Model
@@ -43,6 +44,20 @@ class Room extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function favourites(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'favouriteable');
+    }
+
+    public function favouritedBy(?User $user)
+    {
+        if ($user === null) {
+            return false;
+        }
+        
+        return $this->favourites->contains($user);
     }
 
     public function toSearchableArray(): array

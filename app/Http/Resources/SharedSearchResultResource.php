@@ -20,10 +20,10 @@ class SharedSearchResultResource extends JsonResource
             'title' => $this->title,
             'available_rooms' => $this->available_rooms,
             'live_at' => $this->live_at,
-            'is_favourite' => $this->is_favourite,
             'size' => $this->size,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
+            'favouritedBy' => $this->favouritedBy(auth()->user()),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressResource($this->address);
             }),

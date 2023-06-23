@@ -71,18 +71,6 @@ export default function Authenticated({ auth, header, children }) {
                     <ul className="flex flex-col gap-[1.5rem]">
                         <li className="nav__item">
                             <Link
-                                href="#home"
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[1rem] font-[500]"
-                                style={{
-                                    tranisition: ".3s",
-                                }}
-                            >
-                                <TfiSearch className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Search Properties
-                            </Link>
-                        </li>
-                        <li className="nav__item">
-                            <Link
                                 href={route("shared.index")}
                                 className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[1rem] font-[500]"
                                 style={{
@@ -107,7 +95,7 @@ export default function Authenticated({ auth, header, children }) {
                         </li>
                         <li className="nav__item">
                             <Link
-                                href=""
+                                href={route("favourites.index")}
                                 className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",

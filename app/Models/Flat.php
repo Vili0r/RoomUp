@@ -13,6 +13,7 @@ use App\Enums\Size;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
@@ -100,6 +101,20 @@ class Flat extends Model
     public function availability(): MorphOne
     {
         return $this->morphOne(Availability::class, 'owner');
+    }
+
+    public function favourites(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'favouriteable');
+    }
+
+    public function favouritedBy(?User $user)
+    {
+        if ($user === null) {
+            return false;
+        }
+        
+        return $this->favourites->contains($user);
     }
 
     public function toSearchableArray(): array
