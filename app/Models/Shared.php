@@ -136,6 +136,13 @@ class Shared extends Model
         return $this->favourites->contains($user);
     }
 
+    public function viewedUsers(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'viewable')
+                ->withTimestamps()
+                ->withPivot(['count']);
+    }
+
     public function toSearchableArray(): array
     {
         return [

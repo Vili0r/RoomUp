@@ -73,19 +73,40 @@ class User extends Authenticatable
     public function favouriteFlats(): MorphToMany
     {
         return $this->morphedByMany(Flat::class, 'favouriteable')
-            ->withTimestamps();
+                ->withTimestamps();
     }
     
     public function favouriteShareds(): MorphToMany
     {
         return $this->morphedByMany(Shared::class, 'favouriteable')
-            ->withTimestamps();
+                ->withTimestamps();
     }
     
     public function favouriteRooms(): MorphToMany
     {
         return $this->morphedByMany(Room::class, 'favouriteable')
-            ->withTimestamps();
+                ->withTimestamps();
+    }
+    
+    public function viewedFlats(): MorphToMany
+    {
+        return $this->morphedByMany(Flat::class, 'viewable')
+                ->withTimestamps()
+                ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
+    }
+    
+    public function viewedShareds(): MorphToMany
+    {
+        return $this->morphedByMany(Shared::class, 'viewable')
+                ->withTimestamps()
+                ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
+    }
+    
+    public function viewedRooms(): MorphToMany
+    {
+        return $this->morphedByMany(Room::class, 'viewable')
+                ->withTimestamps()
+                ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
     }
 
     public function blogs()

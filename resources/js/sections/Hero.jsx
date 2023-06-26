@@ -163,7 +163,9 @@ const Hero = () => {
                                                                 "property.show",
                                                                 [
                                                                     property.model,
-                                                                    property.id,
+                                                                    property
+                                                                        .owner
+                                                                        .id,
                                                                 ]
                                                             )}
                                                             key={index}
