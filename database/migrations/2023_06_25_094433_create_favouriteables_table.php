@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('favouriteables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->integer('favouriteable_id');
-            $table->string('favouriteable_type');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->morphs('favouriteable');
             $table->timestamps();
         });
     }

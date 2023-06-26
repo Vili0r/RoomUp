@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { router } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { HousePlaceholder } from "@/assets";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { MdOutlinePhotoSizeSelectActual, MdOutlineClose } from "react-icons/md";
+import { PrimaryButton } from "@/Components";
 
-const PhotoGallery = ({ images, title, id, model, is_favourite }) => {
+const PhotoGallery = ({ images, title, id, model, favourite }) => {
     const [showAllPhotos, setShowAllPhotos] = useState(false);
+    const { post } = useForm({});
     const showImage = () => {
         return "/storage/";
     };
 
-    const toggleFavourite = (id, model, favourite) => {
-        router.put(`/property/${model}/${id}/favourite`, {
-            is_favourite: !favourite,
-        });
+    //Handling on submit favourite event
+    const submit = (e, id, model) => {
+        e.preventDefault();
+
+        post(`/${model}/${id}/favourite`, { preserveScroll: true });
     };
 
     if (showAllPhotos) {
@@ -61,23 +64,24 @@ const PhotoGallery = ({ images, title, id, model, is_favourite }) => {
                 alt={title}
             />
             <div className="absolute top-5 right-5">
-                <div
-                    onClick={() => toggleFavourite(id, model, is_favourite)}
-                    className="relative transition cursor-pointer hover:opacity-80"
-                >
-                    <AiOutlineHeart
-                        size={28}
-                        className="fill-white absolute -top-[2px] -right-[2px]"
-                    />
-                    <AiFillHeart
-                        size={24}
-                        className={
-                            is_favourite
-                                ? "fill-rose-500"
-                                : "fill-neutral-500/70"
-                        }
-                    />
-                </div>
+                <form onSubmit={(e) => submit(e, id, model)}>
+                    <div className="absolute top-3 right-3">
+                        <PrimaryButton className="relative transition cursor-pointer hover:opacity-80">
+                            <AiOutlineHeart
+                                size={28}
+                                className="fill-white absolute -top-[2px] -right-[2px]"
+                            />
+                            <AiFillHeart
+                                size={24}
+                                className={
+                                    favourite
+                                        ? "fill-rose-500"
+                                        : "fill-neutral-500/70"
+                                }
+                            />
+                        </PrimaryButton>
+                    </div>
+                </form>
             </div>
             <button
                 onClick={() => setShowAllPhotos(true)}

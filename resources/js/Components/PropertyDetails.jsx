@@ -64,7 +64,7 @@ const PropertyDetails = ({ property }) => {
                             title={property.title}
                             id={property.id}
                             model={property.model}
-                            favourite={property.is_favourite}
+                            favourite={property.favouritedBy}
                         />
                     </div>
                     <MessageModal

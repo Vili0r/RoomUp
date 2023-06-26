@@ -1,12 +1,13 @@
 import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { PrimaryButton } from "@/Components";
 
 const PropertyCard = ({ results }) => {
+    const { post } = useForm({});
     const showImage = () => {
         return "/storage/";
     };
@@ -15,7 +16,7 @@ const PropertyCard = ({ results }) => {
     const submit = (e, id, model) => {
         e.preventDefault();
 
-        router.post(`/${model}/${id}/favourite`);
+        post(`/${model}/${id}/favourite`, { preserveScroll: true });
     };
 
     return (

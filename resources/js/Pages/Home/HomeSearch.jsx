@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, usePage, Link, router } from "@inertiajs/react";
+import { Head, usePage, Link, router, useForm } from "@inertiajs/react";
 import { Loading, MapCard, PrimaryButton } from "@/Components";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
@@ -15,6 +15,7 @@ import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { DebounceInput } from "react-debounce-input";
 
 const HomeSearch = (props) => {
+    const { post } = useForm({});
     const { properties, loading, selectedQueries } = usePage().props;
     const [isLoading, setIsLoading] = useState(true);
     const [toggleMap, setToggleMap] = useState(false);
@@ -27,7 +28,7 @@ const HomeSearch = (props) => {
     const submit = (e, id, model) => {
         e.preventDefault();
 
-        router.post(`/${model}/${id}/favourite`);
+        post(`/${model}/${id}/favourite`, { preserveScroll: true });
     };
 
     const search = async (query) => {
@@ -113,7 +114,7 @@ const HomeSearch = (props) => {
                                                     onSubmit={(e) =>
                                                         submit(
                                                             e,
-                                                            property.id,
+                                                            property.owner.id,
                                                             property.model
                                                         )
                                                     }

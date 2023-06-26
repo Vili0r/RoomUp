@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Query\Builder;
 
 class User extends Authenticatable
 {
@@ -70,19 +73,19 @@ class User extends Authenticatable
     public function favouriteFlats(): MorphToMany
     {
         return $this->morphedByMany(Flat::class, 'favouriteable')
-            ->withPivot(['created_at']);
+            ->withTimestamps();
     }
     
     public function favouriteShareds(): MorphToMany
     {
         return $this->morphedByMany(Shared::class, 'favouriteable')
-            ->withPivot(['created_at']);
+            ->withTimestamps();
     }
     
     public function favouriteRooms(): MorphToMany
     {
         return $this->morphedByMany(Room::class, 'favouriteable')
-            ->withPivot(['created_at']);
+            ->withTimestamps();
     }
 
     public function blogs()

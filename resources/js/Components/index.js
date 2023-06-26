@@ -40,6 +40,7 @@ import CurrentFlatmate from "./CurrentFlatmate";
 import NewFlatmate from "./NewFlatmate";
 import LoadingSkeleton from "./LoadingSkeleton";
 import PropertyDetails from "./PropertyDetails";
+import FavouritePropertyCard from "./FavouritePropertyCard";
 
 export {
     AccordionItem,
@@ -85,4 +86,5 @@ export {
     FlatStepOne,
     LoadingSkeleton,
     PropertyDetails,
+    FavouritePropertyCard,
 };

@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Shared extends Model
 {
-    use HasFactory, FilterByUser, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
         'title',
@@ -64,28 +64,28 @@ class Shared extends Model
         'images' => 'array',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
     
-        static::addGlobalScope('filter_by_user', function (Builder $builder) {
-            if (Auth::check() && !self::isSearchQuery()) {
-                $builder->where('user_id', Auth::user()->id);
-            }
-        });
-    }
+    //     static::addGlobalScope('filter_by_user', function (Builder $builder) {
+    //         if (Auth::check() && !self::isSearchQuery()) {
+    //             $builder->where('user_id', Auth::user()->id);
+    //         }
+    //     });
+    // }
     
-    private static function isSearchQuery()
-    {
-        return isset(request()->query()['search']);
-    }
+    // private static function isSearchQuery()
+    // {
+    //     return isset(request()->query()['search']);
+    // }
 
-    public static function makeAllSearchable()
-    {
-        static::withoutGlobalScope('filter_by_user')->searchable();
+    // public static function makeAllSearchable()
+    // {
+    //     static::withoutGlobalScope('filter_by_user')->searchable();
 
-        parent::makeAllSearchable();
-    }
+    //     parent::makeAllSearchable();
+    // }
 
     public function user(): BelongsTo
     {

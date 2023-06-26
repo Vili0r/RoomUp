@@ -1,10 +1,10 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, Link, router } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
+import { FavouritePropertyCard } from "@/Components";
 
 const Index = (props) => {
-    const { shareds, flats } = usePage().props;
-    console.log(shareds, flats);
+    const { properties } = usePage().props;
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -16,7 +16,16 @@ const Index = (props) => {
             }
         >
             <Head title="My Favourites" />
-            <div>index</div>
+            <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10">
+                <div className="grid grid-cols-1 mt-[3rem] mb-[3rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
+                    {properties.map((property, index) => (
+                        <FavouritePropertyCard
+                            property={property}
+                            index={index}
+                        />
+                    ))}
+                </div>
+            </div>
         </AuthenticatedLayout>
     );
 };
