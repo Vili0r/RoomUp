@@ -37,6 +37,7 @@ class SharedResource extends JsonResource
             'current_flatmate_hobbies' => $this->current_flatmate_hobbies ?? '',
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
+            'views' => $this->views(),
             'amenities' => AmenitiesResource::collection($this->whenLoaded('amenities')),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressResource($this->address);

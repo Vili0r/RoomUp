@@ -22,6 +22,7 @@ use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSearchController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyViewedController;
 use App\Http\Controllers\RoomFavouriteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
@@ -103,6 +104,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Route to get all favourites' properties
     Route::get('/favourites', FavouriteIndexController::class)
         ->name('favourites.index');
+    
+    //Route to get all favourites' properties
+    Route::get('/viewed', PropertyViewedController::class)
+        ->name('property.viewed');
     
     //Route to delete photos
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class)

@@ -34,6 +34,7 @@ class FlatResource extends JsonResource
             'available' => $this->available,
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
+            'views' => $this->views(),
             'amenities' => AmenitiesResource::collection($this->whenLoaded('amenities')),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressResource($this->address);

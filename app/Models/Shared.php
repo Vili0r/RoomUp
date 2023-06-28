@@ -143,6 +143,11 @@ class Shared extends Model
                 ->withPivot(['count']);
     }
 
+    public function views()
+    {
+        return array_sum($this->viewedUsers->pluck('pivot.count')->toArray());
+    }
+
     public function toSearchableArray(): array
     {
         return [

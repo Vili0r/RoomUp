@@ -25,6 +25,7 @@ class FlatSearchResultResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
             'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'views' => $this->views(),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressResource($this->address);
             }),

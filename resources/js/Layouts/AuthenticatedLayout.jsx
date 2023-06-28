@@ -6,7 +6,7 @@ import { FaHouseUser } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
 import { MdSavedSearch } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiBookmark } from "react-icons/fi";
 import { TfiSearch } from "react-icons/tfi";
 
 export default function Authenticated({ auth, header, children }) {
@@ -101,8 +101,20 @@ export default function Authenticated({ auth, header, children }) {
                                     tranisition: ".3s",
                                 }}
                             >
-                                <MdSavedSearch className="text-[1.15rem] lg:text-[1.5rem]" />
+                                <FiBookmark className="text-[1.15rem] lg:text-[1.5rem]" />
                                 Saved Properties
+                            </Link>
+                        </li>
+                        <li className="nav__item">
+                            <Link
+                                href={route("property.viewed")}
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                style={{
+                                    tranisition: ".3s",
+                                }}
+                            >
+                                <MdSavedSearch className="text-[1.15rem] lg:text-[1.5rem]" />
+                                Recently Viewed
                             </Link>
                         </li>
                         <li className="nav__item">

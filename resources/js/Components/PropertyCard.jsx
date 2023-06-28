@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
+import { BsEyeFill } from "react-icons/bs";
 import { Link, router, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
@@ -104,8 +104,8 @@ const PropertyCard = ({ results }) => {
                                     <div className="flex flex-row items-center">
                                         <dt className="sr-only">Saved</dt>
                                         <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
-                                            <MdOutlineBookmarkAdd className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
-                                            <span>(128)</span>
+                                            <BsEyeFill className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
+                                            <span>({result.views})</span>
                                         </dd>
                                     </div>
                                 </div>

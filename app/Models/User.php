@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Traits\PivotOrderableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -17,7 +18,7 @@ use Illuminate\Database\Query\Builder;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, Searchable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Searchable, PivotOrderableTrait;
 
     /**
      * The attributes that are mass assignable.
