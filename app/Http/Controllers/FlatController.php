@@ -41,6 +41,7 @@ class FlatController extends Controller
         return Inertia::render('Flat/Index',[
             'flats' => FlatIndexResource::collection(
                 Flat::query()
+                    ->where('user_id', auth()->id())
                     ->when($request->input('search'), function($query, $search) {
                         $query->where('title', 'like', "%{$search}%");
                     })
@@ -203,6 +204,10 @@ class FlatController extends Controller
      */
     public function show(Flat $flat): Response
     {
+        if (auth()->id() !== $flat->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $flat->load(['address']);
 
         return Inertia::render("Flat/Show", [
@@ -215,6 +220,10 @@ class FlatController extends Controller
      */
     public function edit(Flat $flat): Response
     {
+        if (auth()->id() !== $flat->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $flat->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'availability']);
 
         return Inertia::render("Flat/Edit", [
@@ -243,6 +252,10 @@ class FlatController extends Controller
      */
     public function update(Request $request, Flat $flat): RedirectResponse
     {
+        if (auth()->id() !== $flat->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $request->validate([
             'address_1' => ['required', 'max:30'],
             'address_2' => ['sometimes'],
@@ -403,6 +416,10 @@ class FlatController extends Controller
      */
     public function destroy(Flat $flat): RedirectResponse
     {
+        if (auth()->id() !== $flat->user_id) {
+            abort(403); // Return a forbidden response
+        }
+        
         Storage::delete($flat->images);
         $flat->delete();
 

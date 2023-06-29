@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Shared extends Model
 {
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes, FilterByUser, Searchable;
 
     protected $fillable = [
         'title',
@@ -63,29 +63,6 @@ class Shared extends Model
         'current_flatmate_gender' => CurrentFlatmateGender::class,
         'images' => 'array',
     ];
-
-    // public static function boot()
-    // {
-    //     parent::boot();
-    
-    //     static::addGlobalScope('filter_by_user', function (Builder $builder) {
-    //         if (Auth::check() && !self::isSearchQuery()) {
-    //             $builder->where('user_id', Auth::user()->id);
-    //         }
-    //     });
-    // }
-    
-    // private static function isSearchQuery()
-    // {
-    //     return isset(request()->query()['search']);
-    // }
-
-    // public static function makeAllSearchable()
-    // {
-    //     static::withoutGlobalScope('filter_by_user')->searchable();
-
-    //     parent::makeAllSearchable();
-    // }
 
     public function user(): BelongsTo
     {

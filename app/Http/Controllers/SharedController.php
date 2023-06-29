@@ -49,6 +49,7 @@ class SharedController extends Controller
         return Inertia::render('Shared/Index',[
             'shareds' => SharedIndexResource::collection(
                 Shared::query()
+                    ->where('user_id', auth()->id())
                     ->when($request->input('search'), function($query, $search) {
                         $query->where('title', 'like', "%{$search}%");
                     })
@@ -239,6 +240,10 @@ class SharedController extends Controller
      */
     public function show(Shared $shared): Response
     {
+        if (auth()->id() !== $shared->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $shared->load(['address']);
 
         return Inertia::render("Shared/Show", [
@@ -251,6 +256,10 @@ class SharedController extends Controller
      */
     public function edit(Shared $shared): Response
     {
+        if (auth()->id() !== $shared->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $shared->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'rooms']);
 
         return Inertia::render("Shared/Edit", [
@@ -285,6 +294,10 @@ class SharedController extends Controller
      */
     public function update(Request $request, Shared $shared): RedirectResponse
     {
+        if (auth()->id() !== $shared->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
         $request->validate([
             'address_1' => ['required', 'max:30'],
             'address_2' => ['sometimes'],
@@ -532,6 +545,10 @@ class SharedController extends Controller
      */
     public function destroy(Shared $shared): RedirectResponse
     {
+        if (auth()->id() !== $shared->user_id) {
+            abort(403); // Return a forbidden response
+        }
+        
         Storage::delete($shared->images);
         $shared->delete();
 
