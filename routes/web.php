@@ -21,6 +21,7 @@ use App\Http\Controllers\FlatIsFavouriteController;
 use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSearchController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyViewedController;
 use App\Http\Controllers\RoomFavouriteController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\SharedFavouriteController;
 use App\Http\Controllers\SharedIsFavouriteController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
+use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +106,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Route to get all favourites' properties
     Route::get('/favourites', FavouriteIndexController::class)
         ->name('favourites.index');
+
+    //Meesage Controller rescourse routes
+    Route::resource('/message', MessageController::class)
+        ->only(['index', 'store', 'destroy', 'show']);
     
     //Route to get all favourites' properties
     Route::get('/viewed', PropertyViewedController::class)

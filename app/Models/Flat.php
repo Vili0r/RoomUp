@@ -13,6 +13,7 @@ use App\Enums\Size;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
@@ -104,6 +105,11 @@ class Flat extends Model
     public function views()
     {
         return array_sum($this->viewedUsers->pluck('pivot.count')->toArray());
+    }
+
+    public function messages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'owner');
     }
 
     public function toSearchableArray(): array

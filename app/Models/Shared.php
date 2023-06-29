@@ -125,6 +125,11 @@ class Shared extends Model
         return array_sum($this->viewedUsers->pluck('pivot.count')->toArray());
     }
 
+    public function messages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'owner');
+    }
+
     public function toSearchableArray(): array
     {
         return [

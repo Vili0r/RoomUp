@@ -69,8 +69,11 @@ const PropertyDetails = ({ property }) => {
                     </div>
                     <MessageModal
                         isOpen={isOpen}
+                        setIsOpen={setIsOpen}
                         closeModal={closeModal}
                         name={property.advertiser.first_name}
+                        id={property.id}
+                        model={property.model}
                     />
                     <div className="flex flex-col items-start max-w-6xl gap-10 px-6 mx-auto md:flex-row lg:px-8">
                         <div className="flex w-full min-w-0 mt-5 md:mt-0">

@@ -103,6 +103,8 @@ const FavouritePropertyCard = ({ property, index }) => {
                 isOpen={isOpen}
                 closeModal={closeModal}
                 name={property.advertiser.first_name}
+                id={property.id}
+                model={property.model}
             />
             <div className="p-6 pt-3">
                 <button
