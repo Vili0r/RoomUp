@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
 
     //Meesage Controller rescourse routes
     Route::resource('/message', MessageController::class)
-        ->only(['index', 'store', 'destroy', 'show']);
+        ->only(['index', 'create', 'store', 'destroy', 'show']);
     
     //Route to get all favourites' properties
     Route::get('/viewed', PropertyViewedController::class)

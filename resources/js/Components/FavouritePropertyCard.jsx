@@ -4,19 +4,13 @@ import { BsEyeFill } from "react-icons/bs";
 import { Link, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { PrimaryButton, MessageModal } from "@/Components";
+import { PrimaryButton } from "@/Components";
 
 const FavouritePropertyCard = ({ property, index }) => {
-    const { post } = useForm({});
-    const [isOpen, setIsOpen] = useState(false);
-
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
-    const openModal = () => {
-        setIsOpen(true);
-    };
+    const { post, get } = useForm({
+        id: property.id,
+        type: property.model,
+    });
 
     const showImage = () => {
         return "/storage/";
@@ -27,6 +21,10 @@ const FavouritePropertyCard = ({ property, index }) => {
         e.preventDefault();
 
         post(`/${model}/${id}/favourite`, { preserveScroll: true });
+    };
+
+    const handleClick = () => {
+        get(route("message.create"));
     };
     return (
         <div
@@ -99,15 +97,10 @@ const FavouritePropertyCard = ({ property, index }) => {
                     </div>
                 </div>
             </div>
-            <MessageModal
-                isOpen={isOpen}
-                closeModal={closeModal}
-                name={property.advertiser.first_name}
-                id={property.id}
-                model={property.model}
-            />
+
             <div className="p-6 pt-3">
                 <button
+                    onClick={handleClick}
                     className="block w-full select-none rounded-full bg-[#FFF337] py-3.5 px-7 text-center align-middle font-sans text-sm font-medium text-black shadow-md shadow-yellow-500/20 transition-all hover:shadow-lg hover:shadow-yellow-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                     data-ripple-light="true"

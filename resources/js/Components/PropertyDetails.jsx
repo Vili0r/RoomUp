@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { AiTwotoneHeart } from "react-icons/ai";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import {
     AdvertisedBy,
-    MessageModal,
     PhotoGallery,
     PropertyDetailsAmenities,
 } from "@/Components";
@@ -17,15 +16,6 @@ import { HousePlaceholder } from "@/assets";
 import moment from "moment";
 
 const PropertyDetails = ({ property }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
-    const openModal = () => {
-        setIsOpen(true);
-    };
     return (
         <div className="max-w-[2520px] xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="max-w-screen-xl mx-auto">
@@ -67,14 +57,7 @@ const PropertyDetails = ({ property }) => {
                             favourite={property.favouritedBy}
                         />
                     </div>
-                    <MessageModal
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        closeModal={closeModal}
-                        name={property.advertiser.first_name}
-                        id={property.id}
-                        model={property.model}
-                    />
+
                     <div className="flex flex-col items-start max-w-6xl gap-10 px-6 mx-auto md:flex-row lg:px-8">
                         <div className="flex w-full min-w-0 mt-5 md:mt-0">
                             <dl className="grid grid-cols-1 gap-y-10 gap-x-8 md:max-w-xl lg:max-w-none lg:gap-y-16">
@@ -126,9 +109,10 @@ const PropertyDetails = ({ property }) => {
                         </div>
                         <div className="w-full md:sticky md:top-[5.5rem] md:w-[28rem]">
                             <AdvertisedBy
-                                openModal={openModal}
                                 advertiser={property.advertiser}
                                 occupation={property.what_i_am}
+                                id={property.id}
+                                model={property.model}
                             />
                         </div>
                     </div>

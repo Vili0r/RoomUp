@@ -7,7 +7,6 @@ import PropertyCard from "./PropertyCard";
 import FilterModal from "./FilterModal";
 import PlaceAdModal from "./PlaceAdModal";
 import SearchModal from "./SearchModal";
-import MessageModal from "./MessageModal";
 import MultiRangeSlider from "./MultiRangeSlider";
 import Amenities from "./Amenities";
 import PropertyDetailsAmenities from "./PropertyDetailsAmenities";
@@ -54,7 +53,6 @@ export {
     FilterModal,
     PlaceAdModal,
     SearchModal,
-    MessageModal,
     MultiRangeSlider,
     Amenities,
     PhotoGallery,

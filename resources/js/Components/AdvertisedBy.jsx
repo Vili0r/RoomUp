@@ -1,11 +1,19 @@
 import React from "react";
+import { useForm } from "@inertiajs/react";
 import {
     AiFillStar,
     AiFillSafetyCertificate,
     AiOutlineMail,
 } from "react-icons/ai";
 
-const AdvertisedBy = ({ openModal, advertiser, occupation }) => {
+const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
+    const { data, get } = useForm({
+        id: id,
+        type: model,
+    });
+    const handleClick = () => {
+        get(route("message.create"));
+    };
     return (
         <>
             <h1 className="text-xl font-bold text-gray-700 font-popp">
@@ -50,7 +58,7 @@ const AdvertisedBy = ({ openModal, advertiser, occupation }) => {
             </div>
             <div className="mt-8 mb-5">
                 <button
-                    onClick={openModal}
+                    onClick={handleClick}
                     className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
                 >
                     <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">

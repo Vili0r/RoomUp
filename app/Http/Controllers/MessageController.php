@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageStoreRequest;
+use App\Http\Resources\PropertyResource;
 use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Shared;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class MessageController extends Controller
 {
@@ -17,6 +20,21 @@ class MessageController extends Controller
     public function index()
     {
         //
+    }
+    
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request): Response 
+    {
+        if ($request->type == 'flat') {
+            $property = Flat::with(['address', 'advertiser', 'viewedUsers'])->findOrFail($request->id);
+        } elseif ($request->type == 'shared') {
+            $property = Shared::with(['address', 'advertiser', 'viewedUsers'])->findOrFail($request->id);
+        }
+        return Inertia::render('Message/Create',[
+            'property' => new PropertyResource($property),
+        ]);
     }
 
     /**
