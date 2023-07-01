@@ -16,6 +16,7 @@ const Create = (props) => {
         message_text: "",
         owner_id: property.id,
         owner_type: property.model,
+        receiver_id: property.user_id,
     });
 
     const showImage = () => {
@@ -36,11 +37,6 @@ const Create = (props) => {
 
         post(route("message.store"), {
             preserveScroll: true,
-
-            onSuccess: () => {
-                setIsOpen(false);
-                reset();
-            },
         });
     };
     return (

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('email');
             $table->text('message_text');
+            $table->foreignId('receiver_id')->constrained('users');
+            $table->string('phone_number');
             $table->morphs('owner');
             $table->timestamps();
         });

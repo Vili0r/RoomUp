@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\RevokeUserRoleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteIndexController;
 use App\Http\Controllers\FlatAvailabilityController;
@@ -110,6 +111,9 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Meesage Controller rescourse routes
     Route::resource('/message', MessageController::class)
         ->only(['index', 'create', 'store', 'destroy', 'show']);
+    
+    //Conversation Controller rescourse routes
+    Route::resource('/conversation', ConversationController::class);
     
     //Route to get all favourites' properties
     Route::get('/viewed', PropertyViewedController::class)

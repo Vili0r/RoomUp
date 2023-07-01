@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Traits\PivotOrderableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -118,5 +120,16 @@ class User extends Authenticatable
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+    
+    public function conversations(): BelongsToMany
+    {
+        return $this->belongsToMany(Conversation::class)
+                ->orderBy('last_reply', 'desc');
+    }
+
+    public function isInConversation(Conversation $conversation)
+    {
+        return $this->conversations->contains($conversation);
     }
 }

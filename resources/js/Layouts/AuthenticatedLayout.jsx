@@ -7,6 +7,7 @@ import { CgUser } from "react-icons/cg";
 import { MdSavedSearch } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiLogOut, FiBookmark } from "react-icons/fi";
+import { BiMessageDetail } from "react-icons/bi";
 import { TfiSearch } from "react-icons/tfi";
 
 export default function Authenticated({ auth, header, children }) {
@@ -19,6 +20,7 @@ export default function Authenticated({ auth, header, children }) {
     function handleMenuClose() {
         setShowMenu(false);
     }
+
     const showAvatar = () => {
         return "/storage/";
     };
@@ -115,6 +117,18 @@ export default function Authenticated({ auth, header, children }) {
                             >
                                 <MdSavedSearch className="text-[1.15rem] lg:text-[1.5rem]" />
                                 Recently Viewed
+                            </Link>
+                        </li>
+                        <li className="nav__item">
+                            <Link
+                                href={route("message.index")}
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                style={{
+                                    tranisition: ".3s",
+                                }}
+                            >
+                                <BiMessageDetail className="text-[1.15rem] lg:text-[1.5rem]" />
+                                Messages
                             </Link>
                         </li>
                         <li className="nav__item">

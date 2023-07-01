@@ -17,11 +17,12 @@ class PropertyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'model' => 'shared',
+            'model' => $request->type,
             'title' => $this->title,
             'description' => $this->description,
             'images' => $this->images,
             'size' => $this->size,
+            'user_id' => $this->user_id,
             'type' => Str::replace('_', ' ', $this->type->name) ?? '',
             'created_at' => $this->created_at->toDateTimeString(),
             'address' => $this->whenLoaded('address', function () {

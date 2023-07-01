@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageStoreRequest;
+use App\Http\Resources\MessageResource;
 use App\Http\Resources\PropertyResource;
 use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Shared;
+use App\Notifications\PropertyMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
 
 class MessageController extends Controller
 {
@@ -19,7 +23,15 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $messages = Message::with(['owner.address'])
+            ->where('receiver_id', auth()->id())
+            ->orWhere('user_id', auth()->id())
+            ->latest()
+            ->paginate(10);
+        
+        return Inertia::render('Message/Index',[
+            'messages' => MessageResource::collection($messages)
+        ]);
     }
     
     /**
@@ -32,6 +44,7 @@ class MessageController extends Controller
         } elseif ($request->type == 'shared') {
             $property = Shared::with(['address', 'advertiser', 'viewedUsers'])->findOrFail($request->id);
         }
+        
         return Inertia::render('Message/Create',[
             'property' => new PropertyResource($property),
         ]);
@@ -68,20 +81,23 @@ class MessageController extends Controller
                     'email' => $request->email,
                     'message_text' => $request->message_text,
                     'phone_number' => $request->phone_number,
+                    'receiver_id' => $property->user_id,
                 ]);
     
                 $message = [
                     'name' => auth()->user()->name,
                     'email' => auth()->user()->email,
-                    'listingTitle' => $property->title,
+                    'propertyTitle' => $property->title,
                     'messageText' => $request->message_text,
+                    'propertyId' => $property->id,                
+                    'propertyModel' => $request->owner_type,               
                 ];
     
-                // Notification::route('mail', $listing->user->email)
-                //     ->notify(new ListingMessageNotification($message));
+                Notification::route('mail', $property->user->email)
+                    ->notify(new PropertyMessageNotification($message));
             }
 
-        return back();
+        return to_route('dashboard');
     }
 
     /**
