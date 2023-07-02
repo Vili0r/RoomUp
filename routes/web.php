@@ -12,13 +12,13 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\ConversationReplyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteIndexController;
 use App\Http\Controllers\FlatAvailabilityController;
 use App\Http\Controllers\FlatController;
 use App\Http\Controllers\FlatDeletePhotoContoller;
 use App\Http\Controllers\FlatFavouriteController;
-use App\Http\Controllers\FlatIsFavouriteController;
 use App\Http\Controllers\SinglePropertyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSearchController;
@@ -31,10 +31,8 @@ use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
 use App\Http\Controllers\SharedFavouriteController;
-use App\Http\Controllers\SharedIsFavouriteController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
-use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -108,13 +106,6 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/favourites', FavouriteIndexController::class)
         ->name('favourites.index');
 
-    //Meesage Controller rescourse routes
-    Route::resource('/message', MessageController::class)
-        ->only(['index', 'create', 'store', 'destroy', 'show']);
-    
-    //Conversation Controller rescourse routes
-    Route::resource('/conversation', ConversationController::class);
-    
     //Route to get all favourites' properties
     Route::get('/viewed', PropertyViewedController::class)
         ->name('property.viewed');
@@ -131,9 +122,17 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::delete('/revert/{folder}', TemporaryImageDeleteController::class)
         ->name('revert.image');
 
+    //Conversation reply controller
+    Route::post('/conversation/{conversation}/reply', ConversationReplyController::class)
+        ->name('conversation.reply');
+
     //Resource controller
     Route::resource('/flat', FlatController::class);
     Route::resource('/shared', SharedController::class);
+    Route::resource('/message', MessageController::class)
+        ->only(['index', 'create', 'store', 'destroy']);
+    Route::resource('/conversation', ConversationController::class)
+        ->only(['index', 'show', 'destroy']);
     //Route::get('my-properties/shared', MyPropertiesController::class)->name('my-properties.shared');
 
     //Admin

@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { HousePlaceholder } from "@/assets";
 import moment from "moment";
+import { Pagination } from "@/Components";
 
 const Index = (props) => {
     const { messages } = usePage().props;
-
     const showImage = () => {
         return "/storage/";
     };
-
-    console.log(messages);
 
     return (
         <AuthenticatedLayout
@@ -24,13 +22,13 @@ const Index = (props) => {
             }
         >
             <Head title="My Favourites" />
-            <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10">
+            <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10 mb-10">
                 <div className="flex flex-col mt-[3rem] mb-[3rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
                     {messages.data.length > 0 ? (
                         messages.data.map((message) => (
                             <div
                                 key={message.id}
-                                className="relative flex flex-row w-full text-gray-700 bg-white shadow-md max-w-7xl rounded-xl bg-clip-border"
+                                className="relative flex flex-row w-full text-gray-700 bg-white shadow-md max-w-[48rem] rounded-xl bg-clip-border"
                             >
                                 <div className="grid grid-cols-1 mx-auto">
                                     <div className="relative flex flex-col-reverse col-start-1 row-start-1 p-3 rounded-lg bg-gradient-to-t from-black/75 via-black/0">
@@ -43,11 +41,11 @@ const Index = (props) => {
                                                 height="24"
                                                 fill="none"
                                                 stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
                                                 className="mr-1 text-white dark:text-slate-500"
-                                                aria-hidden="true"
+                                                ariaHidden="true"
                                             >
                                                 <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
                                                 <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
@@ -83,6 +81,9 @@ const Index = (props) => {
 
                                 <div className="p-6">
                                     <h6 className="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-pink-500 uppercase">
+                                        <span className="text-sm text-black normal-case">
+                                            Name of the requester:{" "}
+                                        </span>
                                         {message.full_name}
                                     </h6>
                                     <h4 className="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
@@ -91,14 +92,16 @@ const Index = (props) => {
                                     <p className="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
                                         {message.owner.description}
                                     </p>
-
-                                    <Link className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-pink-500 uppercase align-middle transition-all rounded-lg select-none hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                                        Learn More
+                                    <Link
+                                        href={route("conversation.index")}
+                                        className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-[#F5B041] uppercase align-middle transition-all rounded-lg select-none hover:text-black hover:bg-[#f6b449] active:bg-[#F5B041] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    >
+                                        Respond
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
-                                            stroke-width="2"
+                                            strokeWidth="2"
                                             stroke="currentColor"
                                             ariaHidden="true"
                                             className="w-4 h-4"
@@ -117,6 +120,11 @@ const Index = (props) => {
                         <div>No message has been received</div>
                     )}
                 </div>
+                <Pagination
+                    currentPage={messages.meta.current_page}
+                    lastPage={messages.meta.last_page}
+                    links={messages.meta.links}
+                />
             </div>
         </AuthenticatedLayout>
     );

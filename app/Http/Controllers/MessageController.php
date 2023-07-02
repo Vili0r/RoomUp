@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\PropertyResource;
+use App\Models\Conversation;
 use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Shared;
@@ -21,13 +22,13 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        $messages = Message::with(['owner.address'])
+        $messages = Message::with(['owner'])
             ->where('receiver_id', auth()->id())
             ->orWhere('user_id', auth()->id())
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
         
         return Inertia::render('Message/Index',[
             'messages' => MessageResource::collection($messages)
@@ -74,38 +75,42 @@ class MessageController extends Controller
             ->where('created_at', '>', now()->subMinute())
             ->count();
 
-            if($sentMessages < 5) {
-                $property->messages()->create([
-                    'user_id' => auth()->id(),
-                    'full_name' => $request->full_name,
-                    'email' => $request->email,
-                    'message_text' => $request->message_text,
-                    'phone_number' => $request->phone_number,
-                    'receiver_id' => $property->user_id,
-                ]);
-    
-                $message = [
-                    'name' => auth()->user()->name,
-                    'email' => auth()->user()->email,
-                    'propertyTitle' => $property->title,
-                    'messageText' => $request->message_text,
-                    'propertyId' => $property->id,                
-                    'propertyModel' => $request->owner_type,               
-                ];
-    
-                Notification::route('mail', $property->user->email)
-                    ->notify(new PropertyMessageNotification($message));
-            }
+        if($sentMessages < 5) {
+            $text = $property->messages()->create([
+                'user_id' => auth()->id(),
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'message_text' => $request->message_text,
+                'phone_number' => $request->phone_number,
+                'receiver_id' => $property->user_id,
+            ]);
+
+            $message = [
+                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+                'propertyTitle' => $property->title,
+                'messageText' => $request->message_text,              
+            ];
+
+            Notification::route('mail', $property->user->email)
+                ->notify(new PropertyMessageNotification($message));
+        }
+
+        //Start a conversation
+        $conversation = Conversation::create([
+            'body' => $request->message_text,
+            'message_id' => $text->id,
+            'user_id' => auth()->id(),
+        ]);
+
+        $conversation->user()->associate(auth()->user());
+        $conversation->touchLastReply();
+
+        $conversation->users()->sync(array_unique(
+            array_merge([$property->user_id], [auth()->id()])
+        ));
 
         return to_route('dashboard');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Message $message)
-    {
-        //
     }
 
     /**

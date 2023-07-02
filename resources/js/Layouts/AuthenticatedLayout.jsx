@@ -8,7 +8,7 @@ import { MdSavedSearch } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiLogOut, FiBookmark } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
-import { TfiSearch } from "react-icons/tfi";
+import { BsInbox } from "react-icons/bs";
 
 export default function Authenticated({ auth, header, children }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -73,30 +73,6 @@ export default function Authenticated({ auth, header, children }) {
                     <ul className="flex flex-col gap-[1.5rem]">
                         <li className="nav__item">
                             <Link
-                                href={route("shared.index")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[1rem] font-[500]"
-                                style={{
-                                    tranisition: ".3s",
-                                }}
-                            >
-                                <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                My Properties
-                            </Link>
-                        </li>
-                        <li className="nav__item">
-                            <Link
-                                href={route("profile.edit")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
-                                style={{
-                                    tranisition: ".3s",
-                                }}
-                            >
-                                <CgUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Profile
-                            </Link>
-                        </li>
-                        <li className="nav__item">
-                            <Link
                                 href={route("favourites.index")}
                                 className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
@@ -129,6 +105,31 @@ export default function Authenticated({ auth, header, children }) {
                             >
                                 <BiMessageDetail className="text-[1.15rem] lg:text-[1.5rem]" />
                                 Messages
+                            </Link>
+                        </li>
+                        <li className="nav__item">
+                            <Link
+                                href={route("conversation.index")}
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                style={{
+                                    tranisition: ".3s",
+                                }}
+                            >
+                                <BsInbox className="text-[1.15rem] lg:text-[1.5rem]" />
+                                Inbox
+                            </Link>
+                        </li>
+
+                        <li className="nav__item">
+                            <Link
+                                href={route("profile.edit")}
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                style={{
+                                    tranisition: ".3s",
+                                }}
+                            >
+                                <CgUser className="text-[1.15rem] lg:text-[1.5rem]" />
+                                Profile
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -218,20 +219,14 @@ export default function Authenticated({ auth, header, children }) {
                                                 ""
                                             )}
                                             <NavLink
-                                                href={route("shared.create")}
+                                                className="gap-2"
+                                                href={route("shared.index")}
                                                 active={route().current(
-                                                    "shared.create"
+                                                    "shared.index"
                                                 )}
                                             >
-                                                Shared Ad
-                                            </NavLink>
-                                            <NavLink
-                                                href={route("flat.create")}
-                                                active={route().current(
-                                                    "flat.create"
-                                                )}
-                                            >
-                                                Flat Ad
+                                                <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                My Properties
                                             </NavLink>
                                         </div>
                                     </div>

@@ -6,35 +6,22 @@ use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
 
 class ConversationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $conversations = $request->user()->conversations()->get();
+        $conversations->load(['user', 'message.owner', 'message.user']);
 
         return Inertia::render('Conversation/Index', [
-            'conversations' => new ConversationResource($conversations)
+            'conversations' => ConversationResource::collection($conversations)
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -42,23 +29,12 @@ class ConversationController extends Controller
      */
     public function show(Conversation $conversation)
     {
-        //
-    }
+        $this->authorize('show', $conversation);
+        $conversation->load(['user', 'message.owner', 'message.user']);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Conversation $conversation)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Conversation $conversation)
-    {
-        //
+        return Inertia::render('Conversation/Index', [
+            'conversation' => new ConversationResource($conversation)
+        ]);
     }
 
     /**

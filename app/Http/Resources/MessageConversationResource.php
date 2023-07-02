@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class MessageResource extends JsonResource
+class MessageConversationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,9 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'full_name' => $this->full_name,
+            'initial' => substr($this->full_name, 0, 1),
             'email' => $this->email,
-            'message_text' => $this->message_text,
+            'message_text' => substr($this->message_text, 0, 20) . '...',
             'user_id' => $this->user_id,
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
@@ -27,13 +28,11 @@ class MessageResource extends JsonResource
                 'title' => $this->owner->title,
                 'description' => substr($this->owner->description, 0, 100) . '...',
                 'cost' => $this->owner->cost ?? '',
-                'user_id' => $this->owner->user_id,
-                'size' => Str::replace('_', ' ', $this->owner->size->name) ?? '',
-                'type' => Str::replace('_', ' ', $this->owner->type->name) ?? '',
+                'receiver' => $this->whenLoaded('user', function () {
+                    return new UserConversationResource($this->owner->user);
+                }),
                 'images' => $this->owner->images,
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
-                'address_1' => $this->owner->address->address_1,
-                'area' => $this->owner->address->area,
             ],
         ];
     }

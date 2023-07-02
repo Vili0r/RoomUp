@@ -12,6 +12,13 @@ class Conversation extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'message_id',
+        'body',
+        'last_reply'
+    ];
+
     protected $casts = [
         'last_reply' => 'datetime:Y-m-d',
     ];
@@ -43,7 +50,7 @@ class Conversation extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Conversation::class, 'message_id')->latestFirst();
+        return $this->hasMany(Conversation::class)->latestFirst();
     }
 
     public function touchLastReply()

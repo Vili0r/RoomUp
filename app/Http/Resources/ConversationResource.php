@@ -17,9 +17,16 @@ class ConversationResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'message_id' => $this->message,
+            'message_id' => $this->message_id,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at->diffForHumans(),
             'last_reply' => $this->last_reply ? $this->last_reply->diffForHumans() : null,
+            'message' => $this->whenLoaded('message', function () {
+                return new MessageConversationResource($this->message);
+            }),
+            'sender' => $this->whenLoaded('user', function () {
+                return new UserConversationResource($this->user);
+            }),
         ];
     }
 }
