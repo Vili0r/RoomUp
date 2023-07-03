@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ModalSearchContoller;
+use App\Http\Controllers\ConversationReplyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +18,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/search-modal', ModalSearchContoller::class);

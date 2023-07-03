@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, Head, usePage } from "@inertiajs/react";
 import { AiOutlineMail } from "react-icons/ai";
-import { InputError } from "@/Components";
+import { InputError, SecondaryButton } from "@/Components";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { HousePlaceholder } from "@/assets";
 import { BsEyeFill } from "react-icons/bs";
@@ -227,12 +227,13 @@ const Create = (props) => {
                                     <div className="mt-10 mb-4">
                                         <button
                                             type="submit"
-                                            className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                            disabled={processing}
+                                            className="relative inline-flex items-center justify-center w-40 px-8 py-3 overflow-hidden font-semibold text-white transition duration-300 ease-out border-0 rounded-full focus:ring-offset-0 focus:ring-0 group md:w-auto"
                                         >
-                                            <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                            <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center rounded-full bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
                                                 <AiOutlineMail className="w-5 h-5" />
                                             </span>
-                                            <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                            <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform bg-black rounded-full ease group-hover:translate-x-full">
                                                 Sent Message
                                             </span>
                                             <span className="relative invisible">

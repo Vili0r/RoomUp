@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import moment from "moment";
@@ -6,10 +6,12 @@ import { HousePlaceholder } from "@/assets";
 import { SecondaryButton, InputError } from "@/Components";
 
 const Index = (props) => {
-    const { conversations, conversation } = usePage().props;
-    const { data, setData, processing, reset, post, errors } = useForm({
-        body: "",
-    });
+    const { conversations, singleConversation } = usePage().props;
+    const [replies, setReplies] = useState([]);
+    const { data, setData, processing, reset, post, errors, setError } =
+        useForm({
+            body: "",
+        });
 
     const showImage = () => {
         return "/storage/";
@@ -19,7 +21,10 @@ const Index = (props) => {
         router.get(
             `/conversation/${id}`,
             {},
-            { preserveScroll: true, only: ["conversation"] }
+            {
+                preserveScroll: true,
+                only: ["singleConversation", "conversations"],
+            }
         );
     };
 
@@ -30,19 +35,33 @@ const Index = (props) => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("conversation.reply", conversation.id), {
-            preserveScroll: true,
-        });
+        axios
+            .post(`/conversation/${singleConversation.id}/reply`, {
+                body: data.body,
+            })
+            .then((response) => {
+                // Handle the response
+                setReplies(response.data);
+            })
+            .catch((error) => {
+                // Handle errors
+                setError(error);
+            });
+
+        // post(route("conversation.reply", singleConversation.id), {
+        //     preserveScroll: true,
+        //     only: ["singleConversation"],
+        // });
     };
 
-    console.log(conversation);
+    //console.log(singleConversation.replies);
 
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Start conversation" />
-            <div className="max-w-9xl mx-auto mt-[6rem]">
+            <div className="max-w-8xl mx-auto mt-[6rem]">
                 <div className="flex flex-row justify-between bg-white">
-                    <div className="sticky flex-col hidden w-2/5 border-r-2 [@media(min-width:700px)]:flex">
+                    <div className="[@media(min-width:700px)]:overflow-y-hidden flex-col hidden w-2/5 border-r-2 [@media(min-width:700px)]:flex">
                         <div className="p-4 text-xl font-semibold">
                             All Conversations
                         </div>
@@ -54,8 +73,8 @@ const Index = (props) => {
                                         handleSingleConversation(item.id)
                                     }
                                     className={`${
-                                        conversation &&
-                                        conversation.id == item.id
+                                        singleConversation &&
+                                        singleConversation.id == item.id
                                             ? "bg-gray-200/80"
                                             : ""
                                     } flex items-start p-5 space-x-6 cursor-pointer hover:bg-slate-100`}
@@ -114,51 +133,134 @@ const Index = (props) => {
 
                     <div className="flex flex-col flex-auto w-full h-screen p-6 overflow-y-hidden">
                         <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
-                            <div className="py-4 text-xl font-semibold border-b-2">
-                                {conversation
-                                    ? conversation.message.full_name
+                            <div className="sticky py-4 text-xl font-semibold border-b-2">
+                                {singleConversation
+                                    ? singleConversation.user_id ===
+                                      props.auth.user.id
+                                        ? singleConversation.message.owner
+                                              .receiver.first_name
+                                        : singleConversation.sender.first_name
                                     : "Select a conversation"}
                             </div>
-                            {conversation && (
+                            {singleConversation && (
                                 <>
                                     <div className="flex flex-col h-full mb-4 overflow-x-auto">
                                         <div className="flex flex-col h-full">
                                             <div className="grid grid-cols-12 gap-y-2">
-                                                <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                                                    <div className="flex flex-row-reverse items-center justify-start">
-                                                        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-indigo-500 rounded-full">
-                                                            {
-                                                                conversation
-                                                                    .message
-                                                                    .initial
-                                                            }
-                                                        </div>
-                                                        <div className="relative px-4 py-2 mr-3 text-sm bg-indigo-100 shadow rounded-xl">
-                                                            <div>
-                                                                {
-                                                                    conversation
-                                                                        .message
-                                                                        .message_text
-                                                                }
+                                                {singleConversation.user_id ===
+                                                props.auth.user.id ? (
+                                                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                                                        <div className="flex flex-row-reverse items-center justify-start">
+                                                            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-[#F5B041] rounded-full">
+                                                                {singleConversation.user_id !==
+                                                                props.auth.user
+                                                                    .id
+                                                                    ? singleConversation
+                                                                          .message
+                                                                          .owner
+                                                                          .receiver
+                                                                          .initial
+                                                                    : singleConversation
+                                                                          .message
+                                                                          .initial}
+                                                            </div>
+                                                            <div className="relative px-4 py-2 mr-3 text-sm bg-indigo-100 shadow rounded-xl">
+                                                                <div>
+                                                                    {
+                                                                        singleConversation.body
+                                                                    }
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {/* <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                                                <div className="flex flex-row items-center">
-                                                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
-                                                        A
-                                                    </div>
-                                                    <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
-                                                        <div>
-                                                            Lorem ipsum dolor
-                                                            sit amet consectetur
-                                                            adipisicing elit.
-                                                            Perspiciatis, in.
+                                                ) : (
+                                                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                                                        <div className="flex flex-row items-center">
+                                                            <div className="flex items-center justify-center flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
+                                                                {singleConversation.user_id ===
+                                                                props.auth.user
+                                                                    .id
+                                                                    ? singleConversation
+                                                                          .message
+                                                                          .owner
+                                                                          .receiver
+                                                                          .initial
+                                                                    : singleConversation
+                                                                          .message
+                                                                          .initial}
+                                                            </div>
+                                                            <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
+                                                                <div>
+                                                                    {
+                                                                        singleConversation.body
+                                                                    }
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div> */}
+                                                )}
+                                                {singleConversation.replies
+                                                    ?.length > 1 &&
+                                                    singleConversation.replies?.map(
+                                                        (reply) =>
+                                                            reply.user_id !==
+                                                            props.auth.user
+                                                                .id ? (
+                                                                <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                                                                    <div className="flex flex-row items-center">
+                                                                        <div className="flex items-center justify-center flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
+                                                                            {singleConversation.user_id ===
+                                                                            props
+                                                                                .auth
+                                                                                .user
+                                                                                .id
+                                                                                ? singleConversation
+                                                                                      .message
+                                                                                      .owner
+                                                                                      .receiver
+                                                                                      .initial
+                                                                                : singleConversation
+                                                                                      .message
+                                                                                      .initial}
+                                                                        </div>
+                                                                        <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
+                                                                            <div>
+                                                                                {
+                                                                                    reply.body
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                                                                    <div className="flex flex-row-reverse items-center justify-start">
+                                                                        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-[#F5B041] rounded-full">
+                                                                            {singleConversation.user_id !==
+                                                                            props
+                                                                                .auth
+                                                                                .user
+                                                                                .id
+                                                                                ? singleConversation
+                                                                                      .message
+                                                                                      .owner
+                                                                                      .receiver
+                                                                                      .initial
+                                                                                : singleConversation
+                                                                                      .message
+                                                                                      .initial}
+                                                                        </div>
+                                                                        <div className="relative px-4 py-2 mr-3 text-sm bg-indigo-100 shadow rounded-xl">
+                                                                            <div>
+                                                                                {
+                                                                                    reply.body
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                    )}
                                             </div>
                                         </div>
                                     </div>
@@ -187,6 +289,7 @@ const Index = (props) => {
                                                     <input
                                                         type="text"
                                                         name="body"
+                                                        placeholder="Type your message..."
                                                         value={data.body}
                                                         onChange={
                                                             handleOnChange
@@ -230,17 +333,17 @@ const Index = (props) => {
                         </div>
                     </div>
 
-                    {conversation && (
+                    {singleConversation && (
                         <div className="w-2/5 px-5 [@media(max-width:1024px)]:hidden border-l-2 sticky">
                             <div className="flex flex-col">
                                 <div className="py-4 text-xl font-semibold">
-                                    {conversation.message.owner.title}
+                                    {singleConversation.message.owner.title}
                                 </div>
                                 <img
                                     src={
-                                        conversation.message.owner.images
+                                        singleConversation.message.owner.images
                                             ? showImage() +
-                                              conversation?.message.owner
+                                              singleConversation?.message.owner
                                                   .images[0]
                                             : HousePlaceholder
                                     }
@@ -250,11 +353,15 @@ const Index = (props) => {
                                 <div className="py-4 font-semibold">
                                     Created{" "}
                                     {moment(
-                                        conversation.message.owner.created_at
+                                        singleConversation.message.owner
+                                            .created_at
                                     ).format("MMM DD, YYYY")}
                                 </div>
                                 <div className="font-light">
-                                    {conversation.message.owner.description}
+                                    {
+                                        singleConversation.message.owner
+                                            .description
+                                    }
                                 </div>
                             </div>
                         </div>

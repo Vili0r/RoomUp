@@ -17,7 +17,7 @@ class ConversationController extends Controller
     public function index(Request $request): Response
     {
         $conversations = $request->user()->conversations()->get();
-        $conversations->load(['user', 'message.owner', 'message.user']);
+        $conversations->load(['user', 'message.owner', 'message.user', 'replies']);
 
         return Inertia::render('Conversation/Index', [
             'conversations' => ConversationResource::collection($conversations)
@@ -30,10 +30,15 @@ class ConversationController extends Controller
     public function show(Conversation $conversation)
     {
         $this->authorize('show', $conversation);
-        $conversation->load(['user', 'message.owner', 'message.user']);
+
+        if($conversation->isReply()){
+            abort(404);
+        }
+
+        $conversation->load(['user', 'message.owner', 'message.user', 'replies']);
 
         return Inertia::render('Conversation/Index', [
-            'conversation' => new ConversationResource($conversation)
+            'singleConversation' => new ConversationResource($conversation),
         ]);
     }
 

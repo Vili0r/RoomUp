@@ -35,7 +35,7 @@ class Conversation extends Model
 
     public function usersExceptCurrentlyAuthenticated()
     {
-        return $this->user()->where('user_id', '!=', auth()->id());
+        return $this->users()->where('user_id', '!=', auth()->id());
     }
     
     public function message(): BelongsTo
@@ -45,12 +45,12 @@ class Conversation extends Model
     
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Conversation::class, 'message_id');
+        return $this->belongsTo(Conversation::class, 'parent_id');
     }
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Conversation::class)->latestFirst();
+        return $this->hasMany(Conversation::class, 'parent_id')->latestFirst();
     }
 
     public function touchLastReply()
@@ -61,11 +61,11 @@ class Conversation extends Model
 
     public function isReply()
     {
-        return $this->message_id !== null;
+        return $this->parent_id !== null;
     }
 
     public function scopeLatestFirst($query)
     {
-        return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('created_at', 'asc');
     }
 }

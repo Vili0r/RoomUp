@@ -17,6 +17,7 @@ class UserConversationResource extends JsonResource
         return [
             'id' => $this->id, 
             'first_name' => $this->first_name, 
+            'initial' => substr($this->first_name, 0, 1),
             'avatar' => $this->avatar, 
         ];
     }

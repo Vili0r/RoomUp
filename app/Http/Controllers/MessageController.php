@@ -96,19 +96,22 @@ class MessageController extends Controller
                 ->notify(new PropertyMessageNotification($message));
         }
 
-        //Start a conversation
-        $conversation = Conversation::create([
-            'body' => $request->message_text,
-            'message_id' => $text->id,
-            'user_id' => auth()->id(),
-        ]);
+        if($sentMessages < 2){
+            //Start a conversation
+            $conversation = Conversation::create([
+                'body' => $request->message_text,
+                'message_id' => $text->id,
+                'user_id' => auth()->id(),
+            ]);
 
-        $conversation->user()->associate(auth()->user());
-        $conversation->touchLastReply();
+            $conversation->user()->associate(auth()->user());
+            $conversation->touchLastReply();
 
-        $conversation->users()->sync(array_unique(
-            array_merge([$property->user_id], [auth()->id()])
-        ));
+            $conversation->users()->sync(array_unique(
+                array_merge([$property->user_id], [auth()->id()])
+            ));
+        }
+
 
         return to_route('dashboard');
     }
