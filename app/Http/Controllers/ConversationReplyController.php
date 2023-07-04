@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewConversationMessageReplyEvent;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class ConversationReplyController extends Controller
 
         $conversation->load(['user', 'message.owner', 'message.user', 'replies']);
 
-        return new ConversationResource($conversation);
-        
+        NewConversationMessageReplyEvent::dispatch(new ConversationResource($conversation));
+        return response()->noContent();
     }
 }

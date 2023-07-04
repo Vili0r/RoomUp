@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
 
-class PropertyMessageNotification extends Notification
+class PropertyMessageNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

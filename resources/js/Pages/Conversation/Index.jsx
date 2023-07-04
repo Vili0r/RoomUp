@@ -6,8 +6,10 @@ import { HousePlaceholder } from "@/assets";
 import { SecondaryButton, InputError } from "@/Components";
 
 const Index = (props) => {
-    const { conversations, singleConversation } = usePage().props;
-    const [replies, setReplies] = useState([]);
+    const { conversations, getConversation } = usePage().props;
+    const [singleConversation, setSingleConversation] =
+        useState(getConversation);
+    const [allConversations, setAllConversations] = useState(conversations);
     const { data, setData, processing, reset, post, errors, setError } =
         useForm({
             body: "",
@@ -23,7 +25,11 @@ const Index = (props) => {
             {},
             {
                 preserveScroll: true,
-                only: ["singleConversation", "conversations"],
+                only: ["getConversation"],
+                onSuccess: (response) => {
+                    console.log(response);
+                    setAllConversations(response.props.conversations);
+                },
             }
         );
     };
@@ -41,7 +47,8 @@ const Index = (props) => {
             })
             .then((response) => {
                 // Handle the response
-                setReplies(response.data);
+                setSingleConversation(response.data);
+                setData("body", "");
             })
             .catch((error) => {
                 // Handle errors
@@ -54,7 +61,7 @@ const Index = (props) => {
         // });
     };
 
-    //console.log(singleConversation.replies);
+    // console.log(singleConversation.replies);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -65,7 +72,7 @@ const Index = (props) => {
                         <div className="p-4 text-xl font-semibold">
                             All Conversations
                         </div>
-                        {conversations.map((item) => (
+                        {allConversations.map((item) => (
                             <>
                                 <article
                                     key={item.id}
@@ -200,7 +207,7 @@ const Index = (props) => {
                                                     </div>
                                                 )}
                                                 {singleConversation.replies
-                                                    ?.length > 1 &&
+                                                    ?.length > 0 &&
                                                     singleConversation.replies?.map(
                                                         (reply) =>
                                                             reply.user_id !==

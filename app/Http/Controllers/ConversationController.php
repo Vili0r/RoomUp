@@ -38,7 +38,7 @@ class ConversationController extends Controller
         $conversation->load(['user', 'message.owner', 'message.user', 'replies']);
 
         return Inertia::render('Conversation/Index', [
-            'singleConversation' => new ConversationResource($conversation),
+            'getConversation' => new ConversationResource($conversation),
         ]);
     }
 
