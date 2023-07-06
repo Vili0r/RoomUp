@@ -66,6 +66,6 @@ class Conversation extends Model
 
     public function scopeLatestFirst($query)
     {
-        return $query->orderBy('created_at', 'asc');
+        return $query->orderBy('created_at', 'desc');
     }
 }

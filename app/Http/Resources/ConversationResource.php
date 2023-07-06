@@ -20,7 +20,7 @@ class ConversationResource extends JsonResource
             'message_id' => $this->message_id,
             'parent_id' => $this->parent ? $this->parent->id : '',
             'user_id' => $this->user_id,
-            'replies' =>  ConversationReplyResource::collection($this->replies),
+            'replies' =>  ConversationReplyResource::collection($this->whenLoaded('replies')),
             'created_at' => $this->created_at->diffForHumans(),
             'last_reply' => $this->last_reply ? $this->last_reply->diffForHumans() : null,
             'message' => $this->whenLoaded('message', function () {

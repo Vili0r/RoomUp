@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ConversationReplyCreated;
 use App\Events\NewConversationMessageReplyEvent;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ConversationReplyController extends Controller
 {
@@ -33,9 +35,8 @@ class ConversationReplyController extends Controller
         $reply->save();
         $conversation->touchLastReply();
 
-        $conversation->load(['user', 'message.owner', 'message.user', 'replies']);
-
-        NewConversationMessageReplyEvent::dispatch(new ConversationResource($conversation));
-        return response()->noContent();
+        broadcast(new ConversationReplyCreated($reply, auth()->user()))->toOthers();
+        
+        return back();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -11,8 +12,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewConversationMessageReplyEvent
-{
+class ConversationCreated implements ShouldBroadcast
+{ 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -20,7 +21,7 @@ class NewConversationMessageReplyEvent
      */
     public function __construct(public Conversation $conversation)
     {
-        //
+        
     }
 
     /**
@@ -30,8 +31,17 @@ class NewConversationMessageReplyEvent
      */
     public function broadcastOn(): array
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        $channels = [];
+
+        $this->conversation->usersExceptCurrentlyAuthenticated->each(function ($user) use($channels) {
+            $channels[] = new PrivateChannel('App.Models.User.' . $user->id);
+        });
+
+        return $channels;
+    }
+
+    public function broadcastWith()
+    {
+        return new ConversationResource($this->conversation);
     }
 }

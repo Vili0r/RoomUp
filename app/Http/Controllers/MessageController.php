@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ConversationCreated;
 use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\PropertyResource;
@@ -110,6 +111,10 @@ class MessageController extends Controller
             $conversation->users()->sync(array_unique(
                 array_merge([$property->user_id], [auth()->id()])
             ));
+
+            $conversation->load(['users']);
+
+            broadcast(new ConversationCreated($conversation))->toOthers();
         }
 
 

@@ -17,7 +17,7 @@ class ConversationController extends Controller
     public function index(Request $request): Response
     {
         $conversations = $request->user()->conversations()->get();
-        $conversations->load(['user', 'message.owner', 'message.user', 'replies']);
+        $conversations->load(['user', 'message.owner', 'message.user']);
 
         return Inertia::render('Conversation/Index', [
             'conversations' => ConversationResource::collection($conversations)
@@ -35,7 +35,10 @@ class ConversationController extends Controller
             abort(404);
         }
 
-        $conversation->load(['user', 'message.owner', 'message.user', 'replies']);
+        $conversation->load(['user', 'message.owner', 'message.user', 'replies' => function ($query) {
+            $query->paginate(10); // Limit to 20 replies per conversation
+        }]);
+
 
         return Inertia::render('Conversation/Index', [
             'getConversation' => new ConversationResource($conversation),
