@@ -151,7 +151,7 @@ const Hero = () => {
                                 <div className="top-[85px] right-[30px] mt-3 mr-4 spinner"></div>
                             )}
 
-                            {query.length >= 1 &&
+                            {query.length >= 2 &&
                                 (searchResults?.length > 0 ? (
                                     <div className="w-full mt-4 text-sm rounded">
                                         <ul>
@@ -196,8 +196,10 @@ const Hero = () => {
                                                 )
                                             )}
                                         </ul>
-                                        Found: <span>{totlaHits}</span>{" "}
-                                        result(s)
+                                        <span>
+                                            <br />
+                                            Found: {totlaHits} result(s)
+                                        </span>
                                     </div>
                                 ) : (
                                     <div className="px-3 py-3">

@@ -39,6 +39,7 @@ const HomeSearch = (props) => {
             });
         }
     };
+    console.log(properties);
 
     useEffect(() => {
         setIsLoading(loading);
@@ -80,10 +81,10 @@ const HomeSearch = (props) => {
                             />
 
                             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4 ">
-                                {properties.data.map((property) => (
+                                {properties.data.map((property, index) => (
                                     <div
                                         className="col-span-1 cursor-pointer group"
-                                        key={property.id}
+                                        key={index}
                                     >
                                         <div className="flex flex-col w-full gap-2">
                                             <div className="relative w-full overflow-hidden aspect-square rounded-xl">
@@ -160,23 +161,36 @@ const HomeSearch = (props) => {
                                                         <p className="text-sm text-gray-800">
                                                             Available from{" "}
                                                             <span className="font-semibold">
-                                                                {/* {moment(
-                                                    property.availability
-                                                        ? property.availability
-                                                              .available_from
-                                                        : property.rooms
-                                                              .available_from
-                                                ).format("MMM DD, YYYY")} */}
+                                                                {moment(
+                                                                    property
+                                                                        .owner
+                                                                        .availability
+                                                                        ? property
+                                                                              .owner
+                                                                              .availability
+                                                                              .available_from
+                                                                        : property
+                                                                              .owner
+                                                                              .rooms
+                                                                              .available_from
+                                                                ).format(
+                                                                    "MMM DD, YYYY"
+                                                                )}
                                                             </span>
                                                         </p>
                                                         <p className="mt-2 text-sm text-gray-800">
                                                             <strong>
                                                                 $
-                                                                {
-                                                                    property
-                                                                        .owner
-                                                                        .cost
-                                                                }
+                                                                {property.owner
+                                                                    .rooms
+                                                                    .length > 0
+                                                                    ? property
+                                                                          .owner
+                                                                          .rooms
+                                                                          .room_cost
+                                                                    : property
+                                                                          .owner
+                                                                          .cost}
                                                             </strong>{" "}
                                                             /month
                                                         </p>
