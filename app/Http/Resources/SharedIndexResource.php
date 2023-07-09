@@ -16,6 +16,7 @@ class SharedIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'model' => 'shared',
             'title' => $this->title,
             'available_rooms' => $this->available_rooms,
             'live_at' => $this->live_at,

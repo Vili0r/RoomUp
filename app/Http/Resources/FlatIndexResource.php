@@ -16,6 +16,7 @@ class FlatIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'model' => 'flat',
             'title' => $this->title,
             'size' => $this->size,
             'live_at' => $this->live_at,

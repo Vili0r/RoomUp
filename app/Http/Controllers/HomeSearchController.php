@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Resources\FlatSearchResultResource;
-use App\Http\Resources\SharedSearchResultResource;
 use App\Models\Shared;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

@@ -196,14 +196,6 @@ export default function Authenticated({ auth, header, children }) {
                                             >
                                                 Dashboard
                                             </NavLink>
-                                            <NavLink
-                                                href={route("flat.index")}
-                                                active={route().current(
-                                                    "flat.index"
-                                                )}
-                                            >
-                                                Flats
-                                            </NavLink>
                                             {auth.user.roles == "admin" ||
                                             auth.user.roles == "moderator" ||
                                             auth.user.roles == "writer" ? (
@@ -220,9 +212,9 @@ export default function Authenticated({ auth, header, children }) {
                                             )}
                                             <NavLink
                                                 className="gap-2"
-                                                href={route("shared.index")}
+                                                href={route("my-properties")}
                                                 active={route().current(
-                                                    "shared.index"
+                                                    "my-properties"
                                                 )}
                                             >
                                                 <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />

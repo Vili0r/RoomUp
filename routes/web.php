@@ -24,7 +24,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSearchController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyViewedController;
+use App\Http\Controllers\RoomAvailabilityController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomDeletePhotoController;
 use App\Http\Controllers\RoomFavouriteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
@@ -89,6 +93,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Route to change availability on flat property
     Route::put('/flat/{flat}/availability', FlatAvailabilityController::class)
         ->name('flat.availability');
+    
+    //Route to change availability on rooms property
+    Route::put('/room/{room}/availability', RoomAvailabilityController::class)
+        ->name('room.availability');
 
     //Flat Favourite Controller
     Route::post('/flat/{flat}/favourite', [FlatFavouriteController::class, 'store'])
@@ -115,6 +123,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('shared.deletePhotos.destroy');
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoContoller::class)
         ->name('flat.deletePhotos.destroy');
+    Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class)
+        ->name('room.deletePhotos.destroy');
 
     //Temporary image upload - FilePond
     Route::post('/upload', TemporaryImageUploadController::class);
@@ -127,13 +137,17 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('conversation.reply');
 
     //Resource controller
-    Route::resource('/flat', FlatController::class);
-    Route::resource('/shared', SharedController::class);
+    Route::resource('/flat', FlatController::class)
+        ->except(['index']);
+    Route::resource('/shared', SharedController::class)
+        ->except(['index']);
+    Route::resource('/room', RoomController::class)
+        ->only(['edit', 'update', 'destroy']);
     Route::resource('/message', MessageController::class)
         ->only(['index', 'create', 'store', 'destroy']);
     Route::resource('/conversation', ConversationController::class)
         ->only(['index', 'show', 'destroy']);
-    //Route::get('my-properties/shared', MyPropertiesController::class)->name('my-properties.shared');
+    Route::get('my-properties', PropertyController::class)->name('my-properties');
 
     //Admin
     Route::group(['middleware' => ['role:admin|writer|moderator'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

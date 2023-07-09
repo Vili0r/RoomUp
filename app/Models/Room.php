@@ -18,6 +18,8 @@ class Room extends Model
     use HasFactory, Searchable;
 
     protected $fillable = [
+        'sub_title',
+        'sub_description',
         'room_size',
         'room_cost',
         'room_deposit',
@@ -28,17 +30,22 @@ class Room extends Model
         'maximum_stay',
         'days_available',
         'short_term',
+        'available',
+        'live_at',
+        'images',
         'owner_id',
         'owner_type',
     ];
 
     protected $casts = [
         'available_from' => 'datetime:Y-m-d',
+        'live_at' => 'datetime:Y-m-d',
         'room_size' => RoomSize::class,
         'room_furnished' => Furnishings::class,
         'minimum_stay' => MinimumStay::class,
         'maximum_stay' => MaximumStay::class,
         'days_available' => DaysAvailable::class,
+        'images' => 'array',
     ];
 
     public function owner(): MorphTo

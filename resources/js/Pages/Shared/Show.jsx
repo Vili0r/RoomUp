@@ -10,6 +10,7 @@ import {
     Modal,
     PrimaryButton,
     DangerButton,
+    RoomCard,
 } from "@/Components";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
@@ -322,6 +323,26 @@ const Show = (props) => {
                                     </p>
                                 </div>
                             </main>
+                        </div>
+                    </div>
+                </div>
+                <div className="mx-auto mt-5 max-w-9xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                        <div className="items-start justify-between md:flex">
+                            <div className="max-w-lg mt-3 px-7">
+                                <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
+                                    Manage Rooms
+                                </h3>
+                                <p className="mt-2 text-gray-600">
+                                    Select each room to edit and upload
+                                    individual room photos
+                                </p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 mt-[1rem] mb-[1rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8 p-4">
+                            {shared.rooms.map((room) => (
+                                <RoomCard key={room.id} room={room} />
+                            ))}
                         </div>
                     </div>
                 </div>
