@@ -11,7 +11,7 @@ import {
     AiOutlineSearch,
     AiOutlineClose,
 } from "react-icons/ai";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
+import { BsEyeFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 
 const HomeSearch = (props) => {
@@ -39,7 +39,6 @@ const HomeSearch = (props) => {
             });
         }
     };
-    console.log(properties);
 
     useEffect(() => {
         setIsLoading(loading);
@@ -182,8 +181,8 @@ const HomeSearch = (props) => {
                                                             <strong>
                                                                 $
                                                                 {property.owner
-                                                                    .rooms
-                                                                    .length > 0
+                                                                    .cost ==
+                                                                null
                                                                     ? property
                                                                           .owner
                                                                           .rooms
@@ -200,8 +199,16 @@ const HomeSearch = (props) => {
                                                             Saved
                                                         </dt>
                                                         <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
-                                                            <MdOutlineBookmarkAdd className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
-                                                            <span>(128)</span>
+                                                            <BsEyeFill className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
+                                                            <span>
+                                                                (
+                                                                {property.owner
+                                                                    ? property
+                                                                          .owner
+                                                                          .views
+                                                                    : property.views}
+                                                                )
+                                                            </span>
                                                         </dd>
                                                     </div>
                                                 </div>

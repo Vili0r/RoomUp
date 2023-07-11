@@ -30,6 +30,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FlatController extends Controller
 {
@@ -419,6 +420,11 @@ class FlatController extends Controller
         if (auth()->id() !== $flat->user_id) {
             abort(403); // Return a forbidden response
         }
+
+        // DB::transaction(function () {
+        //     $project->tasks()->delete();
+        //     $project->delete();
+        // });
         
         Storage::delete($flat->images);
         $flat->delete();

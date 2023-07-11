@@ -76,7 +76,10 @@ const Edit = (props) => {
             route("room.deletePhotos.destroy", {
                 room: room.id,
                 fileName: fileName,
-            })
+            }),
+            {
+                preserveScroll: true,
+            }
         );
     };
 

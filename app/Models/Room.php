@@ -74,10 +74,17 @@ class Room extends Model
                 ->withPivot(['count']);
     }
 
+    public function views()
+    {
+        return array_sum($this->viewedUsers->pluck('pivot.count')->toArray());
+    }
+
     public function toSearchableArray(): array
     {
         return [
             'id' => $this->id,
+            'sub_title' => $this->sub_title,
+            'sub_description' => $this->sub_desctiption,
             'room_size' => $this->room_size,
             'room_cost' => $this->room_cost,
             'room_deposit' => $this->room_deposit,
@@ -88,6 +95,7 @@ class Room extends Model
             'maximum_stay' => $this->maximum_stay,
             'days_available' => $this->days_available,
             'short_term' => $this->short_term,
+            'images' => $this->images,
         ];
     }
 }

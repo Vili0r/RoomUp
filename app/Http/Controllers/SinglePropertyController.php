@@ -21,7 +21,7 @@ class SinglePropertyController extends Controller
     {
         $property = [];
         if($model === "shared"){
-            $shared = Shared::withoutGlobalScope('filter_by_user')->find($id);
+            $shared = Shared::find($id);
             $shared->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'rooms']);
             $property = new SharedResource($shared);
 

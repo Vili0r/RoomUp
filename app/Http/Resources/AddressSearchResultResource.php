@@ -34,6 +34,7 @@ class AddressSearchResultResource extends JsonResource
                 'created_at' => $this->owner->created_at->format('Y-m-d'),  
                 'rooms' => $this->owner->rooms ?? RoomResource::make($this->whenLoaded($this->owner->rooms)),
                 'availability' => $this->owner->availability ?? RoomResource::make($this->whenLoaded($this->owner->availability)),
+                'views' => $this->owner->views(),
             ],
         ];
     }

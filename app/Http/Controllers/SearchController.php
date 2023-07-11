@@ -11,8 +11,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\QueryFilters\AmenityQueryFilter;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatSearchResultResource;
+use App\Http\Resources\RoomSearchResultResource;
 use App\Http\Resources\SharedSearchResultResource;
 use App\Models\Amenity;
+use App\Models\Room;
 use Inertia\Response;
 
 class SearchController extends Controller
@@ -28,9 +30,9 @@ class SearchController extends Controller
 
 
         if ($searchType === 'flats') {
-            $query = QueryBuilder::for(Flat::withoutGlobalScope('filter_by_user'))
+            $query = QueryBuilder::for(Flat::class)
                 ->allowedFilters($this->allowedFlatFilters())
-                ->with(['amenities', 'address', 'transport', 'advertiser', 'flatmate', 'availability'])
+                ->with(['address', 'availability'])
                 // ->tap(function ($builder) use ($request) {
                 //     if(filled($request->search)){
                 //         return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
@@ -38,27 +40,20 @@ class SearchController extends Controller
                 // })
                 ->latest();
 
-            // Apply filters based on user input
-            // ...
-
-            $results = FlatSearchResultResource::collection($query->paginate(15)->appends($request->query()));
+            $results = FlatSearchResultResource::collection($query->paginate(8)->appends($request->query()));
         } elseif ($searchType === 'shareds') {
-            $query = QueryBuilder::for(Shared::withoutGlobalScope('filter_by_user'))
+            $query = QueryBuilder::for(Room::class)
                 ->allowedFilters($this->allowedSharedFilters())
-                ->with(['amenities', 'address', 'transport', 'advertiser', 'rooms'])
+                ->with(['owner.address'])
                 // ->tap(function ($builder) use ($request) {
                 //     if(filled($request->search)){
                 //         return $builder->whereIn('id', Shared::search($request->search)->get()->pluck('id'));
                 //     }
                 // })
                 ->latest();
-
-            // Apply filters based on user input
-            // ...
-
-            $results = SharedSearchResultResource::collection($query->paginate(15)->appends($request->query()));
+   
+            $results = RoomSearchResultResource::collection($query->paginate(8)->appends($request->query()));
         }
-        //dd($results);
 
         return Inertia::render('Home/Search',[
             'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
@@ -66,6 +61,7 @@ class SearchController extends Controller
             'loading' => false,
         ]);
     }
+
 
     protected function allowedFlatFilters()
     {

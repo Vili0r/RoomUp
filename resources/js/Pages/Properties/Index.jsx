@@ -106,7 +106,7 @@ export default function Index(props) {
                                             <TableRow>
                                                 <TableHeaderCell></TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Id
+                                                    Type
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
                                                     Title
@@ -142,7 +142,9 @@ export default function Index(props) {
                                                         />
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        {property.id}
+                                                        <span className="capitalize">
+                                                            {property.model}
+                                                        </span>
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         <Link

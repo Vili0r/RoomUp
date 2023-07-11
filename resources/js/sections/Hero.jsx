@@ -37,9 +37,7 @@ const Hero = () => {
 
     const search = async (query) => {
         if (query) {
-            const response = await client
-                .index("addresses")
-                .search(query, { limit: 10 });
+            const response = await client.index("addresses").search(query);
             setSearchResults(response.hits);
             setTotalHits(response.estimatedTotalHits);
             setIsLoading(true);
@@ -153,7 +151,7 @@ const Hero = () => {
 
                             {query.length >= 2 &&
                                 (searchResults?.length > 0 ? (
-                                    <div className="w-full mt-4 text-sm rounded">
+                                    <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
                                         <ul>
                                             {searchResults.map(
                                                 (property, index) => (
@@ -196,17 +194,21 @@ const Hero = () => {
                                                 )
                                             )}
                                         </ul>
-                                        <span>
-                                            <br />
-                                            Found: {totlaHits} result(s)
-                                        </span>
                                     </div>
                                 ) : (
                                     <div className="px-3 py-3">
                                         No results for "{query}"
                                     </div>
                                 ))}
-                            <div className="flex justify-end mt-6">
+                            <div className="flex justify-between mt-6">
+                                <div>
+                                    {" "}
+                                    {searchResults?.length > 0 && (
+                                        <span>
+                                            Found: {totlaHits} result(s)
+                                        </span>
+                                    )}
+                                </div>
                                 <PrimaryButton
                                     onClick={handleSearch}
                                     className="px-4 py-2 ml-3 text-white bg-black rounded-lg"

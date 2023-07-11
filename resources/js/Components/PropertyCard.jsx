@@ -31,14 +31,23 @@ const PropertyCard = ({ results }) => {
                             <div className="relative w-full overflow-hidden aspect-square rounded-xl">
                                 <Link
                                     href={route("property.show", [
-                                        result.model,
-                                        result.id,
+                                        result.owner
+                                            ? result.owner.model
+                                            : result.model,
+                                        result.owner
+                                            ? result.owner.id
+                                            : result.id,
                                     ])}
                                 >
                                     <img
                                         className="object-cover w-full h-full transition group-hover:scale-110"
                                         src={
-                                            result.images[0]
+                                            result.owner
+                                                ? result.owner.images[0]
+                                                    ? showImage() +
+                                                      result.owner.images[0]
+                                                    : HousePlaceholder
+                                                : result.images[0]
                                                 ? showImage() + result.images[0]
                                                 : HousePlaceholder
                                         }
@@ -48,7 +57,15 @@ const PropertyCard = ({ results }) => {
 
                                 <form
                                     onSubmit={(e) =>
-                                        submit(e, result.id, result.model)
+                                        submit(
+                                            e,
+                                            result.owner
+                                                ? result.owner.id
+                                                : result.id,
+                                            result.owner
+                                                ? result.owner.model
+                                                : result.model
+                                        )
                                     }
                                 >
                                     <div className="absolute top-3 right-3">
@@ -71,33 +88,46 @@ const PropertyCard = ({ results }) => {
                             </div>
                             <Link
                                 href={route("property.show", [
-                                    result.model,
-                                    result.id,
+                                    result.owner
+                                        ? result.owner.model
+                                        : result.model,
+                                    result.owner ? result.owner.id : result.id,
                                 ])}
                             >
                                 <div className="flex flex-row items-start justify-between mt-4">
                                     <div>
                                         <p className="text-sm font-bold text-gray-800">
-                                            {result.address?.address_1},
-                                            {result.address?.area}
+                                            {result.owner
+                                                ? result.owner.address
+                                                      ?.address_1
+                                                : result.address?.address_1}
+                                            {result.owner
+                                                ? result.owner.address?.area
+                                                : result.address?.area}
                                         </p>
-                                        <p className="text-sm text-gray-800">
-                                            {result.title}
+                                        <p className="text-sm text-gray-800 capitalize">
+                                            {result.owner
+                                                ? `${result.sub_title} in a ${result.owner.title}`
+                                                : result.title}
                                         </p>
                                         <p className="text-sm text-gray-800">
                                             Available from{" "}
                                             <span className="font-semibold">
-                                                {/* {moment(
-                                                    result.availability
-                                                        ? result.availability
+                                                {moment(
+                                                    result.owner
+                                                        ? result.available_from
+                                                        : result.availability
                                                               .available_from
-                                                        : result.rooms
-                                                              .available_from
-                                                ).format("MMM DD, YYYY")} */}
+                                                ).format("MMM DD, YYYY")}
                                             </span>
                                         </p>
                                         <p className="mt-2 text-sm text-gray-800">
-                                            <strong>${result.cost}</strong>{" "}
+                                            <strong>
+                                                $
+                                                {result.owner
+                                                    ? result.room_cost
+                                                    : result.cost}
+                                            </strong>{" "}
                                             /month
                                         </p>
                                     </div>
