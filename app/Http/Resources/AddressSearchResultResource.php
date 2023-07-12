@@ -21,7 +21,7 @@ class AddressSearchResultResource extends JsonResource
             'area' => $this->area,
             'city' => $this->city,
             'post_code' => $this->post_code,
-            'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
+            'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)) === 'shared' ? 'room' : 'flat',
             'owner' => [
                 'id' => $this->owner->id,
                 'title' => $this->owner->title,

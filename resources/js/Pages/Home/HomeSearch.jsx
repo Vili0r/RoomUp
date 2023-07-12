@@ -20,6 +20,7 @@ const HomeSearch = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [toggleMap, setToggleMap] = useState(false);
     const [query, setQuery] = useState(selectedQueries.search || "");
+    const [items, setItems] = useState(properties.data);
 
     const showImage = () => {
         return "/storage/";
@@ -43,6 +44,27 @@ const HomeSearch = (props) => {
     useEffect(() => {
         setIsLoading(loading);
     }, [properties]);
+
+    useEffect(() => {
+        setItems((prevItems) => [...prevItems, ...properties.data]);
+    }, [properties]);
+
+    const initialUrl = usePage().url;
+    console.log(initialUrl);
+
+    const loadMoreItems = () => {
+        router.get(
+            properties.links.next,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    window.history.replaceState({}, "", initialUrl);
+                },
+            }
+        );
+    };
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -80,7 +102,7 @@ const HomeSearch = (props) => {
                             />
 
                             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4 ">
-                                {properties.data.map((property, index) => (
+                                {items.map((property, index) => (
                                     <div
                                         className="col-span-1 cursor-pointer group"
                                         key={index}
@@ -219,12 +241,12 @@ const HomeSearch = (props) => {
                             </div>
                         </div>
                         <div className="flex justify-end mb-5 text-center">
-                            <Link
-                                href={properties.links.next}
+                            <button
+                                onClick={loadMoreItems}
                                 className="px-2 py-3 bg-[#f3f3f3] mx-auto text-sm font-semibold rounded-xl font-popp mt-[5rem] text-black"
                             >
-                                ... 15 more
-                            </Link>
+                                ... 10 more
+                            </button>
                         </div>
                         <div
                             className="fixed bottom-[6rem] left-[5rem] md:hidden"

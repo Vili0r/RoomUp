@@ -19,8 +19,8 @@ const Index = (props) => {
             <Head title="My Favourites" />
             <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10">
                 <div className="grid grid-cols-1 mt-[3rem] mb-[3rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
-                    {properties.length > 0 ? (
-                        properties.map((property, index) => (
+                    {properties.data.length > 0 ? (
+                        properties.data.map((property, index) => (
                             <FavouritePropertyCard
                                 property={property}
                                 index={index}

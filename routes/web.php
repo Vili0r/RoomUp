@@ -69,7 +69,7 @@ Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
 
 //Get single property
 Route::get('/property/{model}/{id}', SinglePropertyController::class)
-    ->where('model', 'shared|flat')
+    ->where('model', 'room|flat')
     ->name('property.show');
 
 Route::group(['middleware' => ['auth', 'verified']], function() {

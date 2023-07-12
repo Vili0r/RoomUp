@@ -28,21 +28,22 @@ class FavouriteIndexController extends Controller
             'advertiser' => $flat->advertiser,
         ]);
         
-        $shareds = $request->user()->favouriteShareds()->with(['address', 'advertiser'])->get()->map(fn($shared) => [
-            'id' => $shared->id,
-            'model' => 'shared',
-            'title' => $shared->title,
-            'description' => substr($shared->description, 0, 250) . '...',
-            'images' => $shared->images,
-            'size' => $shared->size,
-            'type' => Str::replace('_', ' ', $shared->type->name) ?? '',
-            'favouritedBy' => $shared->favouritedBy(auth()->user()),
-            'created_at' => $shared->created_at->toDateTimeString(),
-            'address' => $shared->address,
-            'advertiser' => $shared->advertiser,
+        $rooms = $request->user()->favouriteRooms()->with(['owner.address', 'owner.advertiser'])->get()->map(fn($room) => [
+            'id' => $room->id,
+            'model' => 'room',
+            'title' => $room->title,
+            'sub_title' => $room->title,
+            'description' => substr($room->sub_description, 0, 250) . '...',
+            'images' => $room->images !== null ? array_merge($room->owner->images, $room->images) : $room->owner->images,
+            'size' => $room->owner->size,
+            'type' => Str::replace('_', ' ', $room->owner->type->name) ?? '',
+            'favouritedBy' => $room->favouritedBy(auth()->user()),
+            'created_at' => $room->created_at->toDateTimeString(),
+            'address' => $room->owner->address,
+            'advertiser' => $room->owner->advertiser,
         ]);
 
-        $properties = collect()->merge($flats)->merge($shareds)->sortByDesc('created_at')->values();
+        $properties = collect()->merge($flats)->merge($rooms)->sortByDesc('created_at')->values()->paginate(3);
         
         return Inertia::render('Favourites/Index', [
             'properties' => $properties

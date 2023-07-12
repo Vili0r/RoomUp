@@ -9,7 +9,6 @@ const Search = (props) => {
     useEffect(() => {
         setIsLoading(loading);
     }, [results]);
-    console.log(results);
 
     return (
         <GuestLayout user={props.auth.user} selectedQueries={selectedQueries}>

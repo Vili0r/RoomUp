@@ -31,12 +31,8 @@ const PropertyCard = ({ results }) => {
                             <div className="relative w-full overflow-hidden aspect-square rounded-xl">
                                 <Link
                                     href={route("property.show", [
-                                        result.owner
-                                            ? result.owner.model
-                                            : result.model,
-                                        result.owner
-                                            ? result.owner.id
-                                            : result.id,
+                                        result.model,
+                                        result.id,
                                     ])}
                                 >
                                     <img
@@ -57,15 +53,7 @@ const PropertyCard = ({ results }) => {
 
                                 <form
                                     onSubmit={(e) =>
-                                        submit(
-                                            e,
-                                            result.owner
-                                                ? result.owner.id
-                                                : result.id,
-                                            result.owner
-                                                ? result.owner.model
-                                                : result.model
-                                        )
+                                        submit(e, result.id, result.model)
                                     }
                                 >
                                     <div className="absolute top-3 right-3">
@@ -88,10 +76,8 @@ const PropertyCard = ({ results }) => {
                             </div>
                             <Link
                                 href={route("property.show", [
-                                    result.owner
-                                        ? result.owner.model
-                                        : result.model,
-                                    result.owner ? result.owner.id : result.id,
+                                    result.model,
+                                    result.id,
                                 ])}
                             >
                                 <div className="flex flex-row items-start justify-between mt-4">
@@ -123,7 +109,7 @@ const PropertyCard = ({ results }) => {
                                         </p>
                                         <p className="mt-2 text-sm text-gray-800">
                                             <strong>
-                                                $
+                                                £
                                                 {result.owner
                                                     ? result.room_cost
                                                     : result.cost}

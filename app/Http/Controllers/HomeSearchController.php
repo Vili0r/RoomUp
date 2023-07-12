@@ -58,7 +58,7 @@ class HomeSearchController extends Controller
         $expandedResults = $mergedData
                 ->concat($secondResults)
                 ->sortByDesc('created_at')
-                ->paginate(10);
+                ->paginate(5);
 
 
         $properties = AddressSearchResultResource::collection($expandedResults);

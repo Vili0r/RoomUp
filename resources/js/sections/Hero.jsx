@@ -53,6 +53,7 @@ const Hero = () => {
         }
     };
 
+    console.log(searchResults);
     return (
         <section
             className="section pb-[0] max-xs:pt-[2rem] max-[320px]:mb-[-3rem]"
@@ -160,7 +161,10 @@ const Hero = () => {
                                                             href={route(
                                                                 "property.show",
                                                                 [
-                                                                    property.model,
+                                                                    property.model ===
+                                                                    "shared"
+                                                                        ? "room"
+                                                                        : "flat",
                                                                     property
                                                                         .owner
                                                                         .id,

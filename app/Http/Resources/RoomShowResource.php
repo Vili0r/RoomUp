@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RoomSearchResultResource extends JsonResource
+class RoomShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -34,21 +34,9 @@ class RoomSearchResultResource extends JsonResource
             'images' => $this->images !== null ? array_merge($this->owner->images, $this->images) : $this->owner->images,
             'favouritedBy' => $this->favouritedBy(auth()->user()),
             'views' => $this->views(),
-            'owner' => [
-                'model' => "shared",
-                'id' => $this->owner->id,
-                'title' => $this->owner->title,
-                'description' => $this->owner->description,
-                'cost' => $this->owner->cost ?? '',
-                'size' => $this->owner->size,
-                'type' => $this->owner->type,
-                'images' => $this->owner->images,
-                'favouritedBy' => $this->owner->favouritedBy(auth()->user()),
-                'created_at' => $this->owner->created_at->format('Y-m-d'), 
-                'address' => $this->whenLoaded('address', function () {
-                    return new AddressResource($this->owner->address);
-                }), 
-            ],
+            'owner' => $this->whenLoaded('owner', function () {
+                return new SharedResource($this->owner);
+            }),
         ];
     }
 }

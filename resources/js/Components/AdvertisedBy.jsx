@@ -35,8 +35,9 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
                         </span>
                         <span className="text-sm text-gray-500 font-popp">
                             Tel:{" "}
-                            {advertiser.display_telephone &&
-                                advertiser.telephone}
+                            {advertiser.display_telephone
+                                ? advertiser.telephone
+                                : "Message Me"}
                         </span>
                     </div>
                 </div>
