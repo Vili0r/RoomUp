@@ -112,6 +112,11 @@ class Flat extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
+    public function scopeMaxPrice(Builder $query, $price): Builder
+    {
+        return $query->where('cost', '<=', $price);
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -125,11 +130,14 @@ class Flat extends Model
             'furnished' => $this->furnished,
             'images' => $this->images,
             'created_at' => $this->created_at->format('Y-m-d'),
+            'address' => [
+                'id' => $this->address->id,
+                'address_1' => $this->address->address_1,
+                'address_2' => $this->address->address_2,
+                'area' => $this->address->area,
+                'city' => $this->address->city,
+                'post_code' => $this->address->post_code,
+            ],
         ];
-    }
-
-    public function scopeMaxPrice(Builder $query, $price): Builder
-    {
-        return $query->where('cost', '<=', $price);
     }
 }

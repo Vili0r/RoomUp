@@ -96,6 +96,14 @@ class Room extends Model
             'days_available' => $this->days_available,
             'short_term' => $this->short_term,
             'images' => $this->images,
+            'address' => [
+                'id' => $this->owner->address->id,
+                'address_1' => $this->owner->address->address_1,
+                'address_2' => $this->owner->address->address_2,
+                'area' => $this->owner->address->area,
+                'city' => $this->owner->address->city,
+                'post_code' => $this->owner->address->post_code,
+            ]
         ];
     }
 }

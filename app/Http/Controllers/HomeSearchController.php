@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AddressSearchResultResource;
+use App\Http\Resources\FlatSearchResultResource;
+use App\Http\Resources\RoomSearchResultResource;
+use App\Http\Resources\RoomShowResource;
 use App\Models\Address;
+use App\Models\Flat;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
@@ -17,51 +22,36 @@ class HomeSearchController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        $query = null;
+        $roomQuery = null;
+        $flatQuery = null;
         
-        $query = QueryBuilder::for(Address::class)
-            ->with(['owner' => function ($query) {
-                $query->when($query->getModel() === Shared::class, function ($query) {
-                    $query->with(['rooms']);
-                })->when($query->getModel() === Flat::class, function ($query) {
-                    $query->with(['availability']);
-                });
-            }])
-            ->tap(function ($builder) use ($request) {
-                if(filled($request->search)){
-                    return $builder->whereIn('id', Address::search($request->search)->get()->pluck('id'));
-                }
-            })
-            ->latest()
-            ->get();
+        $roomQuery = RoomShowResource::collection(
+                QueryBuilder::for(Room::class)
+                    ->with(['owner.address'])
+                    ->tap(function ($builder) use ($request) {
+                        if(filled($request->search)){
+                            return $builder->whereIn('id', Room::search($request->search)->get()->pluck('id'));
+                        }
+                    })
+                    ->latest()
+                    ->paginate(6)
+                    ->appends($request->query())
+        );
+        
+        $flatQuery = FlatSearchResultResource::collection(
+                QueryBuilder::for(Flat::class)
+                    ->with(['address', 'availability'])
+                    ->tap(function ($builder) use ($request) {
+                        if(filled($request->search)){
+                            return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
+                        }
+                    })
+                    ->latest()
+                    ->paginate(6)
+                    ->appends($request->query())
+                );
 
-        $mergedData = collect();
-        $secondResults = collect();
-
-        foreach ($query as $address) {
-            if ($address->owner_type === Shared::class) {
-                //dd("first if");
-                $rooms = $address->owner->rooms;
-                if ($rooms->isNotEmpty()) {
-                    //dd("second if");
-                    foreach ($rooms as $room) {
-                        $expandedAddress = clone $address;
-                        $expandedAddress->rooms = [$room];
-                        $mergedData->push($expandedAddress);
-                    }
-                }
-            } else {
-                $secondResults->push($address);
-            }
-        }
-
-        $expandedResults = $mergedData
-                ->concat($secondResults)
-                ->sortByDesc('created_at')
-                ->paginate(5);
-
-
-        $properties = AddressSearchResultResource::collection($expandedResults);
+        $properties = $roomQuery->concat($flatQuery)->sortByDesc('created_at')->paginate(10);
 
         return Inertia::render('Home/HomeSearch',[
             'selectedQueries' => $request->only(['search']),

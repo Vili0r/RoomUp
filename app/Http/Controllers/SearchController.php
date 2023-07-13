@@ -40,7 +40,7 @@ class SearchController extends Controller
                 // })
                 ->latest();
 
-            $results = FlatSearchResultResource::collection($query->paginate(8)->appends($request->query()));
+            $results = FlatSearchResultResource::collection($query->paginate(6)->appends($request->query()));
         } elseif ($searchType === 'shareds') {
             $query = QueryBuilder::for(Room::class)
                 ->allowedFilters($this->allowedSharedFilters())
@@ -52,7 +52,7 @@ class SearchController extends Controller
                 // })
                 ->latest();
    
-            $results = RoomSearchResultResource::collection($query->paginate(8)->appends($request->query()));
+            $results = RoomSearchResultResource::collection($query->paginate(6)->appends($request->query()));
         }
 
         return Inertia::render('Home/Search',[

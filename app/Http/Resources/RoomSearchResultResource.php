@@ -46,7 +46,7 @@ class RoomSearchResultResource extends JsonResource
                 'favouritedBy' => $this->owner->favouritedBy(auth()->user()),
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
                 'address' => $this->whenLoaded('address', function () {
-                    return new AddressResource($this->owner->address);
+                    return AddressResource::collection($this->owner->address);
                 }), 
             ],
         ];

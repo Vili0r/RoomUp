@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
-import { Link, router, useForm } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { PrimaryButton } from "@/Components";
 
 const PropertyCard = ({ results }) => {
     const { post } = useForm({});
+    const [items, setItems] = useState(results.data);
+    const [initialUrl, setInitialUrl] = useState(usePage().url);
+    const [isLoading, setIsLoading] = useState(false);
+
     const showImage = () => {
         return "/storage/";
     };
@@ -19,10 +23,52 @@ const PropertyCard = ({ results }) => {
         post(`/${model}/${id}/favourite`, { preserveScroll: true });
     };
 
+    const loadMoreItems = () => {
+        setIsLoading(true);
+
+        router.get(
+            results.links.next,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (response) => {
+                    window.history.replaceState({}, "", initialUrl);
+
+                    setItems((prevItems) => [
+                        ...prevItems,
+                        ...response.props.results.data,
+                    ]);
+                },
+                onFinish: () => {
+                    setIsLoading(false);
+                },
+            }
+        );
+    };
+
+    const handleScroll = () => {
+        if (
+            document.documentElement.offsetHeight -
+                document.documentElement.scrollTop -
+                window.innerHeight <
+                200 ||
+            isLoading
+        ) {
+            return;
+        }
+        loadMoreItems();
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isLoading]);
+
     return (
         <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="grid grid-cols-1 mt-[6rem] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-6 gap-8">
-                {results.data.map((result, index) => (
+                {items.map((result, index) => (
                     <div
                         className="col-span-1 cursor-pointer group"
                         key={index}
@@ -129,14 +175,6 @@ const PropertyCard = ({ results }) => {
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="text-center">
-                <Link
-                    href={results?.links.next}
-                    className="px-2 py-3 bg-[#f3f3f3] mx-auto text-sm font-semibold rounded-xl font-popp mt-[5rem] text-black"
-                >
-                    ... 15 more
-                </Link>
             </div>
         </div>
 
