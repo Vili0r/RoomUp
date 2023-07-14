@@ -33,10 +33,8 @@ class HomeSearchController extends Controller
                             return $builder->whereIn('id', Room::search($request->search)->get()->pluck('id'));
                         }
                     })
-                    ->latest()
-                    ->paginate(6)
-                    ->appends($request->query())
-        );
+                    ->get()
+                );
         
         $flatQuery = FlatSearchResultResource::collection(
                 QueryBuilder::for(Flat::class)
@@ -46,12 +44,14 @@ class HomeSearchController extends Controller
                             return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
                         }
                     })
-                    ->latest()
-                    ->paginate(6)
-                    ->appends($request->query())
+                    ->get()
                 );
 
-        $properties = $roomQuery->concat($flatQuery)->sortByDesc('created_at')->paginate(10);
+        $properties = $roomQuery
+            ->concat($flatQuery)
+            ->sortByDesc('created_at')
+            ->paginate(4)
+            ->appends($request->query());
 
         return Inertia::render('Home/HomeSearch',[
             'selectedQueries' => $request->only(['search']),

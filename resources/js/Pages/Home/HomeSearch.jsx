@@ -22,6 +22,7 @@ const HomeSearch = (props) => {
     const [query, setQuery] = useState(selectedQueries.search || "");
     const [items, setItems] = useState(properties.data);
     const [initialUrl, setInitialUrl] = useState(usePage().url);
+
     const showImage = () => {
         return "/storage/";
     };
@@ -45,11 +46,8 @@ const HomeSearch = (props) => {
     };
 
     const loadMoreItems = () => {
-        // setIsLoading(true);
+        setIsLoading(true);
 
-        if (!properties.next_page_url) {
-            return;
-        }
         router.get(
             properties.next_page_url,
             {},
@@ -71,24 +69,24 @@ const HomeSearch = (props) => {
         );
     };
 
-    // const handleScroll = () => {
-    //     if (
-    //         document.documentElement.offsetHeight -
-    //             document.documentElement.scrollTop -
-    //             window.innerHeight <
-    //             200 ||
-    //         isLoading
-    //     ) {
-    //         return;
-    //     }
+    const handleScroll = () => {
+        if (
+            document.documentElement.offsetHeight -
+                document.documentElement.scrollTop -
+                window.innerHeight <
+                200 ||
+            isLoading
+        ) {
+            return;
+        }
 
-    //     loadMoreItems();
-    // };
+        loadMoreItems();
+    };
 
-    // useEffect(() => {
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, [isLoading]);
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isLoading]);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -251,9 +249,6 @@ const HomeSearch = (props) => {
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                        <div>
-                            <button onClick={loadMoreItems}>load more</button>
                         </div>
                     </div>
                     <div

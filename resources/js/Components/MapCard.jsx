@@ -7,7 +7,7 @@ const MapCard = ({ toggleMap, setToggleMap }) => {
             className={
                 toggleMap
                     ? "fixed top-0 left-0 w-[100%] z-[100] h-[100%]"
-                    : "px-2 rounded-xl col-span-2 overflow-hidden sticky top-[5.5rem] [@media(max-width:1024px)]:hidden h-[20%]"
+                    : "px-2 rounded-xl col-span-2 overflow-hidden sticky top-[5.5rem] [@media(max-width:1024px)]:hidden h-[600px]"
             }
         >
             <iframe

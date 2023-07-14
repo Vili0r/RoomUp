@@ -16,7 +16,6 @@ import { HousePlaceholder } from "@/assets";
 import moment from "moment";
 
 const PropertyDetails = ({ property }) => {
-    console.log(property);
     return (
         <div className="max-w-[2520px] xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="max-w-screen-xl mx-auto">
@@ -62,7 +61,11 @@ const PropertyDetails = ({ property }) => {
                             </div>
                         </div>
                         <PhotoGallery
-                            images={property.owner.images}
+                            images={
+                                property.owner
+                                    ? property.owner.images
+                                    : property.images
+                            }
                             title={property.title}
                             id={property.id}
                             model={property.model}
