@@ -101,7 +101,11 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                             get in touch
                                                         </p>
                                                     </div>
-                                                    <Link href="/">
+                                                    <Link
+                                                        href={route(
+                                                            "quest.create"
+                                                        )}
+                                                    >
                                                         <img
                                                             src={Hero2}
                                                             className="object-cover w-full h-full rounded-xl"

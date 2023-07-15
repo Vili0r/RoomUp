@@ -9,6 +9,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiLogOut, FiBookmark } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
 import { BsInbox } from "react-icons/bs";
+import { TbFriends } from "react-icons/tb";
 
 export default function Authenticated({ auth, header, children }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -219,6 +220,16 @@ export default function Authenticated({ auth, header, children }) {
                                             >
                                                 <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
                                                 My Properties
+                                            </NavLink>
+                                            <NavLink
+                                                className="gap-2"
+                                                href={route("quest.index")}
+                                                active={route().current(
+                                                    "quest.index"
+                                                )}
+                                            >
+                                                <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                Room Quest
                                             </NavLink>
                                         </div>
                                     </div>

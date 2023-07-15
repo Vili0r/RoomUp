@@ -72,6 +72,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Flat::class);
     }
+    
+    public function roomWanteds(): HasMany
+    {
+        return $this->hasMany(RoomWanted::class);
+    }
 
     public function favouriteFlats(): MorphToMany
     {

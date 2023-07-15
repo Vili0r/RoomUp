@@ -22,6 +22,7 @@ import Modal from "./Modal";
 import SecondaryButton from "./SecondaryButton";
 import Checkbox from "./Checkbox";
 import CreateSteps from "./CreateSteps";
+import QuestCreateSteps from "./QuestCreateSteps";
 import Pagination from "./Pagination";
 import MultiSelect from "./MultiSelect";
 import Loading from "./Loading";
@@ -70,6 +71,7 @@ export {
     Loading,
     Checkbox,
     CreateSteps,
+    QuestCreateSteps,
     Pagination,
     MultiSelect,
     TableHead,

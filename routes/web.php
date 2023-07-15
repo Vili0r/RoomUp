@@ -30,6 +30,7 @@ use App\Http\Controllers\RoomAvailabilityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomDeletePhotoController;
 use App\Http\Controllers\RoomFavouriteController;
+use App\Http\Controllers\RoomWantedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
@@ -141,6 +142,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->except(['index']);
     Route::resource('/shared', SharedController::class)
         ->except(['index']);
+    Route::resource('/quest', RoomWantedController::class);
     Route::resource('/room', RoomController::class)
         ->only(['edit', 'update', 'destroy']);
     Route::resource('/message', MessageController::class)
@@ -168,14 +170,12 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
             Route::delete('/users/{user}/permissions/{permission}', RevokeUserPermissionController::class)->name('users.permissions.destroy');
             //Revoke roles for users
             Route::delete('/users/{user}/roles/{role}', RevokeUserRoleController::class)->name('users.roles.destroy');
-
+    
             //Admin Resource controllers
-            Route::resource('/blogs', BlogController::class);
-            Route::resource('/categories', CategoryController::class);
             Route::resource('/users', UserController::class)->except(['show']);
             Route::resource('/roles', RoleController::class)->except(['create', 'show']);
             Route::resource('/permissions', PermissionController::class)->except(['create', 'show']);
-
+    
         });
     });
 });
