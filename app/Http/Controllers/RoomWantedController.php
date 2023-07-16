@@ -17,7 +17,9 @@ use Illuminate\Http\Request;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\HobbiesResource;
+use App\Http\Resources\Quest\QuestEditResource;
 use App\Http\Resources\Quest\QuestIndexResource;
+use App\Http\Resources\Quest\QuestShowResource;
 use App\Models\Amenity;
 use App\Models\Hobby;
 use App\Models\RoomWanted;
@@ -35,7 +37,7 @@ class RoomWantedController extends Controller
     public function index(): Response
     {
         return Inertia::render('RoomWanted/Index', [
-            'quest' => QuestIndexResource::collection(
+            'roomWanteds' => QuestIndexResource::collection(
                 RoomWanted::where('user_id', auth()->id())   
                         ->latest()
                         ->paginate()
@@ -179,10 +181,8 @@ class RoomWantedController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        //$roomWanted->load(['address']);
-
-        return Inertia::render("Flat/Show", [
-            'quest' => $roomWanted,
+        return Inertia::render("RoomWanted/Show", [
+            'roomWanted' => new QuestShowResource($roomWanted),
         ]);
     }
 
@@ -195,8 +195,10 @@ class RoomWantedController extends Controller
             abort(403); // Return a forbidden response
         }
 
+        $roomWanted->load(['availability', 'flatmate', 'advertiser', 'amenities', 'hobbies']);
+
         return Inertia::render('RoomWanted/Edit', [
-            'quests' => $roomWanted,
+            'roomWanted' => new QuestEditResource($roomWanted),
             'amenities' => AmenitiesResource::collection(Amenity::all()),
             'hobbies' => HobbiesResource::collection(Hobby::all()),
             'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),

@@ -1,5 +1,5 @@
 import GuestLayout from "@/Layouts/GuestLayout";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Head, useForm, usePage } from "@inertiajs/react";
@@ -75,7 +75,6 @@ const Create = (props) => {
             pets: "",
             occupation: "",
             gender: "",
-            searching_for: "",
             budget: "",
             area: "",
             city: "",
@@ -181,7 +180,7 @@ const Create = (props) => {
             };
         });
 
-        post(route("quest.store"));
+        post(route("roomWanted.store"));
     };
 
     const handleFilePondRevert = (uniqueId, load, error) => {

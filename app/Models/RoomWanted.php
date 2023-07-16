@@ -48,7 +48,6 @@ class RoomWanted extends Model
         'occupation' => CurrentFlatmateOccupation::class,
         'gender' => CurrentFlatmateGender::class,
         'images' => 'array',
-        'hobbies' => 'array',
     ];
 
     public function user(): BelongsTo

@@ -14,6 +14,18 @@ class QuestShowResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return[
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'budget' => $this->budget,
+            'city' => $this->city,
+            'area' => $this->area,
+            'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
+            'featured' => $this->featured ?? '',
+            'available' => $this->available ?? '',
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : "",
+            'images' => $this->images,
+        ];
     }
 }

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, Link, router } from "@inertiajs/react";
+import { Head, usePage, Link } from "@inertiajs/react";
 import {
     Pagination,
     TableRow,
@@ -13,8 +13,8 @@ import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 
 export default function Index(props) {
-    const { quest } = usePage().props;
-    const { data, meta } = quest;
+    const { roomWanteds } = usePage().props;
+    const { data, meta } = roomWanteds;
 
     const showImage = () => {
         return "/storage/";
@@ -65,14 +65,12 @@ export default function Index(props) {
                                         </span>
                                     </div>
                                     <div className="mt-3 md:mt-0">
-                                        {quest.hasQuest && (
-                                            <Link
-                                                href={route("quest.create")}
-                                                className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
-                                            >
-                                                Add property
-                                            </Link>
-                                        )}
+                                        <Link
+                                            href={route("roomWanted.create")}
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
+                                        >
+                                            Add property
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="relative mt-12 overflow-auto h-max">
@@ -122,7 +120,7 @@ export default function Index(props) {
                                                     <TableDataCell>
                                                         <Link
                                                             href={route(
-                                                                "quest.show",
+                                                                "roomWanted.show",
                                                                 quest.id
                                                             )}
                                                             className="hover:underline hover:font-semibold"
@@ -131,7 +129,7 @@ export default function Index(props) {
                                                         </Link>
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        {quest.budget}
+                                                        £{quest.budget}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {moment(
@@ -196,7 +194,7 @@ export default function Index(props) {
                                                     <TableDataCell>
                                                         <Link
                                                             href={route(
-                                                                "quest.edit",
+                                                                "roomWanted.edit",
                                                                 quest.id
                                                             )}
                                                             className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-indigo-600 border rounded-lg"

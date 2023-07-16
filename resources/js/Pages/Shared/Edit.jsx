@@ -236,8 +236,6 @@ const Edit = (props) => {
         return response;
     };
 
-    console.log(data.images);
-
     return (
         <AuthenticatedLayout
             auth={props.auth}

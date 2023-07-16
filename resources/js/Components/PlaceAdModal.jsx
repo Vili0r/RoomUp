@@ -103,7 +103,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                     </div>
                                                     <Link
                                                         href={route(
-                                                            "quest.create"
+                                                            "roomWanted.create"
                                                         )}
                                                     >
                                                         <img
