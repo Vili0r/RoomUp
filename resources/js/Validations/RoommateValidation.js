@@ -12,6 +12,7 @@ const stepOneSchema = yup.object().shape({
         .min(new Date(), "Available from date must be in the future")
         .required("Available from date is required"),
     searching_for: yup.string().required("Searching for is required"),
+    room_size: yup.string().required("Room size is required"),
     minimum_stay: yup.string().required("Minimum stay is required"),
     maximum_stay: yup.string().required("Maximum stay is required"),
     // .when("minimum_stay", (minimum_stay, schema) => {

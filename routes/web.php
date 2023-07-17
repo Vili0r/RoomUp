@@ -30,9 +30,9 @@ use App\Http\Controllers\RoomAvailabilityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomDeletePhotoController;
 use App\Http\Controllers\RoomFavouriteController;
-use App\Http\Controllers\RoomWantedAvailabilityController;
-use App\Http\Controllers\RoomWantedController;
-use App\Http\Controllers\RoomWantedDeletePhotoController;
+use App\Http\Controllers\RoommateAvailabilityController;
+use App\Http\Controllers\RoommateController;
+use App\Http\Controllers\RoommateDeletePhotoController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
@@ -102,8 +102,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('room.availability');
     
     //Route to change availability on room wanted ad
-    Route::put('/roomWanted/{roomWanted}/availability', RoomWantedAvailabilityController::class)
-        ->name('roomWanted.availability');
+    Route::put('/roommate/{roommate}/availability', RoommateAvailabilityController::class)
+        ->name('roommate.availability');
 
     //Flat Favourite Controller
     Route::post('/flat/{flat}/favourite', [FlatFavouriteController::class, 'store'])
@@ -132,8 +132,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('flat.deletePhotos.destroy');
     Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class)
         ->name('room.deletePhotos.destroy');
-    Route::delete('/roomWanted/{roomWanted}/delete-photo', RoomWantedDeletePhotoController::class)
-        ->name('roomWanted.deletePhotos.destroy');
+    Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class)
+        ->name('roommate.deletePhotos.destroy');
 
     //Temporary image upload - FilePond
     Route::post('/upload', TemporaryImageUploadController::class);
@@ -150,7 +150,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->except(['index']);
     Route::resource('/shared', SharedController::class)
         ->except(['index']);
-    Route::resource('/roomWanted', RoomWantedController::class);
+    Route::resource('/roommate', RoommateController::class);
     Route::resource('/room', RoomController::class)
         ->only(['edit', 'update', 'destroy']);
     Route::resource('/message', MessageController::class)

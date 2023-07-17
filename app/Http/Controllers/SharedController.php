@@ -383,8 +383,8 @@ class SharedController extends Controller
             'rooms.*.room_size' => ['required'],
             'rooms.*.available_from' => ['required', 'after:tomorrow'],
             'rooms.*.days_available' => ['required'],
-            'rooms.*.maximum_stay' => ['required','gt:rooms.*.minimum_stay'],
             'rooms.*.minimum_stay' => ['required'],
+            'rooms.*.maximum_stay' => ['required','gt:rooms.*.minimum_stay'],
             'rooms.*.short_term' => ['sometimes'],
         ],[
             'rooms.*.room_cost.required' => 'The room cost field in Room :position is required',

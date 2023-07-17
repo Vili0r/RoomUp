@@ -12,33 +12,34 @@ use App\Enums\NewFlatmateGender;
 use App\Enums\NewFlatmateOccupation;
 use App\Enums\NewFlatmateSmoking;
 use App\Enums\Pets;
+use App\Enums\RoomSize;
 use App\Enums\SearchingFor;
 use Illuminate\Http\Request;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\HobbiesResource;
-use App\Http\Resources\Quest\QuestEditResource;
-use App\Http\Resources\Quest\QuestIndexResource;
-use App\Http\Resources\Quest\QuestShowResource;
+use App\Http\Resources\Roommate\RoommateEditResource;
+use App\Http\Resources\Roommate\RoommateIndexResource;
+use App\Http\Resources\Roommate\RoommateShowResource;
 use App\Models\Amenity;
 use App\Models\Hobby;
-use App\Models\RoomWanted;
+use App\Models\Roommate;
 use App\Models\TemporaryImage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
-class RoomWantedController extends Controller
+class RoommateController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): Response
     {
-        return Inertia::render('RoomWanted/Index', [
-            'roomWanteds' => QuestIndexResource::collection(
-                RoomWanted::where('user_id', auth()->id())   
+        return Inertia::render('Roommate/Index', [
+            'roommates' => RoommateIndexResource::collection(
+                Roommate::where('user_id', auth()->id())   
                         ->latest()
                         ->paginate()
                 )
@@ -50,7 +51,7 @@ class RoomWantedController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('RoomWanted/Create', [
+        return Inertia::render('Roommate/Create', [
             'amenities' => AmenitiesResource::collection(Amenity::all()),
             'hobbies' => HobbiesResource::collection(Hobby::all()),
             'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
@@ -64,6 +65,7 @@ class RoomWantedController extends Controller
             'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
             'occupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
             'pets' => EnumResource::collection(Pets::cases()),
+            'roomSize' => EnumResource::collection(RoomSize::cases()),
         ]);
     }
 
@@ -99,6 +101,7 @@ class RoomWantedController extends Controller
             'description' => ['required', 'min:50', 'max:1000'],
             'budget' => ['required'],
             'searching_for' => ['required'],
+            'room_size' => ['required'],
             'user_id' => ['sometimes'],
             'live_at' => ['sometimes'],
             'available' => ['sometimes'],
@@ -107,7 +110,6 @@ class RoomWantedController extends Controller
             'pets' => ['required'],
             'occupation' => ['required'],
             'gender' => ['required'],
-            'second_gender' => ['sometimes'],
             'hobbies' => ['required', 'array', 'min:1', 'max:15'],
             'amenities' => ['required', 'array', 'min:1'],
             'area' => ['required'],
@@ -136,12 +138,12 @@ class RoomWantedController extends Controller
         }
         $data['images'] = $images;
 
-        $quest = auth()->user()->roomWanteds()->create($data);
+        $roommate = auth()->user()->roommates()->create($data);
 
-        $quest->amenities()->attach($request->input('amenities.*.id'));
-        $quest->hobbies()->attach($request->input('hobbies.*.id'));
+        $roommate->amenities()->attach($request->input('amenities.*.id'));
+        $roommate->hobbies()->attach($request->input('hobbies.*.id'));
 
-        $quest->advertiser()->create([
+        $roommate->advertiser()->create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'display_last_name' => $request->display_last_name == null ? 0 : 1,
@@ -149,7 +151,7 @@ class RoomWantedController extends Controller
             'display_telephone' => $request->display_telephone == null ? 0 : 1,
         ]);
         
-        $quest->flatmate()->create([
+        $roommate->flatmate()->create([
             'new_flatmate_min_age' => $request->new_flatmate_min_age,
             'new_flatmate_max_age' => $request->new_flatmate_max_age,
             'new_flatmate_smoker' => $request->new_flatmate_smoker,
@@ -161,7 +163,7 @@ class RoomWantedController extends Controller
             'new_flatmate_hobbies' => $request->new_flatmate_hobbies,
         ]);
 
-        $quest->availability()->create([
+        $roommate->availability()->create([
             'available_from' => $request->available_from,
             'minimum_stay' => $request->minimum_stay,
             'maximum_stay' => $request->maximum_stay,
@@ -175,30 +177,30 @@ class RoomWantedController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RoomWanted $roomWanted): Response
+    public function show(Roommate $roommate): Response
     {
-        if (auth()->id() !== $roomWanted->user_id) {
+        if (auth()->id() !== $roommate->user_id) {
             abort(403); // Return a forbidden response
         }
 
-        return Inertia::render("RoomWanted/Show", [
-            'roomWanted' => new QuestShowResource($roomWanted),
+        return Inertia::render("Roommate/Show", [
+            'roommate' => new RoommateShowResource($roommate),
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RoomWanted $roomWanted): Response
+    public function edit(Roommate $roommate): Response
     {
-        if (auth()->id() !== $roomWanted->user_id) {
+        if (auth()->id() !== $roommate->user_id) {
             abort(403); // Return a forbidden response
         }
 
-        $roomWanted->load(['availability', 'flatmate', 'advertiser', 'amenities', 'hobbies']);
+        $roommate->load(['availability', 'flatmate', 'advertiser', 'amenities', 'hobbies']);
 
-        return Inertia::render('RoomWanted/Edit', [
-            'roomWanted' => new QuestEditResource($roomWanted),
+        return Inertia::render('Roommate/Edit', [
+            'roommate' => new RoommateEditResource($roommate),
             'amenities' => AmenitiesResource::collection(Amenity::all()),
             'hobbies' => HobbiesResource::collection(Hobby::all()),
             'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
@@ -212,22 +214,91 @@ class RoomWantedController extends Controller
             'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
             'occupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
             'pets' => EnumResource::collection(Pets::cases()),
+            'roomSize' => EnumResource::collection(RoomSize::cases()),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RoomWanted $roomWanted): RedirectResponse
+    public function update(Request $request, Roommate $roommate): RedirectResponse
     {
-        if (auth()->id() !== $roomWanted->user_id) {
+        if (auth()->id() !== $roommate->user_id) {
             abort(403); // Return a forbidden response
         }
+
+        $request->validate([
+            'available_from' => ['required', 'date', 'after:tomorrow'],
+            'minimum_stay' => ['required'],
+            'maximum_stay' => ['required', 'gt:minimum_stay'],
+            'days_available' =>['required'], 
+            'short_term' => ['sometimes'],
+            'first_name' => ['required', 'max:20'],
+            'last_name' => ['required', 'max:20'],
+            'display_last_name' => ['sometimes'],
+            'telephone' => ['required'],
+            'display_telephone' => ['sometimes'],
+            'new_flatmate_min_age' => ['required', 'numeric', 'min:18'],
+            'new_flatmate_max_age' => [
+                'required', 
+                'numeric', 
+                'min:18', 
+                'gt:new_flatmate_min_age'
+            ],
+            'new_flatmate_smoker' => ['required'],
+            'new_flatmate_pets' => ['required'],
+            'new_flatmate_references' => ['required'],
+            'new_flatmate_couples' => ['sometimes'],
+            'new_flatmate_gender' => ['required'],
+            'new_flatmate_occupation' => ['required'],
+            'new_flatmate_hobbies' => ['sometimes'],
+        ] ,[
+            'maximum_stay.required' => 'The maximum stay is required',
+            'minimum_stay.required' => 'The minimum stay is required',
+            'first_name.required' => 'The first name field is required',
+            'last_name.required' => 'The last name field is required',
+            'days_available.required' => 'The days available field is required',
+            'new_flatmate_smoker.required' => 'The new flatmate smoker field is required',
+            'new_flatmate_pets.required' => 'The new flatmate pets field is required',
+            'new_flatmate_occupation.required' => 'The new flatmate occupation field is required',
+            'new_flatmate_gender.required' => 'The new flatmate gender field is required',
+            'new_flatmate_min_age.required' => 'The new flatmate minimum age field is required',
+            'new_flatmate_min_age.numeric' => 'This does not appear to be a number',
+            'new_flatmate_min_age.before' => 'Your new flatmate should be more than 18 years old',
+            'new_flatmate_max_age.required' => 'The new flatmate maximum age field is required',
+            'new_flatmate_max_age.numeric' => 'This does not appear to be a number',
+            'new_flatmate_max_age.after' => 'The :attribute must be greater than the min age',
+            'new_flatmate_max_age.before' => 'Your new flatmate should be more than 18 years old',
+        ]);
+
+        $data = $request->validate([
+            'title' => ['required', 'min:4', 'max:30'],
+            'description' => ['required', 'min:50', 'max:1000'],
+            'budget' => ['required', 'numeric'],
+            'searching_for' => ['required'],
+            'room_size' => ['required'],
+            'user_id' => ['sometimes'],
+            'live_at' => ['sometimes'],
+            'available' => ['sometimes'],
+            'age' => ['required', 'numeric' ,'min:18'],
+            'smoker' => ['required'],
+            'pets' => ['required'],
+            'occupation' => ['required'],
+            'gender' => ['required'],
+            'hobbies' => ['required', 'array', 'min:1', 'max:15'],
+            'amenities' => ['required', 'array', 'min:1'],
+            'area' => ['required'],
+            'city' => ['required'],
+            'images' => ['sometimes', 'array'],
+        ], [
+            'searching_for.required' => 'The searching for field is required',
+            'room_size.required' => 'The room size field is required',
+        ]);
 
         //Creating empty array
         $images = [];
         //Assinging the alredy existing images in the database
-        $images = $roomWanted->images;
+        $images = $roommate->images;
         if (!empty($request->images)) {
             foreach ($request->images as $image) {
                 $image_path = 'images/' . $image;
@@ -250,11 +321,12 @@ class RoomWantedController extends Controller
         //Assigning the images to data['images']
         $data['images'] = $images;
 
-        $roomWanted->update($data);
+        $roommate->update($data);
 
-        $roomWanted->amenities()->sync($request->input('amenities.*.id'));
+        $roommate->amenities()->sync($request->input('amenities.*.id'));
+        $roommate->hobbies()->sync($request->input('hobbies.*.id'));
        
-        $roomWanted->advertiser()->update([
+        $roommate->advertiser()->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'display_last_name' => $request->display_last_name == null ? 0 : 1,
@@ -262,7 +334,7 @@ class RoomWantedController extends Controller
             'display_telephone' => $request->display_telephone == null ? 0 : 1,
         ]);
         
-        $roomWanted->flatmate()->update([
+        $roommate->flatmate()->update([
             'new_flatmate_min_age' => $request->new_flatmate_min_age,
             'new_flatmate_max_age' => $request->new_flatmate_max_age,
             'new_flatmate_smoker' => $request->new_flatmate_smoker,
@@ -274,7 +346,7 @@ class RoomWantedController extends Controller
             'new_flatmate_hobbies' => $request->new_flatmate_hobbies,
         ]);
 
-        $roomWanted->availability()->update([
+        $roommate->availability()->update([
             'available_from' => $request->available_from,
             'minimum_stay' => $request->minimum_stay,
             'maximum_stay' => $request->maximum_stay,
@@ -288,9 +360,9 @@ class RoomWantedController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RoomWanted $roomWanted): RedirectResponse
+    public function destroy(Roommate $roommate): RedirectResponse
     {
-        if (auth()->id() !== $roomWanted->user_id) {
+        if (auth()->id() !== $roommate->user_id) {
             abort(403); // Return a forbidden response
         }
 
@@ -299,8 +371,8 @@ class RoomWantedController extends Controller
         //     $project->delete();
         // });
         
-        Storage::delete($roomWanted->images);
-        $roomWanted->delete();
+        Storage::delete($roommate->images);
+        $roommate->delete();
         return to_route('dashboard');
     }
 }

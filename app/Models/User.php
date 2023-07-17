@@ -73,9 +73,9 @@ class User extends Authenticatable
         return $this->hasMany(Flat::class);
     }
     
-    public function roomWanteds(): HasMany
+    public function roommates(): HasMany
     {
-        return $this->hasMany(RoomWanted::class);
+        return $this->hasMany(Roommate::class);
     }
 
     public function favouriteFlats(): MorphToMany

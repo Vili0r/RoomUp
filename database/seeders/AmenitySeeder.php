@@ -13,7 +13,6 @@ class AmenitySeeder extends Seeder
      */
     public function run(): void
     {
-        Amenity::create(['name' => 'Furnished']);
         Amenity::create(['name' => 'Parking']);
         Amenity::create(['name' => 'Garden']);
         Amenity::create(['name' => 'Garage']);
@@ -21,5 +20,13 @@ class AmenitySeeder extends Seeder
         Amenity::create(['name' => 'Disable access']);
         Amenity::create(['name' => 'Living room']);
         Amenity::create(['name' => 'Broadband']);
+        Amenity::create(['name' => 'Air conditioning']);
+        Amenity::create(['name' => 'Heating system']);
+        Amenity::create(['name' => 'Dishwasher']);
+        Amenity::create(['name' => 'Microwave']);
+        Amenity::create(['name' => 'Oven']);
+        Amenity::create(['name' => 'Washer']);
+        Amenity::create(['name' => 'Refrigirator']);
+        Amenity::create(['name' => 'Storage']);
     }
 }

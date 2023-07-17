@@ -29,7 +29,7 @@ registerPlugin(FilePondPluginImagePreview);
 
 const Edit = (props) => {
     const {
-        roomWanted,
+        roommate,
         amenities,
         hobbies,
         daysAvailable,
@@ -43,16 +43,17 @@ const Edit = (props) => {
         newFlatmateOccupation,
         occupation,
         pets,
+        roomSize,
     } = usePage().props;
 
-    const selectedAmenitiesOptions = roomWanted.amenities.map((item) => {
+    const selectedAmenitiesOptions = roommate.amenities.map((item) => {
         return {
             label: item.name,
             value: item.id,
         };
     });
 
-    const selectedHobbiesOptions = roomWanted.hobbies.map((item) => {
+    const selectedHobbiesOptions = roommate.hobbies.map((item) => {
         return {
             label: item.name,
             value: item.id,
@@ -75,39 +76,40 @@ const Edit = (props) => {
         errors,
         delete: destroy,
     } = useForm({
-        title: roomWanted.title,
-        description: roomWanted.description,
-        budget: roomWanted.budget,
-        searching_for: roomWanted.searching_for,
-        age: roomWanted.age,
-        smoker: roomWanted.smoker,
-        pets: roomWanted.pets,
-        occupation: roomWanted.occupation,
-        gender: roomWanted.gender,
-        budget: roomWanted.budget,
-        area: roomWanted.area,
-        city: roomWanted.city,
-        available_from: roomWanted.availability.available_from,
-        minimum_stay: roomWanted.availability.minimum_stay,
-        maximum_stay: roomWanted.availability.maximum_stay,
-        days_available: roomWanted.availability.days_available,
-        short_term: roomWanted.availability.short_term,
-        first_name: roomWanted.advertiser.first_name,
-        last_name: roomWanted.advertiser.last_name,
-        display_last_name: roomWanted.advertiser.display_last_name,
-        telephone: roomWanted.advertiser.telephone,
-        display_telephone: roomWanted.advertiser.display_telephone,
-        new_flatmate_min_age: roomWanted.flatmate.new_flatmate_min_age,
-        new_flatmate_max_age: roomWanted.flatmate.new_flatmate_max_age,
-        new_flatmate_smoker: roomWanted.flatmate.new_flatmate_smoker,
-        new_flatmate_pets: roomWanted.flatmate.new_flatmate_pets,
-        new_flatmate_references: roomWanted.flatmate.new_flatmate_references,
-        new_flatmate_couples: roomWanted.flatmate.new_flatmate_couples,
-        new_flatmate_occupation: roomWanted.flatmate.new_flatmate_occupation,
-        new_flatmate_gender: roomWanted.flatmate.new_flatmate_gender,
-        new_flatmate_hobbies: roomWanted.flatmate.new_flatmate_hobbies,
-        hobbies: roomWanted.hobbies,
-        amenities: roomWanted.amenities,
+        title: roommate.title,
+        description: roommate.description,
+        budget: roommate.budget,
+        searching_for: roommate.searching_for,
+        room_size: roommate.room_size,
+        age: roommate.age,
+        smoker: roommate.smoker,
+        pets: roommate.pets,
+        occupation: roommate.occupation,
+        gender: roommate.gender,
+        budget: roommate.budget,
+        area: roommate.area,
+        city: roommate.city,
+        available_from: roommate.availability.available_from,
+        minimum_stay: roommate.availability.minimum_stay,
+        maximum_stay: roommate.availability.maximum_stay,
+        days_available: roommate.availability.days_available,
+        short_term: roommate.availability.short_term,
+        first_name: roommate.advertiser.first_name,
+        last_name: roommate.advertiser.last_name,
+        display_last_name: roommate.advertiser.display_last_name,
+        telephone: roommate.advertiser.telephone,
+        display_telephone: roommate.advertiser.display_telephone,
+        new_flatmate_min_age: roommate.flatmate.new_flatmate_min_age,
+        new_flatmate_max_age: roommate.flatmate.new_flatmate_max_age,
+        new_flatmate_smoker: roommate.flatmate.new_flatmate_smoker,
+        new_flatmate_pets: roommate.flatmate.new_flatmate_pets,
+        new_flatmate_references: roommate.flatmate.new_flatmate_references,
+        new_flatmate_couples: roommate.flatmate.new_flatmate_couples,
+        new_flatmate_occupation: roommate.flatmate.new_flatmate_occupation,
+        new_flatmate_gender: roommate.flatmate.new_flatmate_gender,
+        new_flatmate_hobbies: roommate.flatmate.new_flatmate_hobbies,
+        hobbies: roommate.hobbies,
+        amenities: roommate.amenities,
         images: [],
     });
 
@@ -142,16 +144,20 @@ const Edit = (props) => {
             };
         });
 
-        put(route("roomWanted.update", roomWanted.id));
+        put(route("roommate.update", roommate.id));
     };
 
     //Deleting images from database
     const handleDeletePhoto = (fileName) => {
         destroy(
-            route("roomWanted.deletePhotos.destroy", {
-                roomWanted: roomWanted.id,
-                fileName: fileName,
-            })
+            route(
+                "roommate.deletePhotos.destroy",
+                {
+                    roommate: roommate.id,
+                    fileName: fileName,
+                },
+                { preserveScroll: true }
+            )
         );
     };
 
@@ -409,6 +415,42 @@ const Edit = (props) => {
                                                         />
                                                     )}
                                                 </div>
+                                            </div>
+
+                                            <div className="relative mt-7">
+                                                <select
+                                                    name="room_size"
+                                                    value={data.room_size}
+                                                    className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                    onChange={handleOnChange}
+                                                >
+                                                    <option value="">--</option>
+                                                    {roomSize.map(
+                                                        ({ id, name }) => (
+                                                            <option
+                                                                key={id}
+                                                                value={id}
+                                                            >
+                                                                {name}
+                                                            </option>
+                                                        )
+                                                    )}
+                                                </select>
+                                                <label
+                                                    htmlFor="room_size"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                >
+                                                    Room Size
+                                                </label>
+
+                                                {errors.room_size && (
+                                                    <InputError
+                                                        message={
+                                                            errors.room_size
+                                                        }
+                                                        className="mt-2"
+                                                    />
+                                                )}
                                             </div>
 
                                             <div className="grid grid-cols-1 gap-6 mt-7 sm:grid-cols-2">
@@ -801,7 +843,7 @@ const Edit = (props) => {
 
                                             <NewFlatmate
                                                 data={data}
-                                                errors={validationErrors}
+                                                errors={errors}
                                                 handleOnChange={handleOnChange}
                                                 newFlatmateSmoking={
                                                     newFlatmateSmoking
@@ -993,6 +1035,57 @@ const Edit = (props) => {
                                                     name="images"
                                                     labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                                                 />
+
+                                                {roommate.images.length > 0 && (
+                                                    <>
+                                                        <h2>
+                                                            Files uploaded when
+                                                            creating
+                                                            advertisment
+                                                        </h2>
+
+                                                        {roommate.images.map(
+                                                            (file, index) => (
+                                                                <div
+                                                                    key={index}
+                                                                    className="flex items-center justify-center"
+                                                                >
+                                                                    <div className="flex max-w-4xl px-3 mx-auto">
+                                                                        <div
+                                                                            className="relative w-1/3 px-3 overflow-hidden transition-all rounded-lg group hover:w-full"
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
+                                                                            <img
+                                                                                src={
+                                                                                    showImage() +
+                                                                                    roommate
+                                                                                        .images[
+                                                                                        index
+                                                                                    ]
+                                                                                }
+                                                                                alt="Property images"
+                                                                                className="object-cover w-full h-full origin-bottom rounded-lg"
+                                                                            />
+                                                                            <button
+                                                                                type="button"
+                                                                                className="absolute top-0 z-50 p-1 bg-white rounded-bl right-2 focus:outline-none"
+                                                                                onClick={() =>
+                                                                                    handleDeletePhoto(
+                                                                                        file
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <BsTrash className="w-4 h-4 text-gray-700" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </>
+                                                )}
                                             </div>
 
                                             <InputError

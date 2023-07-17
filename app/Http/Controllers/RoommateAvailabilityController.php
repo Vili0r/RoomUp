@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoomWanted;
+use App\Models\Roommate;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 
-class RoomWantedAvailabilityController extends Controller
+class RoommateAvailabilityController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, RoomWanted $roomWanted): RedirectResponse
+    public function __invoke(Request $request, Roommate $roommate): RedirectResponse
     {
         if ($request->filled('live_at')) {
             $request->validate([
@@ -29,16 +29,16 @@ class RoomWantedAvailabilityController extends Controller
         }
         
 
-        $roomWanted->live_at = $request->live_at;
+        $roommate->live_at = $request->live_at;
         
-        if($request->available != $roomWanted->available){
-            $isAvailable = $roomWanted->available;
-            $roomWanted->update([
+        if($request->available != $roommate->available){
+            $isAvailable = $roommate->available;
+            $roommate->update([
                 'available' => !$isAvailable
             ]);
         }
 
-        $roomWanted->save();
+        $roommate->save();
 
         return back();
     }

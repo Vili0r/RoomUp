@@ -14,11 +14,11 @@ import {
 import moment from "moment";
 
 const Show = (props) => {
-    const { roomWanted } = usePage().props;
+    const { roommate } = usePage().props;
     const [openModal, setOpenModal] = useState(false);
     const [openDeletePropertyModal, setOpenDeletePropertyModal] =
         useState(false);
-    console.log(props);
+
     const {
         data,
         setData,
@@ -29,8 +29,8 @@ const Show = (props) => {
         delete: destroy,
         setDefaults,
     } = useForm({
-        live_at: roomWanted.live_at,
-        available: roomWanted.available,
+        live_at: roommate.live_at,
+        available: roommate.available,
     });
 
     const showImage = () => {
@@ -59,7 +59,7 @@ const Show = (props) => {
     const submit = (e) => {
         e.preventDefault();
 
-        put(route("roomWanted.availability", roomWanted.id), {
+        put(route("roommate.availability", roommate.id), {
             onSuccess: () => {
                 closeModal();
             },
@@ -70,7 +70,7 @@ const Show = (props) => {
     const deleteProperty = (e) => {
         e.preventDefault();
 
-        destroy(route("roomWanted.destroy", roomWanted.id), {
+        destroy(route("roommate.destroy", roommate.id), {
             onSuccess: () => closeModal(),
             onFinish: () => reset(),
         });
@@ -192,13 +192,13 @@ const Show = (props) => {
                                 <div className="grid max-w-4xl grid-cols-1 mx-auto lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
                                     <div className="relative flex flex-col-reverse col-start-1 row-start-1 p-3 rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
                                         <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">
-                                            {roomWanted.title}
+                                            {roommate.title}
                                         </h1>
                                         <p className="text-sm font-medium leading-4 text-white sm:text-slate-500 dark:sm:text-slate-400">
-                                            Budget: £{roomWanted.budget}
+                                            Budget: £{roommate.budget}
                                         </p>
                                         <span className="mb-3">
-                                            {roomWanted.live_at === "" ? (
+                                            {roommate.live_at === "" ? (
                                                 <div className="inline-flex items-center px-3 py-1 text-gray-500 rounded-full gap-x-2 bg-gray-100/60 dark:bg-gray-800">
                                                     <svg
                                                         width="12"
@@ -241,7 +241,7 @@ const Show = (props) => {
                                                     <h2 className="text-sm font-normal">
                                                         Live at{" "}
                                                         {moment(
-                                                            roomWanted.live_at
+                                                            roommate.live_at
                                                         ).format(
                                                             "MMM DD, YYYY"
                                                         )}
@@ -253,9 +253,9 @@ const Show = (props) => {
                                     <div className="grid col-start-1 col-end-3 row-start-1 gap-4 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0">
                                         <img
                                             src={
-                                                roomWanted.images[0]
+                                                roommate.images[0]
                                                     ? showImage() +
-                                                      roomWanted.images[0]
+                                                      roommate.images[0]
                                                     : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                             }
                                             alt=""
@@ -264,9 +264,9 @@ const Show = (props) => {
                                         />
                                         <img
                                             src={
-                                                roomWanted.images[1]
+                                                roommate.images[1]
                                                     ? showImage() +
-                                                      roomWanted.images[1]
+                                                      roommate.images[1]
                                                     : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                             }
                                             alt=""
@@ -275,9 +275,9 @@ const Show = (props) => {
                                         />
                                         <img
                                             src={
-                                                roomWanted.images[2]
+                                                roommate.images[2]
                                                     ? showImage() +
-                                                      roomWanted.images[2]
+                                                      roommate.images[2]
                                                     : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                             }
                                             alt=""
@@ -294,7 +294,7 @@ const Show = (props) => {
                                         <dt className="sr-only">Location</dt>
                                         <dd className="flex items-center capitalize">
                                             <HiOutlineLocationMarker className="w-5 h-5 mx-3 mr-1 text-slate-400 dark:text-slate-500" />
-                                            {roomWanted.area}, {roomWanted.city}
+                                            {roommate.area}, {roommate.city}
                                         </dd>
                                     </dl>
                                     <div className="self-center col-start-1 row-start-3 mt-4 sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
@@ -315,7 +315,7 @@ const Show = (props) => {
                                         </PrimaryButton>
                                     </div>
                                     <p className="col-start-1 mt-4 text-sm leading-6 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
-                                        {roomWanted.description}
+                                        {roommate.description}
                                     </p>
                                 </div>
                             </main>

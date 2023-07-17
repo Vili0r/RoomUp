@@ -17,7 +17,7 @@ import {
     stepTwoSchema,
     stepThreeSchema,
     stepFourSchema,
-} from "../../Validations/QuestValidation";
+} from "../../Validations/RoommateValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
@@ -53,6 +53,7 @@ const Create = (props) => {
         newFlatmateOccupation,
         occupation,
         pets,
+        roomSize,
     } = usePage().props;
 
     const {
@@ -70,6 +71,7 @@ const Create = (props) => {
             description: "",
             budget: "",
             searching_for: "",
+            room_size: "",
             age: "",
             smoker: "",
             pets: "",
@@ -180,7 +182,7 @@ const Create = (props) => {
             };
         });
 
-        post(route("roomWanted.store"));
+        post(route("roommate.store"));
     };
 
     const handleFilePondRevert = (uniqueId, load, error) => {
@@ -395,6 +397,39 @@ const Create = (props) => {
                                                     />
                                                 )}
                                             </div>
+                                        </div>
+                                        <div className="relative mt-7">
+                                            <select
+                                                name="room_size"
+                                                value={data.room_size}
+                                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                onChange={handleOnChange}
+                                            >
+                                                <option value="">--</option>
+                                                {roomSize.map(
+                                                    ({ id, name }) => (
+                                                        <option
+                                                            key={id}
+                                                            value={id}
+                                                        >
+                                                            {name}
+                                                        </option>
+                                                    )
+                                                )}
+                                            </select>
+                                            <label
+                                                htmlFor="room_size"
+                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            >
+                                                Room Size
+                                            </label>
+
+                                            {errors.room_size && (
+                                                <InputError
+                                                    message={errors.room_size}
+                                                    className="mt-2"
+                                                />
+                                            )}
                                         </div>
 
                                         <div className="grid grid-cols-1 gap-6 mt-7 sm:grid-cols-2">

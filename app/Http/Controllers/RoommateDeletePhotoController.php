@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoomWanted;
+use App\Models\Roommate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class RoomWantedDeletePhotoController extends Controller
+class RoommateDeletePhotoController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, RoomWanted $roomWanted): RedirectResponse
+    public function __invoke(Request $request, Roommate $roommate): RedirectResponse
     {
         $fileName = $request->query('fileName');
 
@@ -20,7 +20,7 @@ class RoomWantedDeletePhotoController extends Controller
 
         // Retrieve the images array
         $images = [];
-        $images = $roomWanted->images;
+        $images = $roommate->images;
 
         // Find the index of the file name in the images array
         $index = array_search($fileName, $images);
@@ -34,7 +34,7 @@ class RoomWantedDeletePhotoController extends Controller
         $images = array_values($images);
 
         //Updating the images on Database
-        $roomWanted->update([
+        $roommate->update([
             'images' => $images
         ]);
 

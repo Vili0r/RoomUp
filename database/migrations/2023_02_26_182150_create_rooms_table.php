@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->string('sub_title');
+            $table->text('sub_description');
             $table->string('room_size');
             $table->string('room_cost');
             $table->string('room_deposit')->nullable();
@@ -23,6 +25,9 @@ return new class extends Migration
             $table->string('maximum_stay');
             $table->string('days_available')->nullable();
             $table->boolean('short_term')->default(0);
+            $table->boolean('available')->default(0);
+            $table->date('live_at')->nullable();
+            $table->text('images');
             $table->morphs('owner');
             $table->timestamps();
         });

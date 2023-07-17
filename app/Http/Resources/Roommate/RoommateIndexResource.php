@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Quest;
+namespace App\Http\Resources\Roommate;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestIndexResource extends JsonResource
+class RoommateIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class QuestIndexResource extends JsonResource
             'budget' => $this->budget,
             'live_at' => $this->live_at,
             'created_at' => $this->created_at->toDateTimeString(),
-            'hasQuest' => auth()->user()->roomWanted ? true : false,
+            'hasQuest' => auth()->user()->roommate ? true : false,
             'images' => $this->images,
         ];;
     }

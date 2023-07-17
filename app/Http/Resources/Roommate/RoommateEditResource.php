@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Quest;
+namespace App\Http\Resources\Roommate;
 
 use App\Http\Resources\AdvertiserResource;
 use App\Http\Resources\AmenitiesResource;
@@ -10,7 +10,7 @@ use App\Http\Resources\HobbiesResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestEditResource extends JsonResource
+class RoommateEditResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,6 +25,7 @@ class QuestEditResource extends JsonResource
             'description' => $this->description,
             'budget' => $this->budget,
             'searching_for' => $this->searching_for,
+            'room_size' => $this->room_size,
             'age' => $this->age,
             'smoker' => $this->smoker,
             'pets' => $this->pets,

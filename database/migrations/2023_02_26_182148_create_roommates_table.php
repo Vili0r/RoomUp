@@ -11,22 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('room_wanteds', function (Blueprint $table) {
+        Schema::create('roommates', function (Blueprint $table) {
+            $table->id();
             $table->string('title');
             $table->text('description');
             $table->string('budget');
             $table->string('searching_for');
+            $table->string('room_size');
+            $table->string('area');
+            $table->string('city');
             $table->date('live_at')->nullable();
             $table->boolean('available')->default(0);
-            $table->string('age')->nullable();
-            $table->string('smoker')->nullable();
-            $table->string('pets')->nullable();
-            $table->string('occupation')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('second_gender')->nullable();
-            $table->json('hobbies')->nullable();
+            $table->string('age');
+            $table->string('smoker');
+            $table->string('pets');
+            $table->string('occupation');
+            $table->string('gender');
             $table->text('images');
+            $table->foreignId('user_id')->constrained();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -35,8 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('room_wanteds', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('roommates');
     }
 };

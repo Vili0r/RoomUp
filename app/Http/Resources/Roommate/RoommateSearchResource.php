@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Quest;
+namespace App\Http\Resources\Roommate;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestResource extends JsonResource
+class RoommateSearchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

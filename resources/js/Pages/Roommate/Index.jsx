@@ -13,8 +13,8 @@ import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 
 export default function Index(props) {
-    const { roomWanteds } = usePage().props;
-    const { data, meta } = roomWanteds;
+    const { roommates } = usePage().props;
+    const { data, meta } = roommates;
 
     const showImage = () => {
         return "/storage/";
@@ -30,7 +30,7 @@ export default function Index(props) {
                 </h2>
             }
         >
-            <Head title="My Room Quest" />
+            <Head title="My Roommate Quest" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -66,7 +66,7 @@ export default function Index(props) {
                                     </div>
                                     <div className="mt-3 md:mt-0">
                                         <Link
-                                            href={route("roomWanted.create")}
+                                            href={route("roommate.create")}
                                             className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Add property
@@ -99,15 +99,15 @@ export default function Index(props) {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {data.map((quest) => (
-                                                <TableRow key={quest.id}>
+                                            {data.map((roommate) => (
+                                                <TableRow key={roommate.id}>
                                                     <TableDataCell>
                                                         <img
                                                             className="object-cover w-8 h-8 rounded-full"
                                                             src={
-                                                                quest.images
+                                                                roommate.images
                                                                     ? showImage() +
-                                                                      quest
+                                                                      roommate
                                                                           .images[0]
                                                                     : HousePlaceholder
                                                             }
@@ -115,31 +115,31 @@ export default function Index(props) {
                                                         />
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        {quest.id}
+                                                        {roommate.id}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         <Link
                                                             href={route(
-                                                                "roomWanted.show",
-                                                                quest.id
+                                                                "roommate.show",
+                                                                roommate.id
                                                             )}
                                                             className="hover:underline hover:font-semibold"
                                                         >
-                                                            {quest.title}
+                                                            {roommate.title}
                                                         </Link>
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        £{quest.budget}
+                                                        £{roommate.budget}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {moment(
-                                                            quest.created_at
+                                                            roommate.created_at
                                                         ).format(
                                                             "MMM DD, YYYY"
                                                         )}
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        {quest.live_at ===
+                                                        {roommate.live_at ===
                                                         null ? (
                                                             <div className="inline-flex items-center px-3 py-1 text-gray-500 rounded-full gap-x-2 bg-gray-100/60 dark:bg-gray-800">
                                                                 <svg
@@ -183,7 +183,7 @@ export default function Index(props) {
                                                                 <h2 className="text-sm font-normal">
                                                                     Live at{" "}
                                                                     {moment(
-                                                                        quest.live_at
+                                                                        roommate.live_at
                                                                     ).format(
                                                                         "MMM DD, YYYY"
                                                                     )}
@@ -194,8 +194,8 @@ export default function Index(props) {
                                                     <TableDataCell>
                                                         <Link
                                                             href={route(
-                                                                "roomWanted.edit",
-                                                                quest.id
+                                                                "roommate.edit",
+                                                                roommate.id
                                                             )}
                                                             className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-indigo-600 border rounded-lg"
                                                         >

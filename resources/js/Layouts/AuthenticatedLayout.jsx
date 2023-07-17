@@ -223,13 +223,13 @@ export default function Authenticated({ auth, header, children }) {
                                             </NavLink>
                                             <NavLink
                                                 className="gap-2"
-                                                href={route("roomWanted.index")}
+                                                href={route("roommate.index")}
                                                 active={route().current(
-                                                    "roomWanted.index"
+                                                    "roommate.index"
                                                 )}
                                             >
                                                 <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                Room Quest
+                                                Roommate
                                             </NavLink>
                                         </div>
                                     </div>

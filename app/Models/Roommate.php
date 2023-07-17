@@ -6,6 +6,7 @@ use App\Enums\CurrentFlatmateGender;
 use App\Enums\CurrentFlatmateOccupation;
 use App\Enums\CurrentFlatmateSmoking;
 use App\Enums\Pets;
+use App\Enums\RoomSize;
 use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
-class RoomWanted extends Model
+class Roommate extends Model
 {
     use HasFactory, SoftDeletes, FilterByUser, Searchable;
 
@@ -26,6 +27,7 @@ class RoomWanted extends Model
         'description',
         'budget',
         'searching_for',
+        'room_size',
         'live_at',
         'available',
         'age',
@@ -33,8 +35,6 @@ class RoomWanted extends Model
         'pets',
         'occupation',
         'gender',
-        'second_gender',
-        'hobbies',
         'area',
         'city',
         'user_id',
@@ -47,6 +47,7 @@ class RoomWanted extends Model
         'pets' => Pets::class,
         'occupation' => CurrentFlatmateOccupation::class,
         'gender' => CurrentFlatmateGender::class,
+        'room_size' => RoomSize::class,
         'images' => 'array',
     ];
 
@@ -117,21 +118,10 @@ class RoomWanted extends Model
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'cost' => $this->cost,
-            'deposit' => $this->deposit,
-            'size' => $this->size,
-            'type' => $this->type,
-            'furnished' => $this->furnished,
-            'images' => $this->images,
-            'created_at' => $this->created_at->format('Y-m-d'),
-            'address' => [
-                'id' => $this->address->id,
-                'address_1' => $this->address->address_1,
-                'address_2' => $this->address->address_2,
-                'area' => $this->address->area,
-                'city' => $this->address->city,
-                'post_code' => $this->address->post_code,
-            ],
+            'budget' => $this->budget,
+            'city' => $this->city,
+            'area' => $this->area,
+            'room_size' => $this->room_size,
         ];
     }
 }
