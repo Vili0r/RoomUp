@@ -180,6 +180,9 @@ class SharedController extends Controller
                 'maximum_stay' => ['required'],
                 'days_available' =>['required'], 
                 'short_term' => ['sometimes'],
+                'sub_title' => ['sometimes'],
+                'sub_description' => ['sometimes'],
+                'images' => ['sometimes'],
             ]);
 
             $shared->rooms()->create([
@@ -232,7 +235,7 @@ class SharedController extends Controller
             'new_flatmate_hobbies' => $request->new_flatmate_hobbies,
         ]);
 
-        return to_route('dashboard');
+        return to_route('shared.show', $shared)->with('success', 'Please update your rooms individually');
     }
 
     /**

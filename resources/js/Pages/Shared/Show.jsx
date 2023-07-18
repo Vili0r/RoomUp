@@ -16,10 +16,11 @@ import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 
 const Show = (props) => {
-    const { shared } = usePage().props;
+    const { shared, notification } = usePage().props;
     const [openModal, setOpenModal] = useState(false);
     const [openDeletePropertyModal, setOpenDeletePropertyModal] =
         useState(false);
+    const [visible, setVisible] = useState(false);
 
     const {
         data,
@@ -58,6 +59,19 @@ const Show = (props) => {
         });
     }, [data]);
 
+    useEffect(() => {
+        let timer;
+
+        if (notification !== null) {
+            setVisible(true);
+            timer = setTimeout(() => {
+                setVisible(false);
+            }, 10000);
+        }
+
+        return () => clearTimeout(timer);
+    }, [notification]);
+
     const submit = (e) => {
         e.preventDefault();
 
@@ -75,6 +89,13 @@ const Show = (props) => {
         destroy(route("shared.destroy", shared.id), {
             onSuccess: () => closeModal(),
             onFinish: () => reset(),
+        });
+    };
+
+    const scrollToBottom = (position) => {
+        window.scrollTo({
+            top: position,
+            behavior: "smooth",
         });
     };
 
@@ -187,6 +208,45 @@ const Show = (props) => {
                         </div>
                     </form>
                 </Modal>
+                <div
+                    className={`fixed top-[3.75rem] right-4 ${
+                        visible ? "opacity-100" : "opacity-0"
+                    } transition-opacity duration-300`}
+                >
+                    <div className="flex rounded-lg shadow-lg w-96">
+                        <div className="flex items-center px-6 py-4 bg-green-500 rounded-l-lg">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="text-white fill-current"
+                                viewBox="0 0 16 16"
+                                width="20"
+                                height="20"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
+                                ></path>
+                            </svg>
+                        </div>
+                        <div className="flex items-center justify-between w-full px-4 py-6 bg-white border border-gray-200 rounded-r-lg border-l-transparent">
+                            <div>{notification}</div>
+                            <button onClick={() => setVisible(false)}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="text-gray-700 fill-current"
+                                    viewBox="0 0 16 16"
+                                    width="20"
+                                    height="20"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
@@ -197,8 +257,15 @@ const Show = (props) => {
                                             {shared.title}
                                         </h1>
                                         <p className="text-sm font-medium leading-4 text-white sm:text-slate-500 dark:sm:text-slate-400">
-                                            Availbale rooms:{" "}
-                                            {shared.available_rooms}
+                                            <SecondaryButton
+                                                className="hover:bg-slate-100"
+                                                onClick={() =>
+                                                    scrollToBottom(650)
+                                                }
+                                            >
+                                                Availbale rooms:{" "}
+                                                {shared.available_rooms}
+                                            </SecondaryButton>
                                         </p>
                                         <span className="mb-3">
                                             {shared.live_at === "" ? (
