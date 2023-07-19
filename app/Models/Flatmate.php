@@ -10,11 +10,10 @@ use App\Enums\References;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Laravel\Scout\Searchable;
 
 class Flatmate extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'new_flatmate_min_age',
@@ -41,20 +40,5 @@ class Flatmate extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'new_flatmate_min_age' => $this->new_flatmate_min_age,
-            'new_flatmate_max_age' => $this->new_flatmate_max_age,
-            'new_flatmate_smoker' => $this->new_flatmate_smoker,
-            'new_flatmate_pets' => $this->new_flatmate_pets,
-            'new_flatmate_references' => $this->new_flatmate_references,
-            'new_flatmate_couples' => $this->new_flatmate_couples,
-            'new_flatmate_occupation' => $this->new_flatmate_occupation,
-            'new_flatmate_gender' => $this->new_flatmate_gender,
-        ];
     }
 }

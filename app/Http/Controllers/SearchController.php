@@ -33,11 +33,6 @@ class SearchController extends Controller
             $query = QueryBuilder::for(Flat::class)
                 ->allowedFilters($this->allowedFlatFilters())
                 ->with(['address', 'availability'])
-                // ->tap(function ($builder) use ($request) {
-                //     if(filled($request->search)){
-                //         return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
-                //     }
-                // })
                 ->latest();
 
             $results = FlatSearchResultResource::collection($query->paginate(6)->appends($request->query()));
@@ -45,11 +40,6 @@ class SearchController extends Controller
             $query = QueryBuilder::for(Room::class)
                 ->allowedFilters($this->allowedSharedFilters())
                 ->with(['owner.address'])
-                // ->tap(function ($builder) use ($request) {
-                //     if(filled($request->search)){
-                //         return $builder->whereIn('id', Shared::search($request->search)->get()->pluck('id'));
-                //     }
-                // })
                 ->latest();
    
             $results = RoomSearchResultResource::collection($query->paginate(6)->appends($request->query()));
@@ -78,7 +68,7 @@ class SearchController extends Controller
         return [
             'size',
             AllowedFilter::custom('amenity', new AmenityQueryFilter()),
-            // AllowedFilter::scope('max_price'),
+            AllowedFilter::scope('max_price'),
         ];
     }
 }

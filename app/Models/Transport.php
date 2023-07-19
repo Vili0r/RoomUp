@@ -8,12 +8,11 @@ use App\Enums\Stations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Laravel\Scout\Searchable;
 
 
 class Transport extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'minutes',
@@ -32,15 +31,5 @@ class Transport extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'minutes' => $this->minutes,
-            'mode' => $this->mode,
-            'station' => $this->station,
-        ];
     }
 }

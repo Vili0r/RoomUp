@@ -39,6 +39,7 @@ const Create = (props) => {
             preserveScroll: true,
         });
     };
+    console.log(data);
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Sent message to listing advertiser" />

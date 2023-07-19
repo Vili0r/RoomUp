@@ -37,7 +37,7 @@ const amenities = [
 
 const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [selectedAmenities, setSelectedAmenities] = useState([]);
-    const [toggleActiveButton, setToggleActiveButton] = useState(1);
+    const [toggleActiveButton, setToggleActiveButton] = useState(true);
     const [step, setStep] = useState(1);
     const [type, setType] = useState("");
     const [size, setSize] = useState("");
@@ -464,6 +464,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                     )}
                                                 </div>
                                             </div>
+                                            {toggleActiveButton === 2 && (
+                                                <div>flatmate</div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

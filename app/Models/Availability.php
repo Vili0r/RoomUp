@@ -8,11 +8,10 @@ use App\Enums\MinimumStay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Laravel\Scout\Searchable;
 
 class Availability extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'available_from',
@@ -34,17 +33,5 @@ class Availability extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'available_from' => $this->available_from->format('Y-m-d'),
-            'minimum_stay' => $this->minimum_stay,
-            'maximum_stay' => $this->maximum_stay,
-            'days_available' => $this->days_available,
-            'short_term' => $this->short_term,
-        ];
     }
 }

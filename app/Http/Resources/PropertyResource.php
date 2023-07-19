@@ -20,17 +20,21 @@ class PropertyResource extends JsonResource
             'model' => $request->type,
             'title' => $this->title,
             'description' => $this->description,
-            'images' => $this->images,
+            'images' => $this->images ? $this->images : $this->owner->images,
             'size' => $this->size,
-            'user_id' => $this->user_id,
-            'type' => Str::replace('_', ' ', $this->type->name) ?? '',
+            'user_id' => $this->user_id ? $this->user_id : $this->owner->user_id,
+            'type' => $this->type ? Str::replace('_', ' ', $this->type->name) : Str::replace('_', ' ', $this->owner->type->name),
             'created_at' => $this->created_at->toDateTimeString(),
-            'address' => $this->whenLoaded('address', function () {
-                return new AddressResource($this->address);
-            }),
-            'advertiser' => $this->whenLoaded('advertiser', function () {
-                return new AdvertiserResource($this->advertiser);
-            }),
+            'address' => [
+                'address_1' => $this->address ? $this->address->address_1 : $this->owner->address->address_1,
+                'area' => $this->address ? $this->address->area : $this->owner->address->area,
+            ],
+            'advertiser' => [
+                'first_name' => $this->advertiser ? $this->advertiser->first_name : $this->owner->advertiser->first_name,
+            ],
+            // 'advertiser' => $this->whenLoaded('advertiser', function () {
+            //     return new AdvertiserResource($this->advertiser);
+            // }),
             'views' => $this->views(), 
         ];
     }

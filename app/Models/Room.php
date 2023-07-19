@@ -9,8 +9,10 @@ use App\Enums\MaximumStay;
 use App\Enums\MinimumStay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Searchable;
 
 class Room extends Model
@@ -77,6 +79,16 @@ class Room extends Model
     public function views()
     {
         return array_sum($this->viewedUsers->pluck('pivot.count')->toArray());
+    }
+
+    public function messages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'owner');
+    }
+
+    public function scopeMaxPrice(Builder $query, $price): Builder
+    {
+        return $query->where('room_cost', '<=', $price);
     }
 
     public function toSearchableArray(): array

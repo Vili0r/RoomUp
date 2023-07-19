@@ -9,6 +9,7 @@ use App\Http\Resources\PropertyResource;
 use App\Models\Conversation;
 use App\Models\Flat;
 use App\Models\Message;
+use App\Models\Room;
 use App\Models\Shared;
 use App\Notifications\PropertyMessageNotification;
 use Illuminate\Http\Request;
@@ -42,9 +43,9 @@ class MessageController extends Controller
     public function create(Request $request): Response 
     {
         if ($request->type == 'flat') {
-            $property = Flat::with(['address', 'advertiser', 'viewedUsers'])->findOrFail($request->id);
-        } elseif ($request->type == 'shared') {
-            $property = Shared::with(['address', 'advertiser', 'viewedUsers'])->findOrFail($request->id);
+            $property = Flat::findOrFail($request->id);
+        } elseif ($request->type == 'room') {
+            $property = Room::findOrFail($request->id);
         }
         
         return Inertia::render('Message/Create',[
@@ -66,8 +67,12 @@ class MessageController extends Controller
 
         if ($request->owner_type == 'flat') {
             $property = Flat::with(['user'])->findOrFail($request->owner_id);
-        } elseif ($request->owner_type == 'shared') {
-            $property = Shared::with(['user'])->findOrFail($request->owner_id);
+            $propertyUserId = $property->user_id;
+            $propertyUserEmail = $property->user->email;
+        } elseif ($request->owner_type == 'room') {
+            $property = Room::with(['owner.user'])->findOrFail($request->owner_id);
+            $propertyUserId = $property->owner->user_id;
+            $propertyUserEmail = $property->owner->user->email;
         }
 
         //Save message because we need to throttle them to avoid spams
@@ -83,7 +88,7 @@ class MessageController extends Controller
                 'email' => $request->email,
                 'message_text' => $request->message_text,
                 'phone_number' => $request->phone_number,
-                'receiver_id' => $property->user_id,
+                'receiver_id' => $propertyUserId,
             ]);
 
             $message = [
@@ -93,7 +98,7 @@ class MessageController extends Controller
                 'messageText' => $request->message_text,              
             ];
 
-            Notification::route('mail', $property->user->email)
+            Notification::route('mail', $propertyUserEmail)
                 ->notify(new PropertyMessageNotification($message));
         }
 
@@ -109,7 +114,7 @@ class MessageController extends Controller
             $conversation->touchLastReply();
 
             $conversation->users()->sync(array_unique(
-                array_merge([$property->user_id], [auth()->id()])
+                array_merge([$propertyUserId], [auth()->id()])
             ));
 
             $conversation->load(['users']);
