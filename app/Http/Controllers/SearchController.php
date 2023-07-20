@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\QueryFilters\AmenityQueryFilter;
+use App\Http\QueryFilters\RoomAmenityQueryFilter;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
@@ -67,7 +68,7 @@ class SearchController extends Controller
     {
         return [
             'size',
-            AllowedFilter::custom('amenity', new AmenityQueryFilter()),
+            AllowedFilter::custom('amenity', new RoomAmenityQueryFilter()),
             AllowedFilter::scope('max_price'),
         ];
     }

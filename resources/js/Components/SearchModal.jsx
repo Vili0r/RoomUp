@@ -25,19 +25,26 @@ const bedrooms = [
 ];
 
 const amenities = [
-    { id: 1, name: "Furnished" },
-    { id: 2, name: "Parking" },
-    { id: 3, name: "Garden" },
-    { id: 4, name: "Garage" },
-    { id: 5, name: "Balcony" },
-    { id: 6, name: "Disable Access" },
-    { id: 7, name: "Living Room" },
-    { id: 8, name: "Broadband" },
+    { id: 1, name: "Parking" },
+    { id: 2, name: "Garden" },
+    { id: 3, name: "Garage" },
+    { id: 4, name: "Balcony" },
+    { id: 5, name: "Disable Access" },
+    { id: 6, name: "Living Room" },
+    { id: 7, name: "Broadband" },
+    { id: 8, name: "Air Conditioning" },
+    { id: 9, name: "Heating System" },
+    { id: 10, name: "Dishwasher" },
+    { id: 11, name: "Microwave" },
+    { id: 12, name: "Oven" },
+    { id: 13, name: "Washer" },
+    { id: 14, name: "Refrigirator" },
+    { id: 15, name: "Storage" },
 ];
 
 const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [selectedAmenities, setSelectedAmenities] = useState([]);
-    const [toggleActiveButton, setToggleActiveButton] = useState(true);
+    const [toggleActiveButton, setToggleActiveButton] = useState(1);
     const [step, setStep] = useState(1);
     const [type, setType] = useState("");
     const [size, setSize] = useState("");
@@ -47,6 +54,12 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
+        setStep(1);
+        setType("");
+        setSize("");
+        setPrice("");
+        setToggleActiveBedrooms(1);
+        setSelectedAmenities([]);
     };
 
     //next step
@@ -55,6 +68,20 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     };
     const handleBack = () => {
         setStep(step - 1);
+    };
+
+    const handleAmenityChange = (id) => {
+        setSelectedAmenities((prev) => {
+            // Check if the ID already exists in the array
+            const exists = prev.includes(id);
+
+            // If the ID exists, remove it from the array, otherwise add it
+            if (exists) {
+                return prev.filter((amenityId) => amenityId !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
     };
 
     // const handleFilterSubmit = (filterName, filterValue) => {
@@ -102,7 +129,39 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     //     }
     // };
 
-    const handleFilterSubmit = () => {
+    const handlePropertyFilterSubmit = () => {
+        let href = "/search?";
+
+        if (type !== "" && type !== 4) {
+            href += "filter[type]=" + type + "&";
+        }
+        if (size !== "") {
+            href += "filter[size]=" + size + "&";
+        }
+        if (price !== "") {
+            href += "filter[max_price]=" + price;
+        }
+        if (selectedAmenities.length) {
+            href += "&filter[amenity]=" + selectedAmenities;
+        }
+        console.log(href);
+
+        if (type === 4) {
+            router.visit(
+                href,
+                {
+                    data: {
+                        search_type: "shareds",
+                    },
+                },
+                { preserveScroll: true }
+            );
+        } else {
+            router.visit(href, { preserveScroll: true });
+        }
+    };
+
+    const handleFlatmateFilterSubmit = () => {
         let href = "/search?";
 
         if (type !== "" && type !== 4) {
@@ -119,19 +178,15 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         // }
         //console.log(type, size, price, href);
 
-        if (type === 4) {
-            router.visit(
-                href,
-                {
-                    data: {
-                        search_type: "shareds",
-                    },
+        router.visit(
+            href,
+            {
+                data: {
+                    search_type: "flatmate",
                 },
-                { preserveScroll: true }
-            );
-        } else {
-            router.visit(href, { preserveScroll: true });
-        }
+            },
+            { preserveScroll: true }
+        );
     };
 
     return (
@@ -178,295 +233,482 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                 </p>
 
                                                 <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1 [@media(max-width:440px)]:flex-col"></div>
-                                                <button
-                                                    onClick={handleFilterSubmit}
-                                                    className="relative inline-flex items-center justify-center px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
-                                                >
-                                                    <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
-                                                    <span className="relative group-hover:text-white">
-                                                        Search
-                                                    </span>
-                                                </button>
+
+                                                <div className="flex justify-start mt-5">
+                                                    <div>
+                                                        <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem] [@media(max-width:440px)]:flex-col ml-5">
+                                                            <button
+                                                                onClick={() =>
+                                                                    activeButton(
+                                                                        1
+                                                                    )
+                                                                }
+                                                            >
+                                                                <span
+                                                                    className={`${
+                                                                        toggleActiveButton ==
+                                                                        "1"
+                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black rounded-xl [@media(max-width:440px)]:py-3"
+                                                                            : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm h-8 bg-white hover:bg-black rounded-xl"
+                                                                    } absolute font-semibold inline-flex items-center h-[2.5rem] w-[8rem] justify-center transition-all duration-150 transform items-center-full ease ease-in-out group-hover:translate-x-full`}
+                                                                >
+                                                                    Rent
+                                                                </span>
+                                                                <span className="relative invisible">
+                                                                    Rent
+                                                                </span>
+                                                            </button>
+                                                            <button
+                                                                onClick={() =>
+                                                                    activeButton(
+                                                                        2
+                                                                    )
+                                                                }
+                                                            >
+                                                                <span
+                                                                    className={`${
+                                                                        toggleActiveButton ==
+                                                                        "2"
+                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black h-8 rounded-xl [@media(max-width:440px)]:py-3"
+                                                                            : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm bg-white hover:bg-black rounded-xl after:bg-black after:w-1/6 after:rounded-r-xl after:h-full after:border-black after:border-none after:absolute after:top-0 after:left-0"
+                                                                    } absolute font-semibold transition-all  duration-150 inline-flex h-[2.5rem] w-[8rem] items-center justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full`}
+                                                                >
+                                                                    Flatmate
+                                                                </span>
+                                                                <span className="relative invisible">
+                                                                    Flatmate
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div className="flex justify-center space-y-2">
-                                                <div className="">
-                                                    {step == 1 && (
-                                                        <>
-                                                            <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem] [@media(max-width:440px)]:flex-col ml-5">
-                                                                <button
-                                                                    onClick={() =>
-                                                                        activeButton(
-                                                                            1
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <span
-                                                                        className={`${
-                                                                            toggleActiveButton ==
-                                                                            "1"
-                                                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black rounded-xl [@media(max-width:440px)]:py-3"
-                                                                                : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm h-8 bg-white hover:bg-black rounded-xl"
-                                                                        } absolute font-semibold inline-flex items-center h-[2.5rem] w-[8rem] justify-center transition-all duration-150 transform items-center-full ease ease-in-out group-hover:translate-x-full`}
-                                                                    >
-                                                                        Rent
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Rent
-                                                                    </span>
-                                                                </button>
-                                                                <button
-                                                                    onClick={() =>
-                                                                        activeButton(
-                                                                            2
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <span
-                                                                        className={`${
-                                                                            toggleActiveButton ==
-                                                                            "2"
-                                                                                ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black h-8 rounded-xl [@media(max-width:440px)]:py-3"
-                                                                                : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm bg-white hover:bg-black rounded-xl after:bg-black after:w-1/6 after:rounded-r-xl after:h-full after:border-black after:border-none after:absolute after:top-0 after:left-0"
-                                                                        } absolute font-semibold transition-all  duration-150 inline-flex h-[2.5rem] w-[8rem] items-center justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full`}
-                                                                    >
-                                                                        Flatmate
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Flatmate
-                                                                    </span>
-                                                                </button>
-                                                            </div>
+                                                {toggleActiveButton === 1 ? (
+                                                    <div className="">
+                                                        <button
+                                                            onClick={
+                                                                handlePropertyFilterSubmit
+                                                            }
+                                                            className="relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
+                                                        >
+                                                            <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
+                                                            <span className="relative group-hover:text-white">
+                                                                Search
+                                                            </span>
+                                                        </button>
 
-                                                            <div className="mt-[2rem]">
-                                                                <p className="text-sm font-semibold font-popp">
-                                                                    Type of
-                                                                    places
-                                                                </p>
-                                                                <div className="grid grid-cols-2 gap-3 [@media(max-width:350px)]:gap-x-7 lg:space-y-2 xl:gap-3 mt-[1rem] place-items-center">
-                                                                    {places.map(
-                                                                        (
-                                                                            places,
-                                                                            index
-                                                                        ) => (
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    setType(
+                                                        {step == 1 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp">
+                                                                        Type of
+                                                                        places
+                                                                    </p>
+                                                                    <div className="grid grid-cols-2 gap-3 [@media(max-width:350px)]:gap-x-7 lg:space-y-2 xl:gap-3 mt-[1rem] place-items-center">
+                                                                        {places.map(
+                                                                            (
+                                                                                places,
+                                                                                index
+                                                                            ) => (
+                                                                                <div
+                                                                                    onClick={() =>
+                                                                                        setType(
+                                                                                            places.id
+                                                                                        )
+                                                                                    }
+                                                                                    key={
                                                                                         places.id
-                                                                                    )
-                                                                                }
-                                                                                key={
-                                                                                    places.id
-                                                                                }
-                                                                                className={`${
-                                                                                    type ==
-                                                                                    places.id
-                                                                                        ? "border-black"
-                                                                                        : "border-gray-200 [@media(max-width:340px)]:border-0"
-                                                                                } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
-                                                                            >
-                                                                                <places.image className="mt-6 font-popp w-7 h-7" />
-                                                                                <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
-                                                                                    {
-                                                                                        places.title
                                                                                     }
-                                                                                </span>
-                                                                            </div>
-                                                                        )
-                                                                    )}
+                                                                                    className={`${
+                                                                                        type ==
+                                                                                        places.id
+                                                                                            ? "border-black"
+                                                                                            : "border-gray-200 [@media(max-width:340px)]:border-0"
+                                                                                    } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
+                                                                                >
+                                                                                    <places.image className="mt-6 font-popp w-7 h-7" />
+                                                                                    <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
+                                                                                        {
+                                                                                            places.title
+                                                                                        }
+                                                                                    </span>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
 
-                                                            <div className="flex justify-end mt-6">
-                                                                <PrimaryButton
-                                                                    onClick={
-                                                                        handleNext
-                                                                    }
-                                                                    className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                >
-                                                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                        <ImArrowRight2 className="w-5 h-5" />
-                                                                    </span>
-                                                                    <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                        Next
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Next
-                                                                    </span>
-                                                                </PrimaryButton>
-                                                            </div>
-                                                        </>
-                                                    )}
-                                                    {step == 2 && (
-                                                        <>
-                                                            <div className="mt-[2rem]">
-                                                                <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                    Price Range
-                                                                </p>
+                                                                <div className="flex justify-end mt-6">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleNext
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowRight2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Next
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Next
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                        {step == 2 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Price
+                                                                        Range
+                                                                    </p>
 
-                                                                <input
-                                                                    type="range"
-                                                                    min="0"
-                                                                    max="15000"
-                                                                    className="relative mt-2"
-                                                                    value={
-                                                                        price
-                                                                    }
-                                                                    onChange={(
-                                                                        e
-                                                                    ) =>
-                                                                        setPrice(
+                                                                    <input
+                                                                        type="range"
+                                                                        min="0"
+                                                                        max="15000"
+                                                                        className="relative mt-2"
+                                                                        value={
+                                                                            price
+                                                                        }
+                                                                        onChange={(
                                                                             e
-                                                                                .target
-                                                                                .value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            </div>
+                                                                        ) =>
+                                                                            setPrice(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                </div>
 
-                                                            <div className="mt-[2rem]">
-                                                                <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                    Bedroom
-                                                                </p>
-                                                                <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:400px)]:grid [@media(max-width:400px)]:grid-cols-3">
-                                                                    {bedrooms.map(
-                                                                        (
-                                                                            bedroom,
-                                                                            index
-                                                                        ) => (
-                                                                            <div
-                                                                                onClick={() =>
-                                                                                    setSize(
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Bedroom
+                                                                    </p>
+                                                                    <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:400px)]:grid [@media(max-width:400px)]:grid-cols-3">
+                                                                        {bedrooms.map(
+                                                                            (
+                                                                                bedroom,
+                                                                                index
+                                                                            ) => (
+                                                                                <div
+                                                                                    onClick={() =>
+                                                                                        setSize(
+                                                                                            bedroom.id
+                                                                                        )
+                                                                                    }
+                                                                                    key={
                                                                                         bedroom.id
-                                                                                    )
-                                                                                }
-                                                                                key={
-                                                                                    bedroom.id
-                                                                                }
-                                                                                className={`${
-                                                                                    size ==
-                                                                                    bedroom.id
-                                                                                        ? "bg-black text-white"
-                                                                                        : "bg-white text-black"
-                                                                                } relative p-1 py-2 px-6 lg:px-[19px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
-                                                                            >
-                                                                                <span className="font-popp text-md">
-                                                                                    {
-                                                                                        bedroom.title
                                                                                     }
-                                                                                </span>
-                                                                            </div>
-                                                                        )
-                                                                    )}
+                                                                                    className={`${
+                                                                                        size ==
+                                                                                        bedroom.id
+                                                                                            ? "bg-black text-white"
+                                                                                            : "bg-white text-black"
+                                                                                    } relative p-1 py-2 px-6 lg:px-[19px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
+                                                                                >
+                                                                                    <span className="font-popp text-md">
+                                                                                        {
+                                                                                            bedroom.title
+                                                                                        }
+                                                                                    </span>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
 
-                                                            <div className="flex justify-center mt-6 space-x-2">
-                                                                <PrimaryButton
-                                                                    onClick={
-                                                                        handleBack
-                                                                    }
-                                                                    className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                >
-                                                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                        <ImArrowLeft2 className="w-5 h-5" />
-                                                                    </span>
-                                                                    <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                        Previous
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Previous
-                                                                    </span>
-                                                                </PrimaryButton>
-                                                                <PrimaryButton
-                                                                    onClick={
-                                                                        handleNext
-                                                                    }
-                                                                    className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                >
-                                                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                        <ImArrowRight2 className="w-5 h-5" />
-                                                                    </span>
-                                                                    <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                        Next
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Next
-                                                                    </span>
-                                                                </PrimaryButton>
-                                                            </div>
-                                                        </>
-                                                    )}
+                                                                <div className="flex justify-center mt-6 space-x-2">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleBack
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowLeft2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Previous
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Previous
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleNext
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowRight2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Next
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Next
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
 
-                                                    {step == 3 && (
-                                                        <>
-                                                            <div className="mt-[2rem]">
-                                                                <p className="text-sm font-semibold font-popp">
-                                                                    Amenities
-                                                                </p>
-                                                                <div className="mt-[1rem] place-items-center">
-                                                                    {amenities?.map(
-                                                                        (
-                                                                            amenity
-                                                                        ) => (
-                                                                            <div
-                                                                                key={
-                                                                                    amenity.id
-                                                                                }
-                                                                                className="flex justify-between mb-2 space-x-[5rem]"
-                                                                            >
-                                                                                <span className="mt-1 text-sm font-popp">
-                                                                                    {
-                                                                                        amenity.name
+                                                        {step == 3 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp">
+                                                                        Amenities
+                                                                    </p>
+
+                                                                    <div className="grid grid-cols-2 mt-3">
+                                                                        {amenities?.map(
+                                                                            (
+                                                                                amenity
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        amenity.id
                                                                                     }
-                                                                                </span>
-                                                                                <label className="relative cursor-pointer">
-                                                                                    <input
-                                                                                        id="checkbox-1"
-                                                                                        type="checkbox"
-                                                                                        // onChange={() =>
-                                                                                        //     handleAmenityChange(
-                                                                                        //         amenity.id
-                                                                                        //     )
-                                                                                        // }
-                                                                                        // checked={selectedAmenities.includes(
-                                                                                        //     amenity.id
-                                                                                        // )}
-                                                                                        className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
-                                                                                    />
-                                                                                    <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
-                                                                                </label>
-                                                                            </div>
-                                                                        )
-                                                                    )}
+                                                                                    className="flex justify-between mb-2 space-x-[4rem]"
+                                                                                >
+                                                                                    <span className="mt-1 ml-2 text-sm font-popp">
+                                                                                        {
+                                                                                            amenity.name
+                                                                                        }
+                                                                                    </span>
+                                                                                    <label className="relative cursor-pointer">
+                                                                                        <input
+                                                                                            id="checkbox-1"
+                                                                                            type="checkbox"
+                                                                                            onChange={() =>
+                                                                                                handleAmenityChange(
+                                                                                                    amenity.id
+                                                                                                )
+                                                                                            }
+                                                                                            checked={selectedAmenities.includes(
+                                                                                                amenity.id
+                                                                                            )}
+                                                                                            className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
+                                                                                        />
+                                                                                        <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
+                                                                                    </label>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
 
-                                                            <div className="flex justify-start mt-6 space-x-2">
-                                                                <PrimaryButton
-                                                                    onClick={
-                                                                        handleBack
-                                                                    }
-                                                                    className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                >
-                                                                    <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                        <ImArrowLeft2 className="w-5 h-5" />
-                                                                    </span>
-                                                                    <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                        Previous
-                                                                    </span>
-                                                                    <span className="relative invisible">
-                                                                        Previous
-                                                                    </span>
-                                                                </PrimaryButton>
-                                                            </div>
-                                                        </>
-                                                    )}
-                                                </div>
+                                                                <div className="flex justify-start mt-6 space-x-2">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleBack
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowLeft2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Previous
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Previous
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="">
+                                                        <button
+                                                            onClick={
+                                                                handleFlatmateFilterSubmit
+                                                            }
+                                                            className="relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
+                                                        >
+                                                            <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
+                                                            <span className="relative group-hover:text-white">
+                                                                Search
+                                                            </span>
+                                                        </button>
+
+                                                        {step == 1 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp">
+                                                                        Type of
+                                                                        places
+                                                                    </p>
+                                                                </div>
+
+                                                                <div className="flex justify-end mt-6">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleNext
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowRight2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Next
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Next
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                        {step == 2 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Price
+                                                                        Range
+                                                                    </p>
+
+                                                                    <input
+                                                                        type="range"
+                                                                        min="0"
+                                                                        max="15000"
+                                                                        className="relative mt-2"
+                                                                        value={
+                                                                            price
+                                                                        }
+                                                                        onChange={(
+                                                                            e
+                                                                        ) =>
+                                                                            setPrice(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                </div>
+
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Bedroom
+                                                                    </p>
+                                                                </div>
+
+                                                                <div className="flex justify-center mt-6 space-x-2">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleBack
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowLeft2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Previous
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Previous
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleNext
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowRight2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Next
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Next
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+
+                                                        {step == 3 && (
+                                                            <>
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp">
+                                                                        Amenities
+                                                                    </p>
+                                                                    <div className="mt-[1rem] place-items-center">
+                                                                        {amenities?.map(
+                                                                            (
+                                                                                amenity
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        amenity.id
+                                                                                    }
+                                                                                    className="flex justify-between mb-2 space-x-[5rem]"
+                                                                                >
+                                                                                    <span className="mt-1 text-sm font-popp">
+                                                                                        {
+                                                                                            amenity.name
+                                                                                        }
+                                                                                    </span>
+                                                                                    <label className="relative cursor-pointer">
+                                                                                        <input
+                                                                                            id="checkbox-1"
+                                                                                            type="checkbox"
+                                                                                            // onChange={() =>
+                                                                                            //     handleAmenityChange(
+                                                                                            //         amenity.id
+                                                                                            //     )
+                                                                                            // }
+                                                                                            // checked={selectedAmenities.includes(
+                                                                                            //     amenity.id
+                                                                                            // )}
+                                                                                            className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
+                                                                                        />
+                                                                                        <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
+                                                                                    </label>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="flex justify-start mt-6 space-x-2">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleBack
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowLeft2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Previous
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Previous
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
-                                            {toggleActiveButton === 2 && (
-                                                <div>flatmate</div>
-                                            )}
                                         </div>
                                     </div>
                                 </div>

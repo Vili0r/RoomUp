@@ -34,6 +34,7 @@ use App\Http\Controllers\RoommateAvailabilityController;
 use App\Http\Controllers\RoommateController;
 use App\Http\Controllers\RoommateDeletePhotoController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SearchFlatmateController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
@@ -63,6 +64,8 @@ Route::get('/search', SearchController::class)
     ->name('search');
 Route::get('/home-search', HomeSearchController::class)
     ->name('home-search');
+Route::get('/flatmate-search', SearchFlatmateController::class)
+    ->name('flatmate-search');
   
 //Socials routes
 Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
