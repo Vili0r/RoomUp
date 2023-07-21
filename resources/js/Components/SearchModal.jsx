@@ -6,7 +6,7 @@ import { BsHouseFill } from "react-icons/bs";
 import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { router } from "@inertiajs/react";
 import { BsCheck } from "react-icons/bs";
-import { PrimaryButton, SecondaryButton } from ".";
+import { MultiRangeSlider, PrimaryButton, SecondaryButton } from "@/Components";
 
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
@@ -51,6 +51,16 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [price, setPrice] = useState("");
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
     const [searchResults, setSearchResults] = useState(null);
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(10000);
+
+    const handleMinChange = (value) => {
+        setMin(value);
+    };
+
+    const handleMaxChange = (value) => {
+        setMax(value);
+    };
 
     const activeButton = (index) => {
         setToggleActiveButton(index);
@@ -138,8 +148,11 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         if (size !== "") {
             href += "filter[size]=" + size + "&";
         }
-        if (price !== "") {
-            href += "filter[max_price]=" + price;
+        if (min !== "") {
+            href += "filter[min_price]=" + min + "&";
+        }
+        if (max !== "") {
+            href += "filter[max_price]=" + max + "&";
         }
         if (selectedAmenities.length) {
             href += "&filter[amenity]=" + selectedAmenities;
@@ -362,13 +375,33 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                         )}
                                                         {step == 2 && (
                                                             <>
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                <div className="mt-[1rem]">
+                                                                    <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                                                         Price
                                                                         Range
                                                                     </p>
+                                                                    <MultiRangeSlider
+                                                                        rangeMin={
+                                                                            0
+                                                                        }
+                                                                        rangeMax={
+                                                                            10000
+                                                                        }
+                                                                        initialMin={
+                                                                            min
+                                                                        }
+                                                                        initialMax={
+                                                                            max
+                                                                        }
+                                                                        onMinChange={
+                                                                            handleMinChange
+                                                                        }
+                                                                        onMaxChange={
+                                                                            handleMaxChange
+                                                                        }
+                                                                    />
 
-                                                                    <input
+                                                                    {/* <input
                                                                         type="range"
                                                                         min="0"
                                                                         max="15000"
@@ -385,7 +418,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                                     .value
                                                                             )
                                                                         }
-                                                                    />
+                                                                    /> */}
                                                                 </div>
 
                                                                 <div className="mt-[2rem]">

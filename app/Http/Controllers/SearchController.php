@@ -61,6 +61,7 @@ class SearchController extends Controller
             'type',
             AllowedFilter::custom('amenity', new AmenityQueryFilter()),
             AllowedFilter::scope('max_price'),
+            AllowedFilter::scope('min_price'),
         ];
     }
     

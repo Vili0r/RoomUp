@@ -116,6 +116,11 @@ class Flat extends Model
     {
         return $query->where('cost', '<=', $price);
     }
+    
+    public function scopeMinPrice(Builder $query, $price): Builder
+    {
+        return $query->where('cost', '>=', $price);
+    }
 
     public function toSearchableArray(): array
     {
