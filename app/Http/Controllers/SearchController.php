@@ -9,7 +9,13 @@ use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\QueryFilters\AmenityQueryFilter;
-use App\Http\QueryFilters\RoomAmenityQueryFilter;
+use App\Http\QueryFilters\MinuteQueryFilter;
+use App\Http\QueryFilters\ModeQueryFilter;
+use App\Http\QueryFilters\RoomQueryFilters\RoomAmenityQueryFilter;
+use App\Http\QueryFilters\RoomQueryFilters\RoomMinuteQueryFilter;
+use App\Http\QueryFilters\RoomQueryFilters\RoomModeQueryFilter;
+use App\Http\QueryFilters\RoomQueryFilters\RoomStationQueryFilter;
+use App\Http\QueryFilters\StationQueryFilter;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
@@ -60,8 +66,12 @@ class SearchController extends Controller
             'size',
             'type',
             AllowedFilter::custom('amenity', new AmenityQueryFilter()),
+            AllowedFilter::custom('mode', new ModeQueryFilter()),
+            AllowedFilter::custom('minutes', new MinuteQueryFilter()),
+            AllowedFilter::custom('station', new StationQueryFilter()),
             AllowedFilter::scope('max_price'),
             AllowedFilter::scope('min_price'),
+            AllowedFilter::scope('availability.available_from'),
         ];
     }
     
@@ -71,6 +81,11 @@ class SearchController extends Controller
             'size',
             AllowedFilter::custom('amenity', new RoomAmenityQueryFilter()),
             AllowedFilter::scope('max_price'),
+            AllowedFilter::scope('min_price'),
+            AllowedFilter::scope('available_from'),
+            AllowedFilter::custom('mode', new RoomModeQueryFilter()),
+            AllowedFilter::custom('minutes', new RoomMinuteQueryFilter()),
+            AllowedFilter::custom('station', new RoomStationQueryFilter()),
         ];
     }
 }

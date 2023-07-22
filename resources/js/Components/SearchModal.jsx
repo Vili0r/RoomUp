@@ -6,7 +6,15 @@ import { BsHouseFill } from "react-icons/bs";
 import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { router } from "@inertiajs/react";
 import { BsCheck } from "react-icons/bs";
-import { MultiRangeSlider, PrimaryButton, SecondaryButton } from "@/Components";
+import {
+    MultiRangeSlider,
+    PrimaryButton,
+    SecondaryButton,
+    InputLabel,
+    TextInput,
+} from "@/Components";
+import { DebounceInput } from "react-debounce-input";
+import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
@@ -22,6 +30,34 @@ const bedrooms = [
     { id: 4, title: "4" },
     { id: 5, title: "5" },
     { id: 6, title: "6+" },
+];
+
+const modes = [
+    { id: 1, name: "Walk" },
+    { id: 2, name: "By car" },
+    { id: 3, name: "By bus" },
+    { id: 4, name: "By bike" },
+];
+
+const minutes = [
+    { id: 1, name: "Less than 5" },
+    { id: 2, name: "Between 5 and 10" },
+    { id: 3, name: "Between 10 and 15" },
+    { id: 4, name: "Between 15 and 20" },
+    { id: 5, name: "More than 20" },
+];
+
+const stations = [
+    { id: 1, name: "Sintagma" },
+    { id: 2, name: "Monastiraki" },
+    { id: 3, name: "Evangelismos" },
+    { id: 4, name: "Attiki" },
+    { id: 5, name: "Cholargos" },
+    { id: 6, name: "Omonoia" },
+    { id: 7, name: "Akropoli" },
+    { id: 8, name: "Pireas" },
+    { id: 9, name: "Mosxato" },
+    { id: 10, name: "kalithea" },
 ];
 
 const amenities = [
@@ -48,11 +84,15 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [step, setStep] = useState(1);
     const [type, setType] = useState("");
     const [size, setSize] = useState("");
-    const [price, setPrice] = useState("");
     const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
     const [searchResults, setSearchResults] = useState(null);
+    const [query, setQuery] = useState("");
+    const [availability, setAvailability] = useState("");
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(10000);
+    const [minute, setMinute] = useState("");
+    const [mode, setMode] = useState("");
+    const [station, setStation] = useState("");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -67,7 +107,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         setStep(1);
         setType("");
         setSize("");
-        setPrice("");
+        setQuery("");
+        setMin(0);
+        setMax(10000);
         setToggleActiveBedrooms(1);
         setSelectedAmenities([]);
     };
@@ -94,50 +136,14 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         });
     };
 
-    // const handleFilterSubmit = (filterName, filterValue) => {
-    //     let url = new URL(currentUrl);
-    //     let searchParams = new URLSearchParams(url.search);
-    //     let filters = JSON.parse(searchParams.get("filter") || "{}");
-
-    //     if (filterName && filterValue) {
-    //         filters[filterName] = filterValue;
-    //     }
-
-    //     if (filterName === "type" && filterValue === 4) {
-    //         // Reset the URL and filters when selecting type 4
-    //         url = new URL("/search", window.location.origin);
-    //         searchParams = new URLSearchParams();
-    //         filters = {};
-    //     } else if (filterName === "type" && filterValue !== 4) {
-    //         // Reset the URL and filters when switching from type 4 to other types
-    //         url = new URL("/search", window.location.origin);
-    //         searchParams = new URLSearchParams();
-    //         filters = {};
-    //         filters[filterName] = filterValue;
-    //     }
-
-    //     searchParams.delete("filter");
-
-    //     Object.entries(filters).forEach(([key, value]) => {
-    //         searchParams.set(`filter[${key}]`, value);
-    //     });
-
-    //     url.search = searchParams.toString();
-
-    //     if (filterName === "type" && filterValue === 4) {
-    //         router.visit(
-    //             url.pathname + url.search,
-    //             {
-    //                 data: {
-    //                     search_type: "shareds",
-    //                 },
-    //             },
-    //             { preserveScroll: true }
-    //         );
-    //     } else {
-    //         router.visit(url.pathname + url.search, { preserveScroll: true });
-    //     }
-    // };
+    const search = async (query) => {
+        if (query) {
+            router.reload({
+                data: { search: query },
+                preserveScroll: true,
+            });
+        }
+    };
 
     const handlePropertyFilterSubmit = () => {
         let href = "/search?";
@@ -148,14 +154,30 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         if (size !== "") {
             href += "filter[size]=" + size + "&";
         }
-        if (min !== "") {
+        if (min !== 0 && min !== "") {
             href += "filter[min_price]=" + min + "&";
         }
-        if (max !== "") {
+        if (max !== 10000 && max !== "") {
             href += "filter[max_price]=" + max + "&";
         }
         if (selectedAmenities.length) {
-            href += "&filter[amenity]=" + selectedAmenities;
+            href += "&filter[amenity]=" + selectedAmenities + "&";
+        }
+        if (availability !== "") {
+            href +=
+                "&filter[availability.available_from]=" + availability + "&";
+        }
+        if (availability !== "" && type === 4) {
+            href += "&filter[available_from]=" + availability + "&";
+        }
+        if (mode !== "") {
+            href += "&filter[mode]=" + mode + "&";
+        }
+        if (minute !== "") {
+            href += "&filter[minutes]=" + minute + "&";
+        }
+        if (station !== "") {
+            href += "&filter[station]=" + station;
         }
         console.log(href);
 
@@ -400,25 +422,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             handleMaxChange
                                                                         }
                                                                     />
-
-                                                                    {/* <input
-                                                                        type="range"
-                                                                        min="0"
-                                                                        max="15000"
-                                                                        className="relative mt-2"
-                                                                        value={
-                                                                            price
-                                                                        }
-                                                                        onChange={(
-                                                                            e
-                                                                        ) =>
-                                                                            setPrice(
-                                                                                e
-                                                                                    .target
-                                                                                    .value
-                                                                            )
-                                                                        }
-                                                                    /> */}
                                                                 </div>
 
                                                                 <div className="mt-[2rem]">
@@ -540,7 +543,244 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="flex justify-start mt-6 space-x-2">
+                                                                <div className="flex justify-center mt-6 space-x-2">
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleBack
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowLeft2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Previous
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Previous
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                    <PrimaryButton
+                                                                        onClick={
+                                                                            handleNext
+                                                                        }
+                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                    >
+                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                            <ImArrowRight2 className="w-5 h-5" />
+                                                                        </span>
+                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                            Next
+                                                                        </span>
+                                                                        <span className="relative invisible">
+                                                                            Next
+                                                                        </span>
+                                                                    </PrimaryButton>
+                                                                </div>
+                                                            </>
+                                                        )}
+
+                                                        {step == 4 && (
+                                                            <>
+                                                                <div className="grid grid-cols-1 gap-6 px-8 mt-7 sm:grid-cols-2">
+                                                                    <div className="relative h-10 w-full min-w-[200px]">
+                                                                        <InputLabel
+                                                                            htmlFor="availabilty"
+                                                                            value="Available to move from"
+                                                                        />
+                                                                        <TextInput
+                                                                            type="date"
+                                                                            autoComplete="off"
+                                                                            name="availability"
+                                                                            onChange={(
+                                                                                e
+                                                                            ) =>
+                                                                                setAvailability(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                )
+                                                                            }
+                                                                            className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                                                            placeholder=" "
+                                                                        />
+                                                                    </div>
+                                                                    <div className="relative h-10 w-full min-w-[200px]">
+                                                                        <InputLabel
+                                                                            htmlFor="query"
+                                                                            value="Enter address"
+                                                                        />
+                                                                        <DebounceInput
+                                                                            value={
+                                                                                query
+                                                                            }
+                                                                            minLength={
+                                                                                1
+                                                                            }
+                                                                            debounceTimeout={
+                                                                                500
+                                                                            }
+                                                                            onChange={(
+                                                                                e
+                                                                            ) => {
+                                                                                search(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                );
+                                                                                setQuery(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                );
+                                                                            }}
+                                                                            className="bg-transparent border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-yellow-500 dark:focus:border-yellow-600 focus:ring-yellow-500 dark:focus:ring-yellow-600"
+                                                                            placeholder=""
+                                                                        />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
+                                                                    <div className="relative md:col-span-2">
+                                                                        <InputLabel
+                                                                            htmlFor="minute"
+                                                                            value="Minutes"
+                                                                        />
+                                                                        <select
+                                                                            name="minute"
+                                                                            value={
+                                                                                minute
+                                                                            }
+                                                                            className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                            onChange={(
+                                                                                e
+                                                                            ) =>
+                                                                                setMinute(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <option value="">
+                                                                                --
+                                                                            </option>
+                                                                            {minutes.map(
+                                                                                ({
+                                                                                    id,
+                                                                                    name,
+                                                                                }) => (
+                                                                                    <option
+                                                                                        key={
+                                                                                            id
+                                                                                        }
+                                                                                        value={
+                                                                                            id
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            name
+                                                                                        }
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div className="relative md:col-span-2">
+                                                                        <InputLabel
+                                                                            htmlFor="mode"
+                                                                            value="Mode"
+                                                                        />
+                                                                        <select
+                                                                            name="mode"
+                                                                            value={
+                                                                                mode
+                                                                            }
+                                                                            className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                            onChange={(
+                                                                                e
+                                                                            ) =>
+                                                                                setMode(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <option value="">
+                                                                                --
+                                                                            </option>
+                                                                            {modes.map(
+                                                                                ({
+                                                                                    id,
+                                                                                    name,
+                                                                                }) => (
+                                                                                    <option
+                                                                                        key={
+                                                                                            id
+                                                                                        }
+                                                                                        value={
+                                                                                            id
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            name
+                                                                                        }
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div className="relative md:col-span-2">
+                                                                        <InputLabel
+                                                                            htmlFor="station"
+                                                                            value="Station"
+                                                                        />
+                                                                        <select
+                                                                            name="station"
+                                                                            value={
+                                                                                station
+                                                                            }
+                                                                            className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                            onChange={(
+                                                                                e
+                                                                            ) =>
+                                                                                setStation(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <option value="">
+                                                                                --
+                                                                            </option>
+                                                                            {stations.map(
+                                                                                ({
+                                                                                    id,
+                                                                                    name,
+                                                                                }) => (
+                                                                                    <option
+                                                                                        key={
+                                                                                            id
+                                                                                        }
+                                                                                        value={
+                                                                                            id
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            name
+                                                                                        }
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="flex justify-start px-8 mt-8 space-x-2">
                                                                     <PrimaryButton
                                                                         onClick={
                                                                             handleBack

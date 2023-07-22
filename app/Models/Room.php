@@ -7,6 +7,7 @@ use App\Enums\RoomSize;
 use App\Enums\DaysAvailable;
 use App\Enums\MaximumStay;
 use App\Enums\MinimumStay;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -89,6 +90,16 @@ class Room extends Model
     public function scopeMaxPrice(Builder $query, $price): Builder
     {
         return $query->where('room_cost', '<=', $price);
+    }
+    
+    public function scopeMinPrice(Builder $query, $price): Builder
+    {
+        return $query->where('cost', '>=', $price);
+    }
+
+    public function scopeAvailableFrom(Builder $query, $date): Builder
+    {
+        return $query->where('available_from', '>=', Carbon::parse($date));
     }
 
     public function toSearchableArray(): array

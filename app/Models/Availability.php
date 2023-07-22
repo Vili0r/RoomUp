@@ -8,6 +8,8 @@ use App\Enums\MinimumStay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class Availability extends Model
 {
@@ -33,5 +35,10 @@ class Availability extends Model
     public function owner(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function scopeAvailableFrom(Builder $query, $date): Builder
+    {
+        return $query->where('available_from', '>=', Carbon::parse($date));
     }
 }

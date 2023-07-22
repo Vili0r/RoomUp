@@ -82,7 +82,7 @@ const MultiRangeSlider = ({
                         style={{ userSelect: "none" }}
                     >
                         <div
-                            className="absolute top-0 bottom-0 z-20 bg-orange-400 rounded-md"
+                            className="absolute top-0 bottom-0 z-20 bg-yellow-400 rounded-md"
                             style={{
                                 left: `${
                                     ((min - rangeMin) * 100) /
@@ -96,7 +96,7 @@ const MultiRangeSlider = ({
                             }}
                         ></div>
                         <div
-                            className="absolute top-0 left-0 z-30 w-6 h-6 -mt-2 bg-orange-400 rounded-full"
+                            className="absolute top-0 left-0 z-30 w-6 h-6 -mt-2 bg-yellow-400 rounded-full"
                             onMouseDown={() => setDragLeft(true)}
                             style={{
                                 left: `${
@@ -107,7 +107,7 @@ const MultiRangeSlider = ({
                             ref={minThumbRef}
                         ></div>
                         <div
-                            className="absolute top-0 right-0 z-30 w-6 h-6 -mt-2 bg-orange-400 rounded-full"
+                            className="absolute top-0 right-0 z-30 w-6 h-6 -mt-2 bg-yellow-400 rounded-full"
                             onMouseDown={() => setDragRight(true)}
                             style={{
                                 left: `${

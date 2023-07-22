@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\QueryFilters;
+namespace App\Http\QueryFilters\RoomQueryFilters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\Filters\Filter;
