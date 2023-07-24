@@ -39,6 +39,58 @@ const modes = [
     { id: 4, name: "By bike" },
 ];
 
+const furnishings = [
+    { id: 1, name: "Furnished" },
+    { id: 2, name: "Unfurnished" },
+];
+
+const flatmateGender = [
+    { id: 1, name: "Female" },
+    { id: 2, name: "Male" },
+];
+
+const flatmateOccupation = [
+    { id: 1, name: "Student" },
+    { id: 2, name: "Professional" },
+];
+
+const flatmateSmoker = [
+    { id: 1, name: "No" },
+    { id: 2, name: "Yes" },
+];
+
+const flatmatePets = [
+    { id: 1, name: "No" },
+    { id: 2, name: "Yes" },
+];
+
+const currentOccupants = [
+    { id: 0, name: "Zero" },
+    { id: 1, name: "One" },
+    { id: 2, name: "Two" },
+    { id: 3, name: "Three" },
+    { id: 4, name: "Four" },
+    { id: 5, name: "Five" },
+    { id: 6, name: "Six" },
+    { id: 7, name: "Seven" },
+    { id: 8, name: "Eight" },
+    { id: 9, name: "Nine" },
+    { id: 10, name: "Ten" },
+];
+
+const availableRooms = [
+    { id: 1, name: "One room for rent" },
+    { id: 2, name: "Two room for rent" },
+    { id: 3, name: "Three room for rent" },
+    { id: 4, name: "Four room for rent" },
+    { id: 5, name: "Five room for rent" },
+    { id: 6, name: "Six room for rent" },
+    { id: 7, name: "Seven room for rent" },
+    { id: 8, name: "Eight room for rent" },
+    { id: 9, name: "Nine room for rent" },
+    { id: 10, name: "Ten room for rent" },
+];
+
 const minutes = [
     { id: 1, name: "Less than 5" },
     { id: 2, name: "Between 5 and 10" },
@@ -93,6 +145,13 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const [minute, setMinute] = useState("");
     const [mode, setMode] = useState("");
     const [station, setStation] = useState("");
+    const [furnished, setFurnished] = useState("");
+    const [availableRoom, setAvailableRoom] = useState("");
+    const [currentOccupant, setCurrentOccupant] = useState("");
+    const [smoker, setSmoker] = useState("");
+    const [gender, setGender] = useState("");
+    const [occupation, setOccupation] = useState("");
+    const [pets, setPets] = useState("");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -108,6 +167,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         setType("");
         setSize("");
         setQuery("");
+        setMinute("");
+        setMode("");
+        setStation("");
+        setFurnished("");
         setMin(0);
         setMax(10000);
         setToggleActiveBedrooms(1);
@@ -136,15 +199,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         });
     };
 
-    const search = async (query) => {
-        if (query) {
-            router.reload({
-                data: { search: query },
-                preserveScroll: true,
-            });
-        }
-    };
-
     const handlePropertyFilterSubmit = () => {
         let href = "/search?";
 
@@ -163,12 +217,12 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         if (selectedAmenities.length) {
             href += "&filter[amenity]=" + selectedAmenities + "&";
         }
-        if (availability !== "") {
+        if (availability !== "" && type !== 4) {
             href +=
                 "&filter[availability.available_from]=" + availability + "&";
         }
-        if (availability !== "" && type === 4) {
-            href += "&filter[available_from]=" + availability + "&";
+        if (furnished !== "") {
+            href += "&filter[furnished]=" + furnished + "&";
         }
         if (mode !== "") {
             href += "&filter[mode]=" + mode + "&";
@@ -177,9 +231,26 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
             href += "&filter[minutes]=" + minute + "&";
         }
         if (station !== "") {
-            href += "&filter[station]=" + station;
+            href += "&filter[station]=" + station + "&";
         }
-        console.log(href);
+        if (availableRoom !== "" && type === 4) {
+            href += "&filter[available_rooms]=" + availableRoom + "&";
+        }
+        if (currentOccupant !== "" && type === 4) {
+            href += "&filter[current_occupants]=" + currentOccupant + "&";
+        }
+        if (pets !== "" && type === 4) {
+            href += "&filter[current_flatmate_pets]=" + pets + "&";
+        }
+        if (gender !== "" && type === 4) {
+            href += "&filter[current_flatmate_gender]=" + gender + "&";
+        }
+        if (occupation !== "" && type === 4) {
+            href += "&filter[current_flatmate_occupation]=" + occupation + "&";
+        }
+        if (smoker !== "" && type === 4) {
+            href += "&filter[current_flatmate_smoker]=" + smoker + "&";
+        }
 
         if (type === 4) {
             router.visit(
@@ -187,12 +258,19 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                 {
                     data: {
                         search_type: "shareds",
+                        search: query,
                     },
                 },
                 { preserveScroll: true }
             );
         } else {
-            router.visit(href, { preserveScroll: true });
+            router.visit(
+                href,
+                {
+                    data: { search: query },
+                },
+                { preserveScroll: true }
+            );
         }
     };
 
@@ -622,18 +700,13 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             }
                                                                             onChange={(
                                                                                 e
-                                                                            ) => {
-                                                                                search(
-                                                                                    e
-                                                                                        .target
-                                                                                        .value
-                                                                                );
+                                                                            ) =>
                                                                                 setQuery(
                                                                                     e
                                                                                         .target
                                                                                         .value
-                                                                                );
-                                                                            }}
+                                                                                )
+                                                                            }
                                                                             className="bg-transparent border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-yellow-500 dark:focus:border-yellow-600 focus:ring-yellow-500 dark:focus:ring-yellow-600"
                                                                             placeholder=""
                                                                         />
@@ -780,7 +853,53 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="flex justify-start px-8 mt-8 space-x-2">
+                                                                <div className="relative w-1/2 px-8 mt-5">
+                                                                    <InputLabel
+                                                                        htmlFor="furnished"
+                                                                        value="Furnished"
+                                                                    />
+                                                                    <select
+                                                                        name="furnished"
+                                                                        value={
+                                                                            furnished
+                                                                        }
+                                                                        className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                        onChange={(
+                                                                            e
+                                                                        ) =>
+                                                                            setFurnished(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        <option value="">
+                                                                            --
+                                                                        </option>
+                                                                        {furnishings.map(
+                                                                            ({
+                                                                                id,
+                                                                                name,
+                                                                            }) => (
+                                                                                <option
+                                                                                    key={
+                                                                                        id
+                                                                                    }
+                                                                                    value={
+                                                                                        id
+                                                                                    }
+                                                                                >
+                                                                                    {
+                                                                                        name
+                                                                                    }
+                                                                                </option>
+                                                                            )
+                                                                        )}
+                                                                    </select>
+                                                                </div>
+
+                                                                <div className="flex justify-center mt-6 space-x-2">
                                                                     <PrimaryButton
                                                                         onClick={
                                                                             handleBack
@@ -797,9 +916,331 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             Previous
                                                                         </span>
                                                                     </PrimaryButton>
+                                                                    {type ===
+                                                                        4 && (
+                                                                        <PrimaryButton
+                                                                            onClick={
+                                                                                handleNext
+                                                                            }
+                                                                            className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                        >
+                                                                            <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                                <ImArrowRight2 className="w-5 h-5" />
+                                                                            </span>
+                                                                            <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                                Next
+                                                                            </span>
+                                                                            <span className="relative invisible">
+                                                                                Next
+                                                                            </span>
+                                                                        </PrimaryButton>
+                                                                    )}
                                                                 </div>
                                                             </>
                                                         )}
+
+                                                        {type === 4 &&
+                                                            step === 5 && (
+                                                                <>
+                                                                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="availableRoom"
+                                                                                value="Available Rooms"
+                                                                            />
+                                                                            <select
+                                                                                name="availableRoom"
+                                                                                value={
+                                                                                    availableRoom
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setAvailableRoom(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {availableRooms.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="currentOccupant"
+                                                                                value="Current Occupant"
+                                                                            />
+                                                                            <select
+                                                                                name="currentOccupant"
+                                                                                value={
+                                                                                    currentOccupant
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setCurrentOccupant(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {currentOccupants.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="smoker"
+                                                                                value="Flatmate Smoker"
+                                                                            />
+                                                                            <select
+                                                                                name="smoker"
+                                                                                value={
+                                                                                    smoker
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setSmoker(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {flatmateSmoker.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="pets"
+                                                                                value="Pets"
+                                                                            />
+                                                                            <select
+                                                                                name="pets"
+                                                                                value={
+                                                                                    pets
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setPets(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {flatmatePets.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="occupation"
+                                                                                value="Flatmate Occupation"
+                                                                            />
+                                                                            <select
+                                                                                name="occupation"
+                                                                                value={
+                                                                                    occupation
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setOccupation(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {flatmateOccupation.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative md:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="gender"
+                                                                                value="Flatmate Gender"
+                                                                            />
+                                                                            <select
+                                                                                name="gender"
+                                                                                value={
+                                                                                    gender
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setGender(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {flatmateGender.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-start px-8 mt-8 space-x-2">
+                                                                        <PrimaryButton
+                                                                            onClick={
+                                                                                handleBack
+                                                                            }
+                                                                            className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
+                                                                        >
+                                                                            <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
+                                                                                <ImArrowLeft2 className="w-5 h-5" />
+                                                                            </span>
+                                                                            <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
+                                                                                Previous
+                                                                            </span>
+                                                                            <span className="relative invisible">
+                                                                                Previous
+                                                                            </span>
+                                                                        </PrimaryButton>
+                                                                    </div>
+                                                                </>
+                                                            )}
                                                     </div>
                                                 ) : (
                                                     <div className="">

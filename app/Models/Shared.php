@@ -130,16 +130,6 @@ class Shared extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
-    public function scopeMaxPrice(Builder $query, $price): Builder
-    {
-        return $query->where('cost', '<=', $price);
-    }
-    
-    public function scopeMinPrice(Builder $query, $price): Builder
-    {
-        return $query->where('cost', '>=', $price);
-    }
-
     public function toSearchableArray(): array
     {
         return [

@@ -94,12 +94,17 @@ class Room extends Model
     
     public function scopeMinPrice(Builder $query, $price): Builder
     {
-        return $query->where('cost', '>=', $price);
+        return $query->where('room_cost', '>=', $price);
     }
 
     public function scopeAvailableFrom(Builder $query, $date): Builder
     {
         return $query->where('available_from', '>=', Carbon::parse($date));
+    }
+    
+    public function scopeFurnished(Builder $query, $value): Builder
+    {
+        return $query->where('room_furnished', '=', $value);
     }
 
     public function toSearchableArray(): array

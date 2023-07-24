@@ -122,6 +122,11 @@ class Flat extends Model
     {
         return $query->where('cost', '>=', $price);
     }
+    
+    public function scopeFurnished(Builder $query, $value): Builder
+    {
+        return $query->where('furnished', '=', $value);
+    }
 
     public function toSearchableArray(): array
     {

@@ -20,7 +20,7 @@ enum Stations: int
         return match($this) {
             self::Sintagma  => 'Sintagma', 
             self::Monastiraki => 'Monastiraki', 
-            self::Evagelismos => 'Evagelismos5', 
+            self::Evagelismos => 'Evagelismos', 
             self::Attiki => 'Attiki', 
             self::Cholargos => 'Cholargos',
             self::Omonoia => 'Omonoia',
