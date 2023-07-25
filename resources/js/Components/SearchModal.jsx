@@ -12,6 +12,7 @@ import {
     SecondaryButton,
     InputLabel,
     TextInput,
+    FlatmateSearchModal,
 } from "@/Components";
 import { DebounceInput } from "react-debounce-input";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
@@ -274,34 +275,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
         }
     };
 
-    const handleFlatmateFilterSubmit = () => {
-        let href = "/search?";
-
-        if (type !== "" && type !== 4) {
-            href += "filter[type]=" + type + "&";
-        }
-        if (size !== "") {
-            href += "filter[size]=" + size + "&";
-        }
-        if (price !== "") {
-            href += "filter[max_price]=" + price;
-        }
-        // if (country.length) {
-        //     href += "&filter[country_id]=" + country;
-        // }
-        //console.log(type, size, price, href);
-
-        router.visit(
-            href,
-            {
-                data: {
-                    search_type: "flatmate",
-                },
-            },
-            { preserveScroll: true }
-        );
-    };
-
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -404,7 +377,12 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                             onClick={
                                                                 handlePropertyFilterSubmit
                                                             }
-                                                            className="relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
+                                                            className={`relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1 ${
+                                                                step === 4 ||
+                                                                step === 5
+                                                                    ? "ml-8"
+                                                                    : ""
+                                                            }`}
                                                         >
                                                             <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
                                                             <span className="relative group-hover:text-white">
@@ -473,6 +451,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                 </div>
                                                             </>
                                                         )}
+
                                                         {step == 2 && (
                                                             <>
                                                                 <div className="mt-[1rem]">
@@ -1243,184 +1222,23 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                             )}
                                                     </div>
                                                 ) : (
-                                                    <div className="">
-                                                        <button
-                                                            onClick={
-                                                                handleFlatmateFilterSubmit
-                                                            }
-                                                            className="relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
-                                                        >
-                                                            <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
-                                                            <span className="relative group-hover:text-white">
-                                                                Search
-                                                            </span>
-                                                        </button>
-
-                                                        {step == 1 && (
-                                                            <>
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp">
-                                                                        Type of
-                                                                        places
-                                                                    </p>
-                                                                </div>
-
-                                                                <div className="flex justify-end mt-6">
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleNext
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowRight2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Next
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Next
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                </div>
-                                                            </>
-                                                        )}
-                                                        {step == 2 && (
-                                                            <>
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Price
-                                                                        Range
-                                                                    </p>
-
-                                                                    <input
-                                                                        type="range"
-                                                                        min="0"
-                                                                        max="15000"
-                                                                        className="relative mt-2"
-                                                                        value={
-                                                                            price
-                                                                        }
-                                                                        onChange={(
-                                                                            e
-                                                                        ) =>
-                                                                            setPrice(
-                                                                                e
-                                                                                    .target
-                                                                                    .value
-                                                                            )
-                                                                        }
-                                                                    />
-                                                                </div>
-
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Bedroom
-                                                                    </p>
-                                                                </div>
-
-                                                                <div className="flex justify-center mt-6 space-x-2">
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleBack
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowLeft2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Previous
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Previous
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleNext
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowRight2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Next
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Next
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                </div>
-                                                            </>
-                                                        )}
-
-                                                        {step == 3 && (
-                                                            <>
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp">
-                                                                        Amenities
-                                                                    </p>
-                                                                    <div className="mt-[1rem] place-items-center">
-                                                                        {amenities?.map(
-                                                                            (
-                                                                                amenity
-                                                                            ) => (
-                                                                                <div
-                                                                                    key={
-                                                                                        amenity.id
-                                                                                    }
-                                                                                    className="flex justify-between mb-2 space-x-[5rem]"
-                                                                                >
-                                                                                    <span className="mt-1 text-sm font-popp">
-                                                                                        {
-                                                                                            amenity.name
-                                                                                        }
-                                                                                    </span>
-                                                                                    <label className="relative cursor-pointer">
-                                                                                        <input
-                                                                                            id="checkbox-1"
-                                                                                            type="checkbox"
-                                                                                            // onChange={() =>
-                                                                                            //     handleAmenityChange(
-                                                                                            //         amenity.id
-                                                                                            //     )
-                                                                                            // }
-                                                                                            // checked={selectedAmenities.includes(
-                                                                                            //     amenity.id
-                                                                                            // )}
-                                                                                            className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
-                                                                                        />
-                                                                                        <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
-                                                                                    </label>
-                                                                                </div>
-                                                                            )
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="flex justify-start mt-6 space-x-2">
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleBack
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowLeft2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Previous
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Previous
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                </div>
-                                                            </>
-                                                        )}
-                                                    </div>
+                                                    <FlatmateSearchModal
+                                                        step={step}
+                                                        handleBack={handleBack}
+                                                        handleNext={handleNext}
+                                                        flatmateGender={
+                                                            flatmateGender
+                                                        }
+                                                        flatmateOccupation={
+                                                            flatmateOccupation
+                                                        }
+                                                        flatmatePets={
+                                                            flatmatePets
+                                                        }
+                                                        flatmateSmoker={
+                                                            flatmateSmoker
+                                                        }
+                                                    />
                                                 )}
                                             </div>
                                         </div>

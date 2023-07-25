@@ -40,8 +40,19 @@ class SearchFlatmateController extends Controller
     {
         return [
             'size',
-            AllowedFilter::custom('amenity', new AmenityQueryFilter()),
+            AllowedFilter::custom('size', new RoomSizeQueryFilter()),
+            AllowedFilter::custom('amenity', new RoomAmenityQueryFilter()),
+            AllowedFilter::custom('mode', new RoomModeQueryFilter()),
+            AllowedFilter::custom('minutes', new RoomMinuteQueryFilter()),
+            AllowedFilter::custom('station', new RoomStationQueryFilter()),
+            AllowedFilter::custom('available_rooms', new RoomAvailableRoomsQueryFilter()),
+            AllowedFilter::custom('current_occupants', new RoomCurrentOccupantsQueryFilter()),
+            AllowedFilter::custom('current_flatmate_occupation', new RoomCurrentFlatmateOccupationQueryFilter()),
+            AllowedFilter::custom('current_flatmate_pets', new RoomCurrentFlatmatePetsQueryFilter()),
+            AllowedFilter::custom('current_flatmate_gender', new RoomCurrentFlatmateGenderQueryFilter()),
+            AllowedFilter::custom('current_flatmate_smoker', new RoomCurrentFlatmateSmokerQueryFilter()),
             AllowedFilter::scope('max_price'),
+            AllowedFilter::scope('min_price'),
         ];
     }
 }
