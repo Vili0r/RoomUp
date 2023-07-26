@@ -39,7 +39,7 @@ const Create = (props) => {
             preserveScroll: true,
         });
     };
-    console.log(data);
+
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Sent message to listing advertiser" />
@@ -106,8 +106,13 @@ const Create = (props) => {
                                                 <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
                                                 <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                                             </svg>
-                                            {property.address?.address_1},
-                                            {property.address?.area}
+                                            {property.address
+                                                ? property.address.address_1
+                                                : property.city}
+                                            ,
+                                            {property.address
+                                                ? property.address.area
+                                                : property.area}
                                         </dd>
                                     </dl>
                                     <div class="mt-4 col-start-1 row-start-3 self-center">

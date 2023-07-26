@@ -7,6 +7,7 @@ use App\Enums\CurrentFlatmateOccupation;
 use App\Enums\CurrentFlatmateSmoking;
 use App\Enums\Pets;
 use App\Enums\RoomSize;
+use App\Enums\SearchingFor;
 use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 
 class Roommate extends Model
 {
@@ -48,6 +50,7 @@ class Roommate extends Model
         'occupation' => CurrentFlatmateOccupation::class,
         'gender' => CurrentFlatmateGender::class,
         'room_size' => RoomSize::class,
+        'searching_for' => SearchingFor::class,
         'images' => 'array',
     ];
 
@@ -110,6 +113,16 @@ class Roommate extends Model
     public function messages(): MorphMany
     {
         return $this->morphMany(Message::class, 'owner');
+    }
+
+    public function scopeMaxPrice(Builder $query, $price): Builder
+    {
+        return $query->where('budget', '<=', $price);
+    }
+    
+    public function scopeMinPrice(Builder $query, $price): Builder
+    {
+        return $query->where('budget', '>=', $price);
     }
 
     public function toSearchableArray(): array

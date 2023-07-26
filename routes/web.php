@@ -33,12 +33,14 @@ use App\Http\Controllers\RoomFavouriteController;
 use App\Http\Controllers\RoommateAvailabilityController;
 use App\Http\Controllers\RoommateController;
 use App\Http\Controllers\RoommateDeletePhotoController;
+use App\Http\Controllers\RoommateFavouriteController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SearchFlatmateController;
+use App\Http\Controllers\SearchRoommateController;
 use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
 use App\Http\Controllers\SharedFavouriteController;
+use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use Illuminate\Support\Facades\Route;
@@ -64,7 +66,7 @@ Route::get('/search', SearchController::class)
     ->name('search');
 Route::get('/home-search', HomeSearchController::class)
     ->name('home-search');
-Route::get('/flatmate-search', SearchFlatmateController::class)
+Route::get('/flatmate-search', SearchRoommateController::class)
     ->name('flatmate-search');
   
 //Socials routes
@@ -77,6 +79,10 @@ Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
 Route::get('/property/{model}/{id}', SinglePropertyController::class)
     ->where('model', 'room|flat')
     ->name('property.show');
+
+//Get single flatmate
+Route::get('/roommate/{roommate}/quest', SingleRoommateController::class)
+    ->name('single.roommate.show');
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
 
@@ -119,6 +125,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Shared Favourite Controller
     Route::post('/room/{room}/favourite', [RoomFavouriteController::class, 'store'])
         ->name('room.favourite.store');
+    
+    //Roommate Favourite Controller
+    Route::post('/roommate/{roommate}/favourite', [RoommateFavouriteController::class, 'store'])
+        ->name('roommate.favourite.store');
     
     //Route to get all favourites' properties
     Route::get('/favourites', FavouriteIndexController::class)

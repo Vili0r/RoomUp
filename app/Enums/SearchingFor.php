@@ -13,7 +13,7 @@ enum SearchingFor: int
         return match($this) {
             self::Me  => 'Me', 
             self::Me_and_my_partner  => 'Me and my partner', 
-            self::Me_and_a_friend => 'me and a friend', 
+            self::Me_and_a_friend => 'Me and a friend', 
         };
     }
 }

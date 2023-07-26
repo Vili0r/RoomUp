@@ -96,6 +96,12 @@ class User extends Authenticatable
                 ->withTimestamps();
     }
     
+    public function favouriteRoommates(): MorphToMany
+    {
+        return $this->morphedByMany(Roommate::class, 'favouriteable')
+                ->withTimestamps();
+    }
+    
     public function viewedFlats(): MorphToMany
     {
         return $this->morphedByMany(Flat::class, 'viewable')
@@ -113,6 +119,13 @@ class User extends Authenticatable
     public function viewedRooms(): MorphToMany
     {
         return $this->morphedByMany(Room::class, 'viewable')
+                ->withTimestamps()
+                ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
+    }
+    
+    public function viewedRoommates(): MorphToMany
+    {
+        return $this->morphedByMany(Roommate::class, 'viewable')
                 ->withTimestamps()
                 ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
     }

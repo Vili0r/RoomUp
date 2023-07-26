@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Roommate;
 
-use App\Http\Resources\AvailabilityResource;
+use App\Http\Resources\AdvertiserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class RoommateSearchResource extends JsonResource
+class RoommateMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,18 +17,20 @@ class RoommateSearchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => 'App\Models\Roommate',
             'id' => $this->id,
             'title' => $this->title,
-            'budget' => $this->budget,
-            'searching_for' => Str::replace('_', ' ', $this->searching_for->name) ?? '',
+            'description' => $this->description,
+            'type' => Str::replace('_', ' ', $this->room_size->name) ?? '',
             'area' => $this->area,
             'city' => $this->city,
             'images' => $this->images,
-            'availability' => $this->whenLoaded('availability', function () {
-                return new AvailabilityResource($this->availability);
-            }),
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'user_id' => $this->user_id,
             'views' => $this->views(),
+            'created_at' => $this->created_at->toDateTimeString(),
+            'advertiser' => $this->whenLoaded('advertiser', function () {
+                return new AdvertiserResource($this->advertiser);
+            }),
         ];
     }
 }

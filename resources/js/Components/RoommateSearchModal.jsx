@@ -61,7 +61,7 @@ const hobbies = [
     { id: 42, name: "Cars" },
 ];
 
-const FlatmateSearchModal = ({
+const RoommateSearchModal = ({
     step,
     handleBack,
     handleNext,
@@ -107,6 +107,15 @@ const FlatmateSearchModal = ({
     const handleFlatmateFilterSubmit = () => {
         let href = "/flatmate-search?";
 
+        if (title !== "") {
+            href += "filter[title]=" + title + "&";
+        }
+        if (area !== "") {
+            href += "filter[area]=" + area + "&";
+        }
+        if (city !== "") {
+            href += "filter[city]=" + city + "&";
+        }
         if (min !== 0 && min !== "") {
             href += "filter[min_price]=" + min + "&";
         }
@@ -132,17 +141,7 @@ const FlatmateSearchModal = ({
             href += "&filter[smoker]=" + smoker + "&";
         }
 
-        router.visit(
-            href,
-            {
-                data: {
-                    title: title,
-                    city: city,
-                    area: area,
-                },
-            },
-            { preserveScroll: true }
-        );
+        router.visit(href, {}, { preserveScroll: true });
     };
     return (
         <div className="">
@@ -335,7 +334,7 @@ const FlatmateSearchModal = ({
                             </select>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
+                    <div className="grid grid-cols-1 gap-4 mt-[1.5rem] px-8 text-sm gap-y-2 md:grid-cols-6">
                         <div className="relative md:col-span-2">
                             <InputLabel htmlFor="pets" value="Pets" />
                             <select
@@ -414,4 +413,4 @@ const FlatmateSearchModal = ({
     );
 };
 
-export default FlatmateSearchModal;
+export default RoommateSearchModal;

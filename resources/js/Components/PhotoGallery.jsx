@@ -16,7 +16,11 @@ const PhotoGallery = ({ images, title, id, model, favourite }) => {
     const submit = (e, id, model) => {
         e.preventDefault();
 
-        post(`/${model}/${id}/favourite`, { preserveScroll: true });
+        if (model) {
+            post(`/${model}/${id}/favourite`, { preserveScroll: true });
+        } else {
+            post(`/roommate/${id}/favourite`, { preserveScroll: true });
+        }
     };
 
     if (showAllPhotos) {

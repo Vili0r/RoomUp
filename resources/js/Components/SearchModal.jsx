@@ -12,7 +12,7 @@ import {
     SecondaryButton,
     InputLabel,
     TextInput,
-    FlatmateSearchModal,
+    RoommateSearchModal,
 } from "@/Components";
 import { DebounceInput } from "react-debounce-input";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
@@ -1222,7 +1222,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                             )}
                                                     </div>
                                                 ) : (
-                                                    <FlatmateSearchModal
+                                                    <RoommateSearchModal
                                                         step={step}
                                                         handleBack={handleBack}
                                                         handleNext={handleNext}
