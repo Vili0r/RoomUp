@@ -17,7 +17,7 @@ class RoommateMessageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'model' => 'App\Models\Roommate',
+            'model' => 'roommate',
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,

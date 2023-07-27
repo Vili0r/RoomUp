@@ -38,7 +38,7 @@ class UserViewedRoommate implements ShouldQueue
             return;
         }
 
-        $this->user->viewedRooms()->attach($this->roommate, [
+        $this->user->viewedRoommates()->attach($this->roommate, [
             'count' => 1
         ]);
     }

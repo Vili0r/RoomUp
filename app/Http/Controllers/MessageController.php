@@ -86,6 +86,10 @@ class MessageController extends Controller
             $property = Room::with(['owner.user'])->findOrFail($request->owner_id);
             $propertyUserId = $property->owner->user_id;
             $propertyUserEmail = $property->owner->user->email;
+        } elseif ($request->owner_type == 'roommate') {
+            $property = Roommate::with(['user'])->findOrFail($request->owner_id);
+            $propertyUserId = $property->user_id;
+            $propertyUserEmail = $property->user->email;
         }
 
         //Save message because we need to throttle them to avoid spams
@@ -113,7 +117,7 @@ class MessageController extends Controller
 
             Notification::route('mail', $propertyUserEmail)
                 ->notify(new PropertyMessageNotification($message));
-        }
+        } 
 
         if($sentMessages < 2){
             //Start a conversation

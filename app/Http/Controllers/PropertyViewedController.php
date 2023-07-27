@@ -19,7 +19,7 @@ class PropertyViewedController extends Controller
             'id' => $flat->id,
             'model' => 'flat',
             'title' => $flat->title,
-            'size' => $flat->size,
+            'size' => Str::replace('_', ' ', $flat->size->name) ?? '',
             'type' => Str::replace('_', ' ', $flat->type->name) ?? '',
             'images' => $flat->images,
             'description' => substr($flat->description, 0, 250) . '...',
@@ -37,7 +37,7 @@ class PropertyViewedController extends Controller
             'title' => $room->sub_title,
             'description' => substr($room->sub_description, 0, 250) . '...',
             'images' => $room->images !== null ? array_merge($room->owner->images, $room->images) : $room->owner->images,
-            'size' => $room->owner->size,
+            'size' => Str::replace('_', ' ', $room->owner->size->name) ?? '',
             'type' => Str::replace('_', ' ', $room->owner->type->name) ?? '',
             'favouritedBy' => $room->favouritedBy(auth()->user()),
             'created_at' => $room->created_at->toDateTimeString(),
@@ -47,9 +47,27 @@ class PropertyViewedController extends Controller
             'views' => $room->views(),
         ]);
 
+        $roommates = $request->user()->favouriteRoommates()->with(['advertiser', 'viewedUsers'])->get()->map(fn($roommate) => [
+            'id' => $roommate->id,
+            'model' => 'roommate',
+            'title' => $roommate->title,
+            'description' => substr($roommate->description, 0, 250) . '...',
+            'images' => $roommate->images,
+            'size' => Str::replace('_', ' ', $roommate->searching_for->name) ?? '',
+            'type' => Str::replace('_', ' ', $roommate->room_size->name) ?? '',
+            'favouritedBy' => $roommate->favouritedBy(auth()->user()),
+            'created_at' => $roommate->created_at->toDateTimeString(),
+            'updated_at' => $roommate->pivot->updated_at->toDateTimeString(),
+            'address_1' => $roommate->city,
+            'area' => $roommate->area,
+            'advertiser' => $roommate->advertiser,
+            'views' => $roommate->views(),
+        ]);
+
         $properties = collect()
             ->merge($flats)
             ->merge($rooms)
+            ->merge($roommates)
             ->sortByDesc('updated_at')
             ->values()
             ->take(self::INDEX_LIMIT);

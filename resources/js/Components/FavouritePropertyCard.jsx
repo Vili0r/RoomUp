@@ -20,7 +20,11 @@ const FavouritePropertyCard = ({ property, index }) => {
     const submit = (e, id, model) => {
         e.preventDefault();
 
-        post(`/${model}/${id}/favourite`, { preserveScroll: true });
+        if (model !== "roommate") {
+            post(`/${model}/${id}/favourite`, { preserveScroll: true });
+        } else {
+            post(`/roommate/${id}/favourite`, { preserveScroll: true });
+        }
     };
 
     const handleClick = () => {
@@ -33,7 +37,14 @@ const FavouritePropertyCard = ({ property, index }) => {
         >
             <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
                 <Link
-                    href={route("property.show", [property.model, property.id])}
+                    href={
+                        property.model !== "roommate"
+                            ? route("property.show", [
+                                  property.model,
+                                  property.id,
+                              ])
+                            : route("single.roommate.show", property.id)
+                    }
                 >
                     <img
                         src={
@@ -68,12 +79,24 @@ const FavouritePropertyCard = ({ property, index }) => {
 
             <div className="p-6">
                 <Link
-                    href={route("property.show", [property.model, property.id])}
+                    href={
+                        property.model !== "roommate"
+                            ? route("property.show", [
+                                  property.model,
+                                  property.id,
+                              ])
+                            : route("single.roommate.show", property.id)
+                    }
                 >
                     <div className="flex items-center justify-between mb-3">
                         <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {property.address?.address_1},
-                            {property.address?.area}
+                            {property.address
+                                ? property.address.address_1
+                                : property.address_1}
+                            ,
+                            {property.address
+                                ? property.address.area
+                                : property.area}
                         </h5>
                         <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <BsEyeFill className="-mt-0.5 h-5 w-5 text-yellow-700" />
@@ -89,7 +112,12 @@ const FavouritePropertyCard = ({ property, index }) => {
                     </p>
                 </Link>
                 <div className="flex flex-row items-center gap-4 mt-4 font-light text-neutral-500">
-                    <div>{property.size} rooms</div>
+                    <div>
+                        {property.model === "roommate" && (
+                            <span>Searching For:</span>
+                        )}
+                        {property.size}
+                    </div>
                     <div>Type: {property.type}</div>
                     <div>
                         Created at:{" "}

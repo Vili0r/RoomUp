@@ -1,7 +1,7 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { FavouritePropertyCard } from "@/Components";
+import { FavouritePropertyCard, Pagination } from "@/Components";
 
 const Index = (props) => {
     const { properties } = usePage().props;
@@ -29,6 +29,13 @@ const Index = (props) => {
                     ) : (
                         <div>No property has been added to favourites</div>
                     )}
+                </div>
+                <div className="mb-5">
+                    <Pagination
+                        currentPage={properties.current_page}
+                        lastPage={properties.last_page}
+                        links={properties.links}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>
