@@ -154,8 +154,21 @@ const RoommateSearchModal = ({
             </button>
             {step === 1 && (
                 <>
-                    <div className="grid grid-cols-1 gap-6 px-8 mt-7 sm:grid-cols-2">
-                        <div className="relative h-10 w-full min-w-[200px]">
+                    <div className="grid grid-cols-1 gap-6 px-8 mt-7 xs:grid-cols-4">
+                        <div className="relative w-full h-10 xs:col-span-2">
+                            <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Budget
+                            </p>
+                            <MultiRangeSlider
+                                rangeMin={0}
+                                rangeMax={10000}
+                                initialMin={min}
+                                initialMax={max}
+                                onMinChange={handleMinChange}
+                                onMaxChange={handleMaxChange}
+                            />
+                        </div>
+                        <div className="relative w-full h-10 xs:col-span-2">
                             <InputLabel
                                 htmlFor="title"
                                 value="Title of advertisement"
@@ -169,22 +182,9 @@ const RoommateSearchModal = ({
                                 placeholder=" "
                             />
                         </div>
-                        <div className="relative h-10 w-full min-w-[200px]">
-                            <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Budget
-                            </p>
-                            <MultiRangeSlider
-                                rangeMin={0}
-                                rangeMax={10000}
-                                initialMin={min}
-                                initialMax={max}
-                                onMinChange={handleMinChange}
-                                onMaxChange={handleMaxChange}
-                            />
-                        </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-6 px-8 mt-12 mb-[4rem] sm:grid-cols-2">
-                        <div className="relative h-10 w-full min-w-[200px]">
+                    <div className="grid grid-cols-1 gap-6 px-8 mt-12 mb-[4rem] xxs:grid-cols-4">
+                        <div className="relative w-full h-10 xxs:col-span-2">
                             <InputLabel
                                 htmlFor="city"
                                 value="City of advertisement"
@@ -198,7 +198,7 @@ const RoommateSearchModal = ({
                                 placeholder=" "
                             />
                         </div>
-                        <div className="relative h-10 w-full min-w-[200px]">
+                        <div className="relative w-full h-10 xxs:col-span-2">
                             <InputLabel
                                 htmlFor="area"
                                 value="Area of advertisement"

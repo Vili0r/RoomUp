@@ -290,7 +290,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                     <div className="fixed inset-0 bg-black bg-opacity-25" />
                 </Transition.Child>
 
-                <div className="fixed inset-0 p-10 overflow-y-auto">
+                <div className="fixed inset-0 pt-12 overflow-y-auto md:p-10">
                     <div className="flex items-center justify-center min-h-full text-center">
                         <Transition.Child
                             as={Fragment}
@@ -309,20 +309,30 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                         <div className="absolute inset-auto scale-150 translate-x-full bg-green-200 h-96 w-96 opacity-20 blur-3xl"></div>
                                         <div className="w-full">
                                             <div className="max-w-lg px-10 mb-6">
-                                                <h1 className="text-[40px] font-bold tracking-tight text-[#2f2963]">
-                                                    Find your property
-                                                </h1>
+                                                <div className="flex justify-between">
+                                                    <h1 className="xs:text-[40px] text-[30px] font-bold tracking-tight text-[#2f2963]">
+                                                        Find your property
+                                                    </h1>
+                                                    <button
+                                                        onClick={closeModal}
+                                                        className="absolute top-5 right-5 md:hidden"
+                                                    >
+                                                        <AiOutlineClose
+                                                            size={28}
+                                                        />
+                                                    </button>
+                                                </div>
                                                 <p className="mt-5 opacity-50">
                                                     Select through the multiple
                                                     filter to find your ideal
                                                     room or property.
                                                 </p>
 
-                                                <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1 [@media(max-width:440px)]:flex-col"></div>
+                                                <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1"></div>
 
                                                 <div className="flex justify-start mt-5">
                                                     <div>
-                                                        <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem] [@media(max-width:440px)]:flex-col ml-5">
+                                                        <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem]">
                                                             <button
                                                                 onClick={() =>
                                                                     activeButton(
@@ -379,6 +389,8 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                             }
                                                             className={`relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1 ${
                                                                 step === 4 ||
+                                                                step === 3 ||
+                                                                step === 2 ||
                                                                 step === 5
                                                                     ? "ml-8"
                                                                     : ""
@@ -416,10 +428,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                                         type ==
                                                                                         places.id
                                                                                             ? "border-black"
-                                                                                            : "border-gray-200 [@media(max-width:340px)]:border-0"
+                                                                                            : "border-gray-200"
                                                                                     } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
                                                                                 >
-                                                                                    <places.image className="mt-6 font-popp w-7 h-7" />
+                                                                                    <places.image className="mt-6 font-popp w-7 h-7 [@media(max-width:340px)]:mt-0" />
                                                                                     <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
                                                                                         {
                                                                                             places.title
@@ -454,7 +466,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                         {step == 2 && (
                                                             <>
-                                                                <div className="mt-[1rem]">
+                                                                <div className="mt-[1rem] ml-8">
                                                                     <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                                                         Price
                                                                         Range
@@ -481,11 +493,11 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     />
                                                                 </div>
 
-                                                                <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                <div className="mt-[2rem] ml-3">
+                                                                    <p className="ml-5 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                                                         Bedroom
                                                                     </p>
-                                                                    <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:400px)]:grid [@media(max-width:400px)]:grid-cols-3">
+                                                                    <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:450px)]:grid [@media(max-width:450px)]:grid-cols-3">
                                                                         {bedrooms.map(
                                                                             (
                                                                                 bedroom,
@@ -557,12 +569,12 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                         {step == 3 && (
                                                             <>
-                                                                <div className="mt-[2rem]">
+                                                                <div className="mt-[2rem] [@media(max-width:340px)]:m-4">
                                                                     <p className="text-sm font-semibold font-popp">
                                                                         Amenities
                                                                     </p>
 
-                                                                    <div className="grid grid-cols-2 mt-3">
+                                                                    <div className="grid grid-cols-2 [@media(max-width:450px)]:grid-cols-1 mt-3">
                                                                         {amenities?.map(
                                                                             (
                                                                                 amenity
@@ -639,7 +651,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                         {step == 4 && (
                                                             <>
-                                                                <div className="grid grid-cols-1 gap-6 px-8 mt-7 sm:grid-cols-2">
+                                                                <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
                                                                     <div className="relative h-10 w-full min-w-[200px]">
                                                                         <InputLabel
                                                                             htmlFor="availabilty"
@@ -662,21 +674,23 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             placeholder=" "
                                                                         />
                                                                     </div>
-                                                                    <div className="relative h-10 w-full min-w-[200px]">
+
+                                                                    <div className="relative [@media(max-width:479px)]:mt-4">
                                                                         <InputLabel
                                                                             htmlFor="query"
-                                                                            value="Enter address"
+                                                                            value="Enter
+                                                                            address"
                                                                         />
-                                                                        <DebounceInput
+                                                                        <TextInput
+                                                                            type="text"
+                                                                            name="query"
+                                                                            id="query"
+                                                                            placeholder="Enter address"
                                                                             value={
                                                                                 query
                                                                             }
-                                                                            minLength={
-                                                                                1
-                                                                            }
-                                                                            debounceTimeout={
-                                                                                500
-                                                                            }
+                                                                            className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                                                            autoComplete="off"
                                                                             onChange={(
                                                                                 e
                                                                             ) =>
@@ -686,14 +700,12 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                                         .value
                                                                                 )
                                                                             }
-                                                                            className="bg-transparent border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-yellow-500 dark:focus:border-yellow-600 focus:ring-yellow-500 dark:focus:ring-yellow-600"
-                                                                            placeholder=""
                                                                         />
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
-                                                                    <div className="relative md:col-span-2">
+                                                                <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
+                                                                    <div className="relative sm:col-span-2">
                                                                         <InputLabel
                                                                             htmlFor="minute"
                                                                             value="Minutes"
@@ -739,7 +751,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </select>
                                                                     </div>
 
-                                                                    <div className="relative md:col-span-2">
+                                                                    <div className="relative sm:col-span-2">
                                                                         <InputLabel
                                                                             htmlFor="mode"
                                                                             value="Mode"
@@ -785,7 +797,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </select>
                                                                     </div>
 
-                                                                    <div className="relative md:col-span-2">
+                                                                    <div className="relative sm:col-span-2">
                                                                         <InputLabel
                                                                             htmlFor="station"
                                                                             value="Station"
@@ -832,7 +844,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="relative w-1/2 px-8 mt-5">
+                                                                <div className="relative w-full px-4 mt-5 sm:w-1/2">
                                                                     <InputLabel
                                                                         htmlFor="furnished"
                                                                         value="Furnished"
@@ -921,8 +933,8 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                         {type === 4 &&
                                                             step === 5 && (
                                                                 <>
-                                                                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
-                                                                        <div className="relative md:col-span-2">
+                                                                    <div className="grid grid-cols-1 gap-4 px-8 m-4 text-sm xs:grid-cols-2 sm:grid-cols-6 mt-7 gap-y-6">
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="availableRoom"
                                                                                 value="Available Rooms"
@@ -968,7 +980,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             </select>
                                                                         </div>
 
-                                                                        <div className="relative md:col-span-2">
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="currentOccupant"
                                                                                 value="Current Occupant"
@@ -1014,7 +1026,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             </select>
                                                                         </div>
 
-                                                                        <div className="relative md:col-span-2">
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="smoker"
                                                                                 value="Flatmate Smoker"
@@ -1059,9 +1071,8 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                                 )}
                                                                             </select>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-6">
-                                                                        <div className="relative md:col-span-2">
+
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="pets"
                                                                                 value="Pets"
@@ -1107,7 +1118,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             </select>
                                                                         </div>
 
-                                                                        <div className="relative md:col-span-2">
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="occupation"
                                                                                 value="Flatmate Occupation"
@@ -1153,7 +1164,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                             </select>
                                                                         </div>
 
-                                                                        <div className="relative md:col-span-2">
+                                                                        <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="gender"
                                                                                 value="Flatmate Gender"

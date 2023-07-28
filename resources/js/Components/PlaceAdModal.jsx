@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link } from "@inertiajs/react";
 import { Hero1, Hero8, Hero2 } from "@/assets";
+import { AiOutlineClose } from "react-icons/ai";
 
 const PlaceAdModal = ({ isOpen, closeModal }) => {
     return (
@@ -20,8 +21,8 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                     <div className="fixed inset-0 bg-black bg-opacity-25" />
                 </Transition.Child>
 
-                <div className="fixed inset-0 p-10 overflow-y-auto">
-                    <div className="flex items-center justify-center min-h-full p-4 text-center">
+                <div className="fixed inset-0 pt-12 overflow-y-auto md:p-10">
+                    <div className="flex items-center justify-center min-h-full text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -38,10 +39,16 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
 
                                         <div className="absolute inset-auto scale-150 translate-x-full bg-green-200 h-96 w-96 opacity-20 blur-3xl"></div>
                                         <div className="w-full">
-                                            <div className="max-w-lg px-10 mb-6">
+                                            <div className="flex px-10 mb-6 justify-betweenmax-w-lg">
                                                 <h1 className="text-5xl font-bold tracking-tight text-[#2f2963]">
                                                     List your property
                                                 </h1>
+                                                <button
+                                                    onClick={closeModal}
+                                                    className="absolute mt-5 top-5 right-5 md:hidden"
+                                                >
+                                                    <AiOutlineClose size={28} />
+                                                </button>
                                             </div>
                                             <div className="flex w-full gap-10 px-10 overflow-x-scroll scrollbar-hide snap-x snap-mandatory scroll-px-10 scroll-smooth">
                                                 <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">

@@ -5,7 +5,6 @@ import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
-import { BiSearch } from "react-icons/bi";
 import { PlaceAdModal, SearchModal } from "@/Components";
 
 const Header = ({ user, selectedQueries }) => {
@@ -81,32 +80,32 @@ const Header = ({ user, selectedQueries }) => {
                         />
                     </div>
                 )} */}
-                <div className="ml-[auto] md:mr-[3rem] [@media(max-width:320px)]:mr-[-0.5rem]">
-                    <ul className="flex justify-between items-center gap-0 sm:gap-1 md:gap-[4rem]">
-                        {/* <li>
+                <div className="[@media(max-width:799px)]:fixed [@media(max-width:799px)]:bottom-[2rem] [@media(max-width:799px)]:bg-[#fff] [@media(max-width:799px)]:shadow [@media(max-width:799px)]:shadow-gray-400 [@media(max-width:799px)]:w-[90%] [@media(max-width:799px)]:left-0 [@media(max-width:799px)]:right-0 [@media(max-width:799px)]:mx-auto [@media(max-width:799px)]:p-3 [@media(max-width:799px)]:rounded-[1.25rem] [@media(max-width:320px)]:px-[0rem] [@media(min-width:576px)]:w-[324px] w-[initial] ml-[auto] md:mr-[3rem]">
+                    <ul className="flex justify-between items-center gap-[2.5rem] [@media(max-width:350px)]:gap-[2rem] xxs:gap-[2.25rem] [@media(max-width:320px)]:ml-[-0.5rem]">
+                        <li>
                             <Link
                                 href={route("welcome")}
                                 className="flex justify-between text-[hsl(228, 12%, 75%)] items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
                                 <AiOutlineHome
-                                    className="sm:hidden"
+                                    className="md:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:640px)]:hidden font-popp">
+                                <span className="[@media(max-width:799px)]:hidden font-popp">
                                     Home
                                 </span>
                             </Link>
-                        </li> */}
+                        </li>
                         <li>
                             <button
                                 onClick={openModal}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex justify-between items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
                                 <RiAdvertisementLine
-                                    className="sm:hidden"
+                                    className="md:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
+                                <span className="[@media(max-width:799px)]:hidden font-popp md:m-[-2rem]">
                                     Place Ad
                                 </span>
                             </button>
@@ -121,13 +120,13 @@ const Header = ({ user, selectedQueries }) => {
                         <li>
                             <Link
                                 href={route("blog")}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex justify-between items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
                                 <FaBloggerB
-                                    className="sm:hidden"
+                                    className="md:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp">
+                                <span className="[@media(max-width:799px)]:hidden font-popp">
                                     Blog
                                 </span>
                             </Link>
@@ -135,54 +134,79 @@ const Header = ({ user, selectedQueries }) => {
                         <li>
                             <button
                                 onClick={openSearchModal}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex justify-between items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                             >
-                                <BiSearch
-                                    className="sm:hidden"
+                                <AiOutlineTeam
+                                    className="md:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
+                                <span className="[@media(max-width:799px)]:hidden font-popp md:m-[-2rem]">
                                     Search
                                 </span>
                             </button>
                         </li>
-                        <li>
-                            {user ? (
-                                url !== "/dashboard" ? (
-                                    <Link
-                                        href={route("dashboard")}
-                                        className="font-semibold md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white"
-                                    >
-                                        <AiOutlineTeam
-                                            className="sm:hidden"
-                                            style={{ fontSize: "1.25rem" }}
-                                        />
-                                        <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
-                                            Dashboard
-                                        </span>
-                                    </Link>
-                                ) : (
-                                    ""
-                                )
-                            ) : (
-                                <>
-                                    <Link
-                                        href={route("login")}
-                                        className="sm:text-white sm:bg-[#F1C40F] [@media(max-width:639px)]:hover:text-[#F1C40F] sm:hover:bg-orange-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:hover:bg-[#6D4C41] dark:bg-[#3E4147]"
-                                    >
-                                        <AiOutlineTeam
-                                            className="sm:hidden"
-                                            style={{ fontSize: "1.25rem" }}
-                                        />
-                                        <span className="[@media(max-width:639px)]:hidden font-popp">
-                                            Login
-                                        </span>
-                                    </Link>
-                                </>
-                            )}
-                        </li>
                     </ul>
                 </div>
+                {/* <button
+                    onClick={handleTheme}
+                    className={`${
+                        navColor ? "text-[#1f2f70]" : "text-gray-400"
+                    } hover:text-[#F5B041] text-[1.25rem] cursor-pointer mr-10 md:mr-4 dark:text-gray-400`}
+                    style={{ transition: ".3s" }}
+                >
+                    {theme === "dark" ? (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                            />
+                        </svg>
+                    ) : (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                            />
+                        </svg>
+                    )}
+                </button> */}
+                {user ? (
+                    url !== "/dashboard" ? (
+                        <Link
+                            href={route("dashboard")}
+                            className="font-semibold md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white"
+                        >
+                            Dashboard
+                        </Link>
+                    ) : (
+                        ""
+                    )
+                ) : (
+                    <>
+                        <Link
+                            href={route("login")}
+                            className="text-white [@media(max-width:799px)]:hidden bg-[#F1C40F] hover:bg-orange-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:hover:bg-[#6D4C41] dark:bg-[#3E4147]"
+                        >
+                            Login
+                        </Link>
+                    </>
+                )}
             </nav>
         </header>
     );

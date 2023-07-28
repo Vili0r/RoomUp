@@ -95,7 +95,7 @@ const Hero = () => {
                             />
                         </div>
                         <span
-                            className="inline-block text-[.938rem] font-popp font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
+                            className="xxs:inline-block hidden text-[.938rem] font-popp font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
                             style={{
                                 boxShadow: "0 4px 8px #f0a122",
                                 padding: "14px 28px",
