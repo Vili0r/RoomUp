@@ -54,6 +54,8 @@ class SearchRoommateController extends Controller
             AllowedFilter::custom('hobbies', new RoommateHobbiesQueryFilter()),
             AllowedFilter::scope('max_price'),
             AllowedFilter::scope('min_price'),
+            AllowedFilter::scope('max_age'),
+            AllowedFilter::scope('min_age'),
         ];
     }
 }

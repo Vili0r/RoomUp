@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { router } from "@inertiajs/react";
 import { BsCheck } from "react-icons/bs";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import {
     MultiRangeSlider,
     PrimaryButton,
@@ -70,6 +72,7 @@ const RoommateSearchModal = ({
     flatmatePets,
     flatmateSmoker,
 }) => {
+    const animatedComponents = makeAnimated();
     const [selectedHobbies, setSelectedHobbies] = useState([]);
     const [title, setTitle] = useState("");
     const [city, setCity] = useState("");
@@ -81,6 +84,8 @@ const RoommateSearchModal = ({
     const [size, setSize] = useState("");
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(10000);
+    const [minAge, setMinAge] = useState("");
+    const [maxAge, setMaxAge] = useState("");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -122,11 +127,18 @@ const RoommateSearchModal = ({
         if (max !== 10000 && max !== "") {
             href += "filter[max_price]=" + max + "&";
         }
+        if (minAge !== "") {
+            href += "filter[min_age]=" + minAge + "&";
+        }
+        if (maxAge !== "") {
+            href += "filter[max_age]=" + maxAge + "&";
+        }
         if (size !== "") {
             href += "filter[room_size]=" + size + "&";
         }
         if (selectedHobbies.length) {
-            href += "&filter[hobbies]=" + selectedHobbies + "&";
+            let hobbies = selectedHobbies.map((item) => item.value);
+            href += "&filter[hobbies]=" + hobbies + "&";
         }
         if (pets !== "") {
             href += "&filter[pets]=" + pets + "&";
@@ -143,48 +155,43 @@ const RoommateSearchModal = ({
 
         router.visit(href, {}, { preserveScroll: true });
     };
+
+    const hobbiesOptions = hobbies.map((item) => {
+        return {
+            label: item.name,
+            value: item.id,
+        };
+    });
+
     return (
         <div className="">
             <button
                 onClick={handleFlatmateFilterSubmit}
-                className="relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1"
+                className={`relative inline-flex px-4 py-2 mt-4 overflow-hidden text-base font-medium text-white transition duration-300 ease-out bg-black rounded-lg group hover:scale-105 hover:shadow-orange-600 active:translate-y-1 ${
+                    step === 2 ? "[@media(max-width:350px)]:ml-8" : ""
+                }`}
             >
                 <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
                 <span className="relative group-hover:text-white">Search</span>
             </button>
             {step === 1 && (
                 <>
-                    <div className="grid grid-cols-1 gap-6 px-8 mt-7 xs:grid-cols-4">
-                        <div className="relative w-full h-10 xs:col-span-2">
-                            <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Budget
-                            </p>
-                            <MultiRangeSlider
-                                rangeMin={0}
-                                rangeMax={10000}
-                                initialMin={min}
-                                initialMax={max}
-                                onMinChange={handleMinChange}
-                                onMaxChange={handleMaxChange}
-                            />
-                        </div>
-                        <div className="relative w-full h-10 xs:col-span-2">
-                            <InputLabel
-                                htmlFor="title"
-                                value="Title of advertisement"
-                            />
-                            <TextInput
-                                type="text"
-                                autoComplete="off"
-                                name="title"
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                placeholder=" "
-                            />
-                        </div>
+                    <div className="relative w-full h-10 mb-[5rem] ml-8">
+                        <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                            Budget
+                        </p>
+                        <MultiRangeSlider
+                            rangeMin={0}
+                            rangeMax={10000}
+                            initialMin={min}
+                            initialMax={max}
+                            onMinChange={handleMinChange}
+                            onMaxChange={handleMaxChange}
+                        />
                     </div>
-                    <div className="grid grid-cols-1 gap-6 px-8 mt-12 mb-[4rem] xxs:grid-cols-4">
-                        <div className="relative w-full h-10 xxs:col-span-2">
+
+                    <div className="grid grid-cols-1 gap-6 px-4 mt-12 xxs:grid-cols-4">
+                        <div className="relative xxs:col-span-2">
                             <InputLabel
                                 htmlFor="city"
                                 value="City of advertisement"
@@ -198,7 +205,7 @@ const RoommateSearchModal = ({
                                 placeholder=" "
                             />
                         </div>
-                        <div className="relative w-full h-10 xxs:col-span-2">
+                        <div className="relative xxs:col-span-2">
                             <InputLabel
                                 htmlFor="area"
                                 value="Area of advertisement"
@@ -232,36 +239,46 @@ const RoommateSearchModal = ({
             )}
             {step === 2 && (
                 <>
-                    <div className="mt-[2rem]">
-                        <p className="text-sm font-semibold font-popp">
-                            Hobbies
-                        </p>
+                    <div className="mt-3 mb-8 [@media(max-width:350px)]:ml-8 w-[16rem] xxs:w-[20rem] xs:w-96">
+                        <InputLabel
+                            htmlFor="hobbies"
+                            value="Hobbies"
+                            className="mb-3"
+                        />
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            onChange={(opt) => setSelectedHobbies(opt)}
+                            isMulti
+                            maxValues={15}
+                            options={hobbiesOptions}
+                            value={selectedHobbies}
+                        />
+                    </div>
 
-                        <div className="grid grid-cols-2 mt-3">
-                            {hobbies.map((hobby) => (
-                                <div
-                                    key={hobby.id}
-                                    className="flex justify-between mb-2"
-                                >
-                                    <span className="mt-1 ml-2 text-sm font-popp">
-                                        {hobby.name}
-                                    </span>
-                                    <label className="relative cursor-pointer">
-                                        <input
-                                            id="checkbox-1"
-                                            type="checkbox"
-                                            onChange={() =>
-                                                handleHobbyChange(hobby.id)
-                                            }
-                                            checked={selectedHobbies.includes(
-                                                hobby.id
-                                            )}
-                                            className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
-                                        />
-                                        <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
-                                    </label>
-                                </div>
-                            ))}
+                    <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
+                        <div className="relative h-10 w-full min-w-[200px]">
+                            <InputLabel htmlFor="minAge" value="Minimum age" />
+                            <TextInput
+                                type="number"
+                                autoComplete="off"
+                                name="minAge"
+                                onChange={(e) => setMinAge(e.target.value)}
+                                className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                placeholder=" "
+                            />
+                        </div>
+
+                        <div className="relative [@media(max-width:479px)]:mt-4">
+                            <InputLabel htmlFor="maxAge" value="Maximum age" />
+                            <TextInput
+                                type="number"
+                                autoComplete="off"
+                                name="maxAge"
+                                onChange={(e) => setMaxAge(e.target.value)}
+                                className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                placeholder=" "
+                            />
                         </div>
                     </div>
 
@@ -296,8 +313,8 @@ const RoommateSearchModal = ({
 
             {step === 3 && (
                 <>
-                    <div className="grid grid-cols-1 gap-4 mt-[3rem] px-8 text-sm gap-y-2 md:grid-cols-4">
-                        <div className="relative md:col-span-2">
+                    <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
+                        <div className="relative h-10 w-full min-w-[200px]">
                             <InputLabel htmlFor="size" value="Room Size" />
                             <select
                                 name="size"
@@ -314,7 +331,7 @@ const RoommateSearchModal = ({
                             </select>
                         </div>
 
-                        <div className="relative md:col-span-2">
+                        <div className="relative [@media(max-width:479px)]:mt-4">
                             <InputLabel
                                 htmlFor="smoker"
                                 value="Flatmate Smoker"
@@ -334,8 +351,8 @@ const RoommateSearchModal = ({
                             </select>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 mt-[1.5rem] px-8 text-sm gap-y-2 md:grid-cols-6">
-                        <div className="relative md:col-span-2">
+                    <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
+                        <div className="relative sm:col-span-2">
                             <InputLabel htmlFor="pets" value="Pets" />
                             <select
                                 name="pets"
@@ -352,7 +369,7 @@ const RoommateSearchModal = ({
                             </select>
                         </div>
 
-                        <div className="relative md:col-span-2">
+                        <div className="relative sm:col-span-2">
                             <InputLabel
                                 htmlFor="occupation"
                                 value="Flatmate Occupation"
@@ -372,7 +389,7 @@ const RoommateSearchModal = ({
                             </select>
                         </div>
 
-                        <div className="relative md:col-span-2">
+                        <div className="relative sm:col-span-2">
                             <InputLabel
                                 htmlFor="gender"
                                 value="Flatmate Gender"

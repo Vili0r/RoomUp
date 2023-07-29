@@ -93,7 +93,7 @@ const HomeSearch = (props) => {
             <Head title="Search Results" />
             <div className="">
                 <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 mt-[5rem]">
-                    <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                    <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
                         <AiOutlineSearch className="w-7 h-7" />
                         <DebounceInput
                             value={query}

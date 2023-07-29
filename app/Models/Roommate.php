@@ -124,6 +124,16 @@ class Roommate extends Model
     {
         return $query->where('budget', '>=', $price);
     }
+    
+    public function scopeMaxAge(Builder $query, $age): Builder
+    {
+        return $query->where('age', '<=', $age);
+    }
+    
+    public function scopeMinAge(Builder $query, $age): Builder
+    {
+        return $query->where('age', '>=', $age);
+    }
 
     public function toSearchableArray(): array
     {

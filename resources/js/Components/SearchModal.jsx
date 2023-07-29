@@ -933,145 +933,7 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                         {type === 4 &&
                                                             step === 5 && (
                                                                 <>
-                                                                    <div className="grid grid-cols-1 gap-4 px-8 m-4 text-sm xs:grid-cols-2 sm:grid-cols-6 mt-7 gap-y-6">
-                                                                        <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="availableRoom"
-                                                                                value="Available Rooms"
-                                                                            />
-                                                                            <select
-                                                                                name="availableRoom"
-                                                                                value={
-                                                                                    availableRoom
-                                                                                }
-                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                                                onChange={(
-                                                                                    e
-                                                                                ) =>
-                                                                                    setAvailableRoom(
-                                                                                        e
-                                                                                            .target
-                                                                                            .value
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                <option value="">
-                                                                                    --
-                                                                                </option>
-                                                                                {availableRooms.map(
-                                                                                    ({
-                                                                                        id,
-                                                                                        name,
-                                                                                    }) => (
-                                                                                        <option
-                                                                                            key={
-                                                                                                id
-                                                                                            }
-                                                                                            value={
-                                                                                                id
-                                                                                            }
-                                                                                        >
-                                                                                            {
-                                                                                                name
-                                                                                            }
-                                                                                        </option>
-                                                                                    )
-                                                                                )}
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="currentOccupant"
-                                                                                value="Current Occupant"
-                                                                            />
-                                                                            <select
-                                                                                name="currentOccupant"
-                                                                                value={
-                                                                                    currentOccupant
-                                                                                }
-                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                                                onChange={(
-                                                                                    e
-                                                                                ) =>
-                                                                                    setCurrentOccupant(
-                                                                                        e
-                                                                                            .target
-                                                                                            .value
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                <option value="">
-                                                                                    --
-                                                                                </option>
-                                                                                {currentOccupants.map(
-                                                                                    ({
-                                                                                        id,
-                                                                                        name,
-                                                                                    }) => (
-                                                                                        <option
-                                                                                            key={
-                                                                                                id
-                                                                                            }
-                                                                                            value={
-                                                                                                id
-                                                                                            }
-                                                                                        >
-                                                                                            {
-                                                                                                name
-                                                                                            }
-                                                                                        </option>
-                                                                                    )
-                                                                                )}
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="smoker"
-                                                                                value="Flatmate Smoker"
-                                                                            />
-                                                                            <select
-                                                                                name="smoker"
-                                                                                value={
-                                                                                    smoker
-                                                                                }
-                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                                                onChange={(
-                                                                                    e
-                                                                                ) =>
-                                                                                    setSmoker(
-                                                                                        e
-                                                                                            .target
-                                                                                            .value
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                <option value="">
-                                                                                    --
-                                                                                </option>
-                                                                                {flatmateSmoker.map(
-                                                                                    ({
-                                                                                        id,
-                                                                                        name,
-                                                                                    }) => (
-                                                                                        <option
-                                                                                            key={
-                                                                                                id
-                                                                                            }
-                                                                                            value={
-                                                                                                id
-                                                                                            }
-                                                                                        >
-                                                                                            {
-                                                                                                name
-                                                                                            }
-                                                                                        </option>
-                                                                                    )
-                                                                                )}
-                                                                            </select>
-                                                                        </div>
-
+                                                                    <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
                                                                             <InputLabel
                                                                                 htmlFor="pets"
@@ -1189,6 +1051,146 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                                     --
                                                                                 </option>
                                                                                 {flatmateGender.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
+                                                                        <div className="relative sm:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="availableRoom"
+                                                                                value="Available Rooms"
+                                                                            />
+                                                                            <select
+                                                                                name="availableRoom"
+                                                                                value={
+                                                                                    availableRoom
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setAvailableRoom(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {availableRooms.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative sm:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="currentOccupant"
+                                                                                value="Current Occupant"
+                                                                            />
+                                                                            <select
+                                                                                name="currentOccupant"
+                                                                                value={
+                                                                                    currentOccupant
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setCurrentOccupant(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {currentOccupants.map(
+                                                                                    ({
+                                                                                        id,
+                                                                                        name,
+                                                                                    }) => (
+                                                                                        <option
+                                                                                            key={
+                                                                                                id
+                                                                                            }
+                                                                                            value={
+                                                                                                id
+                                                                                            }
+                                                                                        >
+                                                                                            {
+                                                                                                name
+                                                                                            }
+                                                                                        </option>
+                                                                                    )
+                                                                                )}
+                                                                            </select>
+                                                                        </div>
+
+                                                                        <div className="relative sm:col-span-2">
+                                                                            <InputLabel
+                                                                                htmlFor="smoker"
+                                                                                value="Flatmate Smoker"
+                                                                            />
+                                                                            <select
+                                                                                name="smoker"
+                                                                                value={
+                                                                                    smoker
+                                                                                }
+                                                                                className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                                onChange={(
+                                                                                    e
+                                                                                ) =>
+                                                                                    setSmoker(
+                                                                                        e
+                                                                                            .target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <option value="">
+                                                                                    --
+                                                                                </option>
+                                                                                {flatmateSmoker.map(
                                                                                     ({
                                                                                         id,
                                                                                         name,
