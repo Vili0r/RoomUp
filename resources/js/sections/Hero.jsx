@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { slideIn, staggerContainer, textVariant } from "../utils/motion";
 import { Link, router } from "@inertiajs/react";
@@ -12,8 +12,8 @@ import { HousePlaceholder } from "@/assets";
 
 const Hero = () => {
     const [openQueryModal, setOpenQueryModal] = useState(false);
-    const [query, setQuery] = useState("");
     const [searchResults, setSearchResults] = useState(null);
+    const [query, setQuery] = useState("");
     const [selectedHitIndex, setSelectedHitIndex] = useState(0);
     const [totlaHits, setTotalHits] = useState(0);
     const [client, setClient] = useState(null);
@@ -95,7 +95,7 @@ const Hero = () => {
                             />
                         </div>
                         <span
-                            className="xxs:inline-block hidden text-[.938rem] font-popp font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
+                            className="xs:inline-block hidden text-[.938rem] font-popp font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
                             style={{
                                 boxShadow: "0 4px 8px #f0a122",
                                 padding: "14px 28px",
@@ -107,7 +107,7 @@ const Hero = () => {
                     </div>
                     <Modal show={openQueryModal} onClose={closeModal}>
                         <div className="p-6">
-                            <div className="flex justify-between">
+                            <div className="flex justify-between mt-8 sm:mt-0">
                                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                                     Enter the address or a post code
                                 </h2>
@@ -146,7 +146,7 @@ const Hero = () => {
                                 </label>
                             </div>
                             {isLoading && (
-                                <div className="top-[85px] right-[30px] mt-3 mr-4 spinner"></div>
+                                <div className="top-[85px] right-[30px] mt-10 sm:mt-3 mr-4 spinner"></div>
                             )}
 
                             {query.length >= 2 &&
@@ -221,7 +221,6 @@ const Hero = () => {
                             </div>
                         </div>
                     </Modal>
-
                     <div className="flex gap-3 justify-between w-[75%]">
                         <div className="">
                             <h1 className="text-[1.5rem] font-medium text-gray-300 font-popp">

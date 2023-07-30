@@ -39,7 +39,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
 
                                         <div className="absolute inset-auto scale-150 translate-x-full bg-green-200 h-96 w-96 opacity-20 blur-3xl"></div>
                                         <div className="w-full">
-                                            <div className="flex px-10 mb-6 justify-betweenmax-w-lg">
+                                            <div className="flex justify-between max-w-lg px-10 mb-6">
                                                 <h1 className="text-5xl font-bold tracking-tight text-[#2f2963]">
                                                     List your property
                                                 </h1>

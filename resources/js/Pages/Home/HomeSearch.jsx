@@ -19,7 +19,7 @@ const HomeSearch = (props) => {
     const { properties, loading, selectedPropertyQueries } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const [toggleMap, setToggleMap] = useState(false);
-    const [query, setQuery] = useState(selectedPropertyQueries.search || "");
+    const [query, setQuery] = useState(selectedPropertyQueries?.search || "");
     const [items, setItems] = useState(properties.data);
     const [initialUrl, setInitialUrl] = useState(usePage().url);
 

@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\SharedIndexResource;
-use App\Http\Resources\SharedResource;
+use App\Http\Resources\SharedEditResource;
 use App\Http\Resources\SharedShowResource;
 use App\Models\Amenity;
 use App\Models\Room;
@@ -266,7 +266,7 @@ class SharedController extends Controller
         $shared->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'rooms']);
 
         return Inertia::render("Shared/Edit", [
-            'shared' => new SharedResource($shared),
+            'shared' => new SharedEditResource($shared),
             'whatIAm' => EnumResource::collection(WhatIAm::cases()),
             'size' => EnumResource::collection(Size::cases()),
             'type' => EnumResource::collection(Type::cases()),
@@ -355,20 +355,8 @@ class SharedController extends Controller
             'available' => ['sometimes'],
             'current_flatmate_age' => [
                 'required_if:current_occupants,>=,1', 
-                function ($attribute, $value, $fail) use ($request) {
-                    $otherFieldValue = $request->input('current_occupants');
-    
-                    if ($otherFieldValue >= 1 && !is_numeric($value)) {
-                        $fail("The $attribute field must be numeric.");
-                    }
-                },
-                function ($attribute, $value, $fail) use ($request) {
-                    $otherFieldValue = $request->input('current_occupants');
-    
-                    if ($otherFieldValue >= 1 && $value >= 18) {
-                        $fail("The $attribute field must be at least 18.");
-                    }
-                },
+                'numeric',
+                'min:18'
             ],
             'current_flatmate_smoker' => ['required_if:current_occupants,>=,1'],
             'current_flatmate_pets' => ['required_if:current_occupants,>=,1'],
@@ -431,20 +419,20 @@ class SharedController extends Controller
         $data = $request->validate([
             'title' => ['required', 'min:10', 'max:50'],
             'description' => ['required', 'min:50', 'max:500'],
-            'available_rooms' => ['required', 'numeric'],
-            'size' => ['required'],
-            'type' => ['required'],
-            'current_occupants' => ['required'],
-            'what_i_am' => ['required'],
+            'available_rooms' => ['required', 'integer'],
+            'size' => ['required', 'integer'],
+            'type' => ['required', 'integer'],
+            'current_occupants' => ['required', 'integer'],
+            'what_i_am' => ['required', 'integer'],
             'user_id' => ['sometimes'],
             'live_at' => ['sometimes'],
             'featured' => ['sometimes'],
             'available' => ['sometimes'],
             'current_flatmate_age' => ['sometimes'],
-            'current_flatmate_smoker' => ['sometimes'],
-            'current_flatmate_pets' => ['sometimes'],
-            'current_flatmate_occupation' => ['sometimes'],
-            'current_flatmate_gender' => ['sometimes'],
+            'current_flatmate_smoker' => ['sometimes', 'integer'],
+            'current_flatmate_pets' => ['sometimes', 'integer'],
+            'current_flatmate_occupation' => ['sometimes', 'integer'],
+            'current_flatmate_gender' => ['sometimes', 'integer'],
             'current_flatmate_hobbies' => ['sometimes'],
             'images' => ['sometimes'],
         ]);
@@ -472,10 +460,10 @@ class SharedController extends Controller
                 $temporaryImage->delete();
             }
         }
-        //dd($images);
-
+        
         //Assigning the images to data['images']
         $data['images'] = $images;
+        //dd($data);
         
         //Updating shared
         $shared->update($data);
