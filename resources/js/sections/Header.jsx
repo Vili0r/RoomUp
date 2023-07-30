@@ -3,12 +3,12 @@ import { Link, usePage } from "@inertiajs/react";
 import ThemeContext from "../context/ThemeContext";
 import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
-import { AiOutlineTeam, AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineTeam } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import { PlaceAdModal, SearchModal } from "@/Components";
 
-const Header = ({ user, selectedQueries }) => {
+const Header = ({ user }) => {
     const { theme, handleTheme } = useContext(ThemeContext);
     const [navColor, setNavColor] = useState(false);
     const { url } = usePage();
@@ -115,7 +115,6 @@ const Header = ({ user, selectedQueries }) => {
                         <SearchModal
                             isOpen={isSearchModalOpen}
                             closeModal={closeSearchModal}
-                            selectedQueries={selectedQueries}
                         />
 
                         <li>

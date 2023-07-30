@@ -34,7 +34,7 @@ class SearchRoommateController extends Controller
         $results = RoommateSearchResource::collection($query->paginate(6)->appends($request->query()));
         
         return Inertia::render('Home/RoommateSearch',[
-            'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
+            'selectedRoommateQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'results' => $results,
             'loading' => false,
         ]);
@@ -52,8 +52,8 @@ class SearchRoommateController extends Controller
             'area',
             'title',
             AllowedFilter::custom('hobbies', new RoommateHobbiesQueryFilter()),
-            AllowedFilter::scope('max_price'),
-            AllowedFilter::scope('min_price'),
+            AllowedFilter::scope('max_budget'),
+            AllowedFilter::scope('min_budget'),
             AllowedFilter::scope('max_age'),
             AllowedFilter::scope('min_age'),
         ];

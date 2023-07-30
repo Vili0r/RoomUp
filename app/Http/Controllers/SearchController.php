@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flat;
-use App\Models\Shared;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -23,12 +22,8 @@ use App\Http\QueryFilters\RoomQueryFilters\RoomModeQueryFilter;
 use App\Http\QueryFilters\RoomQueryFilters\RoomSizeQueryFilter;
 use App\Http\QueryFilters\RoomQueryFilters\RoomStationQueryFilter;
 use App\Http\QueryFilters\StationQueryFilter;
-use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
-use App\Http\Resources\SharedSearchResultResource;
-use App\Models\Address;
-use App\Models\Amenity;
 use App\Models\Room;
 use Inertia\Response;
 
@@ -42,11 +37,10 @@ class SearchController extends Controller
         $query = null;
         $results = [];
         $searchType = $request->input('search_type', 'flats');
-        //dd(Address::search($request->search)->get());
 
         if ($searchType === 'flats') {
             $query = QueryBuilder::for(Flat::class)
-                 ->allowedFilters($this->allowedFlatFilters())
+                ->allowedFilters($this->allowedFlatFilters())
                 ->with(['address', 'availability'])
                 ->tap(function ($builder) use ($request) {
                     if(filled($request->search)){
@@ -71,7 +65,7 @@ class SearchController extends Controller
         }
 
         return Inertia::render('Home/Search',[
-            'selectedQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
+            'selectedPropertyQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'results' => $results,
             'loading' => false,
         ]);

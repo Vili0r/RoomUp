@@ -4,18 +4,30 @@ import { Fragment } from "react";
 import { MdOutlineApartment, MdOutlineBedroomParent } from "react-icons/md";
 import { BsHouseFill } from "react-icons/bs";
 import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
-import { router } from "@inertiajs/react";
-import { BsCheck } from "react-icons/bs";
+import { router, usePage } from "@inertiajs/react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import {
     MultiRangeSlider,
     PrimaryButton,
-    SecondaryButton,
-    InputLabel,
     TextInput,
     RoommateSearchModal,
 } from "@/Components";
-import { DebounceInput } from "react-debounce-input";
-import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import {
+    bedrooms,
+    modes,
+    furnishings,
+    flatmateGender,
+    flatmateOccupation,
+    flatmateSmoker,
+    flatmatePets,
+    currentOccupants,
+    availableRooms,
+    minutes,
+    stations,
+    amenities,
+} from "@/arrays/Array";
 
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
@@ -24,135 +36,75 @@ const places = [
     { id: 4, title: "Room", image: MdOutlineBedroomParent },
 ];
 
-const bedrooms = [
-    { id: 1, title: "Studio/1" },
-    { id: 2, title: "2" },
-    { id: 3, title: "3" },
-    { id: 4, title: "4" },
-    { id: 5, title: "5" },
-    { id: 6, title: "6+" },
-];
-
-const modes = [
-    { id: 1, name: "Walk" },
-    { id: 2, name: "By car" },
-    { id: 3, name: "By bus" },
-    { id: 4, name: "By bike" },
-];
-
-const furnishings = [
-    { id: 1, name: "Furnished" },
-    { id: 2, name: "Unfurnished" },
-];
-
-const flatmateGender = [
-    { id: 1, name: "Female" },
-    { id: 2, name: "Male" },
-];
-
-const flatmateOccupation = [
-    { id: 1, name: "Student" },
-    { id: 2, name: "Professional" },
-];
-
-const flatmateSmoker = [
-    { id: 1, name: "No" },
-    { id: 2, name: "Yes" },
-];
-
-const flatmatePets = [
-    { id: 1, name: "No" },
-    { id: 2, name: "Yes" },
-];
-
-const currentOccupants = [
-    { id: 0, name: "Zero" },
-    { id: 1, name: "One" },
-    { id: 2, name: "Two" },
-    { id: 3, name: "Three" },
-    { id: 4, name: "Four" },
-    { id: 5, name: "Five" },
-    { id: 6, name: "Six" },
-    { id: 7, name: "Seven" },
-    { id: 8, name: "Eight" },
-    { id: 9, name: "Nine" },
-    { id: 10, name: "Ten" },
-];
-
-const availableRooms = [
-    { id: 1, name: "One room for rent" },
-    { id: 2, name: "Two room for rent" },
-    { id: 3, name: "Three room for rent" },
-    { id: 4, name: "Four room for rent" },
-    { id: 5, name: "Five room for rent" },
-    { id: 6, name: "Six room for rent" },
-    { id: 7, name: "Seven room for rent" },
-    { id: 8, name: "Eight room for rent" },
-    { id: 9, name: "Nine room for rent" },
-    { id: 10, name: "Ten room for rent" },
-];
-
-const minutes = [
-    { id: 1, name: "Less than 5" },
-    { id: 2, name: "Between 5 and 10" },
-    { id: 3, name: "Between 10 and 15" },
-    { id: 4, name: "Between 15 and 20" },
-    { id: 5, name: "More than 20" },
-];
-
-const stations = [
-    { id: 1, name: "Sintagma" },
-    { id: 2, name: "Monastiraki" },
-    { id: 3, name: "Evangelismos" },
-    { id: 4, name: "Attiki" },
-    { id: 5, name: "Cholargos" },
-    { id: 6, name: "Omonoia" },
-    { id: 7, name: "Akropoli" },
-    { id: 8, name: "Pireas" },
-    { id: 9, name: "Mosxato" },
-    { id: 10, name: "kalithea" },
-];
-
-const amenities = [
-    { id: 1, name: "Parking" },
-    { id: 2, name: "Garden" },
-    { id: 3, name: "Garage" },
-    { id: 4, name: "Balcony" },
-    { id: 5, name: "Disable Access" },
-    { id: 6, name: "Living Room" },
-    { id: 7, name: "Broadband" },
-    { id: 8, name: "Air Conditioning" },
-    { id: 9, name: "Heating System" },
-    { id: 10, name: "Dishwasher" },
-    { id: 11, name: "Microwave" },
-    { id: 12, name: "Oven" },
-    { id: 13, name: "Washer" },
-    { id: 14, name: "Refrigirator" },
-    { id: 15, name: "Storage" },
-];
-
-const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
-    const [selectedAmenities, setSelectedAmenities] = useState([]);
-    const [toggleActiveButton, setToggleActiveButton] = useState(1);
+const SearchModal = ({ isOpen, closeModal }) => {
+    const { selectedPropertyQueries, selectedRoommateQueries } =
+        usePage().props;
+    const amenitiesArray = selectedPropertyQueries?.filter?.amenity
+        .split(",")
+        .map(Number);
+    const selectedAmenitiesOptions = amenities
+        .filter((amenity) => amenitiesArray?.includes(amenity.id))
+        .map((item) => ({
+            label: item.name,
+            value: item.id,
+        }));
+    const animatedComponents = makeAnimated();
+    const [selectedAmenities, setSelectedAmenities] = useState(
+        selectedAmenitiesOptions ?? []
+    );
+    const [toggleActiveButton, setToggleActiveButton] = useState(
+        selectedPropertyQueries?.search ||
+            selectedPropertyQueries?.search === null
+            ? 1
+            : 2
+    );
     const [step, setStep] = useState(1);
-    const [type, setType] = useState("");
-    const [size, setSize] = useState("");
-    const [toggleActiveBedrooms, setToggleActiveBedrooms] = useState(1);
-    const [searchResults, setSearchResults] = useState(null);
-    const [query, setQuery] = useState("");
-    const [availability, setAvailability] = useState("");
-    const [min, setMin] = useState(0);
-    const [max, setMax] = useState(10000);
-    const [minute, setMinute] = useState("");
-    const [mode, setMode] = useState("");
-    const [station, setStation] = useState("");
-    const [furnished, setFurnished] = useState("");
-    const [availableRoom, setAvailableRoom] = useState("");
-    const [currentOccupant, setCurrentOccupant] = useState("");
-    const [smoker, setSmoker] = useState("");
-    const [gender, setGender] = useState("");
-    const [occupation, setOccupation] = useState("");
-    const [pets, setPets] = useState("");
+    const [type, setType] = useState(
+        selectedPropertyQueries?.search_type === "shareds" ? 4 : ""
+    );
+    const [size, setSize] = useState(
+        selectedPropertyQueries?.filter?.size ?? ""
+    );
+    const [query, setQuery] = useState(selectedPropertyQueries?.search ?? "");
+    const [availability, setAvailability] = useState(
+        selectedPropertyQueries?.filter?.availability?.available_from ?? ""
+    );
+    const [min, setMin] = useState(
+        selectedPropertyQueries?.filter?.min_price ?? 0
+    );
+    const [max, setMax] = useState(
+        selectedPropertyQueries?.filter?.max_price ?? 10000
+    );
+    const [minute, setMinute] = useState(
+        selectedPropertyQueries?.filter?.minute ?? ""
+    );
+    const [mode, setMode] = useState(
+        selectedPropertyQueries?.filter?.mode ?? ""
+    );
+    const [station, setStation] = useState(
+        selectedPropertyQueries?.filter?.station ?? ""
+    );
+    const [furnished, setFurnished] = useState(
+        selectedPropertyQueries?.filter?.furnished ?? ""
+    );
+    const [availableRoom, setAvailableRoom] = useState(
+        selectedPropertyQueries?.filter?.available_rooms ?? ""
+    );
+    const [currentOccupant, setCurrentOccupant] = useState(
+        selectedPropertyQueries?.filter?.current_occupants ?? ""
+    );
+    const [smoker, setSmoker] = useState(
+        selectedPropertyQueries?.filter?.current_flatmate_smoker ?? ""
+    );
+    const [gender, setGender] = useState(
+        selectedPropertyQueries?.filter?.current_flatmate_gender ?? ""
+    );
+    const [occupation, setOccupation] = useState(
+        selectedPropertyQueries?.filter?.current_flatmate_occupation ?? ""
+    );
+    const [pets, setPets] = useState(
+        selectedPropertyQueries?.filter?.current_flatmate_pets ?? ""
+    );
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -165,17 +117,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     const activeButton = (index) => {
         setToggleActiveButton(index);
         setStep(1);
-        setType("");
-        setSize("");
-        setQuery("");
-        setMinute("");
-        setMode("");
-        setStation("");
-        setFurnished("");
-        setMin(0);
-        setMax(10000);
-        setToggleActiveBedrooms(1);
-        setSelectedAmenities([]);
     };
 
     //next step
@@ -184,20 +125,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
     };
     const handleBack = () => {
         setStep(step - 1);
-    };
-
-    const handleAmenityChange = (id) => {
-        setSelectedAmenities((prev) => {
-            // Check if the ID already exists in the array
-            const exists = prev.includes(id);
-
-            // If the ID exists, remove it from the array, otherwise add it
-            if (exists) {
-                return prev.filter((amenityId) => amenityId !== id);
-            } else {
-                return [...prev, id];
-            }
-        });
     };
 
     const handlePropertyFilterSubmit = () => {
@@ -216,7 +143,8 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
             href += "filter[max_price]=" + max + "&";
         }
         if (selectedAmenities.length) {
-            href += "&filter[amenity]=" + selectedAmenities + "&";
+            let amenities = selectedAmenities.map((item) => item.value);
+            href += "&filter[amenity]=" + amenities + "&";
         }
         if (availability !== "" && type !== 4) {
             href +=
@@ -274,6 +202,13 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
             );
         }
     };
+
+    const amenitiesOptions = amenities.map((item) => {
+        return {
+            label: item.name,
+            value: item.id,
+        };
+    });
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -493,11 +428,42 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     />
                                                                 </div>
 
-                                                                <div className="mt-[2rem] ml-3">
-                                                                    <p className="ml-5 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                <div className="mt-[2rem] [@media(max-width:340px)]:m-4">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Amenities
+                                                                    </p>
+                                                                    <Select
+                                                                        closeMenuOnSelect={
+                                                                            false
+                                                                        }
+                                                                        components={
+                                                                            animatedComponents
+                                                                        }
+                                                                        onChange={(
+                                                                            opt
+                                                                        ) =>
+                                                                            setSelectedAmenities(
+                                                                                opt
+                                                                            )
+                                                                        }
+                                                                        isMulti
+                                                                        maxValues={
+                                                                            15
+                                                                        }
+                                                                        options={
+                                                                            amenitiesOptions
+                                                                        }
+                                                                        value={
+                                                                            selectedAmenities
+                                                                        }
+                                                                    />
+                                                                </div>
+
+                                                                <div className="mt-[2rem]">
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                                                         Bedroom
                                                                     </p>
-                                                                    <div className="flex justify-center gap-2 place-items-center mt-3 [@media(max-width:450px)]:grid [@media(max-width:450px)]:grid-cols-3">
+                                                                    <div className="flex justify-center gap-2 place-items-center [@media(max-width:450px)]:grid [@media(max-width:450px)]:grid-cols-3">
                                                                         {bedrooms.map(
                                                                             (
                                                                                 bedroom,
@@ -569,98 +535,18 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                         {step == 3 && (
                                                             <>
-                                                                <div className="mt-[2rem] [@media(max-width:340px)]:m-4">
-                                                                    <p className="text-sm font-semibold font-popp">
-                                                                        Amenities
-                                                                    </p>
-
-                                                                    <div className="grid grid-cols-2 [@media(max-width:450px)]:grid-cols-1 mt-3">
-                                                                        {amenities?.map(
-                                                                            (
-                                                                                amenity
-                                                                            ) => (
-                                                                                <div
-                                                                                    key={
-                                                                                        amenity.id
-                                                                                    }
-                                                                                    className="flex justify-between mb-2 space-x-[4rem]"
-                                                                                >
-                                                                                    <span className="mt-1 ml-2 text-sm font-popp">
-                                                                                        {
-                                                                                            amenity.name
-                                                                                        }
-                                                                                    </span>
-                                                                                    <label className="relative cursor-pointer">
-                                                                                        <input
-                                                                                            id="checkbox-1"
-                                                                                            type="checkbox"
-                                                                                            onChange={() =>
-                                                                                                handleAmenityChange(
-                                                                                                    amenity.id
-                                                                                                )
-                                                                                            }
-                                                                                            checked={selectedAmenities.includes(
-                                                                                                amenity.id
-                                                                                            )}
-                                                                                            className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
-                                                                                        />
-                                                                                        <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
-                                                                                    </label>
-                                                                                </div>
-                                                                            )
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="flex justify-center mt-6 space-x-2">
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleBack
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowLeft2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Previous
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Previous
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                    <PrimaryButton
-                                                                        onClick={
-                                                                            handleNext
-                                                                        }
-                                                                        className="group relative inline-flex w-40 items-center justify-center overflow-hidden rounded-full bg-[#FFF337] px-8 py-3 font-medium text-white transition duration-300 ease-out md:w-auto"
-                                                                    >
-                                                                        <span className="ease absolute inset-0 flex h-full w-full -translate-x-full items-center justify-center bg-[#FFF337] text-black duration-300 group-hover:translate-x-0">
-                                                                            <ImArrowRight2 className="w-5 h-5" />
-                                                                        </span>
-                                                                        <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Next
-                                                                        </span>
-                                                                        <span className="relative invisible">
-                                                                            Next
-                                                                        </span>
-                                                                    </PrimaryButton>
-                                                                </div>
-                                                            </>
-                                                        )}
-
-                                                        {step == 4 && (
-                                                            <>
                                                                 <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
                                                                     <div className="relative h-10 w-full min-w-[200px]">
-                                                                        <InputLabel
-                                                                            htmlFor="availabilty"
-                                                                            value="Available to move from"
-                                                                        />
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Availability
+                                                                        </p>
                                                                         <TextInput
                                                                             type="date"
                                                                             autoComplete="off"
                                                                             name="availability"
+                                                                            value={
+                                                                                availability
+                                                                            }
                                                                             onChange={(
                                                                                 e
                                                                             ) =>
@@ -676,11 +562,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
 
                                                                     <div className="relative [@media(max-width:479px)]:mt-4">
-                                                                        <InputLabel
-                                                                            htmlFor="query"
-                                                                            value="Enter
-                                                                            address"
-                                                                        />
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Enter
+                                                                            Address
+                                                                        </p>
                                                                         <TextInput
                                                                             type="text"
                                                                             name="query"
@@ -706,10 +591,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                                 <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                                                                     <div className="relative sm:col-span-2">
-                                                                        <InputLabel
-                                                                            htmlFor="minute"
-                                                                            value="Minutes"
-                                                                        />
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Minutes
+                                                                        </p>
                                                                         <select
                                                                             name="minute"
                                                                             value={
@@ -752,10 +636,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
 
                                                                     <div className="relative sm:col-span-2">
-                                                                        <InputLabel
-                                                                            htmlFor="mode"
-                                                                            value="Mode"
-                                                                        />
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Mode
+                                                                        </p>
                                                                         <select
                                                                             name="mode"
                                                                             value={
@@ -798,10 +681,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                     </div>
 
                                                                     <div className="relative sm:col-span-2">
-                                                                        <InputLabel
-                                                                            htmlFor="station"
-                                                                            value="Station"
-                                                                        />
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Station
+                                                                        </p>
                                                                         <select
                                                                             name="station"
                                                                             value={
@@ -845,10 +727,9 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                 </div>
 
                                                                 <div className="relative w-full px-4 mt-5 sm:w-1/2">
-                                                                    <InputLabel
-                                                                        htmlFor="furnished"
-                                                                        value="Furnished"
-                                                                    />
+                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                        Furnished
+                                                                    </p>
                                                                     <select
                                                                         name="furnished"
                                                                         value={
@@ -931,14 +812,13 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                         )}
 
                                                         {type === 4 &&
-                                                            step === 5 && (
+                                                            step === 4 && (
                                                                 <>
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="pets"
-                                                                                value="Pets"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Pets
+                                                                            </p>
                                                                             <select
                                                                                 name="pets"
                                                                                 value={
@@ -981,10 +861,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="occupation"
-                                                                                value="Flatmate Occupation"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Flatmate
+                                                                                Occupation
+                                                                            </p>
                                                                             <select
                                                                                 name="occupation"
                                                                                 value={
@@ -1027,10 +907,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="gender"
-                                                                                value="Flatmate Gender"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Flatmate
+                                                                                Gender
+                                                                            </p>
                                                                             <select
                                                                                 name="gender"
                                                                                 value={
@@ -1075,10 +955,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
 
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="availableRoom"
-                                                                                value="Available Rooms"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Available
+                                                                                Rooms
+                                                                            </p>
                                                                             <select
                                                                                 name="availableRoom"
                                                                                 value={
@@ -1121,10 +1001,11 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="currentOccupant"
-                                                                                value="Current Occupant"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Current
+                                                                                Occupant
+                                                                            </p>
+
                                                                             <select
                                                                                 name="currentOccupant"
                                                                                 value={
@@ -1167,10 +1048,10 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <InputLabel
-                                                                                htmlFor="smoker"
-                                                                                value="Flatmate Smoker"
-                                                                            />
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Flatmate
+                                                                                smoker
+                                                                            </p>
                                                                             <select
                                                                                 name="smoker"
                                                                                 value={
@@ -1239,18 +1120,6 @@ const SearchModal = ({ isOpen, closeModal, selectedQueries }) => {
                                                         step={step}
                                                         handleBack={handleBack}
                                                         handleNext={handleNext}
-                                                        flatmateGender={
-                                                            flatmateGender
-                                                        }
-                                                        flatmateOccupation={
-                                                            flatmateOccupation
-                                                        }
-                                                        flatmatePets={
-                                                            flatmatePets
-                                                        }
-                                                        flatmateSmoker={
-                                                            flatmateSmoker
-                                                        }
                                                     />
                                                 )}
                                             </div>

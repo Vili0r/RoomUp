@@ -16,10 +16,10 @@ import { DebounceInput } from "react-debounce-input";
 
 const HomeSearch = (props) => {
     const { post } = useForm({});
-    const { properties, loading, selectedQueries } = usePage().props;
+    const { properties, loading, selectedPropertyQueries } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const [toggleMap, setToggleMap] = useState(false);
-    const [query, setQuery] = useState(selectedQueries.search || "");
+    const [query, setQuery] = useState(selectedPropertyQueries.search || "");
     const [items, setItems] = useState(properties.data);
     const [initialUrl, setInitialUrl] = useState(usePage().url);
 

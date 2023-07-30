@@ -115,23 +115,27 @@ class Roommate extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
-    public function scopeMaxPrice(Builder $query, $price): Builder
+    public function scopeMaxBudget(Builder $query, $value): Builder
     {
-        return $query->where('budget', '<=', $price);
+        $value = intval($value);
+        return $query->where('budget', '<=', $value);
     }
     
-    public function scopeMinPrice(Builder $query, $price): Builder
+    public function scopeMinBudget(Builder $query, $value): Builder
     {
-        return $query->where('budget', '>=', $price);
+        $value = intval($value);
+        return $query->where('budget', '>=', $value);
     }
     
     public function scopeMaxAge(Builder $query, $age): Builder
     {
+        $age = intval($age);
         return $query->where('age', '<=', $age);
     }
     
     public function scopeMinAge(Builder $query, $age): Builder
     {
+        $age = intval($age);
         return $query->where('age', '>=', $age);
     }
 

@@ -115,11 +115,13 @@ class Flat extends Model
 
     public function scopeMaxPrice(Builder $query, $price): Builder
     {
+        $price = intval($price);
         return $query->where('cost', '<=', $price);
     }
     
     public function scopeMinPrice(Builder $query, $price): Builder
     {
+        $price = intval($price);
         return $query->where('cost', '>=', $price);
     }
     

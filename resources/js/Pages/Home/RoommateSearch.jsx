@@ -6,9 +6,9 @@ import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
 
 const RoommateSearch = (props) => {
-    const { results, loading, selectedQueries } = usePage().props;
+    const { results, loading, selectedRoommateQueries } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
-    const [query, setQuery] = useState(selectedQueries.search || "");
+    const [query, setQuery] = useState(selectedRoommateQueries.search || "");
     const [items, setItems] = useState(results.data);
     const [initialUrl, setInitialUrl] = useState(usePage().url);
 

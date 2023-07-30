@@ -89,11 +89,13 @@ class Room extends Model
 
     public function scopeMaxPrice(Builder $query, $price): Builder
     {
+        $price = intval($price);
         return $query->where('room_cost', '<=', $price);
     }
     
     public function scopeMinPrice(Builder $query, $price): Builder
     {
+        $price = intval($price);
         return $query->where('room_cost', '>=', $price);
     }
 

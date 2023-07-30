@@ -1,91 +1,66 @@
 import React, { useState } from "react";
-import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
-import { router } from "@inertiajs/react";
-import { BsCheck } from "react-icons/bs";
+import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
+import { router, usePage } from "@inertiajs/react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { MultiRangeSlider, PrimaryButton, TextInput } from "@/Components";
 import {
-    MultiRangeSlider,
-    PrimaryButton,
-    SecondaryButton,
-    InputLabel,
-    TextInput,
-} from "@/Components";
-import { DebounceInput } from "react-debounce-input";
-
-const roomSize = [
-    { id: 1, name: "Single" },
-    { id: 2, name: "Double" },
-];
-
-const hobbies = [
-    { id: 1, name: "Reading" },
-    { id: 2, name: "Writing" },
-    { id: 3, name: "Painting" },
-    { id: 4, name: "Drawing" },
-    { id: 5, name: "Photography" },
-    { id: 6, name: "Gardening" },
-    { id: 7, name: "Cooking/Baking" },
-    { id: 8, name: "Playing a musical instrument" },
-    { id: 9, name: "Singing" },
-    { id: 10, name: "Dancing" },
-    { id: 11, name: "Knitting/Crocheting" },
-    { id: 12, name: "Sewing" },
-    { id: 13, name: "Woodworking" },
-    { id: 14, name: "Sculpting" },
-    { id: 15, name: "Pottery/Ceramics" },
-    { id: 16, name: "Hiking/Outdoor activities" },
-    { id: 17, name: "Cycling" },
-    { id: 18, name: "Running/Jogging" },
-    { id: 19, name: "Swimming" },
-    { id: 20, name: "Yoga" },
-    { id: 21, name: "Meditation" },
-    { id: 22, name: "Gaming" },
-    { id: 23, name: "Collecting" },
-    { id: 24, name: "Model building" },
-    { id: 25, name: "Sports" },
-    { id: 26, name: "Football" },
-    { id: 27, name: "Fishing" },
-    { id: 28, name: "Camping" },
-    { id: 29, name: "Traveling" },
-    { id: 30, name: "Volunteering" },
-    { id: 31, name: "Learning a new language" },
-    { id: 32, name: "Film/TV series watching" },
-    { id: 33, name: "Playing chess" },
-    { id: 34, name: "DIY projects" },
-    { id: 35, name: "Wine tasting" },
-    { id: 36, name: "Home brewing" },
-    { id: 37, name: "Theatre" },
-    { id: 38, name: "Calligraphy" },
-    { id: 39, name: "Astronomy/Stargazing" },
-    { id: 40, name: "Chess" },
-    { id: 41, name: "Martial arts" },
-    { id: 42, name: "Cars" },
-];
-
-const RoommateSearchModal = ({
-    step,
-    handleBack,
-    handleNext,
+    roomSize,
+    hobbies,
     flatmateGender,
     flatmateOccupation,
-    flatmatePets,
     flatmateSmoker,
-}) => {
+    flatmatePets,
+} from "@/arrays/Array";
+
+const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
+    const { selectedRoommateQueries } = usePage().props;
+    const hobbiesArray = selectedRoommateQueries?.filter.hobbies
+        .split(",")
+        .map(Number);
+    const selectedHobbiesOptions = hobbies
+        .filter((hobby) => hobbiesArray?.includes(hobby.id))
+        .map((item) => ({
+            label: item.name,
+            value: item.id,
+        }));
     const animatedComponents = makeAnimated();
-    const [selectedHobbies, setSelectedHobbies] = useState([]);
-    const [title, setTitle] = useState("");
-    const [city, setCity] = useState("");
-    const [area, setArea] = useState("");
-    const [pets, setPets] = useState("");
-    const [gender, setGender] = useState("");
-    const [occupation, setOccupation] = useState("");
-    const [smoker, setSmoker] = useState("");
-    const [size, setSize] = useState("");
-    const [min, setMin] = useState(0);
-    const [max, setMax] = useState(10000);
-    const [minAge, setMinAge] = useState("");
-    const [maxAge, setMaxAge] = useState("");
+    const [selectedHobbies, setSelectedHobbies] = useState(
+        selectedHobbiesOptions ?? []
+    );
+    const [city, setCity] = useState(
+        selectedRoommateQueries?.filter?.city ?? ""
+    );
+    const [area, setArea] = useState(
+        selectedRoommateQueries?.filter?.area ?? ""
+    );
+    const [pets, setPets] = useState(
+        selectedRoommateQueries?.filter?.pets ?? ""
+    );
+    const [gender, setGender] = useState(
+        selectedRoommateQueries?.filter?.gender ?? ""
+    );
+    const [occupation, setOccupation] = useState(
+        selectedRoommateQueries?.filter?.occupation ?? ""
+    );
+    const [smoker, setSmoker] = useState(
+        selectedRoommateQueries?.filter?.smoker ?? ""
+    );
+    const [size, setSize] = useState(
+        selectedRoommateQueries?.filter?.room_size ?? ""
+    );
+    const [min, setMin] = useState(
+        selectedRoommateQueries?.filter?.min_budget ?? 0
+    );
+    const [max, setMax] = useState(
+        selectedRoommateQueries?.filter?.max_budget ?? 10000
+    );
+    const [minAge, setMinAge] = useState(
+        selectedRoommateQueries?.filter?.min_age ?? ""
+    );
+    const [maxAge, setMaxAge] = useState(
+        selectedRoommateQueries?.filter?.max_age ?? ""
+    );
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -95,26 +70,9 @@ const RoommateSearchModal = ({
         setMax(value);
     };
 
-    const handleHobbyChange = (id) => {
-        setSelectedHobbies((prev) => {
-            // Check if the ID already exists in the array
-            const exists = prev.includes(id);
-
-            // If the ID exists, remove it from the array, otherwise add it
-            if (exists) {
-                return prev.filter((amenityId) => amenityId !== id);
-            } else {
-                return [...prev, id];
-            }
-        });
-    };
-
     const handleFlatmateFilterSubmit = () => {
         let href = "/flatmate-search?";
 
-        if (title !== "") {
-            href += "filter[title]=" + title + "&";
-        }
         if (area !== "") {
             href += "filter[area]=" + area + "&";
         }
@@ -122,10 +80,10 @@ const RoommateSearchModal = ({
             href += "filter[city]=" + city + "&";
         }
         if (min !== 0 && min !== "") {
-            href += "filter[min_price]=" + min + "&";
+            href += "filter[min_budget]=" + min + "&";
         }
         if (max !== 10000 && max !== "") {
-            href += "filter[max_price]=" + max + "&";
+            href += "filter[max_budget]=" + max + "&";
         }
         if (minAge !== "") {
             href += "filter[min_age]=" + minAge + "&";
@@ -138,19 +96,19 @@ const RoommateSearchModal = ({
         }
         if (selectedHobbies.length) {
             let hobbies = selectedHobbies.map((item) => item.value);
-            href += "&filter[hobbies]=" + hobbies + "&";
+            href += "filter[hobbies]=" + hobbies + "&";
         }
         if (pets !== "") {
-            href += "&filter[pets]=" + pets + "&";
+            href += "filter[pets]=" + pets + "&";
         }
         if (gender !== "") {
-            href += "&filter[gender]=" + gender + "&";
+            href += "filter[gender]=" + gender + "&";
         }
         if (occupation !== "") {
-            href += "&filter[occupation]=" + occupation + "&";
+            href += "filter[occupation]=" + occupation + "&";
         }
         if (smoker !== "") {
-            href += "&filter[smoker]=" + smoker + "&";
+            href += "filter[smoker]=" + smoker + "&";
         }
 
         router.visit(href, {}, { preserveScroll: true });
@@ -192,28 +150,30 @@ const RoommateSearchModal = ({
 
                     <div className="grid grid-cols-1 gap-6 px-4 mt-12 xxs:grid-cols-4">
                         <div className="relative xxs:col-span-2">
-                            <InputLabel
-                                htmlFor="city"
-                                value="City of advertisement"
-                            />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                City
+                            </p>
+
                             <TextInput
                                 type="text"
                                 autoComplete="off"
                                 name="title"
+                                value={city}
                                 onChange={(e) => setCity(e.target.value)}
                                 className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 placeholder=" "
                             />
                         </div>
                         <div className="relative xxs:col-span-2">
-                            <InputLabel
-                                htmlFor="area"
-                                value="Area of advertisement"
-                            />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Area
+                            </p>
+
                             <TextInput
                                 type="text"
                                 autoComplete="off"
                                 name="title"
+                                value={area}
                                 onChange={(e) => setArea(e.target.value)}
                                 className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 placeholder=" "
@@ -239,12 +199,10 @@ const RoommateSearchModal = ({
             )}
             {step === 2 && (
                 <>
-                    <div className="mt-3 mb-8 [@media(max-width:350px)]:ml-8 w-[16rem] xxs:w-[20rem] xs:w-96">
-                        <InputLabel
-                            htmlFor="hobbies"
-                            value="Hobbies"
-                            className="mb-3"
-                        />
+                    <div className="mt-7 mb-8 [@media(max-width:350px)]:ml-8 w-[16rem] xxs:w-[20rem] xs:w-96">
+                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                            Hobbies
+                        </p>
                         <Select
                             closeMenuOnSelect={false}
                             components={animatedComponents}
@@ -256,13 +214,16 @@ const RoommateSearchModal = ({
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-6 px-4 xxs:px-0 mt-7 xs:grid-cols-2">
                         <div className="relative h-10 w-full min-w-[200px]">
-                            <InputLabel htmlFor="minAge" value="Minimum age" />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Minimum Age
+                            </p>
                             <TextInput
                                 type="number"
                                 autoComplete="off"
                                 name="minAge"
+                                value={minAge}
                                 onChange={(e) => setMinAge(e.target.value)}
                                 className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 placeholder=" "
@@ -270,11 +231,14 @@ const RoommateSearchModal = ({
                         </div>
 
                         <div className="relative [@media(max-width:479px)]:mt-4">
-                            <InputLabel htmlFor="maxAge" value="Maximum age" />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Maximum Age
+                            </p>
                             <TextInput
                                 type="number"
                                 autoComplete="off"
                                 name="maxAge"
+                                value={maxAge}
                                 onChange={(e) => setMaxAge(e.target.value)}
                                 className="w-full px-3 py-3 bg-transparent border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 placeholder=" "
@@ -315,7 +279,9 @@ const RoommateSearchModal = ({
                 <>
                     <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
                         <div className="relative h-10 w-full min-w-[200px]">
-                            <InputLabel htmlFor="size" value="Room Size" />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Room Size
+                            </p>
                             <select
                                 name="size"
                                 value={size}
@@ -332,10 +298,9 @@ const RoommateSearchModal = ({
                         </div>
 
                         <div className="relative [@media(max-width:479px)]:mt-4">
-                            <InputLabel
-                                htmlFor="smoker"
-                                value="Flatmate Smoker"
-                            />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Smoker
+                            </p>
                             <select
                                 name="smoker"
                                 value={smoker}
@@ -353,7 +318,9 @@ const RoommateSearchModal = ({
                     </div>
                     <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                         <div className="relative sm:col-span-2">
-                            <InputLabel htmlFor="pets" value="Pets" />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Pets
+                            </p>
                             <select
                                 name="pets"
                                 value={pets}
@@ -370,10 +337,10 @@ const RoommateSearchModal = ({
                         </div>
 
                         <div className="relative sm:col-span-2">
-                            <InputLabel
-                                htmlFor="occupation"
-                                value="Flatmate Occupation"
-                            />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Flatmate Occupation
+                            </p>
+
                             <select
                                 name="occupation"
                                 value={occupation}
@@ -390,10 +357,9 @@ const RoommateSearchModal = ({
                         </div>
 
                         <div className="relative sm:col-span-2">
-                            <InputLabel
-                                htmlFor="gender"
-                                value="Flatmate Gender"
-                            />
+                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                Flatmate Gender
+                            </p>
                             <select
                                 name="gender"
                                 value={gender}
