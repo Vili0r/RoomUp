@@ -12,14 +12,12 @@ use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Room;
 use App\Models\Roommate;
-use App\Models\Shared;
 use App\Notifications\PropertyMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Database\Eloquent\Builder;
 
 class MessageController extends Controller
 {

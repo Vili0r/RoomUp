@@ -37,9 +37,8 @@ const places = [
 ];
 
 const SearchModal = ({ isOpen, closeModal }) => {
-    const { selectedPropertyQueries, selectedRoommateQueries } =
-        usePage().props;
-    const amenitiesArray = selectedPropertyQueries?.filter?.amenity
+    const { selectedPropertyQueries } = usePage().props;
+    const amenitiesArray = (selectedPropertyQueries?.filter?.amenity ?? "")
         .split(",")
         .map(Number);
     const selectedAmenitiesOptions = amenities

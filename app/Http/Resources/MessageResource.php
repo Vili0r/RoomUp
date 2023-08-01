@@ -28,12 +28,12 @@ class MessageResource extends JsonResource
                 'description' => substr($this->owner->description, 0, 100) . '...',
                 'cost' => $this->owner->cost ?? '',
                 'user_id' => $this->owner->user_id,
-                'size' => Str::replace('_', ' ', $this->owner->size->name) ?? '',
-                'type' => Str::replace('_', ' ', $this->owner->type->name) ?? '',
+                'size' => $this->owner->size ? Str::replace('_', ' ', $this->owner->size->name) : Str::replace('_', ' ', $this->owner->room_size->name),
+                'type' => $this->owner->type ? Str::replace('_', ' ', $this->owner->type->name) : Str::replace('_', ' ', $this->owner->searching_for->name),
                 'images' => $this->owner->images,
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
-                'address_1' => $this->owner->address->address_1,
-                'area' => $this->owner->address->area,
+                'address_1' => $this->owner->address ? $this->owner->address->address_1 : $this->owner->city,
+                'area' => $this->owner->address ? $this->owner->address->area : $this->owner->area,
             ],
         ];
     }

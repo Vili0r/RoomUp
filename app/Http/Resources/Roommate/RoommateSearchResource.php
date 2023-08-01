@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Roommate;
 
-use App\Http\Resources\AvailabilityResource;
+use App\Http\Resources\AvailabilityFlatSearchResultResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -24,11 +24,11 @@ class RoommateSearchResource extends JsonResource
             'area' => $this->area,
             'city' => $this->city,
             'images' => $this->images,
-            'availability' => $this->whenLoaded('availability', function () {
-                return new AvailabilityResource($this->availability);
-            }),
             'favouritedBy' => $this->favouritedBy(auth()->user()),
             'views' => $this->views(),
+            'availability' => $this->whenLoaded('availability', function () {
+                return new AvailabilityFlatSearchResultResource($this->availability);
+            }),
         ];
     }
 }

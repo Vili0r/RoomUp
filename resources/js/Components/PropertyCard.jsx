@@ -84,12 +84,7 @@ const PropertyCard = ({ results }) => {
                                     <img
                                         className="object-cover w-full h-full transition group-hover:scale-110"
                                         src={
-                                            result.owner
-                                                ? result.owner.images[0]
-                                                    ? showImage() +
-                                                      result.owner.images[0]
-                                                    : HousePlaceholder
-                                                : result.images[0]
+                                            result.images[0]
                                                 ? showImage() + result.images[0]
                                                 : HousePlaceholder
                                         }
@@ -133,23 +128,26 @@ const PropertyCard = ({ results }) => {
                                                 ? result.owner.address
                                                       ?.address_1
                                                 : result.address?.address_1}
+                                            ,
                                             {result.owner
                                                 ? result.owner.address?.area
                                                 : result.address?.area}
                                         </p>
                                         <p className="text-sm text-gray-800 capitalize">
-                                            {result.owner
-                                                ? `${result.sub_title} in a ${result.owner.title}`
+                                            {result.model === "room"
+                                                ? result.sub_title === null
+                                                    ? result.owner.title
+                                                    : `${result.sub_title} in a ${result.owner.title}`
                                                 : result.title}
                                         </p>
                                         <p className="text-sm text-gray-800">
                                             Available from{" "}
                                             <span className="font-semibold">
                                                 {moment(
-                                                    result.owner
-                                                        ? result.available_from
-                                                        : result.availability
+                                                    result.availability
+                                                        ? result.availability
                                                               .available_from
+                                                        : result.available_from
                                                 ).format("MMM DD, YYYY")}
                                             </span>
                                         </p>

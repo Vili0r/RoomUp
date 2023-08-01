@@ -23,7 +23,7 @@ const Index = (props) => {
         >
             <Head title="My Favourites" />
             <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10 mb-10">
-                <div className="flex flex-col mt-[3rem] mb-[3rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
+                <div className="flex flex-col mt-[3rem] mb-[8rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
                     {messages.data.length > 0 ? (
                         messages.data.map((message) => (
                             <div

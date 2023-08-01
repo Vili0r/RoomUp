@@ -65,7 +65,7 @@ const RoomCard = ({ room }) => {
                         <img
                             className="object-cover w-full h-full transition group-hover:scale-110"
                             src={
-                                room.images
+                                room.images && room.images[0] != null
                                     ? showImage() + room.images[0]
                                     : HousePlaceholder
                             }

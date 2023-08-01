@@ -90,13 +90,7 @@ const FavouritePropertyCard = ({ property, index }) => {
                 >
                     <div className="flex items-center justify-between mb-3">
                         <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {property.address
-                                ? property.address.address_1
-                                : property.address_1}
-                            ,
-                            {property.address
-                                ? property.address.area
-                                : property.area}
+                            {property.address_1},{property.area}
                         </h5>
                         <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <BsEyeFill className="-mt-0.5 h-5 w-5 text-yellow-700" />
@@ -133,7 +127,7 @@ const FavouritePropertyCard = ({ property, index }) => {
                     type="button"
                     data-ripple-light="true"
                 >
-                    Message {property.advertiser.first_name}
+                    Message {property.first_name}
                 </button>
             </div>
         </div>

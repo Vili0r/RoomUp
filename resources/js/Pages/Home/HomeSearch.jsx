@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, Link, router, useForm } from "@inertiajs/react";
 import { Loading, MapCard, PrimaryButton } from "@/Components";
@@ -34,15 +34,13 @@ const HomeSearch = (props) => {
     };
 
     const search = async (query) => {
-        if (query) {
-            router.reload({
-                data: { search: query },
-                preserveScroll: true,
-                onSuccess: (response) => {
-                    setItems(response.props.properties.data);
-                },
-            });
-        }
+        router.reload({
+            data: { search: query },
+            preserveScroll: true,
+            onSuccess: (response) => {
+                setItems(response.props.properties.data);
+            },
+        });
     };
 
     const loadMoreItems = () => {
@@ -200,7 +198,11 @@ const HomeSearch = (props) => {
                                                     <p className="text-sm text-gray-800">
                                                         {property.model ===
                                                         "room"
-                                                            ? `${property.sub_title} in a ${property.owner.title}`
+                                                            ? property.sub_title ===
+                                                              null
+                                                                ? property.owner
+                                                                      .title
+                                                                : `${property.sub_title} in a ${property.owner.title}`
                                                             : property.title}
                                                     </p>
                                                     <p className="text-sm text-gray-800">
@@ -220,8 +222,7 @@ const HomeSearch = (props) => {
                                                     <p className="mt-2 text-sm text-gray-800">
                                                         <strong>
                                                             $
-                                                            {property.model ==
-                                                            "room"
+                                                            {property.owner
                                                                 ? property.room_cost
                                                                 : property.cost}
                                                         </strong>{" "}
@@ -235,12 +236,7 @@ const HomeSearch = (props) => {
                                                     <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
                                                         <BsEyeFill className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
                                                         <span>
-                                                            (
-                                                            {property.owner
-                                                                ? property.owner
-                                                                      .views
-                                                                : property.views}
-                                                            )
+                                                            ({property.views})
                                                         </span>
                                                     </dd>
                                                 </div>

@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AddressSearchResultResource;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
-use App\Http\Resources\RoomShowResource;
-use App\Models\Address;
 use App\Models\Flat;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\Shared;
 
 class HomeSearchController extends Controller
 {
@@ -25,7 +21,7 @@ class HomeSearchController extends Controller
         $roomQuery = null;
         $flatQuery = null;
         
-        $roomQuery = RoomShowResource::collection(
+        $roomQuery = RoomSearchResultResource::collection(
                 QueryBuilder::for(Room::class)
                     ->with(['owner.address'])
                     ->tap(function ($builder) use ($request) {
