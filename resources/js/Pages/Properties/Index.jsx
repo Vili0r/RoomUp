@@ -9,7 +9,6 @@ import {
     TableBody,
     TableHead,
 } from "@/Components";
-import { AiOutlineSortAscending } from "react-icons/ai";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { DebounceInput } from "react-debounce-input";

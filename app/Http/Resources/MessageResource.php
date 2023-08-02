@@ -18,22 +18,29 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'full_name' => $this->full_name,
-            'email' => $this->email,
             'message_text' => $this->message_text,
-            'user_id' => $this->user_id,
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
                 'id' => $this->owner->id,
-                'title' => $this->owner->title,
-                'description' => substr($this->owner->description, 0, 100) . '...',
-                'cost' => $this->owner->cost ?? '',
-                'user_id' => $this->owner->user_id,
+                'title' => $this->owner->title ? $this->owner->title : $this->owner->owner->title,
+                'description' => $this->owner->description ? substr($this->owner->description, 0, 100) . '...' :  substr($this->owner->owner->description, 0, 100) . '...',
                 'size' => $this->owner->size ? Str::replace('_', ' ', $this->owner->size->name) : Str::replace('_', ' ', $this->owner->room_size->name),
-                'type' => $this->owner->type ? Str::replace('_', ' ', $this->owner->type->name) : Str::replace('_', ' ', $this->owner->searching_for->name),
-                'images' => $this->owner->images,
+                'type' => $this->owner_type === "App\Models\Room" ? 
+                        Str::replace('_', ' ', $this->owner->owner->type->name) : (
+                            $this->owner->type ?
+                        Str::replace('_', ' ', $this->owner->type->name) :
+                        Str::replace('_', ' ', $this->owner->searching_for->name)
+                    ),
+                'images' => $this->owner->images ? $this->owner->images : $this->owner->owner->images,
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
-                'address_1' => $this->owner->address ? $this->owner->address->address_1 : $this->owner->city,
-                'area' => $this->owner->address ? $this->owner->address->area : $this->owner->area,
+                'address_1' => $this->owner_type === "App\Models\Room" ? 
+                        $this->owner->owner->address->address_1 : (
+                        $this->owner->address ? $this->owner->address->address_1 : $this->owner->city
+                    ),
+                'area' => $this->owner_type === "App\Models\Room" ? 
+                        $this->owner->owner->address->area : (
+                        $this->owner->address ? $this->owner->address->area : $this->owner->area
+                    ),
             ],
         ];
     }

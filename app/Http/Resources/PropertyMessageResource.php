@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class PropertyResource extends JsonResource
+class PropertyMessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +18,9 @@ class PropertyResource extends JsonResource
         return [
             'id' => $this->id,
             'model' => $request->type,
-            'title' => $this->title,
-            'description' => $this->description,
+            'title' => $this->title ? $this->title : $this->owner->title,
+            'description' => $this->description? $this->description : $this->owner->description,
             'images' => $this->images ? $this->images : $this->owner->images,
-            'size' => $this->size,
             'user_id' => $this->user_id ? $this->user_id : $this->owner->user_id,
             'type' => $this->type ? Str::replace('_', ' ', $this->type->name) : Str::replace('_', ' ', $this->owner->type->name),
             'created_at' => $this->created_at->toDateTimeString(),

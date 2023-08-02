@@ -68,7 +68,7 @@ const Index = (props) => {
                                     <div className="grid col-start-1 col-end-3 row-start-1 gap-4">
                                         <img
                                             src={
-                                                message.owner.images[0]
+                                                message.owner.images
                                                     ? showImage() +
                                                       message.owner.images[0]
                                                     : HousePlaceholder

@@ -26,24 +26,26 @@ class PropertyViewedController extends Controller
             'favouritedBy' => $flat->favouritedBy(auth()->user()),
             'created_at' => $flat->created_at->toDateTimeString(),
             'updated_at' => $flat->pivot->updated_at->toDateTimeString(),
-            'address' => $flat->address,
-            'advertiser' => $flat->advertiser,
+            'address_1' => $flat->address->address_1,
+            'area' => $flat->address->area,
+            'first_name' => $flat->advertiser->first_name,
             'views' => $flat->views(),
         ]);
 
         $rooms = $request->user()->viewedRooms()->with(['owner.address', 'owner.advertiser', 'viewedUsers'])->orderByPivot('updated_at', 'desc')->get()->map(fn($room) => [
             'id' => $room->id,
             'model' => 'room',
-            'title' => $room->sub_title,
-            'description' => substr($room->sub_description, 0, 250) . '...',
+            'title' => $room->sub_title ? $room->sub_title : $room->owner->title,
+            'description' => $room->sub_description ? substr($room->sub_description, 0, 250) . '...' : substr($room->owner->description, 0, 250) . '...',
             'images' => $room->images !== null ? array_merge($room->owner->images, $room->images) : $room->owner->images,
             'size' => Str::replace('_', ' ', $room->owner->size->name) ?? '',
             'type' => Str::replace('_', ' ', $room->owner->type->name) ?? '',
             'favouritedBy' => $room->favouritedBy(auth()->user()),
             'created_at' => $room->created_at->toDateTimeString(),
             'updated_at' => $room->pivot->updated_at->toDateTimeString(),
-            'address' => $room->owner->address,
-            'advertiser' => $room->owner->advertiser,
+            'address_1' => $room->owner->address->address_1,
+            'area' => $room->owner->address->area,
+            'first_name' => $room->owner->advertiser->first_name,
             'views' => $room->views(),
         ]);
 
@@ -60,7 +62,7 @@ class PropertyViewedController extends Controller
             'updated_at' => $roommate->pivot->updated_at->toDateTimeString(),
             'address_1' => $roommate->city,
             'area' => $roommate->area,
-            'advertiser' => $roommate->advertiser,
+            'first_name' => $roommate->advertiser->first_name,
             'views' => $roommate->views(),
         ]);
 

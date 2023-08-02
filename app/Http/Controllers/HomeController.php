@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Route;
-use App\Http\Resources\AmenitiesResource;
-use App\Models\Amenity;
 
 class HomeController extends Controller
 {

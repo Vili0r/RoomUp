@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationCreated;
-use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\MessageResource;
-use App\Http\Resources\PropertyResource;
+use App\Http\Resources\PropertyMessageResource;
 use App\Http\Resources\Roommate\RoommateMessageResource;
 use App\Models\Conversation;
 use App\Models\Flat;
@@ -44,15 +43,17 @@ class MessageController extends Controller
     {
         if ($request->type == 'flat') {
             $property = Flat::findOrFail($request->id);
-
+            $property->load(['address', 'advertiser']);
+            
             return Inertia::render('Message/Create',[
-                'property' => new PropertyResource($property),
+                'property' => new PropertyMessageResource($property),
             ]);
         } elseif ($request->type == 'room') {
             $property = Room::findOrFail($request->id);
+            $property->load(['owner.address', 'owner.advertiser']);
 
             return Inertia::render('Message/Create',[
-                'property' => new PropertyResource($property),
+                'property' => new PropertyMessageResource($property),
             ]);
         } elseif ($request->type == 'roommate') {
             $roommate = Roommate::findOrFail($request->id);

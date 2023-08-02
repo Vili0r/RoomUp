@@ -42,26 +42,6 @@ use Illuminate\Http\Request;
 class SharedController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request): Response
-    {      
-        return Inertia::render('Shared/Index',[
-            'shareds' => SharedIndexResource::collection(
-                Shared::query()
-                    ->where('user_id', auth()->id())
-                    ->when($request->input('search'), function($query, $search) {
-                        $query->where('title', 'like', "%{$search}%");
-                    })
-                    ->latest()
-                    ->paginate(10)
-                    ->withQueryString()
-                ),
-                'filters' => $request->only(['search'])
-         ]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(): Response

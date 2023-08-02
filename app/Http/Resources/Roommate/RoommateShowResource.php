@@ -22,9 +22,6 @@ class RoommateShowResource extends JsonResource
             'city' => $this->city,
             'area' => $this->area,
             'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
-            'featured' => $this->featured ?? '',
-            'available' => $this->available ?? '',
-            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : "",
             'images' => $this->images,
         ];
     }

@@ -27,8 +27,6 @@ class RoomResource extends JsonResource
             'minimum_stay' => $this->minimum_stay,
             'maximum_stay' => $this->maximum_stay,
             'days_available' => $this->days_available,
-            'available' => $this->available,
-            'live_at' => $this->live_at,
             'short_term' => $this->short_term,
             'images' => $this->images,
         ];

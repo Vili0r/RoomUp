@@ -20,7 +20,6 @@ class RoommateIndexResource extends JsonResource
             'budget' => $this->budget,
             'live_at' => $this->live_at,
             'created_at' => $this->created_at->toDateTimeString(),
-            'hasQuest' => auth()->user()->roommate ? true : false,
             'images' => $this->images,
         ];;
     }

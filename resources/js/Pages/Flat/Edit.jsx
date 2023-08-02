@@ -46,7 +46,6 @@ const Edit = (props) => {
         newFlatmateGender,
         newFlatmateOccupation,
         pets,
-        references,
     } = usePage().props;
     const selectedOptions = flat.amenities.map((item) => {
         return {

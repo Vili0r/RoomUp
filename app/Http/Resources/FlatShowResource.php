@@ -20,12 +20,10 @@ class FlatShowResource extends JsonResource
             'description' => $this->description,
             'size' => $this->size,
             'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
-            'featured' => $this->featured ?? '',
             'available' => $this->available ?? '',
-            'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
             'address' => $this->whenLoaded('address', function () {
-                return new AddressResource($this->address);
+                return new AddressFlatShowResource($this->address);
             }),
         ];
     }
