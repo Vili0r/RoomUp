@@ -111,8 +111,6 @@ const Edit = (props) => {
         images: [],
     });
 
-    console.log();
-
     const showImage = () => {
         return "/storage/";
     };

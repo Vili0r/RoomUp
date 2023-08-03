@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import { AiTwotoneHeart } from "react-icons/ai";
-import { Link, useForm } from "@inertiajs/react";
+import React from "react";
 import {
     AdvertisedBy,
     PhotoGallery,
     PropertyDetailsAmenities,
 } from "@/Components";
 import { CiLocationOn } from "react-icons/ci";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { MdOutlineBedroomParent } from "react-icons/md";
-import { FaBath } from "react-icons/fa";
-import { RiRulerFill } from "react-icons/ri";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
-import { HousePlaceholder } from "@/assets";
 import moment from "moment";
 
 const PropertyDetails = ({ property }) => {
@@ -22,8 +14,10 @@ const PropertyDetails = ({ property }) => {
                 <div className="flex flex-col gap-6">
                     <div className="mt-[4rem] py-10 sm:px-16">
                         <h1 className="sm:text-2xl text-xl mb-3 [@media(max-width:350px)]:text-lg font-popp font-bold text-gray-700">
-                            {property.owner
-                                ? `${property.sub_title} in a ${property.owner.title}`
+                            {property.model === "room"
+                                ? property.sub_title === null
+                                    ? property.owner.title
+                                    : `${property.sub_title} in a ${property.owner.title}`
                                 : property.title}
                         </h1>
                         <div className="flex justify-between gap-0 pt-0 mb-10 items-center [@media(max-width:800px)]:flex-col [@media(max-width:800px)]:items-start [@media(max-width:800px)]:gap-2 [@media(max-width:800px)]:pt-2">

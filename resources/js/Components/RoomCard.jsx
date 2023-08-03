@@ -27,6 +27,7 @@ const RoomCard = ({ room }) => {
         live_at: room.live_at,
         available: room.available,
     });
+    console.log(room);
 
     const showImage = () => {
         return "/storage/";

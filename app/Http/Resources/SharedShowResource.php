@@ -20,14 +20,11 @@ class SharedShowResource extends JsonResource
             'description' => $this->description,
             'available_rooms' => $this->available_rooms,
             'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
-            'featured' => $this->featured ?? '',
-            'available' => $this->available ?? '',
-            'created_at' => $this->created_at->toDateTimeString(),
             'images' => $this->images,
             'address' => $this->whenLoaded('address', function () {
-                return new AddressResource($this->address);
+                return new AddressFlatShowResource($this->address);
             }),
-            'rooms' => RoomResource::collection($this->whenLoaded('rooms')),
+            'rooms' => SharedRoomResource::collection($this->whenLoaded('rooms')),
         ];
     }
 }

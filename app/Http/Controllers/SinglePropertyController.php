@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FlatResource;
-use App\Http\Resources\RoomShowResource;
+use App\Http\Resources\FlatSinglePropertyResource;
+use App\Http\Resources\RoomSinglePropertyResource;
 use App\Models\Flat;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,16 +22,16 @@ class SinglePropertyController extends Controller
         $property = [];
         if($model === "room"){
             $room = Room::find($id);
-            $room->load(['owner.amenities', 'owner.advertiser', 'owner.address', 'owner.transport', 'owner.flatmate']);
-            $property = new RoomShowResource($room);
+            $room->load(['owner.amenities', 'owner.advertiser', 'owner.address']);
+            $property = new RoomSinglePropertyResource($room);
 
             if($request->user()) {
                 dispatch(new UserViewedRoom($request->user(), $room));
             }
         } elseif ($model === "flat") {
             $flat = Flat::find($id);
-            $flat->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'availability']);
-            $property = new FlatResource($flat);
+            $flat->load(['amenities', 'advertiser', 'address', 'availability']);
+            $property = new FlatSinglePropertyResource($flat);
 
             if($request->user()) {
                 dispatch(new UserViewedFlat($request->user(), $flat));

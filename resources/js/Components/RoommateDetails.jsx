@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import { AiTwotoneHeart } from "react-icons/ai";
-import { Link, useForm } from "@inertiajs/react";
+import React from "react";
 import {
     AdvertisedBy,
     PhotoGallery,
     PropertyDetailsAmenities,
 } from "@/Components";
 import { CiLocationOn } from "react-icons/ci";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { MdOutlineBedroomParent } from "react-icons/md";
-import { FaBath } from "react-icons/fa";
-import { RiRulerFill } from "react-icons/ri";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
-import { HousePlaceholder } from "@/assets";
 import moment from "moment";
 
 const RoommateDetails = ({ roommate }) => {

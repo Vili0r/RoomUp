@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Roommate\RoommateResource;
+use App\Http\Resources\Roommate\RoommateSinglePropertyResource;
 use App\Jobs\UserViewedRoommate;
 use App\Models\Roommate;
 use Illuminate\Http\Request;
@@ -16,14 +16,14 @@ class SingleRoommateController extends Controller
      */
     public function __invoke(Request $request, Roommate $roommate): Response
     {        
-        $roommate->load(['amenities', 'advertiser', 'hobbies', 'flatmate', 'availability']);
+        $roommate->load(['amenities', 'advertiser', 'hobbies', 'availability']);
     
         if($request->user()) {
             dispatch(new UserViewedRoommate($request->user(), $roommate));
         }
        
         return Inertia::render('Home/SingleRoommate', [
-            'roommate' => new RoommateResource($roommate),
+            'roommate' => new RoommateSinglePropertyResource($roommate),
         ]);
     }
 }

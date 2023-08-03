@@ -26,7 +26,6 @@ use App\Enums\WhatIAm;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\EnumResource;
-use App\Http\Resources\SharedIndexResource;
 use App\Http\Resources\SharedEditResource;
 use App\Http\Resources\SharedShowResource;
 use App\Models\Amenity;

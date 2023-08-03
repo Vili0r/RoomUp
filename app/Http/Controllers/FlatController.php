@@ -17,7 +17,6 @@ use App\Enums\Size;
 use App\Enums\Stations;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
-use App\Http\Resources\FlatIndexResource;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatResource;
