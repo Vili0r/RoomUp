@@ -7,7 +7,6 @@ use App\Http\Resources\RoomSearchResultResource;
 use App\Models\Flat;
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Inertia\Response;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -16,7 +15,7 @@ class HomeSearchController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request)
     {
         $roomQuery = null;
         $flatQuery = null;
@@ -49,10 +48,13 @@ class HomeSearchController extends Controller
             ->paginate(4)
             ->appends($request->query());
 
+        if($request->wantsJson()){
+            return $properties;
+        }
+
         return Inertia::render('Home/HomeSearch',[
             'selectedQueries' => $request->only(['search']),
             'properties' => $properties,
-            'loading' => false,
         ]);
     }
 }

@@ -25,14 +25,13 @@ use App\Http\QueryFilters\StationQueryFilter;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
 use App\Models\Room;
-use Inertia\Response;
 
 class SearchController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request)
     {
         $query = null;
         $results = [];
@@ -64,10 +63,14 @@ class SearchController extends Controller
             $results = RoomSearchResultResource::collection($query->paginate(6)->appends($request->query()));
         }
 
+        if($request->wantsJson()){
+            return $results;
+        }
+
+
         return Inertia::render('Home/Search',[
             'selectedPropertyQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'results' => $results,
-            'loading' => false,
         ]);
     }
 

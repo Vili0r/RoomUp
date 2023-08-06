@@ -7,7 +7,7 @@ const MapCard = ({ toggleMap, setToggleMap }) => {
             className={
                 toggleMap
                     ? "fixed top-0 left-0 w-[100%] z-[100] h-[100%]"
-                    : "px-2 rounded-xl col-span-2 overflow-hidden sticky top-[5.5rem] [@media(max-width:1024px)]:hidden h-[600px]"
+                    : "px-2 rounded-xl col-span-2 overflow-hidden sticky top-[5.5rem] [@media(max-width:1023px)]:hidden h-[600px]"
             }
         >
             <iframe
@@ -21,7 +21,7 @@ const MapCard = ({ toggleMap, setToggleMap }) => {
                 referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
             <div
-                className="fixed bottom-[2rem] left-[5rem] sm:left-[21rem] xxs:left-[11rem] md:hidden"
+                className="fixed bottom-[4rem] left-[44%] lg:hidden"
                 style={{ transition: ".4s" }}
             >
                 <button

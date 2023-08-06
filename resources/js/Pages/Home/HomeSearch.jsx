@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, Link, router, useForm } from "@inertiajs/react";
-import { Loading, MapCard, PrimaryButton } from "@/Components";
+import { MapCard, PrimaryButton } from "@/Components";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { SlMap } from "react-icons/sl";
@@ -13,15 +13,16 @@ import {
 } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
+import axios from "axios";
 
 const HomeSearch = (props) => {
     const { post } = useForm({});
-    const { properties, loading, selectedPropertyQueries } = usePage().props;
-    const [isLoading, setIsLoading] = useState(false);
+    const { properties, selectedPropertyQueries } = usePage().props;
     const [toggleMap, setToggleMap] = useState(false);
     const [query, setQuery] = useState(selectedPropertyQueries?.search || "");
     const [items, setItems] = useState(properties.data);
-    const [initialUrl, setInitialUrl] = useState(usePage().url);
+    const [nextPage, setNextPage] = useState(properties.next_page_url);
+    const target = useRef(null);
 
     const showImage = () => {
         return "/storage/";
@@ -30,7 +31,24 @@ const HomeSearch = (props) => {
     const submit = (e, id, model) => {
         e.preventDefault();
 
-        post(`/${model}/${id}/favourite`, { preserveScroll: true });
+        post(`/${model}/${id}/favourite`, {
+            preserveScroll: true,
+            onSuccess: (response) => {
+                setItems((prevData) => {
+                    const updatedData = prevData.map((item) => {
+                        if (item.id === id) {
+                            // Assuming the backend returns the updated item with the 'liked' status.
+                            return {
+                                ...item,
+                                favouritedBy: !item.favouritedBy,
+                            };
+                        }
+                        return item;
+                    });
+                    return updatedData;
+                });
+            },
+        });
     };
 
     const search = async (query) => {
@@ -43,48 +61,36 @@ const HomeSearch = (props) => {
         });
     };
 
-    const loadMoreItems = () => {
-        setIsLoading(true);
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-        router.get(
-            properties.next_page_url,
-            {},
-            {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: (response) => {
-                    window.history.replaceState({}, "", initialUrl);
+                if (nextPage) {
+                    axios.get(nextPage).then((response) => {
+                        setItems((prevData) => [
+                            ...prevData,
+                            ...response.data.data,
+                        ]);
+                        setNextPage(response.data.next_page_url);
+                    });
+                }
+            });
+        });
 
-                    setItems((prevItems) => [
-                        ...prevItems,
-                        ...response.props.properties.data,
-                    ]);
-                },
-                onFinish: () => {
-                    setIsLoading(false);
-                },
-            }
-        );
-    };
-
-    const handleScroll = () => {
-        if (
-            document.documentElement.offsetHeight -
-                document.documentElement.scrollTop -
-                window.innerHeight <
-                200 ||
-            isLoading
-        ) {
-            return;
+        if (target.current) {
+            observer.observe(target.current);
         }
 
-        loadMoreItems();
-    };
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [isLoading]);
+        // Cleanup function
+        return () => {
+            if (target.current) {
+                observer.unobserve(target.current); // Stop observing the element when the component is unmounted
+            }
+        };
+    }, [nextPage]);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -120,7 +126,7 @@ const HomeSearch = (props) => {
                             setToggleMap={setToggleMap}
                         />
 
-                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4 ">
+                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4">
                             {items.map((property, index) => (
                                 <div
                                     className="col-span-1 cursor-pointer group"
@@ -246,9 +252,10 @@ const HomeSearch = (props) => {
                                 </div>
                             ))}
                         </div>
+                        <div ref={target} className="-translate-y-32"></div>
                     </div>
                     <div
-                        className="fixed bottom-[6rem] left-[5rem] md:hidden"
+                        className="fixed items-center justify-center transform translate-x-[50%] right-1/2 bottom-4 lg:hidden"
                         style={{ transition: ".4s" }}
                     >
                         <button

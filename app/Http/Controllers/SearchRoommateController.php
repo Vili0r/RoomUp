@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Roommate;
-use Inertia\Response;
 use App\Http\QueryFilters\RoommateQueryFilters\RoommateHobbiesQueryFilter;
 use App\Http\Resources\Roommate\RoommateSearchResource;
 use Inertia\Inertia;
@@ -16,7 +15,7 @@ class SearchRoommateController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request)
     {
         $query = null;
         $results = [];
@@ -32,11 +31,14 @@ class SearchRoommateController extends Controller
             ->latest();
     
         $results = RoommateSearchResource::collection($query->paginate(6)->appends($request->query()));
+
+        if($request->wantsJson()){
+            return $results;
+        }
         
         return Inertia::render('Home/RoommateSearch',[
             'selectedRoommateQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'results' => $results,
-            'loading' => false,
         ]);
     }
 

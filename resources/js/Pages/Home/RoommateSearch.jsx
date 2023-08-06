@@ -1,16 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, usePage, router } from "@inertiajs/react";
-import { RoommateCard } from "@/Components";
+import { Head, usePage, router, Link, useForm } from "@inertiajs/react";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
+import { PrimaryButton } from "@/Components";
+import moment from "moment";
+import { HousePlaceholder } from "@/assets";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { BsEyeFill } from "react-icons/bs";
 
 const RoommateSearch = (props) => {
-    const { results, loading, selectedRoommateQueries } = usePage().props;
-    const [isLoading, setIsLoading] = useState(false);
+    const { post } = useForm({});
+    const { results, selectedRoommateQueries } = usePage().props;
     const [query, setQuery] = useState(selectedRoommateQueries.search || "");
     const [items, setItems] = useState(results.data);
-    const [initialUrl, setInitialUrl] = useState(usePage().url);
+    const [nextPage, setNextPage] = useState(results.links.next);
+    const target = useRef(null);
+
+    const showImage = () => {
+        return "/storage/";
+    };
+
+    const submit = (e, id) => {
+        e.preventDefault();
+
+        post(`/roommate/${id}/favourite`, {
+            preserveScroll: true,
+            onSuccess: (response) => {
+                setItems((prevData) => {
+                    const updatedData = prevData.map((item) => {
+                        if (item.id === id) {
+                            // Assuming the backend returns the updated item with the 'liked' status.
+                            return {
+                                ...item,
+                                favouritedBy: !item.favouritedBy,
+                            };
+                        }
+                        return item;
+                    });
+                    return updatedData;
+                });
+            },
+        });
+    };
 
     const search = async (query) => {
         router.reload({
@@ -22,48 +54,36 @@ const RoommateSearch = (props) => {
         });
     };
 
-    const loadMoreItems = () => {
-        setIsLoading(true);
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-        router.get(
-            results.links.next,
-            {},
-            {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: (response) => {
-                    window.history.replaceState({}, "", initialUrl);
+                if (nextPage) {
+                    axios.get(nextPage).then((response) => {
+                        setItems((prevData) => [
+                            ...prevData,
+                            ...response.data.data,
+                        ]);
+                        setNextPage(response.data.links.next);
+                    });
+                }
+            });
+        });
 
-                    setItems((prevItems) => [
-                        ...prevItems,
-                        ...response.props.results.data,
-                    ]);
-                },
-                onFinish: () => {
-                    setIsLoading(false);
-                },
-            }
-        );
-    };
-
-    const handleScroll = () => {
-        if (
-            document.documentElement.offsetHeight -
-                document.documentElement.scrollTop -
-                window.innerHeight <
-                200 ||
-            isLoading
-        ) {
-            return;
+        if (target.current) {
+            observer.observe(target.current);
         }
 
-        loadMoreItems();
-    };
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [isLoading]);
+        // Cleanup function
+        return () => {
+            if (target.current) {
+                observer.unobserve(target.current); // Stop observing the element when the component is unmounted
+            }
+        };
+    }, [nextPage]);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -96,8 +116,110 @@ const RoommateSearch = (props) => {
 
                     <div className="grid grid-cols-1 mt-[6rem] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xxl:grid-cols-6 gap-8">
                         {items.map((roommate, index) => (
-                            <RoommateCard key={index} roommate={roommate} />
+                            <div
+                                className="col-span-1 cursor-pointer group"
+                                key={index}
+                            >
+                                <div className="flex flex-col w-full gap-2">
+                                    <div className="relative w-full overflow-hidden aspect-square rounded-xl">
+                                        <Link
+                                            href={route(
+                                                "single.roommate.show",
+                                                roommate.id
+                                            )}
+                                        >
+                                            <img
+                                                className="object-cover w-full h-full transition group-hover:scale-110"
+                                                src={
+                                                    roommate.images
+                                                        ? showImage() +
+                                                          roommate.images[0]
+                                                        : HousePlaceholder
+                                                }
+                                                alt=""
+                                            />
+                                        </Link>
+
+                                        <form
+                                            onSubmit={(e) =>
+                                                submit(e, roommate.id)
+                                            }
+                                        >
+                                            <div className="absolute top-3 right-3">
+                                                <PrimaryButton className="relative transition cursor-pointer hover:opacity-80">
+                                                    <AiOutlineHeart
+                                                        size={28}
+                                                        className="fill-white absolute -top-[2px] -right-[2px]"
+                                                    />
+                                                    <AiFillHeart
+                                                        size={24}
+                                                        className={
+                                                            roommate.favouritedBy
+                                                                ? "fill-rose-500"
+                                                                : "fill-neutral-500/70"
+                                                        }
+                                                    />
+                                                </PrimaryButton>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <Link
+                                        href={route(
+                                            "single.roommate.show",
+                                            roommate.id
+                                        )}
+                                    >
+                                        <div className="flex flex-row items-start justify-between mt-4">
+                                            <div>
+                                                <p className="text-sm font-bold text-gray-800">
+                                                    {roommate.city},{" "}
+                                                    {roommate.area}
+                                                </p>
+                                                <p className="text-sm text-gray-800">
+                                                    {roommate.title}
+                                                </p>
+                                                <p className="text-sm text-gray-800">
+                                                    Available from{" "}
+                                                    <span className="font-semibold">
+                                                        {moment(
+                                                            roommate
+                                                                .availability
+                                                                .available_from
+                                                        ).format(
+                                                            "MMM DD, YYYY"
+                                                        )}
+                                                    </span>
+                                                </p>
+                                                <p className="text-sm text-gray-800">
+                                                    Searching for{" "}
+                                                    <span className="font-semibold">
+                                                        {roommate.searching_for}
+                                                    </span>
+                                                </p>
+                                                <p className="mt-2 text-sm text-gray-800">
+                                                    <strong>
+                                                        ${roommate.budget}
+                                                    </strong>{" "}
+                                                    /month
+                                                </p>
+                                            </div>
+                                            <div className="flex flex-row items-center">
+                                                <dt className="sr-only">
+                                                    Saved
+                                                </dt>
+                                                <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
+                                                    <BsEyeFill className="w-5 h-5 mr-1 stroke-current dark:stroke-indigo-500" />
+                                                    <span>
+                                                        ({roommate.views})
+                                                    </span>
+                                                </dd>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
                         ))}
+                        <div ref={target} className="-translate-y-32"></div>
                     </div>
                 </div>
             </div>
