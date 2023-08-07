@@ -8,7 +8,6 @@ import FilterModal from "./FilterModal";
 import PlaceAdModal from "./PlaceAdModal";
 import SearchModal from "./SearchModal";
 import RoommateSearchModal from "./RoommateSearchModal";
-import RoommateCard from "./RoommateCard";
 import RoommateDetails from "./RoommateDetails";
 import MultiRangeSlider from "./MultiRangeSlider";
 import Amenities from "./Amenities";
@@ -59,7 +58,6 @@ export {
     PlaceAdModal,
     SearchModal,
     RoommateSearchModal,
-    RoommateCard,
     RoommateDetails,
     MultiRangeSlider,
     Amenities,

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('viewables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->morphs('viewable');
             $table->integer('count');
             $table->timestamps();

@@ -27,7 +27,9 @@ class SinglePropertyController extends Controller
 
             if($request->user()) {
                 dispatch(new UserViewedRoom($request->user(), $room));
-            }
+            } else {
+                dispatch(new UserViewedRoom(null, $room));
+            } 
         } elseif ($model === "flat") {
             $flat = Flat::find($id);
             $flat->load(['amenities', 'advertiser', 'address', 'availability']);

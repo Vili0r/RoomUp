@@ -28,6 +28,7 @@ import {
     stations,
     amenities,
 } from "@/arrays/Array";
+import { BsCheck } from "react-icons/bs";
 
 const places = [
     { id: 1, title: "Apartment", image: MdOutlineApartment },
@@ -66,7 +67,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
     );
     const [query, setQuery] = useState(selectedPropertyQueries?.search ?? "");
     const [availability, setAvailability] = useState(
-        selectedPropertyQueries?.filter?.availability?.available_from ?? ""
+        selectedPropertyQueries?.filter?.available_from ?? ""
+    );
+    const [shortTerm, setShortTerm] = useState(
+        JSON.parse(selectedPropertyQueries?.filter?.short_term) ?? false
     );
     const [min, setMin] = useState(
         selectedPropertyQueries?.filter?.min_price ?? 0
@@ -118,6 +122,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
         setStep(1);
     };
 
+    const handleOnChange = (event) => {
+        setShortTerm(event.target.checked);
+    };
+
     //next step
     const handleNext = () => {
         setStep(step + 1);
@@ -145,9 +153,11 @@ const SearchModal = ({ isOpen, closeModal }) => {
             let amenities = selectedAmenities.map((item) => item.value);
             href += "&filter[amenity]=" + amenities + "&";
         }
-        if (availability !== "" && type !== 4) {
-            href +=
-                "&filter[availability.available_from]=" + availability + "&";
+        if (availability !== "") {
+            href += "&filter[available_from]=" + availability + "&";
+        }
+        if (type !== 4) {
+            href += "&filter[short_term]=" + shortTerm + "&";
         }
         if (furnished !== "") {
             href += "&filter[furnished]=" + furnished + "&";
@@ -178,6 +188,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
         }
         if (smoker !== "" && type === 4) {
             href += "&filter[current_flatmate_smoker]=" + smoker + "&";
+        }
+        if (type === 4) {
+            href += "&filter[short_term]=" + shortTerm + "&";
         }
 
         if (type === 4) {
@@ -725,49 +738,78 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="relative w-full px-4 mt-5 sm:w-1/2">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Furnished
-                                                                    </p>
-                                                                    <select
-                                                                        name="furnished"
-                                                                        value={
-                                                                            furnished
-                                                                        }
-                                                                        className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                                        onChange={(
-                                                                            e
-                                                                        ) =>
-                                                                            setFurnished(
+                                                                <div className="grid grid-cols-1 gap-6 px-4 mb-12 mt-7 xs:grid-cols-2">
+                                                                    <div className="relative h-10 w-full min-w-[200px]">
+                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            Furnished
+                                                                        </p>
+                                                                        <select
+                                                                            name="furnished"
+                                                                            value={
+                                                                                furnished
+                                                                            }
+                                                                            className="block w-full mt-1 bg-transparent border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                                                            onChange={(
                                                                                 e
-                                                                                    .target
-                                                                                    .value
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <option value="">
-                                                                            --
-                                                                        </option>
-                                                                        {furnishings.map(
-                                                                            ({
-                                                                                id,
-                                                                                name,
-                                                                            }) => (
-                                                                                <option
-                                                                                    key={
-                                                                                        id
-                                                                                    }
+                                                                            ) =>
+                                                                                setFurnished(
+                                                                                    e
+                                                                                        .target
+                                                                                        .value
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <option value="">
+                                                                                --
+                                                                            </option>
+                                                                            {furnishings.map(
+                                                                                ({
+                                                                                    id,
+                                                                                    name,
+                                                                                }) => (
+                                                                                    <option
+                                                                                        key={
+                                                                                            id
+                                                                                        }
+                                                                                        value={
+                                                                                            id
+                                                                                        }
+                                                                                    >
+                                                                                        {
+                                                                                            name
+                                                                                        }
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className="relative h-10 w-full min-w-[200px]">
+                                                                        <div className="flex justify-start gap-2 mt-7">
+                                                                            <span className="mt-1 text-sm font-popp"></span>
+                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                                Short
+                                                                                Term
+                                                                            </p>
+                                                                            <label className="relative cursor-pointer">
+                                                                                <input
+                                                                                    id="checkbox-1"
+                                                                                    type="checkbox"
+                                                                                    name="short_term"
                                                                                     value={
-                                                                                        id
+                                                                                        shortTerm
                                                                                     }
-                                                                                >
-                                                                                    {
-                                                                                        name
+                                                                                    checked={
+                                                                                        shortTerm
                                                                                     }
-                                                                                </option>
-                                                                            )
-                                                                        )}
-                                                                    </select>
+                                                                                    onChange={
+                                                                                        handleOnChange
+                                                                                    }
+                                                                                    className="appearance-none h-6 w-6 focus:ring-0 bg-transparent border-2 rounded-[7px] border-[#9a9898]"
+                                                                                />
+                                                                                <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div className="flex justify-center mt-6 space-x-2">

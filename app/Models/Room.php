@@ -104,6 +104,11 @@ class Room extends Model
         return $query->where('available_from', '>=', Carbon::parse($date));
     }
     
+    public function scopeShortTerm(Builder $query, $value): Builder
+    {
+        return $query->where('short_term', '=', $value);
+    }
+    
     public function scopeFurnished(Builder $query, $value): Builder
     {
         return $query->where('room_furnished', '=', $value);

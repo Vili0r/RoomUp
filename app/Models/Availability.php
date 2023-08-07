@@ -36,9 +36,4 @@ class Availability extends Model
     {
         return $this->morphTo();
     }
-
-    public function scopeAvailableFrom(Builder $query, $date): Builder
-    {
-        return $query->where('available_from', '>=', Carbon::parse($date));
-    }
 }
