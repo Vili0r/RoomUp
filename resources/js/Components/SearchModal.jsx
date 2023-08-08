@@ -70,7 +70,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
         selectedPropertyQueries?.filter?.available_from ?? ""
     );
     const [shortTerm, setShortTerm] = useState(
-        JSON.parse(selectedPropertyQueries?.filter?.short_term) ?? false
+        selectedPropertyQueries?.filter?.short_term
+            ? JSON.parse(selectedPropertyQueries?.filter?.short_term)
+            : false
     );
     const [min, setMin] = useState(
         selectedPropertyQueries?.filter?.min_price ?? 0

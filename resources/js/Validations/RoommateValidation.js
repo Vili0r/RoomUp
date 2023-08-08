@@ -14,14 +14,20 @@ const stepOneSchema = yup.object().shape({
     searching_for: yup.string().required("Searching for is required"),
     room_size: yup.string().required("Room size is required"),
     minimum_stay: yup.string().required("Minimum stay is required"),
-    maximum_stay: yup.string().required("Maximum stay is required"),
-    // .when("minimum_stay", (minimum_stay, schema) => {
-    //     return schema.test({
-    //         test: (maximum_stay) => maximum_stay > minimum_stay,
-    //         message:
-    //             "Maximum stay must be greater than the minimum stay",
-    //     });
-    // }),
+    maximum_stay: yup
+        .string()
+        .test(
+            "greater-than-minimum",
+            "Maximum stay must be greater than minimum stay",
+            function (value) {
+                const minimumStay = this.resolve(yup.ref("minimum_stay"));
+                if (!minimumStay || !value) {
+                    return true; // Allow validation to pass if either field is empty
+                }
+                return parseInt(value, 10) > parseInt(minimumStay, 10);
+            }
+        )
+        .required("Maximum stay is required"),
     days_available: yup.string().required("Days available is required"),
     budget: yup
         .number()

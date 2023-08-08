@@ -20,6 +20,7 @@ class SharedRoomResource extends JsonResource
             'room_size' => $this->room_size,
             'room_cost' => $this->room_cost,
             'available_from' => $this->available_from->format('Y-m-d'),
+            'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
             'images' => $this->images,
         ];
     }

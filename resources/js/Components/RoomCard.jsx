@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineEventAvailable } from "react-icons/md";
-import { BsEyeFill } from "react-icons/bs";
-import { Link, router, useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import {
@@ -27,7 +26,6 @@ const RoomCard = ({ room }) => {
         live_at: room.live_at,
         available: room.available,
     });
-    console.log(room);
 
     const showImage = () => {
         return "/storage/";
@@ -156,7 +154,7 @@ const RoomCard = ({ room }) => {
 
                     <div className="absolute flex items-center justify-between w-full p-1 top-3">
                         <div className="space-x-1 text-white text-[11px]">
-                            {room.live_at === null ? (
+                            {room.live_at === "" ? (
                                 <PrimaryButton className="inline-flex items-center px-3 py-1 text-gray-500 bg-white rounded-full gap-x-2 hover:bg-gray-100/60 dark:bg-gray-800">
                                     <svg
                                         width="12"
@@ -197,7 +195,7 @@ const RoomCard = ({ room }) => {
                                     </svg>
 
                                     <h2 className="text-sm font-normal">
-                                        Live at{" "}
+                                        Live at {""}
                                         {moment(room.live_at).format(
                                             "MMM DD, YYYY"
                                         )}

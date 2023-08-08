@@ -77,6 +77,7 @@ class SharedController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'amenities' => ['required'],
             'address_1' => ['required'],
             'address_2' => ['sometimes'],
             'area' => ['required'],

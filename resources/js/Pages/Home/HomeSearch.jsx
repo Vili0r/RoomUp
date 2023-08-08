@@ -52,12 +52,12 @@ const HomeSearch = (props) => {
     };
 
     const search = async (query) => {
-        router.reload({
-            data: { search: query },
-            preserveScroll: true,
-            onSuccess: (response) => {
-                setItems(response.props.properties.data);
-            },
+        const url = new URL(properties.path);
+        url.searchParams.set("search", query);
+        await axios.get(url).then((response) => {
+            setItems(response.data.data);
+            setNextPage(response.data.next_page_url);
+            window.history.pushState(null, "", url);
         });
     };
 
