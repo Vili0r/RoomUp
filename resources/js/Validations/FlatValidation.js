@@ -31,10 +31,10 @@ const stepTwoSchema = yup.object().shape({
 });
 
 const stepThreeSchema = yup.object().shape({
-    // selectedAmenities: yup
-    //     .array()
-    //     .min(1, "At least one amenity is required")
-    //     .required("Amenities are required"),
+    selectedAmenities: yup
+        .array()
+        .min(1, "At least one amenity is required")
+        .required("Amenities are required"),
     available_from: yup
         .date()
         .typeError("Available from must be a date")

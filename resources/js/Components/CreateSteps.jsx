@@ -20,7 +20,7 @@ const steps = [
     {
         id: "3",
         icon: <CgAttribution className="w-full h-full" />,
-        title: "Amenities",
+        title: "Details",
     },
     {
         id: "4",

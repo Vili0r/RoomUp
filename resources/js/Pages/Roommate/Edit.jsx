@@ -536,6 +536,11 @@ const Edit = (props) => {
                                                             onChange={
                                                                 handleOnChange
                                                             }
+                                                            checked={
+                                                                data.short_term
+                                                                    ? true
+                                                                    : false
+                                                            }
                                                             className="appearance-none h-6 w-6 border-2 rounded-[7px] border-[#f3f2f2]"
                                                         />
                                                         <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />

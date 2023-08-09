@@ -146,6 +146,10 @@ const stepFiveSchema = (current_occupants) =>
     });
 
 const stepSixSchema = yup.object().shape({
+    electedAmenities: yup
+        .array()
+        .min(1, "At least one amenity is required")
+        .required("Amenities are required"),
     title: yup.string().min(10).max(50).required(),
     description: yup.string().min(50).max(500).required(),
     photos: yup

@@ -40,7 +40,6 @@ registerPlugin(FilePondPluginImagePreview);
 const Create = (props) => {
     const animatedComponents = makeAnimated();
     const [step, setStep] = useState(1);
-    const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [validationErrors, setValidationErrors] = useState({});
     const [roomAttributesValidationErrors, setRoomAttributesValidationErrors] =
         useState({});
@@ -134,6 +133,7 @@ const Create = (props) => {
             new_flatmate_hobbies: "",
             rooms: "",
             images: [],
+            selectedAmenities: [],
         },
         {
             //yup resolver required otherwise it cannot connect the useForm and yup
@@ -278,7 +278,7 @@ const Create = (props) => {
         e.preventDefault();
 
         //Transforming amenties so the backend can attach them to the pivot table
-        data.amenities = selectedAmenities.map((item) => {
+        data.amenities = data.selectedAmenities.map((item) => {
             return {
                 id: item.value,
             };
@@ -319,8 +319,6 @@ const Create = (props) => {
             value: item.id,
         };
     });
-
-    console.log(validationErrors);
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -392,32 +390,6 @@ const Create = (props) => {
 
                                 {step == "3" && (
                                     <>
-                                        <div className="mt-7">
-                                            <InputLabel
-                                                htmlFor="amenties"
-                                                value="Amenities"
-                                                className="mb-3"
-                                            />
-                                            <Select
-                                                closeMenuOnSelect={false}
-                                                components={animatedComponents}
-                                                onChange={(opt) =>
-                                                    setSelectedAmenities(opt)
-                                                }
-                                                isMulti
-                                                options={options}
-                                                value={selectedAmenities}
-                                            />
-                                            {selectedAmenities.length === 0 && (
-                                                <InputError
-                                                    message={
-                                                        "Please select amenties before procceeding to the next step."
-                                                    }
-                                                    className="mt-2"
-                                                />
-                                            )}
-                                        </div>
-
                                         {Object.keys(
                                             roomAttributesValidationErrors
                                         ).length > 0 && (
@@ -1049,8 +1021,32 @@ const Create = (props) => {
                                                     </div>
                                                 </div>
                                             ))}
+                                        <div className="mt-7">
+                                            <InputLabel
+                                                htmlFor="amenties"
+                                                value="Amenities"
+                                                className="mb-3"
+                                            />
+                                            <Select
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                onChange={(opt) =>
+                                                    setData(
+                                                        "selectedAmenities",
+                                                        opt
+                                                    )
+                                                }
+                                                isMulti
+                                                options={options}
+                                                value={data.selectedAmenities}
+                                            />
+                                            <InputError
+                                                message={errors.amenities}
+                                                className="mt-2"
+                                            />
+                                        </div>
                                         <div>
-                                            <div className="relative">
+                                            <div className="relative mt-7">
                                                 <input
                                                     type="text"
                                                     name="title"
