@@ -7,6 +7,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Roommate;
 use App\Http\QueryFilters\RoommateQueryFilters\RoommateHobbiesQueryFilter;
+use App\Http\QueryFilters\RoommateQueryFilters\RoommateShortTermQueryFilter;
 use App\Http\Resources\Roommate\RoommateSearchResource;
 use Inertia\Inertia;
 
@@ -54,6 +55,7 @@ class SearchRoommateController extends Controller
             'area',
             'title',
             AllowedFilter::custom('hobbies', new RoommateHobbiesQueryFilter()),
+            AllowedFilter::custom('short_term', new RoommateShortTermQueryFilter()),
             AllowedFilter::scope('max_budget'),
             AllowedFilter::scope('min_budget'),
             AllowedFilter::scope('max_age'),

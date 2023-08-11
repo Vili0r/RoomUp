@@ -12,10 +12,11 @@ import {
     flatmateSmoker,
     flatmatePets,
 } from "@/arrays/Array";
+import { BsCheck } from "react-icons/bs";
 
 const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
     const { selectedRoommateQueries } = usePage().props;
-    const hobbiesArray = selectedRoommateQueries?.filter.hobbies
+    const hobbiesArray = (selectedRoommateQueries?.filter.hobbies ?? "")
         .split(",")
         .map(Number);
     const selectedHobbiesOptions = hobbies
@@ -61,6 +62,11 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
     const [maxAge, setMaxAge] = useState(
         selectedRoommateQueries?.filter?.max_age ?? ""
     );
+    const [shortTerm, setShortTerm] = useState(
+        selectedRoommateQueries?.filter?.short_term
+            ? JSON.parse(selectedRoommateQueries?.filter?.short_term)
+            : false
+    );
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -68,6 +74,10 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
 
     const handleMaxChange = (value) => {
         setMax(value);
+    };
+
+    const handleOnChange = (event) => {
+        setShortTerm(event.target.checked);
     };
 
     const handleFlatmateFilterSubmit = () => {
@@ -110,6 +120,7 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
         if (smoker !== "") {
             href += "filter[smoker]=" + smoker + "&";
         }
+        href += "filter[short_term]=" + shortTerm;
 
         router.visit(href, {}, { preserveScroll: true });
     };
@@ -197,6 +208,7 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                     </div>
                 </>
             )}
+
             {step === 2 && (
                 <>
                     <div className="mt-7 mb-8 [@media(max-width:350px)]:ml-8 w-[16rem] xxs:w-[20rem] xs:w-96">
@@ -277,8 +289,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
 
             {step === 3 && (
                 <>
-                    <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
-                        <div className="relative h-10 w-full min-w-[200px]">
+                    <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
+                        <div className="relative sm:col-span-2">
                             <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                 Room Size
                             </p>
@@ -296,8 +308,28 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 ))}
                             </select>
                         </div>
+                        <div className="relative sm:col-span-2">
+                            <div className="flex justify-start gap-2 my-3 sm:my-7">
+                                <span className="mt-1 text-sm font-popp"></span>
+                                <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                    Short Term
+                                </p>
+                                <label className="relative cursor-pointer">
+                                    <input
+                                        id="checkbox-1"
+                                        type="checkbox"
+                                        name="short_term"
+                                        value={shortTerm}
+                                        checked={shortTerm}
+                                        onChange={handleOnChange}
+                                        className="appearance-none h-6 w-6 focus:ring-0 bg-transparent border-2 rounded-[7px] border-[#9a9898]"
+                                    />
+                                    <BsCheck className="absolute w-8 h-8 text-white text-opacity-0 transition ease-out text-8xl -left-1 -top-1 check-1 after:bg-black" />
+                                </label>
+                            </div>
+                        </div>
 
-                        <div className="relative [@media(max-width:479px)]:mt-4">
+                        <div className="relative sm:col-span-2">
                             <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
                                 Smoker
                             </p>

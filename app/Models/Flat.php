@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Furnishings;
 use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\Size;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Flat extends Model
@@ -44,6 +43,7 @@ class Flat extends Model
         'size' => Size::class,
         'type' => Type::class,
         'what_i_am' => WhatIAmFlat::class,
+        'furnished' => Furnishings::class,
         'images' => 'array',
     ];
 

@@ -25,7 +25,7 @@ class Transport extends Model
     protected $casts = [
         'minutes' => Minutes::class,
         'mode' => Mode::class,
-        'Stations' => Stations::class,
+        'station' => Stations::class,
     ];
 
     public function owner(): MorphTo

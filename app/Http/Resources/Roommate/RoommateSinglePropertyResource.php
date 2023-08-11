@@ -4,7 +4,7 @@ namespace App\Http\Resources\Roommate;
 
 use App\Http\Resources\AdvertiserResource;
 use App\Http\Resources\AmenitiesResource;
-use App\Http\Resources\AvailabilityResource;
+use App\Http\Resources\AvailabilitySinglePropertyResource;
 use App\Http\Resources\HobbiesResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -40,7 +40,7 @@ class RoommateSinglePropertyResource extends JsonResource
                 return new AdvertiserResource($this->advertiser);
             }),
             'availability' => $this->whenLoaded('availability', function () {
-                return new AvailabilityResource($this->availability);
+                return new AvailabilitySinglePropertyResource($this->availability);
             }),
             'favouritedBy' => $this->favouritedBy(auth()->user()),
         ];

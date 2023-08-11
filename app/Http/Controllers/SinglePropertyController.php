@@ -22,7 +22,7 @@ class SinglePropertyController extends Controller
         $property = [];
         if($model === "room"){
             $room = Room::find($id);
-            $room->load(['owner.amenities', 'owner.advertiser', 'owner.address']);
+            $room->load(['owner.amenities', 'owner.advertiser', 'owner.address', 'owner.transport']);
             $property = new RoomSinglePropertyResource($room);
 
             if($request->user()) {
@@ -32,7 +32,7 @@ class SinglePropertyController extends Controller
             } 
         } elseif ($model === "flat") {
             $flat = Flat::find($id);
-            $flat->load(['amenities', 'advertiser', 'address', 'availability']);
+            $flat->load(['amenities', 'advertiser', 'address', 'availability', 'transport']);
             $property = new FlatSinglePropertyResource($flat);
 
             if($request->user()) {

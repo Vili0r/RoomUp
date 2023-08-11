@@ -5,6 +5,14 @@ import {
     PropertyDetailsAmenities,
 } from "@/Components";
 import { CiLocationOn } from "react-icons/ci";
+import { FiMinimize, FiMaximize } from "react-icons/fi";
+import { BsCalendar4Week } from "react-icons/bs";
+import { SiTransportforlondon } from "react-icons/si";
+import {
+    MdShortText,
+    MdOutlineHourglassEmpty,
+    MdOutlineAirplanemodeActive,
+} from "react-icons/md";
 import moment from "moment";
 
 const PropertyDetails = ({ property }) => {
@@ -80,27 +88,35 @@ const PropertyDetails = ({ property }) => {
                                         {property.owner &&
                                             property.owner.description}
                                     </p>
-                                    <div className="flex flex-row items-center gap-4 font-light mt-9 text-neutral-500">
+                                    <div className="flex flex-row items-center gap-4 font-[450px] mt-9 text-neutral-500">
                                         <div>
                                             {property.owner
                                                 ? property.owner.size
                                                 : property.size}{" "}
                                             rooms
                                         </div>
+                                        <span>|</span>
                                         <div>
                                             Type:{" "}
                                             {property.owner
                                                 ? property.owner.type
                                                 : property.type}
                                         </div>
+                                        <span>|</span>
                                         <div>
-                                            Available from:{" "}
+                                            Available from{" "}
                                             {moment(
                                                 property.owner
                                                     ? property.available_from
                                                     : property.availability
                                                           ?.available_from
                                             ).format("MMM DD, YYYY")}
+                                        </div>
+                                        <span>|</span>
+                                        <div>
+                                            {property.owner
+                                                ? property.room_furnished
+                                                : property.furnished}
                                         </div>
                                     </div>
                                 </div>
@@ -133,6 +149,78 @@ const PropertyDetails = ({ property }) => {
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
                                     ></iframe>
+                                </div>
+                                <hr className="w-[95%] mx-auto border-gray-300" />
+                                <div className="">
+                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
+                                        Availability
+                                    </h1>
+                                    <div className="flex flex-row items-center gap-3 font-[450px] mt-9 text-neutral-500 text-sm sm:text-base">
+                                        <div className="flex justify-between gap-2 capitalize ">
+                                            <FiMinimize className="w-6 h-6" />
+                                            {property.owner
+                                                ? property.minimum_stay
+                                                : property.availability
+                                                      ?.minimum_stay}
+                                        </div>
+                                        <span>|</span>
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <FiMaximize className="w-6 h-6" />
+
+                                            {property.owner
+                                                ? property.maximum_stay
+                                                : property.availability
+                                                      ?.maximum_stay}
+                                        </div>
+                                        <span>|</span>
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <BsCalendar4Week className="w-6 h-6" />
+                                            {property.owner
+                                                ? property.days_available
+                                                : property.availability
+                                                      ?.days_available}
+                                        </div>
+                                        <span>|</span>
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <MdShortText className="w-6 h-6" />
+                                            {property.owner
+                                                ? property.short_term
+                                                : property.availability
+                                                      ?.short_term}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr className="w-[95%] mx-auto border-gray-300" />
+                                <div className="">
+                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
+                                        Transport
+                                    </h1>
+                                    <div className="flex flex-row items-center gap-4 font-[450px] mt-9 text-neutral-500">
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <MdOutlineHourglassEmpty className="w-6 h-6" />{" "}
+                                            {property.owner
+                                                ? property.owner.transport
+                                                      .minutes
+                                                : property.transport?.minutes}
+                                        </div>
+                                        <span>|</span>
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <MdOutlineAirplanemodeActive className="w-6 h-6" />
+
+                                            {property.owner
+                                                ? property.owner.transport.mode
+                                                : property.transport?.mode}
+                                        </div>
+                                        <span>|</span>
+                                        <div className="flex justify-between gap-2 capitalize">
+                                            <SiTransportforlondon className="w-6 h-6" />
+
+                                            {property.owner
+                                                ? property.owner.transport
+                                                      .station
+                                                : property.transport?.station}
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                             </dl>

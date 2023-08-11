@@ -6,7 +6,6 @@ use App\Enums\NewFlatmateGender;
 use App\Enums\NewFlatmateSmoking;
 use App\Enums\NewFlatmateOccupation;
 use App\Enums\Pets;
-use App\Enums\References;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

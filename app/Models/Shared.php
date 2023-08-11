@@ -20,9 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\FilterByUser;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\Auth;
 
 class Shared extends Model
 {

@@ -24,7 +24,7 @@ class FlatSinglePropertyResource extends JsonResource
             'type' => Str::replace('_', ' ', $this->type->name) ?? '',
             'cost' => $this->cost,
             'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
-            //'furnished' => $this->furnished,
+            'furnished' => Str::replace('_', ' ', $this->furnished->name) ?? '',
             'images' => $this->images,
             'favouritedBy' => $this->favouritedBy(auth()->user()),
             'amenities' => AmenitiesResource::collection($this->whenLoaded('amenities')),
@@ -35,7 +35,10 @@ class FlatSinglePropertyResource extends JsonResource
                 return new AdvertiserResource($this->advertiser);
             }),
             'availability' => $this->whenLoaded('availability', function () {
-                return new AvailabilityResource($this->availability);
+                return new AvailabilitySinglePropertyResource($this->availability);
+            }),
+            'transport' => $this->whenLoaded('transport', function () {
+                return new TransportSinglePropertyResource($this->transport);
             }),
         ];
     }

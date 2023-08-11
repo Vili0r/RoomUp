@@ -158,9 +158,6 @@ const SearchModal = ({ isOpen, closeModal }) => {
         if (availability !== "") {
             href += "&filter[available_from]=" + availability + "&";
         }
-        if (type !== 4) {
-            href += "&filter[short_term]=" + shortTerm + "&";
-        }
         if (furnished !== "") {
             href += "&filter[furnished]=" + furnished + "&";
         }
@@ -192,6 +189,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
             href += "&filter[current_flatmate_smoker]=" + smoker + "&";
         }
         if (type === 4) {
+            href += "&filter[short_term]=" + shortTerm + "&";
+        }
+        if (type !== 4) {
             href += "&filter[short_term]=" + shortTerm + "&";
         }
 

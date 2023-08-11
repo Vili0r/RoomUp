@@ -37,9 +37,9 @@ class RoomSharedResource extends JsonResource
             'advertiser' => $this->whenLoaded('advertiser', function () {
                 return new AdvertiserResource($this->advertiser);
             }),
-            // 'transport' => $this->whenLoaded('transport', function () {
-            //     return new TransportResource($this->transport);
-            // }),
+            'transport' => $this->whenLoaded('transport', function () {
+                return new TransportSinglePropertyResource($this->transport);
+            }),
         ];
     }
 }
