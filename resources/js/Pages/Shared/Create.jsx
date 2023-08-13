@@ -2,6 +2,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import axios from "axios";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import {
     CreateSteps,
@@ -41,6 +42,7 @@ const Create = (props) => {
     const animatedComponents = makeAnimated();
     const [step, setStep] = useState(1);
     const [validationErrors, setValidationErrors] = useState({});
+    //const [addressValidationError, setAddressValidationError] = useState({});
     const [roomAttributesValidationErrors, setRoomAttributesValidationErrors] =
         useState({});
 
@@ -171,6 +173,12 @@ const Create = (props) => {
                     break;
             }
 
+            // if (schema === stepTwoSchema) {
+            //     const isValid = await validateGeolocation();
+            //     if (!isValid) {
+            //         return;
+            //     }
+            // } else
             if (schema === stepThreeSchema) {
                 const isValid = await validateDynamicInputs();
                 if (!isValid) {
@@ -214,6 +222,42 @@ const Create = (props) => {
             return false;
         }
     };
+
+    // const validateGeolocation = async () => {
+    //     let fullAddress =
+    //         data.address_1 +
+    //         " " +
+    //         data.area +
+    //         " " +
+    //         data.city +
+    //         " United Kingdom";
+    //     try {
+    //         await stepTwoSchema.validate(data, {
+    //             abortEarly: false,
+    //         });
+    //         let url = `https://nominatim.openstreetmap.org/search?q=${fullAddress}&format=geojson`;
+    //         console.log(url);
+    //         const response = await axios.get(url);
+
+    //         console.log(response.data);
+    //         // if (response.data.error) {
+    //         //     setGeolocationData(null);
+    //         //     setErrorMessage(response.data.error);
+    //         // } else if (response.data.features.length > 0) {
+    //         //     setGeolocationData(response.data.features[0]);
+    //         // }
+    //     } catch (errors) {
+    //         const validationErrors = {};
+
+    //         errors.inner.forEach((error) => {
+    //             validationErrors[error.path] = error.message;
+    //         });
+
+    //         setValidationErrors(validationErrors);
+
+    //         setAddressValidationError(validationErrors);
+    //     }
+    // };
 
     //back step
     const handleBack = () => {
@@ -355,6 +399,29 @@ const Create = (props) => {
 
                                 {step == "2" && (
                                     <>
+                                        <div className="w-full max-w-2xl mx-auto mb-5">
+                                            <div className="flex p-5 bg-white rounded-lg shadow">
+                                                <div>
+                                                    <svg
+                                                        className="w-6 h-6 text-yellow-500 fill-current"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            d="M0 0h24v24H0V0z"
+                                                            fill="none"
+                                                        />
+                                                        <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+                                                    </svg>
+                                                </div>
+                                                <div className="ml-3">
+                                                    <h2 className="font-semibold text-gray-800">
+                                                        Please enter a valid
+                                                        address
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <StepTwo
                                             data={data}
                                             errors={validationErrors}

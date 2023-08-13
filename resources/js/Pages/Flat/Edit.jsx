@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
 import { Disclosure } from "@headlessui/react";
@@ -15,6 +15,7 @@ import {
     NewFlatmate,
 } from "@/Components";
 import { BsCheck, BsTrash } from "react-icons/bs";
+import { RxExclamationTriangle } from "react-icons/rx";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
@@ -46,6 +47,7 @@ const Edit = (props) => {
         newFlatmateGender,
         newFlatmateOccupation,
         pets,
+        notification,
     } = usePage().props;
     const selectedOptions = flat.amenities.map((item) => {
         return {
@@ -55,6 +57,7 @@ const Edit = (props) => {
     });
     const animatedComponents = makeAnimated();
     const [selectedAmenities, setSelectedAmenities] = useState(selectedOptions);
+    const [visible, setVisible] = useState(false);
 
     const {
         data,
@@ -116,6 +119,21 @@ const Edit = (props) => {
                 : event.target.value
         );
     };
+
+    useEffect(() => {
+        let timer;
+
+        console.log("rendering");
+        if (notification !== null) {
+            setVisible(true);
+            timer = setTimeout(() => {
+                setVisible(false);
+            }, 10000);
+        }
+        // router.reload({ only: ["notification"] });
+
+        return () => clearTimeout(timer);
+    }, [props]);
 
     //Handling on submit events
     const submit = (e) => {
@@ -189,6 +207,34 @@ const Edit = (props) => {
             <Head title="Edit My Property" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div
+                        className={`fixed top-[3.75rem] right-4 ${
+                            visible ? "opacity-100" : "opacity-0"
+                        } transition-opacity duration-300`}
+                    >
+                        <div className="flex rounded-lg shadow-lg w-96">
+                            <div className="flex items-center px-6 py-4 bg-yellow-500 rounded-l-lg">
+                                <RxExclamationTriangle className="w-6 h-6 text-gray-700" />
+                            </div>
+                            <div className="flex items-center justify-between w-full px-4 py-6 bg-white border border-gray-200 rounded-r-lg border-l-transparent">
+                                <div>{notification}</div>
+                                <button onClick={() => setVisible(false)}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="text-gray-700 fill-current"
+                                        viewBox="0 0 16 16"
+                                        width="20"
+                                        height="20"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                                        ></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <form onSubmit={submit}>
                         {Object.keys(errors).length !== 0 && (
                             <div className="w-full max-w-2xl mx-auto mb-5">

@@ -18,6 +18,8 @@ class Address extends Model
         'area',
         'city',
         'post_code',
+        'lat',
+        'long',
         'owner_id',
         'owner_type',
     ];

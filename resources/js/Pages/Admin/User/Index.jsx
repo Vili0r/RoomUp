@@ -13,6 +13,7 @@ import {
 
 const Index = ({ auth }) => {
     const { users } = usePage().props;
+
     return (
         <AdminLayout auth={auth}>
             <Head title="Admin | User" />
@@ -98,50 +99,62 @@ const Index = ({ auth }) => {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {users.map((user) => (
-                                                            <TableRow
-                                                                key={user.id}
-                                                            >
-                                                                <TableDataCell>
-                                                                    {user.id}
-                                                                </TableDataCell>
-                                                                <TableDataCell>
-                                                                    {
-                                                                        user.first_name
+                                                        {users.data.map(
+                                                            (user) => (
+                                                                <TableRow
+                                                                    key={
+                                                                        user.id
                                                                     }
-                                                                </TableDataCell>
-                                                                <TableDataCell>
-                                                                    {user.email}
-                                                                </TableDataCell>
-                                                                <TableDataCell>
-                                                                    <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                                                                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-
-                                                                        <h2 className="text-sm font-normal text-emerald-500">
-                                                                            Active
-                                                                        </h2>
-                                                                    </div>
-                                                                </TableDataCell>
-                                                                <TableDataCell>
-                                                                    <Link
-                                                                        href={route(
-                                                                            "admin.users.edit",
+                                                                >
+                                                                    <TableDataCell>
+                                                                        {
                                                                             user.id
-                                                                        )}
-                                                                        className="underline text-[#F1C40F] hover:text-orange-400"
-                                                                    >
-                                                                        Edit/Delete
-                                                                    </Link>
-                                                                </TableDataCell>
-                                                            </TableRow>
-                                                        ))}
+                                                                        }
+                                                                    </TableDataCell>
+                                                                    <TableDataCell>
+                                                                        {
+                                                                            user.first_name
+                                                                        }
+                                                                    </TableDataCell>
+                                                                    <TableDataCell>
+                                                                        {
+                                                                            user.email
+                                                                        }
+                                                                    </TableDataCell>
+                                                                    <TableDataCell>
+                                                                        <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
+                                                                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+
+                                                                            <h2 className="text-sm font-normal text-emerald-500">
+                                                                                Active
+                                                                            </h2>
+                                                                        </div>
+                                                                    </TableDataCell>
+                                                                    <TableDataCell>
+                                                                        <Link
+                                                                            href={route(
+                                                                                "admin.users.edit",
+                                                                                user.id
+                                                                            )}
+                                                                            className="underline text-[#F1C40F] hover:text-orange-400"
+                                                                        >
+                                                                            Edit/Delete
+                                                                        </Link>
+                                                                    </TableDataCell>
+                                                                </TableRow>
+                                                            )
+                                                        )}
                                                     </TableBody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <Pagination />
+                                <Pagination
+                                    currentPage={users.meta.current_page}
+                                    lastPage={users.meta.last_page}
+                                    links={users.meta.links}
+                                />
                             </section>
                         </div>
                     </div>

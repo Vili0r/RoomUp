@@ -21,7 +21,7 @@ class RoomSinglePropertyResource extends JsonResource
             'sub_title' => $this->sub_title,
             'description' => $this->sub_description,
             'room_cost' => $this->room_cost,
-            'room_furnished' => $this->room_furnished,
+            'room_furnished' => Str::replace('_', ' ', $this->room_furnished->name) ?? '',
             'available_from' => $this->available_from->format('Y-m-d'),
             'minimum_stay' => Str::replace('_', ' ', $this->minimum_stay->name) ?? '',
             'maximum_stay' =>  Str::replace('_', ' ', $this->maximum_stay->name) ?? '',
