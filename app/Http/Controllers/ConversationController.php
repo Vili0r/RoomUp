@@ -27,7 +27,7 @@ class ConversationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Conversation $conversation)
+    public function show(Request $request, Conversation $conversation)
     {
         $this->authorize('show', $conversation);
 
@@ -39,9 +39,12 @@ class ConversationController extends Controller
             $query->paginate(10); // Limit to 20 replies per conversation
         }]);
 
+        $conversations = $request->user()->conversations()->get();
+        $conversations->load(['user', 'message.owner', 'message.user']);
 
         return Inertia::render('Conversation/Index', [
             'getConversation' => new ConversationResource($conversation),
+            'conversations' => ConversationResource::collection($conversations)
         ]);
     }
 

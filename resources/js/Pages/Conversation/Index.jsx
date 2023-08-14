@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, usePage, useForm, router, Link } from "@inertiajs/react";
+import { Head, usePage, useForm, router } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { SecondaryButton, InputError } from "@/Components";
-import { get } from "mongoose";
+import { InputError } from "@/Components";
 
 const Index = (props) => {
     const { conversations, getConversation } = usePage().props;
@@ -12,6 +11,7 @@ const Index = (props) => {
         useState(getConversation);
     const [replies, setReplies] = useState(getConversation?.replies);
     const [allConversations, setAllConversations] = useState(conversations);
+
     const { data, setData, processing, reset, post, errors, setError } =
         useForm({
             body: "",
@@ -27,7 +27,7 @@ const Index = (props) => {
             {},
             {
                 preserveScroll: true,
-                only: ["getConversation"],
+                only: ["getConversation", "conversations"],
                 onSuccess: (response) => {
                     setAllConversations(response.props.conversations);
                 },
@@ -41,6 +41,10 @@ const Index = (props) => {
 
     const submit = (e) => {
         e.preventDefault();
+
+        if (singleConversation != null) {
+            Echo.leave(`conversation.${singleConversation.id}`);
+        }
 
         post(route("conversation.reply", singleConversation.id), {
             preserveScroll: true,
@@ -66,14 +70,6 @@ const Index = (props) => {
             );
         }
     };
-    // const connect = () => {
-    //     Echo.private(`App.Models.User.${props.auth.user.id}`).listen(
-    //         "ConversationCreated",
-    //         (e) => {
-    //             console.log(e);
-    //         }
-    //     );
-    // };
 
     return (
         <GuestLayout user={props.auth.user}>
@@ -104,14 +100,12 @@ const Index = (props) => {
                                                 ? item.message.owner.receiver
                                                       .avatar !==
                                                   "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
-                                                    ? showImage() +
-                                                      item.message.owner
+                                                    ? item.message.owner
                                                           .receiver.avatar
                                                     : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                                 : item.sender.avatar !==
                                                   "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
-                                                ? showImage() +
-                                                  item.sender.avatar
+                                                ? item.sender.avatar
                                                 : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                         }
                                         width="60"
@@ -358,7 +352,7 @@ const Index = (props) => {
                                 </div>
                                 <img
                                     src={
-                                        singleConversation.message.owner.images
+                                        singleConversation.message?.owner.images
                                             ? showImage() +
                                               singleConversation.message.owner
                                                   .images[0]
@@ -370,13 +364,13 @@ const Index = (props) => {
                                 <div className="py-4 font-semibold">
                                     Created{" "}
                                     {moment(
-                                        singleConversation.message.owner
+                                        singleConversation.message?.owner
                                             .created_at
                                     ).format("MMM DD, YYYY")}
                                 </div>
                                 <div className="font-light">
                                     {
-                                        singleConversation.message.owner
+                                        singleConversation.message?.owner
                                             .description
                                     }
                                 </div>

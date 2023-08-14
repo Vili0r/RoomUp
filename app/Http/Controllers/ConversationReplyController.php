@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationReplyCreated;
-use App\Events\NewConversationMessageReplyEvent;
-use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class ConversationReplyController extends Controller
 {

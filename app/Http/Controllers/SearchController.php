@@ -69,7 +69,6 @@ class SearchController extends Controller
             return $results;
         }
 
-
         return Inertia::render('Home/Search',[
             'selectedPropertyQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'results' => $results,
