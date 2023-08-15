@@ -14,7 +14,7 @@ class FavouriteIndexController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        $flats = $request->user()->favouriteFlats()->with(['address', 'advertiser', 'viewedUsers'])->get()->map(fn($flat) => [
+        $flats = $request->user()->favouriteFlats()->with(['address', 'advertiser', 'viewedUsers', 'favourites'])->get()->map(fn($flat) => [
             'id' => $flat->id,
             'model' => 'flat',
             'title' => $flat->title,
@@ -30,7 +30,7 @@ class FavouriteIndexController extends Controller
             'views' => $flat->views(),
         ]);
         
-        $rooms = $request->user()->favouriteRooms()->with(['owner.address', 'owner.advertiser', 'viewedUsers'])->get()->map(fn($room) => [
+        $rooms = $request->user()->favouriteRooms()->with(['owner.address', 'owner.advertiser', 'viewedUsers', 'favourites'])->get()->map(fn($room) => [
             'id' => $room->id,
             'model' => 'room',
             'title' => $room->sub_title ? $room->sub_title : $room->owner->title,

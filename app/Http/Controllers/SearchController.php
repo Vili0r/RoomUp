@@ -42,7 +42,7 @@ class SearchController extends Controller
         if ($searchType === 'flats') {
             $query = QueryBuilder::for(Flat::class)
                 ->allowedFilters($this->allowedFlatFilters())
-                ->with(['address', 'availability'])
+                ->with(['address', 'availability', 'favourites', 'viewedUsers'])
                 ->tap(function ($builder) use ($request) {
                     if(filled($request->search)){
                         return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));
@@ -54,7 +54,7 @@ class SearchController extends Controller
         } elseif ($searchType === 'shareds') {
             $query = QueryBuilder::for(Room::class)
                 ->allowedFilters($this->allowedSharedFilters())
-                ->with(['owner.address'])
+                ->with(['owner.address', 'favourites', 'viewedUsers'])
                 ->tap(function ($builder) use ($request) {
                     if(filled($request->search)){
                         return $builder->whereIn('id', Room::search($request->search)->get()->pluck('id'));

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ConversationResource;
+use App\Http\Resources\ConversationsPerUserResource;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\RedirectResponse;
 
 class ConversationController extends Controller
 {
@@ -20,14 +20,14 @@ class ConversationController extends Controller
         $conversations->load(['user', 'message.owner', 'message.user']);
 
         return Inertia::render('Conversation/Index', [
-            'conversations' => ConversationResource::collection($conversations)
+            'conversations' => ConversationsPerUserResource::collection($conversations)
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Conversation $conversation)
+    public function show(Request $request, Conversation $conversation): Response
     {
         $this->authorize('show', $conversation);
 
@@ -35,7 +35,7 @@ class ConversationController extends Controller
             abort(404);
         }
 
-        $conversation->load(['user', 'message.owner', 'message.user', 'replies' => function ($query) {
+        $conversation->load(['user', 'message.owner', 'parent', 'message.user', 'replies' => function ($query) {
             $query->paginate(10); // Limit to 20 replies per conversation
         }]);
 
@@ -44,7 +44,7 @@ class ConversationController extends Controller
 
         return Inertia::render('Conversation/Index', [
             'getConversation' => new ConversationResource($conversation),
-            'conversations' => ConversationResource::collection($conversations)
+            'conversations' => ConversationsPerUserResource::collection($conversations)
         ]);
     }
 

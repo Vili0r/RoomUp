@@ -23,7 +23,7 @@ class SearchRoommateController extends Controller
         
         $query = QueryBuilder::for(Roommate::class)
             ->allowedFilters($this->allowedRoommateFilters())
-            ->with(['availability'])
+            ->with(['availability', 'favourites', 'viewedUsers'])
             ->tap(function ($builder) use ($request) {
                 if(filled($request->search)){
                     return $builder->whereIn('id', Roommate::search($request->search)->get()->pluck('id'));

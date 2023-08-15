@@ -22,7 +22,7 @@ class HomeSearchController extends Controller
         
         $roomQuery = RoomSearchResultResource::collection(
                 QueryBuilder::for(Room::class)
-                    ->with(['owner.address'])
+                    ->with(['owner.address', 'favourites', 'viewedUsers'])
                     ->tap(function ($builder) use ($request) {
                         if(filled($request->search)){
                             return $builder->whereIn('id', Room::search($request->search)->get()->pluck('id'));
@@ -33,7 +33,7 @@ class HomeSearchController extends Controller
         
         $flatQuery = FlatSearchResultResource::collection(
                 QueryBuilder::for(Flat::class)
-                    ->with(['address', 'availability'])
+                    ->with(['address', 'availability', 'favourites', 'viewedUsers'])
                     ->tap(function ($builder) use ($request) {
                         if(filled($request->search)){
                             return $builder->whereIn('id', Flat::search($request->search)->get()->pluck('id'));

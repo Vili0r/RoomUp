@@ -15,7 +15,7 @@ class PropertyViewedController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        $flats = $request->user()->viewedFlats()->with(['address', 'advertiser', 'viewedUsers'])->orderByPivot('updated_at', 'desc')->get()->map(fn($flat) => [
+        $flats = $request->user()->viewedFlats()->with(['address', 'advertiser', 'viewedUsers', 'favourites'])->orderByPivot('updated_at', 'desc')->get()->map(fn($flat) => [
             'id' => $flat->id,
             'model' => 'flat',
             'title' => $flat->title,
@@ -32,7 +32,7 @@ class PropertyViewedController extends Controller
             'views' => $flat->views(),
         ]);
 
-        $rooms = $request->user()->viewedRooms()->with(['owner.address', 'owner.advertiser', 'viewedUsers'])->orderByPivot('updated_at', 'desc')->get()->map(fn($room) => [
+        $rooms = $request->user()->viewedRooms()->with(['owner.address', 'owner.advertiser', 'viewedUsers', 'favourites'])->orderByPivot('updated_at', 'desc')->get()->map(fn($room) => [
             'id' => $room->id,
             'model' => 'room',
             'title' => $room->sub_title ? $room->sub_title : $room->owner->title,

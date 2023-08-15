@@ -14,6 +14,16 @@ class ConversationsPerUserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'last_reply' => $this->last_reply ? $this->last_reply->diffForHumans() : null,
+            'message' => $this->whenLoaded('message', function () {
+                return new MessageConversationPerUserResource($this->message);
+            }),
+            'sender' => $this->whenLoaded('user', function () {
+                return new UserConversationResource($this->user);
+            }),
+        ];
     }
 }

@@ -10,7 +10,7 @@ import moment from "moment";
 const Create = (props) => {
     const { property } = usePage().props;
     const { data, setData, processing, reset, post, errors } = useForm({
-        full_name: "",
+        full_name: props.auth.user.first_name,
         email: "",
         phone_number: "",
         message_text: "",
@@ -148,6 +148,7 @@ const Create = (props) => {
                                                     placeholder="Full Name"
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
+                                                    disabled
                                                     onChange={handleOnChange}
                                                 />
                                                 <label
