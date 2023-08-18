@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, usePage, useForm, router } from "@inertiajs/react";
+import { Head, usePage, useForm, router, Link } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { InputError, SecondaryButton } from "@/Components";
@@ -77,7 +77,13 @@ const Index = (props) => {
             <Head title="Start conversation" />
             <div className="max-w-8xl mx-auto mt-[6rem]">
                 <div className="flex flex-row justify-between bg-white">
-                    <div className="[@media(min-width:700px)]:overflow-y-hidden flex-col hidden w-2/5 border-r-2 [@media(min-width:700px)]:flex">
+                    <div
+                        className={`${
+                            singleConversation
+                                ? "[@media(min-width:700px)]:flex hidden"
+                                : "flex"
+                        } flex-col border-r-2 [@media(min-width:700px)]:overflow-y-hidden [@media(min-width:700px)]:w-2/5 w-full`}
+                    >
                         <div className="p-4 text-xl font-semibold">
                             All Conversations
                         </div>
@@ -109,19 +115,23 @@ const Index = (props) => {
                                                 ? item.sender.avatar
                                                 : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                         }
-                                        width="60"
-                                        height="88"
-                                        className="flex-none rounded-md bg-slate-100"
+                                        className="w-[60px] h-[60px] flex-none rounded-md bg-slate-100"
                                     />
                                     <div className="relative flex-auto min-w-0">
-                                        <h2 className="pr-20 font-semibold truncate text-slate-900">
+                                        <h2 className="pr-20 font-semibold text-slate-900">
                                             {item.user_id === props.auth.user.id
                                                 ? item.message.owner.receiver
                                                       .first_name
                                                 : item.sender.first_name}
                                         </h2>
                                         <dl className="flex flex-wrap text-sm font-medium leading-6">
-                                            <div className="absolute top-0 right-0 items-center space-x-1 sflex">
+                                            <div
+                                                className={`${
+                                                    singleConversation
+                                                        ? "static xl:absolute"
+                                                        : "md:static lg:absolute [@media(max-width:700px)]:absolute"
+                                                }  top-0 right-0 flex items-center space-x-1`}
+                                            >
                                                 <dt className="text-[#F5B041]">
                                                     {item.last_reply}
                                                 </dt>
@@ -145,12 +155,21 @@ const Index = (props) => {
                         ))}
                     </div>
 
-                    <div className="flex flex-col flex-auto w-full h-screen p-6 overflow-y-hidden">
+                    <div
+                        className={`${
+                            singleConversation
+                                ? "flex"
+                                : "[@media(min-width:700px)]:flex hidden"
+                        } flex-col flex-auto w-full h-screen p-6 overflow-y-hidden`}
+                    >
                         <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
                             <div className="sticky flex justify-between py-4 text-xl font-semibold border-b-2">
-                                <button type="button">
-                                    <CgMenuRight className="[@media(min-width:700px)]:hidden w-7 h-7" />
-                                </button>
+                                <Link
+                                    href={route("conversation.index")}
+                                    className="inline-flex [@media(min-width:700px)]:hidden items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 dark:hover:bg-gray-900 focus:outline-none dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400"
+                                >
+                                    <CgMenuRight className="inline-flex w-6 h-6" />
+                                </Link>
                                 {singleConversation
                                     ? singleConversation.user_id ===
                                       props.auth.user.id
@@ -168,7 +187,7 @@ const Index = (props) => {
                                                     replies?.map((reply) =>
                                                         reply.user_id !==
                                                         props.auth.user.id ? (
-                                                            <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                                                            <div className="col-start-1 col-end-8 mt-2 rounded-lg">
                                                                 <div className="flex flex-row items-center">
                                                                     <div className="flex items-center justify-center flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
                                                                         {singleConversation.user_id ===
@@ -195,7 +214,7 @@ const Index = (props) => {
                                                                 </div>
                                                             </div>
                                                         ) : (
-                                                            <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                                                            <div className="col-start-6 col-end-13 mt-2 rounded-lg">
                                                                 <div className="flex flex-row-reverse items-center justify-start">
                                                                     <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-[#F5B041] rounded-full">
                                                                         {singleConversation.user_id !==
@@ -225,7 +244,7 @@ const Index = (props) => {
                                                     )}
                                                 {singleConversation.user_id ===
                                                 props.auth.user.id ? (
-                                                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
+                                                    <div className="col-start-6 col-end-13 mt-2 rounded-lg">
                                                         <div className="flex flex-row-reverse items-center justify-start">
                                                             <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-[#F5B041] rounded-full">
                                                                 {singleConversation.user_id !==
@@ -250,7 +269,7 @@ const Index = (props) => {
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                                                    <div className="col-start-1 col-end-8 mt-2 rounded-lg">
                                                         <div className="flex flex-row items-center">
                                                             <div className="flex items-center justify-center flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
                                                                 {singleConversation.user_id ===
@@ -265,7 +284,7 @@ const Index = (props) => {
                                                                           .message
                                                                           ?.initial}
                                                             </div>
-                                                            <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
+                                                            <div className="relative ml-3 text-sm bg-white shadow xs:px-4 xs:py-2 rounded-xl">
                                                                 <div>
                                                                     {
                                                                         singleConversation.body
@@ -279,25 +298,7 @@ const Index = (props) => {
                                         </div>
                                     </div>
                                     <form onSubmit={submit}>
-                                        <div className="flex flex-row items-center w-full h-16 px-4 bg-white rounded-xl">
-                                            <div>
-                                                <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
-                                                    <svg
-                                                        className="w-5 h-5"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                                                        ></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                        <div className="flex items-center justify-between w-full h-16 pr-3 bg-white rounded-xl">
                                             <div className="flex-grow ml-4">
                                                 <div className="relative w-full">
                                                     <input
@@ -322,8 +323,10 @@ const Index = (props) => {
                                                     type="submit"
                                                     className="flex items-center justify-center flex-shrink-0 px-4 py-2 text-white bg-black hover:bg-gray-800 rounded-xl"
                                                 >
-                                                    <span>Send</span>
-                                                    <span className="ml-2">
+                                                    <span className="[@media(max-width:400px)]:hidden">
+                                                        Send
+                                                    </span>
+                                                    <span className="ml-2 [@media(max-width:400px)]:ml-0 [@media(max-width:400px)]:py-1">
                                                         <svg
                                                             className="w-4 h-4 -mt-px transform rotate-45"
                                                             fill="none"
@@ -349,7 +352,7 @@ const Index = (props) => {
                     </div>
 
                     {singleConversation && (
-                        <div className="w-2/5 px-5 [@media(max-width:1024px)]:hidden border-l-2 sticky">
+                        <div className="w-2/5 px-5 [@media(max-width:1023px)]:hidden border-l-2 sticky">
                             <div className="flex flex-col">
                                 <div className="py-4 text-xl font-semibold">
                                     {singleConversation.message?.owner.title}
