@@ -9,10 +9,14 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiLogOut, FiBookmark } from "react-icons/fi";
 import { BiMessageDetail } from "react-icons/bi";
 import { BsInbox } from "react-icons/bs";
-import { TbFriends } from "react-icons/tb";
+import { TbFriends, TbLayoutSidebarLeftCollapse } from "react-icons/tb";
+import { CgMenuRight } from "react-icons/cg";
+import { ResponsiveNavLink } from "@/Components";
 
-export default function Authenticated({ auth, header, children }) {
+export default function Authenticated({ auth, children }) {
     const [showMenu, setShowMenu] = useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
 
     function handleMenuToggle() {
         setShowMenu(!showMenu);
@@ -38,14 +42,14 @@ export default function Authenticated({ auth, header, children }) {
                 <div className="max-w-[1024px] ml-[1.5rem] mr-[1.5rem] lg:ml-auto lg:mr-auto [@media(max-width:320px)]:ml-[1rem] [@media(max-width:320px)]:mr-[1rem]">
                     <div className="w-[200px] h-[200px] lg:w-[350px] lg:h-[350px] bg-[#42376d] rounded-[50%] absolute top-[-2rem] left-[-2rem] blur-[90px]"></div>
                     <div className="relative inline-flex hover:text-[#d6bdeb] text-[1.8rem] mb-[3.5rem] cursor-pointer text-[#9177a6]">
-                        <button onClick={handleMenuClose}>
+                        <button onClick={handleMenuClose} type="button">
                             <AiOutlineClose />
                         </button>
                     </div>
 
                     <div className="relative mb-[3rem]">
                         <div
-                            className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] lg:rounded-[2rem] lg:mb-[2rem] rounded-[1.5rem] overflow-hidden flex justify-center items-end mb-[1rem] "
+                            className="w-[75px] h-[75px] sm:w-[100px] sm:h-[100px] lg:w-[120px] lg:h-[120px] lg:rounded-[2rem] lg:mb-[2rem] rounded-[1.5rem] overflow-hidden flex justify-center items-end mb-[1rem] "
                             style={{
                                 background:
                                     "linear-gradient(224deg, #a22fe9 -2%, #ddaafe 97%)",
@@ -59,14 +63,14 @@ export default function Authenticated({ auth, header, children }) {
                                         : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                 }
                                 alt=""
-                                className="w-[70px] lg:w-[90px] mb-3"
+                                className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3"
                             />
                         </div>
 
                         <span className="block font-[500] mb-[.25rem] text-[#9177a6] text-[.813rem]">
                             Hi,
                         </span>
-                        <h1 className="text-[#faf6fe] text-3xl capitalize">
+                        <h1 className="text-[#faf6fe] xs:text-3xl text-xl capitalize">
                             {auth.user.first_name}
                         </h1>
                     </div>
@@ -81,7 +85,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <FiBookmark className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Saved Properties
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Saved Properties
+                                </span>
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -93,7 +99,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <MdSavedSearch className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Recently Viewed
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Recently Viewed
+                                </span>
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -105,7 +113,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <BiMessageDetail className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Messages
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Messages
+                                </span>
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -117,7 +127,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <BsInbox className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Inbox
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Inbox
+                                </span>
                             </Link>
                         </li>
 
@@ -130,7 +142,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <CgUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Profile
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Profile
+                                </span>
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -144,7 +158,9 @@ export default function Authenticated({ auth, header, children }) {
                                 }}
                             >
                                 <FiLogOut className="text-[1.15rem] lg:text-[1.5rem]" />
-                                Log Out
+                                <span className="[@media(max-width:480px)]:hidden">
+                                    Log Out
+                                </span>
                             </Link>
                         </li>
                     </ul>
@@ -185,6 +201,32 @@ export default function Authenticated({ auth, header, children }) {
                             </div>
                             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                                 <div className="flex justify-between h-16">
+                                    <div className="flex items-center -mr-2 sm:hidden">
+                                        <button
+                                            onClick={() =>
+                                                setShowingNavigationDropdown(
+                                                    (previousState) =>
+                                                        !previousState
+                                                )
+                                            }
+                                            className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 dark:hover:bg-gray-900 focus:outline-none dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400"
+                                        >
+                                            <CgMenuRight
+                                                className={
+                                                    !showingNavigationDropdown
+                                                        ? "inline-flex w-6 h-6"
+                                                        : "hidden"
+                                                }
+                                            />
+                                            <AiOutlineClose
+                                                className={
+                                                    showingNavigationDropdown
+                                                        ? "inline-flex w-6 h-6"
+                                                        : "hidden"
+                                                }
+                                            />
+                                        </button>
+                                    </div>
                                     <div className="flex">
                                         <div className="flex items-center shrink-0"></div>
 
@@ -249,36 +291,92 @@ export default function Authenticated({ auth, header, children }) {
                                             onClick={handleMenuToggle}
                                             className="relative rounded-md border-2 border-black bg-white px-5 py-3 text-lg font-semibold text-black transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[5px_5px_0_rgb(41,37,36)]"
                                         >
-                                            <svg
-                                                className="w-6 h-6"
-                                                stroke="currentColor"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    className={
-                                                        !showMenu
-                                                            ? "inline-flex"
-                                                            : "hidden"
-                                                    }
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M4 6h16M4 12h16M4 18h16"
-                                                />
-                                                <path
-                                                    className={
-                                                        showMenu
-                                                            ? "inline-flex"
-                                                            : "hidden"
-                                                    }
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M6 18L18 6M6 6l12 12"
-                                                />
-                                            </svg>
+                                            <TbLayoutSidebarLeftCollapse
+                                                className={
+                                                    !showMenu
+                                                        ? "inline-flex w-6 h-6"
+                                                        : "hidden"
+                                                }
+                                            />
+                                            <AiOutlineClose
+                                                className={
+                                                    showMenu
+                                                        ? "inline-flex w-6 h-6"
+                                                        : "hidden"
+                                                }
+                                            />
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                className={
+                                    (showingNavigationDropdown
+                                        ? "block"
+                                        : "hidden") + " sm:hidden"
+                                }
+                            >
+                                <div className="pt-2 pb-3 space-y-1">
+                                    <ResponsiveNavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                    >
+                                        Dashboard
+                                    </ResponsiveNavLink>
+                                </div>
+
+                                <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                                    <div className="">
+                                        <div className="text-base font-medium text-gray-800 dark:text-gray-200">
+                                            {auth.user.roles == "admin" ||
+                                            auth.user.roles == "moderator" ||
+                                            auth.user.roles == "writer" ? (
+                                                <ResponsiveNavLink
+                                                    href={route("admin.index")}
+                                                    active={route().current(
+                                                        "admin.index"
+                                                    )}
+                                                >
+                                                    Admin
+                                                </ResponsiveNavLink>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                        <div className="text-sm font-medium text-gray-500">
+                                            <ResponsiveNavLink
+                                                className="gap-2"
+                                                href={route("my-properties")}
+                                                active={route().current(
+                                                    "my-properties"
+                                                )}
+                                            >
+                                                <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                My Properties
+                                            </ResponsiveNavLink>
+                                        </div>
+                                        <div className="text-sm font-medium text-gray-500">
+                                            <ResponsiveNavLink
+                                                className="gap-2"
+                                                href={route("roommate.index")}
+                                                active={route().current(
+                                                    "roommate.index"
+                                                )}
+                                            >
+                                                <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                Roommate
+                                            </ResponsiveNavLink>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-3 space-y-1 border-t border-gray-200 dark:border-gray-600">
+                                        <ResponsiveNavLink
+                                            method="post"
+                                            href={route("logout")}
+                                            as="button"
+                                        >
+                                            Log Out
+                                        </ResponsiveNavLink>
                                     </div>
                                 </div>
                             </div>

@@ -17,6 +17,7 @@ import Popular4 from "./popular4.jpg";
 import Popular5 from "./popular5.jpg";
 import Headset from "./headset.svg";
 import HousePlaceholder from "./HousePlaceholder.jpeg";
+import SidebarBg from "./SidebarBg.jpeg";
 
 export {
     logo,
@@ -38,4 +39,5 @@ export {
     Popular5,
     Headset,
     HousePlaceholder,
+    SidebarBg,
 };

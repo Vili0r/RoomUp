@@ -3,7 +3,8 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { InputError } from "@/Components";
+import { InputError, SecondaryButton } from "@/Components";
+import { CgMenuRight } from "react-icons/cg";
 
 const Index = (props) => {
     const { conversations, getConversation } = usePage().props;
@@ -120,7 +121,7 @@ const Index = (props) => {
                                                 : item.sender.first_name}
                                         </h2>
                                         <dl className="flex flex-wrap text-sm font-medium leading-6">
-                                            <div className="absolute top-0 right-0 flex items-center space-x-1">
+                                            <div className="absolute top-0 right-0 items-center space-x-1 sflex">
                                                 <dt className="text-[#F5B041]">
                                                     {item.last_reply}
                                                 </dt>
@@ -146,7 +147,10 @@ const Index = (props) => {
 
                     <div className="flex flex-col flex-auto w-full h-screen p-6 overflow-y-hidden">
                         <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
-                            <div className="sticky py-4 text-xl font-semibold border-b-2">
+                            <div className="sticky flex justify-between py-4 text-xl font-semibold border-b-2">
+                                <button type="button">
+                                    <CgMenuRight className="[@media(min-width:700px)]:hidden w-7 h-7" />
+                                </button>
                                 {singleConversation
                                     ? singleConversation.user_id ===
                                       props.auth.user.id

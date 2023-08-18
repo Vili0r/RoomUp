@@ -134,3 +134,119 @@
     transform: translate(40%);
   }
 }
+
+/* Admin Layout */
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+              hsla(0, 0%, 0%, 0),
+              hsl(210, 4%, 64%),
+              hsla(0, 0%, 0%, 0));
+}
+
+.sidebar::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(0,
+            hsla(0, 0%, 0%, 0),
+            hsl(210, 4%, 64%),
+            hsla(0, 0%, 0%, 0));;
+}
+
+.sidebar__content::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar__content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+              hsla(0, 0%, 0%, 0),
+              hsl(210, 4%, 64%),
+              hsla(0, 0%, 0%, 0));
+}
+
+.sidebar_link {
+  grid-template-columns: repeat(2, max-content);
+}
+
+.sidebar_link:hover {
+  background-color: hsla(210, 4%, 99%, .1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: hsl(210, 32%, 99%);
+}
+
+.sidebar_title span::before, 
+.sidebar_title span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+}
+
+.sidebar_title span::before {
+  background: linear-gradient(90deg, 
+            hsla(0, 0%, 0%, 0), 
+            hsl(210, 4%, 64%));
+  left: 0;
+}
+
+.sidebar_title span::after {
+  background: linear-gradient(90deg, 
+            hsl(210, 4%, 64%), 
+            hsla(0, 0%, 0%, 0));
+  right: 0;
+}
+
+/* Active link */
+.active-link {
+  background-color: hsla(210, 4%, 99%, .1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.active-link span {
+  color: hsl(210, 32%, 99%);
+}
+
+@media screen and (min-width: 1024px) {
+  .sidebar_title {
+    position: relative;
+  }
+  .sidebar_title::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg,
+              hsla(0, 0%, 0%, 0),
+              hsl(210, 4%, 64%),
+              hsla(0, 0%, 0%, 0));
+    opacity: 0;
+  }
+
+  .sidebar__title {
+    background: linear-gradient(90deg,
+              hsla(0, 0%, 0%, 0),
+              hsl(210, 4%, 64%),
+              hsla(0, 0%, 0%, 0));
+    width: 100%;
+    height: 1px;          
+  }
+}

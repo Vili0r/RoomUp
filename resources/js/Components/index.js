@@ -44,6 +44,8 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import PropertyDetails from "./PropertyDetails";
 import FavouritePropertyCard from "./FavouritePropertyCard";
 import RoomCard from "./RoomCard";
+import ResponsiveNavLink from "./ResponsiveNavLink";
+import SidebarNavLink from "./SidebarNavLink";
 
 export {
     AccordionItem,
@@ -93,4 +95,6 @@ export {
     PropertyDetails,
     FavouritePropertyCard,
     RoomCard,
+    ResponsiveNavLink,
+    SidebarNavLink,
 };

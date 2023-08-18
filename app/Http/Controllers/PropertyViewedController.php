@@ -49,7 +49,7 @@ class PropertyViewedController extends Controller
             'views' => $room->views(),
         ]);
 
-        $roommates = $request->user()->favouriteRoommates()->with(['advertiser', 'viewedUsers'])->get()->map(fn($roommate) => [
+        $roommates = $request->user()->favouriteRoommates()->with(['advertiser', 'viewedUsers', 'favourites'])->get()->map(fn($roommate) => [
             'id' => $roommate->id,
             'model' => 'roommate',
             'title' => $roommate->title,
