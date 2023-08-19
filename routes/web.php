@@ -41,6 +41,7 @@ use App\Http\Controllers\SharedAvailabilityController;
 use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
 use App\Http\Controllers\SharedFavouriteController;
+use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
@@ -82,6 +83,10 @@ Route::get('/property/{model}/{id}', SinglePropertyController::class)
     ->name('property.show');
 
 //Get single flatmate
+Route::get('/blog/{blog:slug}', SingleBlogController::class)
+    ->name('single.blog.show');
+    
+//Get single blog
 Route::get('/roommate/{roommate}/quest', SingleRoommateController::class)
     ->name('single.roommate.show');
 

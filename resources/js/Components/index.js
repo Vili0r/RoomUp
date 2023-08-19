@@ -46,6 +46,9 @@ import FavouritePropertyCard from "./FavouritePropertyCard";
 import RoomCard from "./RoomCard";
 import ResponsiveNavLink from "./ResponsiveNavLink";
 import SidebarNavLink from "./SidebarNavLink";
+import BlogCard from "./BlogCard";
+import BlogWidget from "./BlogWidget";
+import Categories from "./Categories";
 
 export {
     AccordionItem,
@@ -97,4 +100,7 @@ export {
     RoomCard,
     ResponsiveNavLink,
     SidebarNavLink,
+    BlogCard,
+    BlogWidget,
+    Categories,
 };
