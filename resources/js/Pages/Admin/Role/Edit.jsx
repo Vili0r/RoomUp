@@ -99,9 +99,9 @@ const Edit = ({ auth }) => {
                             <section className="container px-4 mx-auto">
                                 <div className="sm:flex sm:items-center sm:justify-between">
                                     <div className="flex items-center gap-x-3">
-                                        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+                                        <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
                                             Roles
-                                        </h2>
+                                        </h3>
                                     </div>
                                 </div>
 
@@ -109,7 +109,7 @@ const Edit = ({ auth }) => {
                                     <div className="relative flex items-center mt-4 md:mt-0">
                                         <Link
                                             href={route("admin.roles.index")}
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 rounded-lg sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Back
                                         </Link>
@@ -120,7 +120,7 @@ const Edit = ({ auth }) => {
                                                 setDeleteRoleModal(true)
                                             }
                                             type="button"
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-rose-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Delete Role
                                         </button>

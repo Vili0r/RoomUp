@@ -130,11 +130,6 @@ class User extends Authenticatable
                 ->withPivot(['count', 'id']);//if you want to increment on a pivot table you have to add 'id'
     }
 
-    public function blogs(): HasMany
-    {
-        return $this->hasMany(Blog::class, 'author_id');
-    }
-
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
@@ -149,5 +144,10 @@ class User extends Authenticatable
     public function isInConversation(Conversation $conversation)
     {
         return $this->conversations->contains($conversation);
+    }
+
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'author_id');
     }
 }

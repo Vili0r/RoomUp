@@ -9,6 +9,7 @@ use App\Http\Resources\RoleResource;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\RedirectResponse;
 
@@ -17,11 +18,21 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $roles = RoleResource::collection(
+            Role::query()
+                ->when($request->input('search'), function($query, $search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->paginate(7)
+        );
+
         return Inertia::render("Admin/Role/Index", [
-            'roles' => RoleResource::collection(Role::all()),
+            'roles' => $roles,
             'permissions' => PermissionResource::collection(Permission::all()),
+            'filters' => $request->only(['search'])
         ]);
     }
 

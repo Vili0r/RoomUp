@@ -73,7 +73,7 @@ const Edit = ({ auth }) => {
                                             href={route(
                                                 "admin.permissions.index"
                                             )}
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 rounded-lg sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Back
                                         </Link>
@@ -83,7 +83,7 @@ const Edit = ({ auth }) => {
                                             onClick={() =>
                                                 setDeletePermissionModal(true)
                                             }
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-rose-600 active:bg-[#270740] md:text-sm"
                                         >
                                             Delete Role
                                         </button>

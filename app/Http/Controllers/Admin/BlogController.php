@@ -3,65 +3,147 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBlogRequest;
-use App\Http\Requests\UpdateBlogRequest;
+use App\Http\Resources\Blog\BlogEditResource;
+use Illuminate\Http\Request;
+use App\Http\Resources\Blog\BlogIndexResource;
+use App\Http\Resources\Blog\BlogShowResource;
+use App\Http\Resources\Blog\CategoryResource;
 use App\Models\Blog;
+use App\Models\Category;
+use Inertia\Response;
+use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $blogs = BlogIndexResource::collection(
+            Blog::query()
+                ->with(['author', 'category'])
+                ->when($request->input('search'), function($query, $search) {
+                    $query->where('title', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->paginate(7)
+        );
+
+        return Inertia::render('Admin/Blog/Index', [
+            'blogs' => $blogs,
+            'filters' => $request->only(['search'])
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('Admin/Blog/Create',[
+            'categories' => CategoryResource::collection(Category::all()),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBlogRequest $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'image' => ['required', 'image'],
+            'title' => ['required', 'min:3', 'max:100'],
+            'body' => ['required', 'min:3'],
+            'published_at' => ['required', 'after:tomorrow'],
+            'category_id' => ['required'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('blogs');
+
+            Blog::create([
+                'title' => $request->title,
+                'body' => $request->body,
+                'published_at' => $request->published_at,
+                'category_id' => $request->category_id,
+                'slug' => Str::slug($request->input('title')),
+                'author_id' => auth()->id(),
+                'image' => $image,
+            ]);
+        }
+
+        return to_route('admin.blogs.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Blog $blog)
+    public function show(Blog $blog): Response
     {
-        //
+        return Inertia::render('Admin/Blog/Show', [
+            'blog' => new BlogShowResource($blog),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog)
+    public function edit(Blog $blog): Response
     {
-        //
+        $blog->load(['author', 'category']);
+
+        return Inertia::render('Admin/Blog/Edit', [
+            'blog' => new BlogEditResource($blog),
+            'categories' => CategoryResource::collection(Category::all()),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBlogRequest $request, Blog $blog)
+    public function update(Request $request, Blog $blog): RedirectResponse
     {
-        //
+        $image = $blog->image;
+
+        $request->validate([
+            'image' => ['sometimes'],
+            'title' => ['required', 'min:3', 'max:100'],
+            'body' => ['required', 'min:3'],
+            'published_at' => ['required', 'after:tomorrow'],
+            'category_id' => ['required'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            Storage::delete($image);
+            $image = $request->file('image')->store('blogs');
+        }
+        
+        $blog->update([
+            'title' => $request->title,
+            'body' => $request->body,
+            'published_at' => $request->published_at,
+            'category_id' => $request->category_id,
+            'slug' => Str::slug($request->input('title')),
+            'author_id' => auth()->id(),
+            'image' => $image,
+        ]);
+
+        return to_route('admin.blogs.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog)
+    public function destroy(Blog $blog): RedirectResponse
     {
-        //
+        Storage::delete($blog->image);
+
+        $blog->delete();
+
+        return to_route('admin.blogs.index');
     }
 }

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, usePage, Link } from "@inertiajs/react";
+import { Head, usePage, Link, router } from "@inertiajs/react";
 import { AiOutlineSortAscending } from "react-icons/ai";
 import {
     Pagination,
@@ -12,7 +12,23 @@ import {
 } from "@/Components";
 
 const Index = ({ auth }) => {
-    const { users } = usePage().props;
+    const { users, filters } = usePage().props;
+    const { data, meta } = users;
+    const [searchInput, setSearchInput] = useState(filters.search);
+
+    const handleSearch = (value) => {
+        setSearchInput(value);
+        router.get(
+            "/admin/users",
+            { search: value },
+            { preserveState: true, replace: true }
+        );
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        handleSearch(value);
+    };
 
     return (
         <AdminLayout auth={auth}>
@@ -23,26 +39,13 @@ const Index = ({ auth }) => {
                     <div className="overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <section className="container px-4 mx-auto">
-                                <div className="sm:flex sm:items-center sm:justify-between">
-                                    <div className="flex items-center gap-x-3">
-                                        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-                                            Users
-                                        </h2>
-                                    </div>
-                                </div>
+                                <div className="items-start justify-between md:flex">
+                                    <div className="max-w-lg">
+                                        <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
+                                            All Users
+                                        </h3>
 
-                                <div className="mt-6 md:flex md:items-center md:justify-between">
-                                    <div className="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-                                        <Link
-                                            href={route("admin.users.create")}
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300"
-                                        >
-                                            Add User
-                                        </Link>
-                                    </div>
-
-                                    <div className="relative flex items-center mt-4 md:mt-0">
-                                        <span className="absolute">
+                                        <span className="absolute mt-5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
@@ -61,9 +64,20 @@ const Index = ({ auth }) => {
 
                                         <input
                                             type="text"
-                                            placeholder="Search"
-                                            className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            name="search"
+                                            value={searchInput}
+                                            onChange={handleChange}
+                                            placeholder="Search..."
+                                            className="block w-full mt-3 py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         />
+                                    </div>
+                                    <div className="mt-3 md:mt-0">
+                                        <Link
+                                            href={route("admin.users.create")}
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
+                                        >
+                                            Create user
+                                        </Link>
                                     </div>
                                 </div>
 
@@ -99,51 +113,43 @@ const Index = ({ auth }) => {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {users.data.map(
-                                                            (user) => (
-                                                                <TableRow
-                                                                    key={
-                                                                        user.id
+                                                        {data.map((user) => (
+                                                            <TableRow
+                                                                key={user.id}
+                                                            >
+                                                                <TableDataCell>
+                                                                    {user.id}
+                                                                </TableDataCell>
+                                                                <TableDataCell>
+                                                                    {
+                                                                        user.first_name
                                                                     }
-                                                                >
-                                                                    <TableDataCell>
-                                                                        {
-                                                                            user.id
-                                                                        }
-                                                                    </TableDataCell>
-                                                                    <TableDataCell>
-                                                                        {
-                                                                            user.first_name
-                                                                        }
-                                                                    </TableDataCell>
-                                                                    <TableDataCell>
-                                                                        {
-                                                                            user.email
-                                                                        }
-                                                                    </TableDataCell>
-                                                                    <TableDataCell>
-                                                                        <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                                                                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                                                </TableDataCell>
+                                                                <TableDataCell>
+                                                                    {user.email}
+                                                                </TableDataCell>
+                                                                <TableDataCell>
+                                                                    <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
+                                                                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
 
-                                                                            <h2 className="text-sm font-normal text-emerald-500">
-                                                                                Active
-                                                                            </h2>
-                                                                        </div>
-                                                                    </TableDataCell>
-                                                                    <TableDataCell>
-                                                                        <Link
-                                                                            href={route(
-                                                                                "admin.users.edit",
-                                                                                user.id
-                                                                            )}
-                                                                            className="underline text-[#F1C40F] hover:text-orange-400"
-                                                                        >
-                                                                            Edit/Delete
-                                                                        </Link>
-                                                                    </TableDataCell>
-                                                                </TableRow>
-                                                            )
-                                                        )}
+                                                                        <h2 className="text-sm font-normal text-emerald-500">
+                                                                            Active
+                                                                        </h2>
+                                                                    </div>
+                                                                </TableDataCell>
+                                                                <TableDataCell>
+                                                                    <Link
+                                                                        href={route(
+                                                                            "admin.users.edit",
+                                                                            user.id
+                                                                        )}
+                                                                        className="underline text-[#F1C40F] hover:text-orange-400"
+                                                                    >
+                                                                        Edit/Delete
+                                                                    </Link>
+                                                                </TableDataCell>
+                                                            </TableRow>
+                                                        ))}
                                                     </TableBody>
                                                 </table>
                                             </div>
@@ -151,9 +157,9 @@ const Index = ({ auth }) => {
                                     </div>
                                 </div>
                                 <Pagination
-                                    currentPage={users.meta.current_page}
-                                    lastPage={users.meta.last_page}
-                                    links={users.meta.links}
+                                    currentPage={meta.current_page}
+                                    lastPage={meta.last_page}
+                                    links={meta.links}
                                 />
                             </section>
                         </div>

@@ -3,58 +3,88 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\Blog\CategoryIndexResource;
+use App\Http\Resources\Blog\CategoryResource;
+use Illuminate\Http\Request;
 use App\Models\Category;
+use Inertia\Response;
+use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $categories = CategoryIndexResource::collection(
+            Category::query()
+                ->withCount(['blogs'])
+                ->when($request->input('search'), function($query, $search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->paginate(7)
+        );
+
+        return Inertia::render('Admin/Category/Index', [
+            'categories' => $categories,
+            'filters' => $request->only(['search'])
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('Admin/Category/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
-    }
+        $request->validate([
+            'name' => ['required', 'min:3', 'max:20'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
+        Category::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->input('name')),
+        ]);
+
+        return to_route('admin.categories.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
-        //
+        return Inertia::render('Admin/Category/Edit', [
+            'category' => new CategoryResource($category),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'min:3', 'max:20'],
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->input('name')),
+        ]);
+
+        return to_route('admin.categories.index');
     }
 
     /**
@@ -62,6 +92,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return to_route('admin.categories.index');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\BlogFeaturedController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -179,7 +180,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
 
         //Blog controller
         Route::resource('blogs', BlogController::class);
-        Route::resource('categories', CategoryController::class);
+        Route::resource('categories', CategoryController::class)
+            ->except(['show']);
         Route::resource('comments', CommentController::class);
 
         //User & Permissions & Roles
@@ -196,7 +198,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
             Route::resource('/users', UserController::class)->except(['show']);
             Route::resource('/roles', RoleController::class)->except(['create', 'show']);
             Route::resource('/permissions', PermissionController::class)->except(['create', 'show']);
-    
+
+            //Route to change featurede on home page
+            Route::put('/blog/{blog}/featured', BlogFeaturedController::class)
+                ->name('blog.featured');
         });
     });
 });

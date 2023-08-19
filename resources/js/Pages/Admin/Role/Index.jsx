@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, usePage, useForm, Link } from "@inertiajs/react";
+import { Head, usePage, useForm, Link, router } from "@inertiajs/react";
 import {
     InputError,
     InputLabel,
@@ -14,11 +14,14 @@ import {
     TableHeaderCell,
     TableBody,
     TableHead,
+    Pagination,
 } from "@/Components";
 
 const Index = ({ auth }) => {
-    const { roles, permissions } = usePage().props;
+    const { roles, permissions, filters } = usePage().props;
+    const { meta } = roles;
     const [addRoleModal, setAddRoleModal] = useState(false);
+    const [searchInput, setSearchInput] = useState(filters.search);
     const nameInput = useRef();
     const animatedComponents = makeAnimated();
     const { data, setData, processing, reset, errors, post } = useForm({
@@ -26,6 +29,20 @@ const Index = ({ auth }) => {
         permissions: [],
     });
     const [selectedPermissions, setSelectedPermissions] = useState();
+
+    const handleSearch = (value) => {
+        setSearchInput(value);
+        router.get(
+            "/admin/roles",
+            { search: value },
+            { preserveState: true, replace: true }
+        );
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        handleSearch(value);
+    };
 
     const closeModal = () => {
         setAddRoleModal(false);
@@ -64,28 +81,13 @@ const Index = ({ auth }) => {
                     <div className="overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <section className="container px-4 mx-auto">
-                                <div className="sm:flex sm:items-center sm:justify-between">
-                                    <div className="flex items-center gap-x-3">
-                                        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-                                            Roles
-                                        </h2>
-                                    </div>
-                                </div>
+                                <div className="items-start justify-between md:flex">
+                                    <div className="max-w-lg">
+                                        <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
+                                            All Roles
+                                        </h3>
 
-                                <div className="mt-6 md:flex md:items-center md:justify-between">
-                                    <div className="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-                                        <button
-                                            onClick={() =>
-                                                setAddRoleModal(true)
-                                            }
-                                            className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300"
-                                        >
-                                            Add Role
-                                        </button>
-                                    </div>
-
-                                    <div className="relative flex items-center mt-4 md:mt-0">
-                                        <span className="absolute">
+                                        <span className="absolute mt-5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
@@ -104,11 +106,25 @@ const Index = ({ auth }) => {
 
                                         <input
                                             type="text"
-                                            placeholder="Search"
-                                            className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            name="search"
+                                            value={searchInput}
+                                            onChange={handleChange}
+                                            placeholder="Search..."
+                                            className="block w-full mt-3 py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         />
                                     </div>
+                                    <div className="mt-3 md:mt-0">
+                                        <button
+                                            onClick={() =>
+                                                setAddRoleModal(true)
+                                            }
+                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
+                                        >
+                                            Add Role
+                                        </button>
+                                    </div>
                                 </div>
+
                                 <Modal show={addRoleModal} onClose={closeModal}>
                                     <form onSubmit={submit} className="p-6">
                                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -198,33 +214,46 @@ const Index = ({ auth }) => {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {roles.map((role) => (
-                                                            <TableRow
-                                                                key={role.id}
-                                                            >
-                                                                <TableDataCell>
-                                                                    {role.id}
-                                                                </TableDataCell>
-                                                                <TableDataCell>
-                                                                    {role.name}
-                                                                </TableDataCell>
-
-                                                                <TableDataCell>
-                                                                    <Link
-                                                                        href={route(
-                                                                            "admin.roles.edit",
+                                                        {roles.data.map(
+                                                            (role) => (
+                                                                <TableRow
+                                                                    key={
+                                                                        role.id
+                                                                    }
+                                                                >
+                                                                    <TableDataCell>
+                                                                        {
                                                                             role.id
-                                                                        )}
-                                                                        className="underline text-[#F1C40F] hover:text-orange-400"
-                                                                    >
-                                                                        Edit/Delete
-                                                                    </Link>
-                                                                </TableDataCell>
-                                                            </TableRow>
-                                                        ))}
+                                                                        }
+                                                                    </TableDataCell>
+                                                                    <TableDataCell>
+                                                                        {
+                                                                            role.name
+                                                                        }
+                                                                    </TableDataCell>
+
+                                                                    <TableDataCell>
+                                                                        <Link
+                                                                            href={route(
+                                                                                "admin.roles.edit",
+                                                                                role.id
+                                                                            )}
+                                                                            className="underline text-[#F1C40F] hover:text-orange-400"
+                                                                        >
+                                                                            Edit/Delete
+                                                                        </Link>
+                                                                    </TableDataCell>
+                                                                </TableRow>
+                                                            )
+                                                        )}
                                                     </TableBody>
                                                 </table>
                                             </div>
+                                            <Pagination
+                                                currentPage={meta.current_page}
+                                                lastPage={meta.last_page}
+                                                links={meta.links}
+                                            />
                                         </div>
                                     </div>
                                 </div>

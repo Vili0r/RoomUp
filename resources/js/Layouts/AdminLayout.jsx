@@ -108,7 +108,8 @@ export default function AdminLayoutII({ auth, children }) {
                             </SidebarNavLink>
 
                             <SidebarNavLink
-                                href="#"
+                                href={route("admin.blogs.index")}
+                                active={route().current("admin.blogs.index")}
                                 className=""
                                 style={{ transition: "background .3s" }}
                             >
@@ -133,7 +134,10 @@ export default function AdminLayoutII({ auth, children }) {
                             </SidebarNavLink>
 
                             <SidebarNavLink
-                                href="#"
+                                href={route("admin.categories.index")}
+                                active={route().current(
+                                    "admin.categories.index"
+                                )}
                                 className=""
                                 style={{ transition: "background .3s" }}
                             >
