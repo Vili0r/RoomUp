@@ -47,8 +47,12 @@ import RoomCard from "./RoomCard";
 import ResponsiveNavLink from "./ResponsiveNavLink";
 import SidebarNavLink from "./SidebarNavLink";
 import BlogCard from "./BlogCard";
+import FeaturedBlogs from "./FeaturedBlogs";
+import FeaturedBlogCard from "./FeaturedBlogCard";
+import BlogDetails from "./BlogDetails";
 import BlogWidget from "./BlogWidget";
 import Categories from "./Categories";
+import Author from "./Author";
 
 export {
     AccordionItem,
@@ -101,6 +105,10 @@ export {
     ResponsiveNavLink,
     SidebarNavLink,
     BlogCard,
+    BlogDetails,
     BlogWidget,
     Categories,
+    Author,
+    FeaturedBlogs,
+    FeaturedBlogCard,
 };

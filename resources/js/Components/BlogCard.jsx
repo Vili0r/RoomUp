@@ -16,7 +16,7 @@ const BlogCard = ({ blog }) => {
                     className="absolute object-cover object-top w-full rounded-t-lg h-80 lg:rounded-lg"
                 />
             </div>
-            <h1 className="mb-4 text-3xl font-semibold text-center transition duration-700 cursor-pointer hover:text-pink-600">
+            <h1 className="mb-4 text-3xl font-semibold text-center transition duration-700 cursor-pointer hover:text-[#F1C40F]">
                 <Link href={route("single.blog.show", blog.slug)}>
                     {blog.title}
                 </Link>
@@ -35,7 +35,7 @@ const BlogCard = ({ blog }) => {
                 <div className="font-medium text-gray-700">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="inline w-6 h-6 mr-2 text-pink-500"
+                        className="inline w-6 h-6 mr-2 text-[#F1C40F]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -57,7 +57,7 @@ const BlogCard = ({ blog }) => {
             </p>
             <div className="text-center">
                 <Link href={route("single.blog.show", blog.slug)}>
-                    <span className="inline-block px-8 py-3 text-lg font-semibold text-white transition duration-500 transform bg-pink-600 rounded-full cursor-pointer hover:-translate-y-1">
+                    <span className="inline-block px-8 py-3 text-lg font-semibold text-white transition duration-500 transform bg-[#F1C40F] rounded-full cursor-pointer hover:-translate-y-1">
                         Read more...
                     </span>
                 </Link>

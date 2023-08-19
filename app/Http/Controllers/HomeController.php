@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Blog\BlogHomePageRecentResource;
 use App\Http\Resources\Blog\BlogHomePageResource;
-use App\Http\Resources\Blog\BlogResource;
+use App\Http\Resources\Blog\BlogFeaturedCarouselResource;
 use App\Http\Resources\Blog\CategoryResource;
 use App\Models\Blog;
 use App\Models\Category;
@@ -24,9 +24,12 @@ class HomeController extends Controller
     
     public function blog(): Response
     {
+        $blogQuery = Blog::with(['author']);
+
         return Inertia::render('Home/Blog',[
-            'blogs' => BlogHomePageResource::collection(Blog::with(['author'])->latest()->paginate(10)),
+            'blogs' => BlogHomePageResource::collection($blogQuery->latest()->paginate(10)),
             'recentBlogs' => BlogHomePageRecentResource::collection(Blog::latest()->take(3)->get()),
+            'featuredBlogs' => BlogFeaturedCarouselResource::collection($blogQuery->featured()->latest()->take(6)->get()),
             'categories' => CategoryResource::collection(Category::take(3)->get()),
         ]);
     }

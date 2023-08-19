@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 import moment from "moment";
 
-const BlogWidget = ({ recentBlogs }) => {
+const BlogWidget = ({ recentBlogs, slug }) => {
     const showImage = () => {
         return "/storage/";
     };
@@ -10,8 +10,7 @@ const BlogWidget = ({ recentBlogs }) => {
     return (
         <div className="p-8 mb-8 bg-white rounded-lg shadow-lg">
             <h3 className="pb-4 mb-8 text-xl font-semibold border-b">
-                {/* {slug ? "Related Posts" : "Recent Posts"} */}
-                Recent Posts
+                {slug ? "Related Posts" : "Recent Posts"}
             </h3>
             {recentBlogs.map((blog) => (
                 <div key={blog.id} className="flex items-center w-full mb-4">

@@ -1,20 +1,20 @@
 import React from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { BlogCard, BlogWidget, Categories } from "@/Components";
+import { BlogCard, BlogWidget, Categories, FeaturedBlogs } from "@/Components";
 
 const Blog = (props) => {
-    const { blogs, recentBlogs, categories } = usePage().props;
+    const { blogs, recentBlogs, featuredBlogs, categories } = usePage().props;
 
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Blog" />
-            <div className="max-w-7xl px-10 mt-[6rem] mb-8">
+            <div className="px-10 mx-auto mb-8 max-w-7xl mt-[6rem]">
                 <Head>
                     <title>Blog | Home</title>
                 </Head>
 
-                {/* <FeaturedArticles /> */}
+                <FeaturedBlogs featuredBlogs={featuredBlogs} />
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
                     <div className="col-span-1 lg:col-span-8">
                         {blogs.data.map((blog) => (
