@@ -44,6 +44,8 @@ class BlogController extends Controller
      */
     public function create(): Response
     {
+        $this->authorize('create articles');
+
         return Inertia::render('Admin/Blog/Create',[
             'categories' => CategoryResource::collection(Category::all()),
         ]);
@@ -54,6 +56,8 @@ class BlogController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('create articles');
+
         $request->validate([
             'image' => ['required', 'image'],
             'title' => ['required', 'min:3', 'max:100'],
@@ -84,6 +88,8 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): Response
     {
+        $this->authorize('create articles');
+
         return Inertia::render('Admin/Blog/Show', [
             'blog' => new BlogShowResource($blog),
         ]);
@@ -94,6 +100,8 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog): Response
     {
+        $this->authorize('edit articles');
+
         $blog->load(['author', 'category']);
 
         return Inertia::render('Admin/Blog/Edit', [
@@ -107,6 +115,8 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog): RedirectResponse
     {
+        $this->authorize('edit articles');
+
         $image = $blog->image;
 
         $request->validate([
@@ -140,6 +150,8 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog): RedirectResponse
     {
+        $this->authorize('delete articles');
+        
         Storage::delete($blog->image);
 
         $blog->delete();

@@ -79,8 +79,8 @@ export default function AdminLayoutII({ auth, children }) {
                     <div className="sidebar__content overflow-auto relative pt-[2rem]">
                         <div className="flex flex-col gap-[.25rem]">
                             <SidebarNavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
+                                href={route("admin.index")}
+                                active={route().current("admin.index")}
                                 className=""
                                 style={{ transition: "background .3s" }}
                             >
@@ -321,7 +321,8 @@ export default function AdminLayoutII({ auth, children }) {
 
                         <div className="flex flex-col gap-[.25rem]">
                             <SidebarNavLink
-                                href="#"
+                                href={route("dashboard")}
+                                active={route().current("dashboard")}
                                 className=""
                                 style={{ transition: "background .3s" }}
                             >

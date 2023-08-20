@@ -85,7 +85,7 @@ const Edit = ({ auth }) => {
                                             }
                                             className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-rose-600 active:bg-[#270740] md:text-sm"
                                         >
-                                            Delete Role
+                                            Delete Permission
                                         </button>
                                     </div>
                                 </div>

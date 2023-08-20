@@ -45,6 +45,8 @@ class BlogCommentController extends Controller
      */
     public function update(Blog $blog, Comment $comment): RedirectResponse
     {
+        $this->authorize('approve comments');
+        
         $comment->update([
             'approved' => true
         ]);
@@ -57,6 +59,8 @@ class BlogCommentController extends Controller
      */
     public function destroy(Blog $blog, Comment $comment): RedirectResponse
     {
+        $this->authorize('delete comments');
+
         $comment->delete();
 
         return to_route('admin.comments.index');

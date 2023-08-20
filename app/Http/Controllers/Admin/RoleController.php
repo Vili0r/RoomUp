@@ -20,6 +20,8 @@ class RoleController extends Controller
      */
     public function index(Request $request): Response
     {
+        $this->authorize('user management');
+        
         $roles = RoleResource::collection(
             Role::query()
                 ->when($request->input('search'), function($query, $search) {
@@ -41,6 +43,8 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
+        $this->authorize('user management');
+        
         $role = Role::create([
             'name' => $request->name
         ]);
@@ -55,6 +59,8 @@ class RoleController extends Controller
      */
     public function edit(string $id): Response
     {
+        $this->authorize('user management');
+        
         $role = Role::find($id);
         $role->load('permissions');
 
@@ -69,6 +75,8 @@ class RoleController extends Controller
      */
     public function update(StoreRoleRequest $request, string $id): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $role = Role::find($id);
 
         $role->update([
@@ -85,6 +93,8 @@ class RoleController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $role = Role::find($id);
 
         $role->delete();

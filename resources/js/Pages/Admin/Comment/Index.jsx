@@ -13,7 +13,7 @@ import {
 import moment from "moment";
 
 export default function Index(props) {
-    const { comments, filters } = usePage().props;
+    const { comments, filters, auth } = usePage().props;
     const { data, meta } = comments;
     const [searchInput, setSearchInput] = useState(filters.search);
     const [approvedFilter, setApprovedFilter] = useState(filters.approved);
@@ -170,6 +170,7 @@ export default function Index(props) {
                                                 <TableHeaderCell>
                                                     Created at
                                                 </TableHeaderCell>
+
                                                 <TableHeaderCell>
                                                     Action
                                                 </TableHeaderCell>
@@ -242,7 +243,7 @@ export default function Index(props) {
                                                         )}
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        {!comment.approved && (
+                                                        {
                                                             <Link
                                                                 href={route(
                                                                     "admin.blogs.comments.update",
@@ -260,7 +261,8 @@ export default function Index(props) {
                                                             >
                                                                 Approve
                                                             </Link>
-                                                        )}
+                                                        }
+
                                                         <Link
                                                             href={route(
                                                                 "admin.blogs.comments.destroy",

@@ -14,6 +14,8 @@ class BlogFeaturedController extends Controller
      */
     public function __invoke(Request $request, Blog $blog): RedirectResponse
     {
+        $this->authorize('publish articles');
+        
         $request->validate([
             'featured' => ['sometimes'],
         ]);

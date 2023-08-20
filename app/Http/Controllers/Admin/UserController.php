@@ -25,6 +25,8 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
+        $this->authorize('user management');
+        
         $users = UserResource::collection(
             User::query()
                 ->with(['permissions', 'roles'])
@@ -47,6 +49,8 @@ class UserController extends Controller
      */
     public function create(): Response
     {
+        $this->authorize('user management');
+        
         return Inertia::render("Admin/User/Create", [
             'roles' => RoleResource::collection(Role::all()),
             'permissions' => PermissionResource::collection(Permission::all()),
@@ -58,6 +62,8 @@ class UserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -107,6 +113,8 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
+        $this->authorize('user management');
+        
         $user->load(['roles', 'permissions']);
 
         return Inertia::render("Admin/User/Edit", [
@@ -121,6 +129,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -163,6 +173,8 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $user->delete();
 
         return to_route('admin.users.index');

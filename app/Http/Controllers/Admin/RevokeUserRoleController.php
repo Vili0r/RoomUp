@@ -14,6 +14,8 @@ class RevokeUserRoleController extends Controller
      */
     public function __invoke(User $user, Role $role): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $user->removeRole($role);
 
         return to_route('admin.users.index');

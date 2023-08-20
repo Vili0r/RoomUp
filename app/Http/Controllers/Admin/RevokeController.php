@@ -14,6 +14,8 @@ class RevokeController extends Controller
      */
     public function __invoke(Role $role, Permission $permission): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $role->revokePermissionTo($permission);
 
         return to_route('admin.roles.index');

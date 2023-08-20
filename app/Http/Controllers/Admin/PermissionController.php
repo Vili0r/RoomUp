@@ -18,6 +18,8 @@ class PermissionController extends Controller
      */
     public function index(Request $request): Response
     {
+        $this->authorize('user management');
+
         $permissions = PermissionResource::collection(
             Permission::query()
                 ->when($request->input('search'), function($query, $search) {
@@ -38,6 +40,8 @@ class PermissionController extends Controller
      */
     public function store(StorePermissionRequest $request)
     {
+        $this->authorize('user management');
+        
         Permission::create($request->validated());
     }
 
@@ -46,6 +50,8 @@ class PermissionController extends Controller
      */
     public function edit(string $id): Response
     {
+        $this->authorize('user management');
+        
         $permission = Permission::find($id);
 
         return Inertia::render("Admin/Permission/Edit", [
@@ -58,6 +64,8 @@ class PermissionController extends Controller
      */
     public function update(StorePermissionRequest $request, string $id): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $permission = Permission::find($id);
 
         $permission->update($request->validated());
@@ -70,6 +78,8 @@ class PermissionController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        $this->authorize('user management');
+        
         $permission = Permission::find($id);
 
         $permission->delete();

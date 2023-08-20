@@ -5,6 +5,7 @@ import Hero2 from "./Hero2.png";
 import Hero3 from "./Hero3.png";
 import Hero5 from "./Hero5.png";
 import Hero8 from "./Hero8.png";
+import ErrorImage from "./ErrorImage.png";
 import home from "./home.jpg";
 import LogoText from "./logo&text.png";
 import facebook from "./facebook.png";
@@ -40,4 +41,5 @@ export {
     Headset,
     HousePlaceholder,
     SidebarBg,
+    ErrorImage,
 };

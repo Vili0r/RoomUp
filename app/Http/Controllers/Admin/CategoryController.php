@@ -40,6 +40,8 @@ class CategoryController extends Controller
      */
     public function create(): Response
     {
+        $this->authorize('create articles');
+        
         return Inertia::render('Admin/Category/Create');
     }
 
@@ -48,6 +50,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->authorize('create articles');
+
         $request->validate([
             'name' => ['required', 'min:3', 'max:20'],
         ]);
@@ -65,6 +69,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): Response
     {
+        $this->authorize('edit articles');
+
         return Inertia::render('Admin/Category/Edit', [
             'category' => new CategoryResource($category),
         ]);
@@ -75,6 +81,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->authorize('edit articles');
+
         $request->validate([
             'name' => ['required', 'min:3', 'max:20'],
         ]);
@@ -92,6 +100,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('delete articles');
         $category->delete();
 
         return to_route('admin.categories.index');
