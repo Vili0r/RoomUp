@@ -26,7 +26,11 @@ const BlogWidget = ({ recentBlogs, slug }) => {
                         <p className="text-gray-500 font-xs">
                             {moment(blog.published_at).format("MMM DD, YYYY")}
                         </p>
-                        <Link href="" key={blog.id} className="text-md">
+                        <Link
+                            href={route("single.blog.show", blog.slug)}
+                            key={blog.id}
+                            className="text-md"
+                        >
                             {blog.title}
                         </Link>
                     </div>

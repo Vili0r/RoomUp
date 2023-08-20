@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\RevokeUserRoleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationReplyController;
 use App\Http\Controllers\DashboardController;
@@ -42,6 +43,7 @@ use App\Http\Controllers\SharedController;
 use App\Http\Controllers\SharedDeletePhotoController;
 use App\Http\Controllers\SharedFavouriteController;
 use App\Http\Controllers\SingleBlogController;
+use App\Http\Controllers\SingleCategoryController;
 use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
@@ -81,14 +83,22 @@ Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
 Route::get('/property/{model}/{id}', SinglePropertyController::class)
     ->where('model', 'room|flat')
     ->name('property.show');
-
-//Get single flatmate
-Route::get('/blog/{blog:slug}', SingleBlogController::class)
-    ->name('single.blog.show');
     
-//Get single blog
+//Get single roommate
 Route::get('/roommate/{roommate}/quest', SingleRoommateController::class)
     ->name('single.roommate.show');
+
+//Get single blog
+Route::get('/blog/{blog:slug}', SingleBlogController::class)
+    ->name('single.blog.show');
+
+//Get single category
+Route::get('/category/{category:slug}', SingleCategoryController::class)
+    ->name('single.category.show');
+
+//Comments for Blogs Controller
+Route::resource('/blogs.comments', BlogCommentController::class)
+    ->only(['index', 'store']);
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
 
@@ -187,7 +197,9 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::resource('blogs', BlogController::class);
         Route::resource('categories', CategoryController::class)
             ->except(['show']);
-        Route::resource('comments', CommentController::class);
+        //Comments for Blogs Controller
+        Route::resource('/blogs.comments', BlogCommentController::class)
+            ->only(['update', 'destroy']);
 
         //User & Permissions & Roles
         Route::middleware(['role:admin'])->group(function () {
@@ -204,7 +216,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
             Route::resource('/roles', RoleController::class)->except(['create', 'show']);
             Route::resource('/permissions', PermissionController::class)->except(['create', 'show']);
 
-            //Route to change featurede on home page
+            //Route to change featured blogs on home page
             Route::put('/blog/{blog}/featured', BlogFeaturedController::class)
                 ->name('blog.featured');
         });

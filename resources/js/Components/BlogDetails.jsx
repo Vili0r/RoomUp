@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { BlogViewer } from ".";
 
 const BlogDetails = ({ blog }) => {
     const showImage = () => {
@@ -52,7 +53,7 @@ const BlogDetails = ({ blog }) => {
                     </div>
                 </div>
                 <h1 className="mb-8 text-3xl font-semibold">{blog.title}</h1>
-                {blog.body}
+                <BlogViewer blogHtml={blog.body} />
             </div>
         </div>
     );

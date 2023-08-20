@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Blog\BlogHomePageResource;
 use App\Http\Resources\Blog\BlogDetailsResource;
-use App\Http\Resources\Blog\CategoryResource;
+use App\Http\Resources\Blog\CategoryHomePageResource;
 use App\Models\Blog;
 use App\Models\Category;
 use Inertia\Inertia;
@@ -21,7 +21,7 @@ class SingleBlogController extends Controller
         
         return Inertia::render('Home/SingleBlog',[
             'blog' => new BlogDetailsResource($blog),
-            'categories' => CategoryResource::collection(Category::take(3)->get()),
+            'categories' => CategoryHomePageResource::collection(Category::take(3)->get()),
             'relatedBlogs' => BlogHomePageResource::collection(
                 Blog::where('category_id', $blog->category->id)->latest()->take(3)->get()
             ),

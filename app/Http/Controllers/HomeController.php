@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Blog\BlogHomePageRecentResource;
 use App\Http\Resources\Blog\BlogHomePageResource;
 use App\Http\Resources\Blog\BlogFeaturedCarouselResource;
-use App\Http\Resources\Blog\CategoryResource;
+use App\Http\Resources\Blog\CategoryHomePageResource;
 use App\Models\Blog;
 use App\Models\Category;
 use Inertia\Inertia;
@@ -30,7 +30,7 @@ class HomeController extends Controller
             'blogs' => BlogHomePageResource::collection($blogQuery->latest()->paginate(10)),
             'recentBlogs' => BlogHomePageRecentResource::collection(Blog::latest()->take(3)->get()),
             'featuredBlogs' => BlogFeaturedCarouselResource::collection($blogQuery->featured()->latest()->take(6)->get()),
-            'categories' => CategoryResource::collection(Category::take(3)->get()),
+            'categories' => CategoryHomePageResource::collection(Category::take(3)->get()),
         ]);
     }
     

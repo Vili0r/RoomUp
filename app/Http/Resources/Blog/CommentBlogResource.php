@@ -5,7 +5,7 @@ namespace App\Http\Resources\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogDetailsResource extends JsonResource
+class CommentBlogResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,14 +16,7 @@ class BlogDetailsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => $this->image,
             'title' => $this->title,
-            'slug' => $this->slug,
-            'body' => $this->body,
-            'published_at' => $this->published_at->format('Y-m-d'),
-            'author' => $this->whenLoaded('author', function () {
-                return new AuthorHomePageResource($this->author);
-            }),
         ];
     }
 }

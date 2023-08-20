@@ -17,6 +17,11 @@ class Comment extends Model
         'blog_id'
     ];
 
+    public function scopeApproved($query)
+    {
+        $query->where('approved', 1);
+    }
+
     public function blog()
     {
         return $this->belongsTo(Blog::class);

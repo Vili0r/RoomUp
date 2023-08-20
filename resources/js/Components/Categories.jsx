@@ -8,7 +8,11 @@ const Categories = ({ categories }) => {
                 Categories
             </h3>
             {categories.map((category) => (
-                <Link href="" key={category.id} className="tex-md">
+                <Link
+                    href={route("single.category.show", category.slug)}
+                    key={category.id}
+                    className="tex-md"
+                >
                     <span className="block pb-3 mb-3 cursor-pointer">
                         {category.name}
                     </span>

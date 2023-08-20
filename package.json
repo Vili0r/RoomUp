@@ -23,6 +23,7 @@
         "@heroicons/react": "^2.0.16",
         "@hookform/resolvers": "^2.9.11",
         "date-fns": "^2.29.3",
+        "dompurify": "^3.0.5",
         "filepond": "^4.30.4",
         "filepond-plugin-file-poster": "^2.5.1",
         "filepond-plugin-file-validate-type": "^1.2.8",

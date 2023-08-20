@@ -50,9 +50,12 @@ import BlogCard from "./BlogCard";
 import FeaturedBlogs from "./FeaturedBlogs";
 import FeaturedBlogCard from "./FeaturedBlogCard";
 import BlogDetails from "./BlogDetails";
+import BlogViewer from "./BlogViewer";
 import BlogWidget from "./BlogWidget";
 import Categories from "./Categories";
 import Author from "./Author";
+import CommentsForm from "./CommentsForm";
+import Comments from "./Comments";
 
 export {
     AccordionItem,
@@ -107,8 +110,11 @@ export {
     BlogCard,
     BlogDetails,
     BlogWidget,
+    BlogViewer,
     Categories,
     Author,
     FeaturedBlogs,
     FeaturedBlogCard,
+    CommentsForm,
+    Comments,
 };

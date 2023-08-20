@@ -1,7 +1,14 @@
 import React from "react";
 import { Head, usePage } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Author, BlogDetails, BlogWidget, Categories } from "@/Components";
+import {
+    Author,
+    BlogDetails,
+    BlogWidget,
+    Categories,
+    Comments,
+    CommentsForm,
+} from "@/Components";
 
 const SingleBlog = (props) => {
     const { blog, categories, relatedBlogs } = usePage().props;
@@ -14,8 +21,8 @@ const SingleBlog = (props) => {
                     <div className="col-span-1 lg:col-span-8">
                         <BlogDetails blog={blog} />
                         <Author author={blog.author} />
-                        {/*<CommentsForm id={article.id} />
-                    <Comments id={article.id} /> */}
+                        <CommentsForm id={blog.id} />
+                        <Comments id={blog.id} />
                     </div>
                     <div className="col-span-1 lg:col-span-4">
                         <div className="relative lg:sticky top-[4rem]">
