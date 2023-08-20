@@ -6,6 +6,7 @@ use App\Http\Resources\Blog\CommentIndexResource;
 use App\Models\Blog;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class BlogCommentController extends Controller
 {
@@ -42,22 +43,22 @@ class BlogCommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Blog $blog, Comment $comment)
+    public function update(Blog $blog, Comment $comment): RedirectResponse
     {
-        $blog->comments()->update([
+        $comment->update([
             'approved' => true
         ]);
 
-        return response()->noContent();
+        return to_route('admin.comments.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog, Comment $comment)
+    public function destroy(Blog $blog, Comment $comment): RedirectResponse
     {
         $comment->delete();
 
-        return response()->noContent();
+        return to_route('admin.comments.index');
     }
 }

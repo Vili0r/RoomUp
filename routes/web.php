@@ -197,6 +197,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::resource('blogs', BlogController::class);
         Route::resource('categories', CategoryController::class)
             ->except(['show']);
+        Route::get('/comments', CommentController::class)
+            ->name('comments.index');
         //Comments for Blogs Controller
         Route::resource('/blogs.comments', BlogCommentController::class)
             ->only(['update', 'destroy']);

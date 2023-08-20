@@ -16,7 +16,7 @@ class CommentBlogResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => substr($this->title, 0, 30) . '...',
         ];
     }
 }

@@ -162,7 +162,8 @@ export default function AdminLayoutII({ auth, children }) {
                             </SidebarNavLink>
 
                             <SidebarNavLink
-                                href="#"
+                                href={route("admin.comments.index")}
+                                active={route().current("admin.comments.index")}
                                 className=""
                                 style={{ transition: "background .3s" }}
                             >
