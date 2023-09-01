@@ -88,23 +88,27 @@ const PropertyDetails = ({ property }) => {
                                         {property.owner &&
                                             property.owner.description}
                                     </p>
-                                    <div className="flex flex-row items-center gap-4 font-[450px] mt-9 text-neutral-500">
+                                    <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
                                         <div>
                                             {property.owner
                                                 ? property.owner.size
                                                 : property.size}{" "}
                                             rooms
                                         </div>
-                                        <span>|</span>
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
                                         <div>
                                             Type:{" "}
                                             {property.owner
                                                 ? property.owner.type
                                                 : property.type}
                                         </div>
-                                        <span>|</span>
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
                                         <div>
-                                            Available from{" "}
+                                            Available from:{" "}
                                             {moment(
                                                 property.owner
                                                     ? property.available_from
@@ -112,7 +116,9 @@ const PropertyDetails = ({ property }) => {
                                                           ?.available_from
                                             ).format("MMM DD, YYYY")}
                                         </div>
-                                        <span>|</span>
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
                                         <div>
                                             {property.owner
                                                 ? property.room_furnished
@@ -155,16 +161,18 @@ const PropertyDetails = ({ property }) => {
                                     <h1 className="text-xl font-bold text-gray-700 font-popp">
                                         Availability
                                     </h1>
-                                    <div className="flex flex-row items-center gap-3 font-[450px] mt-9 text-neutral-500 text-sm sm:text-base">
-                                        <div className="flex justify-between gap-2 capitalize ">
+                                    <div className="sm:flex sm:flex-row items-center gap-3 font-[450px] mt-9 text-neutral-500 grid grid-cols-2 text-base">
+                                        <div className="flex items-start gap-2 capitalize ">
                                             <FiMinimize className="w-6 h-6" />
                                             {property.owner
                                                 ? property.minimum_stay
                                                 : property.availability
                                                       ?.minimum_stay}
                                         </div>
-                                        <span>|</span>
-                                        <div className="flex justify-between gap-2 capitalize">
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
+                                        <div className="flex items-start gap-2 capitalize">
                                             <FiMaximize className="w-6 h-6" />
 
                                             {property.owner
@@ -172,16 +180,20 @@ const PropertyDetails = ({ property }) => {
                                                 : property.availability
                                                       ?.maximum_stay}
                                         </div>
-                                        <span>|</span>
-                                        <div className="flex justify-between gap-2 capitalize">
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
+                                        <div className="flex items-start gap-2 capitalize">
                                             <BsCalendar4Week className="w-6 h-6" />
                                             {property.owner
                                                 ? property.days_available
                                                 : property.availability
                                                       ?.days_available}
                                         </div>
-                                        <span>|</span>
-                                        <div className="flex justify-between gap-2 capitalize">
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
+                                        <div className="flex items-start gap-2 capitalize">
                                             <MdShortText className="w-6 h-6" />
                                             {property.owner
                                                 ? property.short_term
@@ -195,24 +207,28 @@ const PropertyDetails = ({ property }) => {
                                     <h1 className="text-xl font-bold text-gray-700 font-popp">
                                         Transport
                                     </h1>
-                                    <div className="flex flex-row items-center gap-4 font-[450px] mt-9 text-neutral-500">
-                                        <div className="flex justify-between gap-2 capitalize">
+                                    <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
+                                        <div className="flex items-start gap-2 capitalize">
                                             <MdOutlineHourglassEmpty className="w-6 h-6" />{" "}
                                             {property.owner
                                                 ? property.owner.transport
                                                       .minutes
                                                 : property.transport?.minutes}
                                         </div>
-                                        <span>|</span>
-                                        <div className="flex justify-between gap-2 capitalize">
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
+                                        <div className="flex items-start gap-2 capitalize">
                                             <MdOutlineAirplanemodeActive className="w-6 h-6" />
 
                                             {property.owner
                                                 ? property.owner.transport.mode
                                                 : property.transport?.mode}
                                         </div>
-                                        <span>|</span>
-                                        <div className="flex justify-between gap-2 capitalize">
+                                        <span className="hidden sm:block">
+                                            |
+                                        </span>
+                                        <div className="flex items-start gap-2 capitalize">
                                             <SiTransportforlondon className="w-6 h-6" />
 
                                             {property.owner

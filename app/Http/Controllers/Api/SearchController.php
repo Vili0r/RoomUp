@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FlatSearchResultResource;
 use App\Http\Resources\RoomSearchResultResource;
 use App\Models\Flat;
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class HomeSearchController extends Controller
+class SearchController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -44,13 +44,8 @@ class HomeSearchController extends Controller
             ->paginate(4)
             ->appends($request->query());
 
-        if($request->wantsJson()){
+      
             return $properties;
-        }
-
-        return Inertia::render('Home/HomeSearch',[
-            'selectedQueries' => $request->only(['search']),
-            'properties' => $properties,
-        ]);
+        
     }
 }

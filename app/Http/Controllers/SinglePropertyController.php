@@ -17,7 +17,7 @@ class SinglePropertyController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, string $model, string $id): Response
+    public function __invoke(Request $request, string $model, string $id)
     {
         $property = [];
         if($model === "room"){
@@ -38,6 +38,10 @@ class SinglePropertyController extends Controller
             if($request->user()) {
                 dispatch(new UserViewedFlat($request->user(), $flat));
             }
+        }
+
+        if($request->wantsJson()){
+            return $property;
         }
 
         return Inertia::render('Home/SingleProperty', [

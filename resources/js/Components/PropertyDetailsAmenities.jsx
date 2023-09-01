@@ -1,31 +1,30 @@
 import React from "react";
-import {
-    MdOutlineBedroomParent,
-    MdOutlineBedroomChild,
-    MdBalcony,
-    MdPets,
-    MdOutlineMicrowave,
-} from "react-icons/md";
+import { MdBalcony, MdOutlineMicrowave, MdMeetingRoom } from "react-icons/md";
 import { FaCouch } from "react-icons/fa";
 import { AiFillCar } from "react-icons/ai";
-import { TbBath, TbTemperaturePlus, TbToolsKitchen2 } from "react-icons/tb";
+import { TbToolsKitchen2, TbDisabled } from "react-icons/tb";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
-import { GiWashingMachine, GiFruitTree } from "react-icons/gi";
+import { GiWashingMachine, GiFruitTree, GiHomeGarage } from "react-icons/gi";
 import { BsSnow, BsWifi } from "react-icons/bs";
 import { BiDish } from "react-icons/bi";
+import { HiOutlineSun } from "react-icons/hi";
 
 const allAmenities = [
-    { id: 1, name: "Double bedrooms", icon: <MdOutlineBedroomParent /> },
-    { id: 2, name: "Single bedrooms", icon: <MdOutlineBedroomChild /> },
-    { id: 3, name: "Furnished", icon: <FaCouch /> },
-    { id: 4, name: "Parking", icon: <AiFillCar /> },
-    { id: 6, name: "Central heating", icon: <TbTemperaturePlus /> },
-    { id: 7, name: "Kithcen", icon: <TbToolsKitchen2 /> },
-    { id: 8, name: "Garden", icon: <GiFruitTree /> },
-    { id: 9, name: "Balcony", icon: <MdBalcony /> },
-    { id: 10, name: "Pets allowed", icon: <MdPets /> },
-    { id: 11, name: "Air conditioning", icon: <BsSnow /> },
-    { id: 12, name: "Broadband", icon: <BsWifi /> },
+    { id: 1, name: "Parking", icon: <AiFillCar /> },
+    { id: 2, name: "Garden", icon: <GiFruitTree /> },
+    { id: 3, name: "Garage", icon: <GiHomeGarage /> },
+    { id: 4, name: "Balcony", icon: <MdBalcony /> },
+    { id: 5, name: "Disable access", icon: <TbDisabled /> },
+    { id: 6, name: "Living room", icon: <FaCouch /> },
+    { id: 7, name: "Broadband", icon: <BsWifi /> },
+    { id: 8, name: "Air conditioning", icon: <BsSnow /> },
+    { id: 9, name: "Central heating", icon: <HiOutlineSun /> },
+    { id: 10, name: "Dishwasher", icon: <BiDish /> },
+    { id: 11, name: "Microwave", icon: <MdOutlineMicrowave /> },
+    { id: 12, name: "Oven", icon: <TbToolsKitchen2 /> },
+    { id: 13, name: "Washing machine", icon: <GiWashingMachine /> },
+    { id: 14, name: "Refrigirator", icon: <CgSmartHomeRefrigerator /> },
+    { id: 15, name: "Storage", icon: <MdMeetingRoom /> },
 ];
 
 const PropertyDetailsAmenities = ({ amenities }) => {

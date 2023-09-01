@@ -41,7 +41,7 @@ const steps = [
 
 const CreateSteps = ({ activeStep }) => {
     return (
-        <div className="w-full p-4 mx-4">
+        <div className="w-full p-4">
             <div className="flex items-center">
                 {steps.map((step, index) => (
                     <>
@@ -56,16 +56,16 @@ const CreateSteps = ({ activeStep }) => {
                             <div
                                 className={`${
                                     activeStep > index ? "bg-[#F1C40F]" : ""
-                                } w-12 h-12 py-3 transition duration-500 ease-in-out border-2 border-[#F1C40F] rounded-full`}
+                                } [@media(min-width:370px)]:w-12 [@media(min-width:370px)]:h-12 w-10 h-10 py-3 transition duration-500 ease-in-out border-2 border-[#F1C40F] rounded-full`}
                             >
                                 {step.icon}
                             </div>
                             <div
                                 className={`${
                                     activeStep <= index
-                                        ? "text-gray-500"
+                                        ? "[@media(max-width:480px)]:hidden text-gray-500"
                                         : "text-[#F1C40F]"
-                                } absolute top-0 w-32 mt-16 -ml-10 text-xs font-medium text-center uppercase`}
+                                } absolute top-0 w-32 mt-16 -ml-10 text-base font-medium text-center capitalize`}
                             >
                                 {step.title}
                             </div>
