@@ -16,7 +16,7 @@ class SearchController extends Controller
      * Handle the incoming request.
      */
     public function __invoke(Request $request)
-    {
+    {        
         $roomQuery = null;
         $flatQuery = null;
         
@@ -45,7 +45,6 @@ class SearchController extends Controller
             ->appends($request->query());
 
       
-            return $properties;
-        
+        return $properties;
     }
 }
