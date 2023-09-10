@@ -11,7 +11,6 @@ const FavouritePropertyCard = ({ property, index }) => {
         id: property.id,
         type: property.model,
     });
-    console.log(property);
 
     const showImage = () => {
         return "/storage/";

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\PropertyViewedController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SinglePropertyController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    //Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    //Route to get all favourites' properties
+    Route::get('/users/{user}/favourites', FavouriteController::class);
+
+    //Route to get all favourites' properties
+    Route::get('/users/{user}/viewed', PropertyViewedController::class);
 });
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/home-search', SearchController::class);
 
