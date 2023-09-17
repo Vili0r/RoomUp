@@ -6,6 +6,7 @@ const BlogCard = ({ blog }) => {
     const showImage = () => {
         return "/storage/";
     };
+    console.log(blog.image);
 
     return (
         <div className="p-0 pb-12 mb-8 bg-white rounded-lg shadow-lg lg:p-8">
