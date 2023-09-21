@@ -20,7 +20,7 @@ class FlatSearchResultResource extends JsonResource
             'title' => $this->title,
             'cost' => $this->cost,
             'images' => $this->images,
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
             'views' => $this->views(),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressRoomSearchResultResource($this->address);
@@ -28,6 +28,6 @@ class FlatSearchResultResource extends JsonResource
             'availability' => $this->whenLoaded('availability', function () {
                 return new AvailabilityFlatSearchResultResource($this->availability);
             }),
-        ];;
+        ];
     }
 }

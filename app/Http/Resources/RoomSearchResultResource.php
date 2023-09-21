@@ -21,7 +21,7 @@ class RoomSearchResultResource extends JsonResource
             'room_cost' => $this->room_cost,
             'available_from' => $this->available_from->format('Y-m-d'),
             'images' => $this->images !== null ? array_merge($this->owner->images, $this->images) : $this->owner->images,
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
             'views' => $this->views(),
             'owner' => $this->whenLoaded('owner', function () {
                 return new SharedSearchRoomResultResource($this->owner);

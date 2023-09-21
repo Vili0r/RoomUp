@@ -14,21 +14,22 @@ class ProfileController extends Controller
      /**
      * Display the user's profile form.
      */
-    public function edit(User $user)
+    public function edit(Request $request)
     {
         return response()->json([
-            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'user' => $user->only('id', 'first_name', 'last_name', 'email', 'email_verified_at'),
+            'user' => $request->user()->only('id', 'first_name', 'last_name', 'email', 'email_verified_at'),
         ]);
     }
     /**
      * Update the user's profile information.
      */
-    public function update(User $user, ProfileUpdateRequest $request)
+    public function update(ProfileUpdateRequest $request)
     {
-        $user->fill($request->validated());
+        $user = $request->user();
 
+        $user->fill($request->validated());
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
@@ -43,12 +44,12 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(User $user, Request $request)
+    public function destroy(Request $request)
     {
         $request->validate([
             'password' => ['required', 'current-password'],
         ]);
-
+        $user = $request->user();
         $user->delete();
 
         $request->session()->invalidate();

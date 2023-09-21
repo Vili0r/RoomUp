@@ -13,17 +13,17 @@ class PasswordController extends Controller
      /**
      * Update the user's password.
      */
-    public function update(User $user, Request $request)
+    public function update(Request $request)
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $user->update([
+        $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 
-        return response()->json("Passwor Updated", 201);
+        return response()->json("Password Updated", 201);
     }
 }
