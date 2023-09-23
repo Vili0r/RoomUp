@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\RevokeUserPermissionController;
 use App\Http\Controllers\Admin\RevokeUserRoleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\ConversationController;
@@ -47,6 +48,7 @@ use App\Http\Controllers\SingleCategoryController;
 use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
+use App\Http\Controllers\UpdateAddressController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +116,11 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
+    //Route to update address on shared property
+    Route::put('/property/{model}/{id}/address', UpdateAddressController::class)
+        ->where('model', 'room|flat')
+        ->name('address.update');
+    
     //Route to change availability on shared property
     Route::put('/shared/{shared}/availability', SharedAvailabilityController::class)
         ->name('shared.availability');

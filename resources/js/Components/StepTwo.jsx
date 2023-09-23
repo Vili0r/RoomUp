@@ -8,13 +8,12 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                 <div className="relative md:col-span-3">
                     <input
                         type="text"
-                        name="address_1"
                         id="address_1"
                         placeholder="Address Line 1"
                         value={data.address_1}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
-                        onChange={handleOnChange}
+                        disabled={true}
                     />
                     <label
                         htmlFor="address_1"
@@ -39,7 +38,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         value={data.address_2}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
-                        onChange={handleOnChange}
+                        disabled={true}
                     />
                     <label
                         htmlFor="address_2"
@@ -64,7 +63,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         value={data.city}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
-                        onChange={handleOnChange}
+                        disabled={true}
                     />
                     <label
                         htmlFor="city"
@@ -87,7 +86,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         value={data.area}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
-                        onChange={handleOnChange}
+                        disabled={true}
                     />
                     <label
                         htmlFor="area"
@@ -110,7 +109,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         value={data.post_code}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
-                        onChange={handleOnChange}
+                        disabled={true}
                     />
                     <label
                         htmlFor="post_code"

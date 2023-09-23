@@ -9,13 +9,13 @@ import { TbFileDescription } from "react-icons/tb";
 const steps = [
     {
         id: "1",
-        icon: <VscSymbolProperty className="w-full h-full" />,
-        title: "Property",
+        icon: <FaRegAddressCard className="w-full h-full" />,
+        title: "Address",
     },
     {
         id: "2",
-        icon: <FaRegAddressCard className="w-full h-full" />,
-        title: "Address",
+        icon: <VscSymbolProperty className="w-full h-full" />,
+        title: "Property",
     },
     {
         id: "3",

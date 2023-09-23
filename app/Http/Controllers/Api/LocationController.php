@@ -59,6 +59,7 @@ class LocationController extends Controller
             'accept' => 'application/json', // Specify that you expect an XML response
         ])->get('https://api.locationiq.com/v1/autocomplete', [
             'q' => $request->input('query'),
+            'countrycodes' => "gr",
             'limit' => $limit,
             'key' => $apiKey, // Replace with your actual API key
         ]);

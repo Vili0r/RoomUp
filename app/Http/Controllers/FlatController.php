@@ -141,6 +141,9 @@ class FlatController extends Controller
             'area' => $request->area,
             'city' => $request->city,
             'post_code' => $request->post_code,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'display_name' => $request->display_name,
         ]);
        
         $flat->advertiser()->create([
@@ -346,38 +349,6 @@ class FlatController extends Controller
         $flat->update($data);
 
         $flat->amenities()->sync($request->input('amenities.*.id'));
-        
-        $fullAddress = $request->address_1 . ' ';
-        if ($request->has('address_2')) {
-            $fullAddress .= $request->address_2 . ' ';
-        }
-        $fullAddress .= $request->area . ' ' . $request->city . ' ' . 'Greece';
-
-        $url = "https://nominatim.openstreetmap.org/search?q={$fullAddress}&format=geojson";
-
-        $response = Http::get($url);
-
-        if ($response->successful()) {
-            $data = $response->json();
-        } 
-  
-        if (isset($data['features'][0]['geometry']['coordinates'])) {
-            $coordinates = $data['features'][0]['geometry']['coordinates'];
-            $latitude = $coordinates[1]; // Latitude
-            $longitude = $coordinates[0]; // Longitude
-
-            $flat->address()->update([
-                'address_1' => $request->address_1,
-                'address_2' => $request->address_2,
-                'area' => $request->area,
-                'city' => $request->city,
-                'lat' => $latitude,
-                'long' => $longitude,
-                'post_code' => $request->post_code,
-            ]);
-        } else {            
-            return to_route("flat.edit", $flat)->with('message', 'Please enter a valid address');
-        }
        
         $flat->advertiser()->update([
             'first_name' => $request->first_name,

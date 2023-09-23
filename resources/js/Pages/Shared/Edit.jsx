@@ -55,6 +55,7 @@ const Edit = (props) => {
         currentFlatmateOccupation,
         pets,
         notification,
+        csrf_token,
     } = usePage().props;
     const selectedOptions = shared.amenities.map((item) => {
         return {
@@ -182,7 +183,6 @@ const Edit = (props) => {
     useEffect(() => {
         let timer;
 
-        console.log("rendering");
         if (notification !== null) {
             setVisible(true);
             timer = setTimeout(() => {
@@ -246,10 +246,14 @@ const Edit = (props) => {
         const responseObject = JSON.parse(response);
         const fileValue = responseObject.file;
 
-        const existingImages = data.images;
-        const updatedImages = existingImages.concat(fileValue);
+        if (data.images) {
+            const existingImages = data.images;
+            const updatedImages = existingImages.concat(fileValue);
 
-        setData("images", updatedImages);
+            setData("images", updatedImages);
+        } else {
+            setData("images", [fileValue]);
+        }
         return response;
     };
 
@@ -1297,7 +1301,7 @@ const Edit = (props) => {
                                                         revert: handleFilePondRevert,
                                                         headers: {
                                                             "X-CSRF-TOKEN":
-                                                                props.csrf_token,
+                                                                csrf_token,
                                                         },
                                                     }}
                                                     name="images"

@@ -22,7 +22,7 @@ class SharedShowResource extends JsonResource
             'live_at' => $this->live_at ? $this->live_at->format('Y-m-d') : "",
             'images' => $this->images,
             'address' => $this->whenLoaded('address', function () {
-                return new AddressFlatShowResource($this->address);
+                return new AddressResource($this->address);
             }),
             'rooms' => SharedRoomResource::collection($this->whenLoaded('rooms')),
         ];

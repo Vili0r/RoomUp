@@ -182,37 +182,18 @@ class SharedController extends Controller
             ]);
         }
 
-        $fullAddress = $request->address_1 . ' ';
-        if ($request->has('address_2')) {
-            $fullAddress .= $request->address_2 . ' ';
-        }
-        $fullAddress .= $request->area . ' ' . $request->city . ' ' . 'Greece';
-
-        $url = "https://nominatim.openstreetmap.org/search?q={$fullAddress}&format=geojson";
-
-        $response = Http::get($url);
-
-        if ($response->successful()) {
-            $data = $response->json();
-        } 
-        
-        if (isset($data['features'][0]['geometry']['coordinates'])) {
-            $coordinates = $data['features'][0]['geometry']['coordinates'];
-            $latitude = $coordinates[1]; // Latitude
-            $longitude = $coordinates[0]; // Longitude
-
-            $shared->address()->create([
-                'address_1' => $request->address_1,
-                'address_2' => $request->address_2,
-                'area' => $request->area,
-                'city' => $request->city,
-                'lat' => $latitude,
-                'long' => $longitude,
-                'post_code' => $request->post_code,
-            ]);
-        } else {
-            return back()->with('errors', 'Address is incorrect');
-        }
+      
+        $shared->address()->create([
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
+            'area' => $request->area,
+            'city' => $request->city,
+            'post_code' => $request->post_code,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'display_name' => $request->display_name,
+        ]);
+       
        
         $shared->advertiser()->create([
             'first_name' => $request->first_name,
@@ -498,46 +479,6 @@ class SharedController extends Controller
         $currentRooms->whereNotIn('id', collect($request->rooms)->pluck('id'))->each(function ($room) {
             $room->delete();
         });
-        
-        $fullAddress = $request->address_1 . ' ';
-        if ($request->has('address_2')) {
-            $fullAddress .= $request->address_2 . ' ';
-        }
-        $fullAddress .= $request->area . ' ' . $request->city . ' ' . 'Greece';
-
-        $url = "https://nominatim.openstreetmap.org/search?q={$fullAddress}&format=geojson";
-
-        $response = Http::get($url);
-
-        if ($response->successful()) {
-            $data = $response->json();
-        } 
-  
-        if (isset($data['features'][0]['geometry']['coordinates'])) {
-            $coordinates = $data['features'][0]['geometry']['coordinates'];
-            $latitude = $coordinates[1]; // Latitude
-            $longitude = $coordinates[0]; // Longitude
-
-            $shared->address()->update([
-                'address_1' => $request->address_1,
-                'address_2' => $request->address_2,
-                'area' => $request->area,
-                'city' => $request->city,
-                'lat' => $latitude,
-                'long' => $longitude,
-                'post_code' => $request->post_code,
-            ]);
-        } else {            
-            return to_route("shared.edit", $shared)->with('message', 'Please enter a valid address');
-        }
-        
-        // $shared->address()->([
-        //     'address_1' => $request->address_1,
-        //     'address_2' => $request->address_2,
-        //     'area' => $request->area,
-        //     'city' => $request->city,
-        //     'post_code' => $request->post_code,
-        // ]);
        
         $shared->advertiser()->update([
             'first_name' => $request->first_name,

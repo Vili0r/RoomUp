@@ -23,7 +23,7 @@ class FlatShowResource extends JsonResource
             'available' => $this->available ?? '',
             'images' => $this->images,
             'address' => $this->whenLoaded('address', function () {
-                return new AddressFlatShowResource($this->address);
+                return new AddressResource($this->address);
             }),
         ];
     }

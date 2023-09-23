@@ -47,11 +47,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Location controller
     Route::get('/geocode', [LocationController::class, 'geocode']);
-    Route::get('/autocomplete', [LocationController::class, 'autocomplete']);
-
+    
     //Toggle Favourite Controller
     Route::post('/favourite/{model}/{id}', ToggleFavouriteController::class)
-        ->where('model', 'room|flat');
+    ->where('model', 'room|flat');
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);
@@ -67,8 +66,10 @@ if (Request::header('Authorization'))
 Route::group(['middleware' => $middleware], function () {
     //Home search controller for SearchScreen
     Route::get('home-search', SearchController::class);
-    
+    //Header filter controller
     Route::get('/header-filter', HeaderFilterController::class);
+    // Autocomplete controller
+    Route::get('/autocomplete', [LocationController::class, 'autocomplete']);
 });
 
 //Single Property Detail Controller

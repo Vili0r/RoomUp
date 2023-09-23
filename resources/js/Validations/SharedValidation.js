@@ -4,6 +4,19 @@ const maxFiles = 9;
 const supportedFormats = ["image/jpeg", "image/png", "image/jpg"];
 
 const stepOneSchema = yup.object().shape({
+    address_1: yup.string().max(30).required("Address is required"),
+    city: yup.string().max(20).required("City is required"),
+    area: yup.string().max(20).required("Area is required"),
+    post_code: yup
+        .string()
+        .max(7, "Post code must have maximum six characters")
+        .required("Post Code is required"),
+    minutes: yup.string().required("Minutes is required"),
+    mode: yup.string().required("Mode is required"),
+    station: yup.string().required("Station is required"),
+});
+
+const stepTwoSchema = yup.object().shape({
     available_rooms: yup
         .string()
         .required("Available Rooms is required")
@@ -37,19 +50,6 @@ const stepOneSchema = yup.object().shape({
             });
         }),
     what_i_am: yup.string().required("Who i am is required"),
-});
-
-const stepTwoSchema = yup.object().shape({
-    address_1: yup.string().max(30).required("Address is required"),
-    city: yup.string().max(20).required("City is required"),
-    area: yup.string().max(20).required("Area is required"),
-    post_code: yup
-        .string()
-        .max(7, "Post code must have maximum six characters")
-        .required("Post Code is required"),
-    minutes: yup.string().required("Minutes is required"),
-    mode: yup.string().required("Mode is required"),
-    station: yup.string().required("Station is required"),
 });
 
 const stepThreeSchema = yup.array().of(

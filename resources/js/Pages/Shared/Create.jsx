@@ -4,6 +4,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import axios from "axios";
 import { Head, useForm, usePage } from "@inertiajs/react";
+import { DebounceInput } from "react-debounce-input";
+import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import {
     CreateSteps,
     InputError,
@@ -42,7 +44,9 @@ const Create = (props) => {
     const animatedComponents = makeAnimated();
     const [step, setStep] = useState(1);
     const [validationErrors, setValidationErrors] = useState({});
-    //const [addressValidationError, setAddressValidationError] = useState({});
+    const [search, setSearch] = useState("");
+    const [selectedAddress, setSelectedAddress] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
     const [roomAttributesValidationErrors, setRoomAttributesValidationErrors] =
         useState({});
 
@@ -84,6 +88,7 @@ const Create = (props) => {
         currentFlatmateOccupation,
         pets,
         references,
+        csrf_token,
     } = usePage().props;
 
     const {
@@ -115,6 +120,9 @@ const Create = (props) => {
             area: "",
             city: "",
             post_code: "",
+            lat: "",
+            long: "",
+            display_name: "",
             minutes: "",
             mode: "",
             station: "",
@@ -142,7 +150,6 @@ const Create = (props) => {
             resolver: yupResolver(stepOneSchema),
         }
     );
-
     //next step
     const handleNext = async () => {
         clearErrors();
@@ -222,42 +229,6 @@ const Create = (props) => {
             return false;
         }
     };
-
-    // const validateGeolocation = async () => {
-    //     let fullAddress =
-    //         data.address_1 +
-    //         " " +
-    //         data.area +
-    //         " " +
-    //         data.city +
-    //         " United Kingdom";
-    //     try {
-    //         await stepTwoSchema.validate(data, {
-    //             abortEarly: false,
-    //         });
-    //         let url = `https://nominatim.openstreetmap.org/search?q=${fullAddress}&format=geojson`;
-    //         console.log(url);
-    //         const response = await axios.get(url);
-
-    //         console.log(response.data);
-    //         // if (response.data.error) {
-    //         //     setGeolocationData(null);
-    //         //     setErrorMessage(response.data.error);
-    //         // } else if (response.data.features.length > 0) {
-    //         //     setGeolocationData(response.data.features[0]);
-    //         // }
-    //     } catch (errors) {
-    //         const validationErrors = {};
-
-    //         errors.inner.forEach((error) => {
-    //             validationErrors[error.path] = error.message;
-    //         });
-
-    //         setValidationErrors(validationErrors);
-
-    //         setAddressValidationError(validationErrors);
-    //     }
-    // };
 
     //back step
     const handleBack = () => {
@@ -349,10 +320,14 @@ const Create = (props) => {
         const responseObject = JSON.parse(response);
         const fileValue = responseObject.file;
 
-        const existingImages = data.images;
-        const updatedImages = existingImages.concat(fileValue);
+        if (data.images) {
+            const existingImages = data.images;
+            const updatedImages = existingImages.concat(fileValue);
 
-        setData("images", updatedImages);
+            setData("images", updatedImages);
+        } else {
+            setData("images", [fileValue]);
+        }
         return response;
     };
 
@@ -364,6 +339,39 @@ const Create = (props) => {
         };
     });
 
+    const handleSelectedAddress = (selectedAddress) => {
+        setData({
+            address_1: selectedAddress.address.name,
+            city: selectedAddress.address.state,
+            area: selectedAddress.address.suburb
+                ? selectedAddress.address.suburb
+                : selectedAddress.address.city,
+            post_code: selectedAddress.address.postcode,
+            lat: selectedAddress.lat,
+            long: selectedAddress.lon,
+            display_name: selectedAddress.display_name,
+        });
+    };
+
+    const getAddresses = (search) => {
+        if (search) {
+            const url = new URL("http://roomup.test/api/autocomplete");
+            url.searchParams.set("query", search);
+            axios
+                .get(url, {
+                    headers: {
+                        "X-CSRF-TOKEN": csrf_token,
+                    },
+                })
+                .then(function (response) {
+                    setSearchResults(response.data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
+    };
+
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Place Shared Property Advertisment" />
@@ -374,6 +382,94 @@ const Create = (props) => {
                         <div className="p-4 mt-8">
                             <form onSubmit={submit}>
                                 {step == "1" && (
+                                    <>
+                                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                            <AiOutlineSearch className="w-7 h-7" />
+                                            <DebounceInput
+                                                value={search}
+                                                minLength={1}
+                                                debounceTimeout={500}
+                                                onChange={(e) => {
+                                                    getAddresses(
+                                                        e.target.value
+                                                    );
+                                                    setSearch(e.target.value);
+                                                }}
+                                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                                                placeholder="Efterpis, Cholargos..."
+                                            />
+                                            <button
+                                                onClick={() => {
+                                                    setSearch("");
+                                                    getAddresses("");
+                                                }}
+                                                className="absolute top-5 right-5"
+                                            >
+                                                <AiOutlineClose size={28} />
+                                            </button>
+                                        </div>
+                                        {search.length >= 2 &&
+                                            (searchResults?.length > 0 ? (
+                                                <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
+                                                    <ul>
+                                                        {searchResults.map(
+                                                            (
+                                                                address,
+                                                                index
+                                                            ) => (
+                                                                <li className="border-b border-gray-200">
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            setSelectedAddress(
+                                                                                address
+                                                                            );
+                                                                            handleSelectedAddress(
+                                                                                address
+                                                                            );
+                                                                        }}
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
+                                                                    >
+                                                                        <span className="ml-4">
+                                                                            {
+                                                                                address.display_name
+                                                                            }
+                                                                        </span>
+                                                                    </button>
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                </div>
+                                            ) : (
+                                                <div className="px-3 py-3">
+                                                    No results for "{search}"
+                                                </div>
+                                            ))}
+
+                                        <StepTwo
+                                            data={data}
+                                            errors={validationErrors}
+                                            handleOnChange={handleOnChange}
+                                            minutes={minutes}
+                                            mode={mode}
+                                            stations={stations}
+                                        />
+
+                                        <div className="my-6">
+                                            <PrimaryButton
+                                                onClick={handleNext}
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                            >
+                                                Next
+                                            </PrimaryButton>
+                                        </div>
+                                    </>
+                                )}
+
+                                {step == "2" && (
                                     <>
                                         <StepOne
                                             data={data}
@@ -394,52 +490,6 @@ const Create = (props) => {
                                                 Next
                                             </PrimaryButton>
                                         </div>
-                                    </>
-                                )}
-
-                                {step == "2" && (
-                                    <>
-                                        <div className="w-full max-w-2xl mx-auto mb-5">
-                                            <div className="flex p-5 bg-white rounded-lg shadow">
-                                                <div>
-                                                    <svg
-                                                        className="w-6 h-6 text-yellow-500 fill-current"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            d="M0 0h24v24H0V0z"
-                                                            fill="none"
-                                                        />
-                                                        <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                                                    </svg>
-                                                </div>
-                                                <div className="ml-3">
-                                                    <h2 className="font-semibold text-gray-800">
-                                                        Please enter a valid
-                                                        address
-                                                    </h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <StepTwo
-                                            data={data}
-                                            errors={validationErrors}
-                                            handleOnChange={handleOnChange}
-                                            minutes={minutes}
-                                            mode={mode}
-                                            stations={stations}
-                                        />
-
-                                        <div className="my-6">
-                                            <PrimaryButton
-                                                onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
-                                            >
-                                                Next
-                                            </PrimaryButton>
-                                        </div>
-
                                         <div className="flex items-center justify-between">
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
 
@@ -1179,7 +1229,7 @@ const Create = (props) => {
                                                     revert: handleFilePondRevert,
                                                     headers: {
                                                         "X-CSRF-TOKEN":
-                                                            props.csrf_token,
+                                                            csrf_token,
                                                     },
                                                 }}
                                                 name="images"

@@ -4,20 +4,6 @@ const maxFiles = 9;
 const supportedFormats = ["image/jpeg", "image/png", "image/jpg"];
 
 const stepOneSchema = yup.object().shape({
-    size: yup.string().required("Size is required"),
-    type: yup.string().required("Type is required"),
-    what_i_am: yup.string().required("Who i am is required"),
-    cost: yup
-        .number()
-        .typeError("Room cost doesn't look like a number")
-        .required("Cost of the room is required"),
-    deposit: yup
-        .number()
-        .typeError("Room deposit doesn't look like a number")
-        .required("Deposit of the room is required"),
-});
-
-const stepTwoSchema = yup.object().shape({
     address_1: yup.string().max(30).required("Address is required"),
     city: yup.string().max(20).required("City is required"),
     area: yup.string().max(20).required("Area is required"),
@@ -30,6 +16,19 @@ const stepTwoSchema = yup.object().shape({
     station: yup.string().required("Station is required"),
 });
 
+const stepTwoSchema = yup.object().shape({
+    size: yup.string().required("Size is required"),
+    type: yup.string().required("Type is required"),
+    what_i_am: yup.string().required("Who i am is required"),
+    cost: yup
+        .number()
+        .typeError("Room cost doesn't look like a number")
+        .required("Cost of the room is required"),
+    deposit: yup
+        .number()
+        .typeError("Room deposit doesn't look like a number")
+        .required("Deposit of the room is required"),
+});
 const stepThreeSchema = yup.object().shape({
     selectedAmenities: yup
         .array()

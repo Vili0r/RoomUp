@@ -14,13 +14,19 @@ import {
 } from "@/Components";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
+import { DebounceInput } from "react-debounce-input";
+import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 
 const Show = (props) => {
-    const { shared, notification } = usePage().props;
+    const { shared, notification, csrf_token } = usePage().props;
     const [openModal, setOpenModal] = useState(false);
+    const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openDeletePropertyModal, setOpenDeletePropertyModal] =
         useState(false);
     const [visible, setVisible] = useState(false);
+    const [search, setSearch] = useState("");
+    const [selectedAddress, setSelectedAddress] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const {
         data,
@@ -34,6 +40,14 @@ const Show = (props) => {
     } = useForm({
         live_at: shared.live_at,
         available: shared.available,
+        address_1: shared.address.address_1,
+        address_2: shared.address.address_2,
+        area: shared.address.area,
+        city: shared.address.city,
+        post_code: shared.address.post_code,
+        lat: shared.address.lat,
+        long: shared.address.long,
+        display_name: shared.address.display_name,
     });
 
     const showImage = () => {
@@ -48,6 +62,12 @@ const Show = (props) => {
 
     const closeDeleteModal = () => {
         setOpenDeletePropertyModal(false);
+
+        reset();
+    };
+
+    const closeUpdateAddressModal = () => {
+        setOpenUpdateAddressModal(false);
 
         reset();
     };
@@ -83,6 +103,17 @@ const Show = (props) => {
         });
     };
 
+    const updateAddress = (e) => {
+        e.preventDefault();
+
+        put(route("address.update", ["room", shared.id]), {
+            onSuccess: () => {
+                closeUpdateAddressModal();
+            },
+            onFinish: () => reset(),
+        });
+    };
+
     const deleteProperty = (e) => {
         e.preventDefault();
 
@@ -97,6 +128,40 @@ const Show = (props) => {
             top: position,
             behavior: "smooth",
         });
+    };
+
+    const handleSelectedAddress = (e, selectedAddress) => {
+        e.preventDefault();
+        setData({
+            address_1: selectedAddress.address.name,
+            city: selectedAddress.address.state,
+            area: selectedAddress.address.suburb
+                ? selectedAddress.address.suburb
+                : selectedAddress.address.city,
+            post_code: selectedAddress.address.postcode,
+            lat: selectedAddress.lat,
+            long: selectedAddress.lon,
+            display_name: selectedAddress.display_name,
+        });
+    };
+
+    const getAddresses = (search) => {
+        if (search) {
+            const url = new URL("http://roomup.test/api/autocomplete");
+            url.searchParams.set("query", search);
+            axios
+                .get(url, {
+                    headers: {
+                        "X-CSRF-TOKEN": csrf_token,
+                    },
+                })
+                .then(function (response) {
+                    setSearchResults(response.data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
     };
 
     return (
@@ -181,6 +246,213 @@ const Show = (props) => {
                                 disabled={processing}
                             >
                                 Update Availability
+                            </PrimaryButton>
+                        </div>
+                    </form>
+                </Modal>
+                <Modal
+                    show={openUpdateAddressModal}
+                    onClose={closeUpdateAddressModal}
+                >
+                    <form onSubmit={updateAddress} className="p-6">
+                        <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            Update address of your property
+                        </h2>
+
+                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                            <AiOutlineSearch className="w-7 h-7" />
+                            <DebounceInput
+                                value={search}
+                                minLength={1}
+                                debounceTimeout={500}
+                                onChange={(e) => {
+                                    getAddresses(e.target.value);
+                                    setSearch(e.target.value);
+                                }}
+                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                                placeholder="Efterpis, Cholargos..."
+                            />
+                            <button
+                                onClick={() => {
+                                    setSearch("");
+                                    getAddresses("");
+                                }}
+                                className="absolute top-5 right-5"
+                            >
+                                <AiOutlineClose size={28} />
+                            </button>
+                        </div>
+                        {search.length >= 2 &&
+                            (searchResults?.length > 0 ? (
+                                <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
+                                    <ul>
+                                        {searchResults.map((address, index) => (
+                                            <li className="border-b border-gray-200">
+                                                <button
+                                                    onClick={(e) => {
+                                                        setSelectedAddress(
+                                                            address
+                                                        );
+                                                        handleSelectedAddress(
+                                                            e,
+                                                            address
+                                                        );
+                                                    }}
+                                                    key={index}
+                                                    className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
+                                                >
+                                                    <span className="ml-4">
+                                                        {address.display_name}
+                                                    </span>
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ) : (
+                                <div className="px-3 py-3">
+                                    No results for "{search}"
+                                </div>
+                            ))}
+
+                        <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
+                            <div className="relative md:col-span-3">
+                                <input
+                                    type="text"
+                                    id="address_1"
+                                    placeholder="Address Line 1"
+                                    value={data.address_1}
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    autoComplete="off"
+                                    disabled={true}
+                                />
+                                <label
+                                    htmlFor="address_1"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                >
+                                    Address Line 1
+                                </label>
+                                {errors.address_1 && (
+                                    <InputError
+                                        message={errors.address_1}
+                                        className="mt-2"
+                                    />
+                                )}
+                            </div>
+
+                            <div className="relative md:col-span-2">
+                                <input
+                                    type="text"
+                                    name="address_2"
+                                    id="address_2"
+                                    placeholder="Address Line 2"
+                                    value={data.address_2}
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    autoComplete="off"
+                                    disabled={true}
+                                />
+                                <label
+                                    htmlFor="address_2"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                >
+                                    Address Line 2
+                                </label>
+                                {errors.address_2 && (
+                                    <InputError
+                                        message={errors.address_2}
+                                        className="mt-2"
+                                    />
+                                )}
+                            </div>
+
+                            <div className="relative mt-5 md:col-span-2">
+                                <input
+                                    type="text"
+                                    name="city"
+                                    id="city"
+                                    placeholder="City"
+                                    value={data.city}
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    autoComplete="off"
+                                    disabled={true}
+                                />
+                                <label
+                                    htmlFor="city"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                >
+                                    City
+                                </label>
+
+                                {errors.city && (
+                                    <InputError
+                                        message={errors.city}
+                                        className="mt-5"
+                                    />
+                                )}
+                            </div>
+
+                            <div className="relative mt-5 md:col-span-2">
+                                <input
+                                    type="text"
+                                    name="area"
+                                    id="area"
+                                    placeholder="Area"
+                                    value={data.area}
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    autoComplete="off"
+                                    disabled={true}
+                                />
+                                <label
+                                    htmlFor="area"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                >
+                                    Area
+                                </label>
+
+                                {errors.area && (
+                                    <InputError
+                                        message={errors.area}
+                                        className="mt-5"
+                                    />
+                                )}
+                            </div>
+
+                            <div className="relative mt-5 md:col-span-1">
+                                <input
+                                    type="text"
+                                    name="post_code"
+                                    id="post_code"
+                                    placeholder="Post Code"
+                                    value={data.post_code}
+                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                    autoComplete="off"
+                                    disabled={true}
+                                />
+                                <label
+                                    htmlFor="post_code"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                >
+                                    TK
+                                </label>
+                                {errors.post_code && (
+                                    <InputError
+                                        message={errors.post_code}
+                                        className="mt-5"
+                                    />
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end mt-6">
+                            <SecondaryButton onClick={closeUpdateAddressModal}>
+                                Cancel
+                            </SecondaryButton>
+
+                            <PrimaryButton
+                                className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
+                                disabled={processing}
+                            >
+                                Update Address
                             </PrimaryButton>
                         </div>
                     </form>
@@ -318,6 +590,16 @@ const Show = (props) => {
                                                     </h2>
                                                 </div>
                                             )}
+                                            <button
+                                                onClick={() =>
+                                                    setOpenDeletePropertyModal(
+                                                        true
+                                                    )
+                                                }
+                                                className="ml-2 text-red-800 hover:underline"
+                                            >
+                                                Delete Property
+                                            </button>
                                         </span>
                                     </div>
                                     <div className="grid col-start-1 col-end-3 row-start-1 gap-4 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0">
@@ -376,13 +658,14 @@ const Show = (props) => {
                                         >
                                             Manage availability
                                         </button>
+
                                         <PrimaryButton
                                             onClick={() =>
-                                                setOpenDeletePropertyModal(true)
+                                                setOpenUpdateAddressModal(true)
                                             }
-                                            className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-white bg-black rounded-lg"
+                                            className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-black border-2 border-black rounded-lg hover:text-white hover:bg-black"
                                         >
-                                            Delete Property
+                                            Update Address
                                         </PrimaryButton>
                                     </div>
                                     <p className="col-start-1 mt-4 text-sm leading-6 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
