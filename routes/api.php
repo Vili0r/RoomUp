@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\HeaderFilterController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PropertyViewedController;
@@ -64,8 +65,12 @@ $middleware = ['api'];
 if (Request::header('Authorization')) 
    $middleware = array_merge(['auth:sanctum']);
 Route::group(['middleware' => $middleware], function () {
+    //Home search controller for SearchScreen
     Route::get('home-search', SearchController::class);
+    
+    Route::get('/header-filter', HeaderFilterController::class);
 });
 
+//Single Property Detail Controller
 Route::get('/property/{model}/{id}', SinglePropertyController::class)
     ->where('model', 'room|flat');

@@ -16,7 +16,7 @@ class ToggleFavouriteController extends Controller
         if ($model === "room"){
             $request->user()->favouriteRooms()->toggle([$id]);
         } elseif ($model === "flat") {
-            $request->user()->favouriteShareds()->toggle([$id]);
+            $request->user()->favouriteFlats()->toggle([$id]);
         }
 
         return response()->noContent();
