@@ -4,9 +4,16 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Api\Conversation\ConversationController;
+use App\Http\Controllers\Api\Conversation\ConversationReplyController;
+use App\Http\Controllers\Api\Conversation\ShowConversationController;
+use App\Http\Controllers\Api\Message\CreateMessageController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\HeaderFilterController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\Message\MessageController;
+use App\Http\Controllers\Api\Message\StoreMessageController;
+use App\Http\Controllers\Api\MyPropertiesController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PropertyViewedController;
 use App\Http\Controllers\Api\SearchController;
@@ -50,7 +57,22 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     //Toggle Favourite Controller
     Route::post('/favourite/{model}/{id}', ToggleFavouriteController::class)
-    ->where('model', 'room|flat');
+        ->where('model', 'room|flat');
+
+    //My Properties Controller
+    Route::get('my-properties', MyPropertiesController::class);
+
+    //Message Controller
+    Route::get('/message', MessageController::class);
+    Route::get('/message/create', CreateMessageController::class);
+    Route::post('/message/store', StoreMessageController::class);
+
+    //Conversation Controller
+    Route::get('/conversation', ConversationController::class);
+    Route::get('/conversation/{conversation}', ShowConversationController::class);
+
+    //Conversation reply controller
+    Route::post('/conversation/{conversation}/reply', ConversationReplyController::class);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);

@@ -1,74 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Message;
 
-use App\Events\ConversationCreated;
-use App\Http\Resources\MessageResource;
-use App\Http\Resources\PropertyMessageResource;
-use App\Http\Resources\Roommate\RoommateMessageResource;
+use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Room;
 use App\Models\Roommate;
-use App\Notifications\PropertyMessageNotification;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Inertia\Inertia;
-use Inertia\Response;
+use App\Notifications\PropertyMessageNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Events\ConversationCreated;
 
-class MessageController extends Controller
+class StoreMessageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Handle the incoming request.
      */
-    public function index(): Response
-    {
-        $messages = Message::with(['owner'])
-            ->where('receiver_id', auth()->id())
-            ->orWhere('user_id', auth()->id())
-            ->latest()
-            ->paginate(5);
-        
-        return Inertia::render('Message/Index',[
-            'messages' => MessageResource::collection($messages)
-        ]);
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request): Response 
-    {
-        if ($request->type == 'flat') {
-            $property = Flat::findOrFail($request->id);
-            $property->load(['address', 'advertiser']);
-            
-            return Inertia::render('Message/Create',[
-                'property' => new PropertyMessageResource($property),
-            ]);
-        } elseif ($request->type == 'room') {
-            $property = Room::findOrFail($request->id);
-            $property->load(['owner.address', 'owner.advertiser']);
-
-            return Inertia::render('Message/Create',[
-                'property' => new PropertyMessageResource($property),
-            ]);
-        } elseif ($request->type == 'roommate') {
-            $roommate = Roommate::findOrFail($request->id);
-            $roommate->load('advertiser');
-
-            return Inertia::render('Message/Create',[
-                'property' => new RoommateMessageResource($roommate),
-            ]);
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function __invoke(Request $request)
     {
         $request->validate([
             'full_name' => ['string', 'required', 'max:255'],
@@ -93,13 +43,13 @@ class MessageController extends Controller
 
         //Save message because we need to throttle them to avoid spams
 
-        $sentMessages = Message::where('user_id', auth()->id())
+        $sentMessages = Message::where('user_id', $request->user()->id)
             ->where('created_at', '>', now()->subMinute())
             ->count();
 
         if($sentMessages < 5) {
             $text = $property->messages()->create([
-                'user_id' => auth()->id(),
+                'user_id' => $request->user()->id,
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'message_text' => $request->message_text,
@@ -108,8 +58,8 @@ class MessageController extends Controller
             ]);
 
             $message = [
-                'name' => auth()->user()->name,
-                'email' => auth()->user()->email,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
                 'propertyTitle' => $property->title,
                 'messageText' => $request->message_text,              
             ];
@@ -123,14 +73,14 @@ class MessageController extends Controller
             $conversation = Conversation::create([
                 'body' => $request->message_text,
                 'message_id' => $text->id,
-                'user_id' => auth()->id(),
+                'user_id' => $request->user()->id,
             ]);
 
-            $conversation->user()->associate(auth()->user());
+            $conversation->user()->associate($request->user());
             $conversation->touchLastReply();
 
             $conversation->users()->sync(array_unique(
-                array_merge([$propertyUserId], [auth()->id()])
+                array_merge([$propertyUserId], [$request->user()->id])
             ));
 
             $conversation->load(['users']);
@@ -138,14 +88,6 @@ class MessageController extends Controller
             broadcast(new ConversationCreated($conversation))->toOthers();
         }
 
-        return to_route('dashboard');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Message $message)
-    {
-        //
+        return response()->json("Message created successfully", 200);
     }
 }

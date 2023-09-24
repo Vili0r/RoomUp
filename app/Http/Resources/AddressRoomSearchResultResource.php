@@ -17,6 +17,8 @@ class AddressRoomSearchResultResource extends JsonResource
         return [
             'address_1' => $this->address_1,
             'area' => $this->area, 
+            'lat' => $this->lat, 
+            'long' => $this->long, 
         ];
     }
 }

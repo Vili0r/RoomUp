@@ -17,6 +17,9 @@ class AddressSinglePropertyResource extends JsonResource
         return [
             'address_1' => $this->address_1,
             'city' => $this->city,
+            'area' => $this->area,
+            'lat' => $this->lat,
+            'long' => $this->long,
         ];
     }
 }

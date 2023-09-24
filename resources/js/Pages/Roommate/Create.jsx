@@ -204,10 +204,14 @@ const Create = (props) => {
         const responseObject = JSON.parse(response);
         const fileValue = responseObject.file;
 
-        const existingImages = data.images;
-        const updatedImages = existingImages.concat(fileValue);
+        if (data.images) {
+            const existingImages = data.images;
+            const updatedImages = existingImages.concat(fileValue);
 
-        setData("images", updatedImages);
+            setData("images", updatedImages);
+        } else {
+            setData("images", [fileValue]);
+        }
         return response;
     };
 
