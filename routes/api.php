@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Conversation\ConversationReplyController;
 use App\Http\Controllers\Api\Conversation\ShowConversationController;
 use App\Http\Controllers\Api\Message\CreateMessageController;
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\FlatController;
 use App\Http\Controllers\Api\HeaderFilterController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\Message\MessageController;
@@ -16,7 +17,10 @@ use App\Http\Controllers\Api\Message\StoreMessageController;
 use App\Http\Controllers\Api\MyPropertiesController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\PropertyViewedController;
+use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\RoommateController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\SharedController;
 use App\Http\Controllers\Api\SinglePropertyController;
 use App\Http\Controllers\Api\ToggleFavouriteController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +77,16 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Conversation reply controller
     Route::post('/conversation/{conversation}/reply', ConversationReplyController::class);
+
+    //Api Resource Controller
+    Route::apiResource('/flats', FlatController::class)
+        ->except(['index', 'create']);
+    Route::apiResource('/shareds', SharedController::class)
+        ->except(['index', 'create']);
+    Route::apiResource('/rooms', RoomController::class)
+        ->only(['edit', 'update', 'destroy']);
+    Route::apiResource('/roommate', RoommateController::class)
+        ->except(['index', 'create']);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);

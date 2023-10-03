@@ -29,7 +29,7 @@ class ShowConversationController extends Controller
         $conversations->load(['user', 'message.owner', 'message.user']);
 
         return response()->json([
-            'getConversation' => new ConversationResource($conversation),
+            'singleConversation' => new ConversationResource($conversation),
             'conversations' => ConversationsPerUserResource::collection($conversations)
         ]);
     }

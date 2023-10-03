@@ -5,8 +5,7 @@ const supportedFormats = ["image/jpeg", "image/png", "image/jpg"];
 
 const stepOneSchema = yup.object().shape({
     address_1: yup.string().max(30).required("Address is required"),
-    city: yup.string().max(20).required("City is required"),
-    area: yup.string().max(20).required("Area is required"),
+    city: yup.string().max(30).required("City is required"),
     post_code: yup
         .string()
         .max(7, "Post code must have maximum six characters")
@@ -19,6 +18,7 @@ const stepOneSchema = yup.object().shape({
 const stepTwoSchema = yup.object().shape({
     size: yup.string().required("Size is required"),
     type: yup.string().required("Type is required"),
+    furnished: yup.string().required("Furnishing is required"),
     what_i_am: yup.string().required("Who i am is required"),
     cost: yup
         .number()
@@ -39,7 +39,7 @@ const stepThreeSchema = yup.object().shape({
         .typeError("Available from must be a date")
         .min(new Date(), "Available from date must be in the future")
         .required("Available from date is required"),
-    furnished: yup.string().required("Room furnished is required"),
+    // furnished: yup.string().required("Room furnished is required"),
     minimum_stay: yup.string().required("Minimum stay is required"),
     maximum_stay: yup
         .string()

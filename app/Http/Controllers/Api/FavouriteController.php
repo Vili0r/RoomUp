@@ -56,7 +56,7 @@ class FavouriteController extends Controller
             'views' => $roommate->views(),
         ]);
 
-        $properties = collect()->merge($flats)->merge($rooms)->merge($roommates)->sortByDesc('created_at')->values()->paginate(3);
+        $properties = collect()->merge($flats)->merge($rooms)->merge($roommates)->sortByDesc('created_at')->values()->paginate(10);
 
         return $properties;
     }

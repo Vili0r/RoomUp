@@ -103,7 +103,6 @@ Route::resource('/blogs.comments', BlogCommentController::class)
     ->only(['index', 'store']);
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
-
     //Dashboard controller
     Route::get('/dashboard', DashboardController::class)
         ->name('dashboard');

@@ -36,7 +36,7 @@ enum MaximumStay: int
             self::Eight_months => '8 months', 
             self::Nine_months => '9 months', 
             self::Ten_months => '10 months', 
-            self::Eleven_months => '10 months', 
+            self::Eleven_months => '11 months', 
             self::One_year => '1 year', 
             self::More_than_one_year => '>1', 
             self::Two_years => '2 years', 

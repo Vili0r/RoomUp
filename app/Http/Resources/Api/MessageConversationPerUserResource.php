@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Api;
 
+use App\Http\Resources\UserConversationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,14 @@ class MessageConversationPerUserResource extends JsonResource
                 'receiver' => $this->whenLoaded('user', function () {
                     return new UserConversationResource($this->owner->user);
                 }),
+                'address_1' => $this->owner_type === "App\Models\Room" ? 
+                        $this->owner->owner->address->address_1 : (
+                        $this->owner->address ? $this->owner->address->address_1 : $this->owner->city
+                    ),
+                'area' => $this->owner_type === "App\Models\Room" ? 
+                        $this->owner->owner->address->area : (
+                        $this->owner->address ? $this->owner->address->area : $this->owner->area
+                    ),
             ],
         ];
     }

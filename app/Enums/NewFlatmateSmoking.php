@@ -11,7 +11,7 @@ enum NewFlatmateSmoking: int
     {
         return match($this) {
             self::No_preference  => 'No preference', 
-            self::No => 'no', 
+            self::No => 'No', 
         };
     }
 }

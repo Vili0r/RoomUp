@@ -121,7 +121,7 @@ const Index = (props) => {
                                         <h2 className="pr-20 font-semibold text-slate-900">
                                             {item.user_id === props.auth.user.id
                                                 ? item.message.owner.receiver
-                                                      .first_name
+                                                      ?.first_name
                                                 : item.sender.first_name}
                                         </h2>
                                         <dl className="flex flex-wrap text-sm font-medium leading-6">
@@ -189,7 +189,7 @@ const Index = (props) => {
                                                         props.auth.user.id ? (
                                                             <div className="col-start-1 col-end-8 mt-2 rounded-lg">
                                                                 <div className="flex flex-row items-center">
-                                                                    <div className="flex items-center justify-center flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
+                                                                    <div className="flex items-center justify-center uppercase flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
                                                                         {singleConversation.user_id ===
                                                                         props
                                                                             .auth

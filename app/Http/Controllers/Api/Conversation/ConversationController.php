@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Conversation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\ConversationsPerUserResource;
+use App\Http\Resources\Api\ConversationsPerUserResource;
 
 class ConversationController extends Controller
 {
