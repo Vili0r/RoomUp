@@ -26,10 +26,6 @@ export default function Authenticated({ auth, children }) {
         setShowMenu(false);
     }
 
-    const showAvatar = () => {
-        return "/storage/";
-    };
-
     useEffect(() => {
         const main = document.querySelector("main");
         showMenu
@@ -59,7 +55,7 @@ export default function Authenticated({ auth, children }) {
                                 src={
                                     auth.user.avatar !==
                                     "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
-                                        ? showAvatar() + auth.user.avatar
+                                        ? auth.user.avatar
                                         : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                 }
                                 alt=""

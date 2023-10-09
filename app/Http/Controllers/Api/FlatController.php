@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Flat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\TemporaryImage;
+use Carbon\Carbon;
 
 class FlatController extends Controller
 {
@@ -62,26 +62,15 @@ class FlatController extends Controller
             'images' => ['required', 'array'],
         ]);
        
-        $images = [];
-        if (!empty($request->images)) {
-            foreach ($request->images as $image) {
-                $image_path = 'images/' . $image;
-
-                //Copying the temporary image in a new permanent folder
-                Storage::copy('public/image/' . $image, $image_path);
-                
-                //Adding the new images to the existing images array
+        if ($request->hasFile('images')) {
+            $images = [];
+            foreach ($data['images'] as $image) {
+                $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image_path =  $image->storeAs('images', $fileName, 'public');
                 array_push($images, $image_path);
-                
-                //Deleting the temporary images from public/images
-                Storage::delete('public/image/' . $image);
-
-                //Deleting the temporary from database
-                $temporaryImage = TemporaryImage::where('file', $image)->first();
-                $temporaryImage->delete();
+                $data['images'] = $images;
             }
         }
-        $data['images'] = $images;
 
         $flat = auth()->user()->flats()->create($data);
 
@@ -124,8 +113,9 @@ class FlatController extends Controller
             'new_flatmate_hobbies' => $request->new_flatmate_hobbies,
         ]);
 
+        $carbonDate = Carbon::parse($request->available_from);
         $flat->availability()->create([
-            'available_from' => $request->available_from,
+            'available_from' => $carbonDate->format('Y-m-d'),
             'minimum_stay' => $request->minimum_stay,
             'maximum_stay' => $request->maximum_stay,
             'days_available' => $request->days_available,

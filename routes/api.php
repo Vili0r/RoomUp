@@ -22,7 +22,9 @@ use App\Http\Controllers\Api\RoommateController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SharedController;
 use App\Http\Controllers\Api\SinglePropertyController;
+use App\Http\Controllers\Api\TemporaryImageUploadController;
 use App\Http\Controllers\Api\ToggleFavouriteController;
+use App\Http\Controllers\Api\UpdateProfilePhotoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -49,6 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/profile', [ProfileController::class, 'edit']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy']);
+    Route::post('/profile-photo', UpdateProfilePhotoController::class);
     
     //Route to get all favourites' properties
     Route::get('/favourites', FavouriteController::class);
@@ -87,6 +90,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         ->only(['edit', 'update', 'destroy']);
     Route::apiResource('/roommate', RoommateController::class)
         ->except(['index', 'create']);
+    
+    //Temporary image upload - FilePond
+    Route::post('/upload', TemporaryImageUploadController::class);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);

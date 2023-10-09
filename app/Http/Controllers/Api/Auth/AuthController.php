@@ -53,9 +53,12 @@ class AuthController extends Controller
         ],['birthdate.before' => 'You should be more than 18 years old']);
 
         if($request->hasFile('avatar')){
-            $avatar = $request->file('avatar')->store('avatars', 'public');
+            $file = $request->file('avatar');
+            $filename = uniqid() . "_" . $file->getClientOriginalName();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $url = 'uploads/avatars/' . $filename;
         } else {
-            $avatar = 'https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp';
+            $url = 'https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp';
         }
 
         $user = User::create([
@@ -66,7 +69,7 @@ class AuthController extends Controller
             'gender' => $request->gender,
             'birthdate' => $request->birthdate,
             'looking_for' => $request->looking_for,
-            'avatar' => $avatar,
+            'avatar' => $url,
         ]);
 
         return response()->json($user, 201);
