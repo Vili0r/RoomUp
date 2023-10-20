@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::apiResource('/roommate', RoommateController::class)
         ->except(['index', 'create']);
     
-    //Temporary image upload - FilePond
+    //Temporary image upload
     Route::post('/upload', TemporaryImageUploadController::class);
 });
 //Auth related routes

@@ -13,24 +13,21 @@ class TemporaryImageUploadController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if($request->hasFile('images')){
-           
-            $request->validate([
-                'images' => ['required', 'file', 'image'],
+        $images = [];
+         if($request->hasFile('images')){
+            $data = $request->validate([
+                'images' => 'required|array'
             ]);
-            
-            $request->file('images')->store('public/image');
-    
-            $uploadedFile = $request->file('images');
-    
-            $image = TemporaryImage::create([
-                'folder' => $uploadedFile->extension(),
-                'file' => $uploadedFile->hashName(),
-            ]);
-
-            return $image;
-        }
-        
+            foreach ($data['images'] as $image) {
+                $image_path =  $image->store('public/image');
+                $images[] = $image_path;
+                TemporaryImage::create([
+                    'folder' => 'png',
+                    'file' => $image_path,
+                ]);
+            }      
+            return $images;
+        }   
         return '';
     }
 }

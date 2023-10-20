@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Flat;
+use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -59,22 +60,27 @@ class FlatController extends Controller
             'featured' => ['sometimes'],
             'available' => ['sometimes'],
             'user_id' => ['sometimes'],
-            'images' => ['required', 'array'],
+            'images' => ['required'],
         ]);
        
-        if ($request->hasFile('images')) {
-            $images = [];
-            foreach ($data['images'] as $image) {
-                $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-                $image_path =  $image->storeAs('images', $fileName, 'public');
-                array_push($images, $image_path);
-                $data['images'] = $images;
+        $images = [];
+        if (!empty($request->images)) {
+            foreach ($request->images as $image) {
+                //Adding the new images to the existing images array
+                array_push($images, $image);
+            
+                //Deleting the temporary from database
+                $temporaryImage = TemporaryImage::where('file', $image)->first();
+                $temporaryImage->delete();
             }
         }
+        $data['images'] = $images;
 
         $flat = auth()->user()->flats()->create($data);
 
-        $flat->amenities()->attach($request->input('amenities.*.id'));
+        foreach ($request->input('amenities') as $amenityId) {
+            $flat->amenities()->attach($amenityId);
+        }
         
         $flat->address()->create([
             'address_1' => $request->address_1,
