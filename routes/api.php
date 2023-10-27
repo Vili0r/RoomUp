@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Api\AvailabilityController;
 use App\Http\Controllers\Api\Conversation\ConversationController;
 use App\Http\Controllers\Api\Conversation\ConversationReplyController;
 use App\Http\Controllers\Api\Conversation\ShowConversationController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Api\SinglePropertyController;
 use App\Http\Controllers\Api\TemporaryImageUploadController;
 use App\Http\Controllers\Api\ToggleFavouriteController;
 use App\Http\Controllers\Api\UpdateProfilePhotoController;
+use App\Http\Controllers\Api\FlatDeletePhotoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -83,9 +85,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Api Resource Controller
     Route::apiResource('/flats', FlatController::class)
-        ->except(['index', 'create']);
+        ->only(['store', 'edit', 'update', 'destroy']);
     Route::apiResource('/shareds', SharedController::class)
-        ->except(['index', 'create']);
+        ->only(['store', 'edit', 'update', 'destroy']);
     Route::apiResource('/rooms', RoomController::class)
         ->only(['edit', 'update', 'destroy']);
     Route::apiResource('/roommate', RoommateController::class)
@@ -93,6 +95,16 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     //Temporary image upload
     Route::post('/upload', TemporaryImageUploadController::class);
+
+    //Route to update property availability
+    Route::put('/availability/{model}/{id}', AvailabilityController::class)
+        ->where('model', 'room|flat');
+
+    //Route to delete photos
+    Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoController::class);
+    // Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class);
+    // Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class);
+    // Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);

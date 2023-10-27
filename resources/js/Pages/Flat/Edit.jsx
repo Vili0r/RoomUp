@@ -123,7 +123,6 @@ const Edit = (props) => {
     useEffect(() => {
         let timer;
 
-        console.log("rendering");
         if (notification !== null) {
             setVisible(true);
             timer = setTimeout(() => {

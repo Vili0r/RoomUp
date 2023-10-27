@@ -26,6 +26,8 @@ class FlatResource extends JsonResource
             'deposit' => $this->deposit,
             'what_i_am' => $this->what_i_am,
             'furnished' => $this->furnished,
+            'available' => $this->available,
+            'live_at' => $this->live_at ? $this->live_at->format('d-m-Y') : null,
             'images' => $this->images,
             'amenities' => AmenitiesResource::collection($this->whenLoaded('amenities')),
             'address' => $this->whenLoaded('address', function () {

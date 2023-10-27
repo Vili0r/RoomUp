@@ -8,6 +8,7 @@ use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Http\Resources\FlatResource;
 
 class FlatController extends Controller
 {
@@ -142,9 +143,17 @@ class FlatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Flat $flat)
+    public function edit(Request $request, Flat $flat)
     {
-        //
+        if ($request->user()->id !== $flat->user_id) {
+            abort(403); // Return a forbidden response
+        }
+
+        $flat->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'availability']);
+
+        return response()->json([
+            'flat' => new FlatResource($flat),
+        ]);
     }
 
     /**
@@ -232,7 +241,7 @@ class FlatController extends Controller
             'featured' => ['sometimes'],
             'available' => ['sometimes'],
             'user_id' => ['sometimes'],
-            'images' => ['sometimes', 'max:9'],
+            'images' => ['sometimes'],
         ]);
        
         //Creating empty array
@@ -241,17 +250,9 @@ class FlatController extends Controller
         $images = $flat->images;
         if (!empty($request->images)) {
             foreach ($request->images as $image) {
-                $image_path = 'images/' . $image;
-
-                //Copying the temporary image in a new permanent folder
-                Storage::copy('public/image/' . $image, $image_path);
-                
                 //Adding the new images to the existing images array
-                array_push($images, $image_path);
-                
-                //Deleting the temporary images from public/images
-                Storage::delete('public/image/' . $image);
-
+                array_push($images, $image);
+            
                 //Deleting the temporary from database
                 $temporaryImage = TemporaryImage::where('file', $image)->first();
                 $temporaryImage->delete();
@@ -264,7 +265,18 @@ class FlatController extends Controller
         //Updating Flat
         $flat->update($data);
 
-        $flat->amenities()->sync($request->input('amenities.*.id'));
+        $flat->amenities()->sync($request->input('amenities'));
+
+        $flat->address()->update([
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
+            'area' => $request->area,
+            'city' => $request->city,
+            'post_code' => $request->post_code,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'display_name' => $request->display_name,
+        ]);
        
         $flat->advertiser()->update([
             'first_name' => $request->first_name,
@@ -292,15 +304,16 @@ class FlatController extends Controller
             'new_flatmate_hobbies' => $request->new_flatmate_hobbies,
         ]);
 
+        $carbonDate = Carbon::parse($request->available_from);
         $flat->availability()->update([
-            'available_from' => $request->available_from,
+            'available_from' => $carbonDate->format('Y-m-d'),
             'minimum_stay' => $request->minimum_stay,
             'maximum_stay' => $request->maximum_stay,
             'days_available' => $request->days_available,
             'short_term' => $request->short_term == null ? 0 : 1,
         ]);
 
-        return response()->json('Flat added successfully', 200);
+        return response()->json('Flat updated successfully', 201);
     }
 
     /**
