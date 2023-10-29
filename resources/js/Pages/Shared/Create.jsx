@@ -180,12 +180,6 @@ const Create = (props) => {
                     break;
             }
 
-            // if (schema === stepTwoSchema) {
-            //     const isValid = await validateGeolocation();
-            //     if (!isValid) {
-            //         return;
-            //     }
-            // } else
             if (schema === stepThreeSchema) {
                 const isValid = await validateDynamicInputs();
                 if (!isValid) {

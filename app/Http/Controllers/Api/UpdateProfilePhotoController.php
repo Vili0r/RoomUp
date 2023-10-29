@@ -35,6 +35,7 @@ class UpdateProfilePhotoController extends Controller
         $user->save();
         
         return response()->json([
+            'avatar' => $url,
             'success' => true,
             'message' => 'Upload and move success',
         ]);
