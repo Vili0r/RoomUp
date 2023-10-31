@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\TemporaryImageUploadController;
 use App\Http\Controllers\Api\ToggleFavouriteController;
 use App\Http\Controllers\Api\UpdateProfilePhotoController;
 use App\Http\Controllers\Api\FlatDeletePhotoController;
+use App\Http\Controllers\Api\SharedDeletePhotoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -102,7 +103,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Route to delete photos
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoController::class);
-    // Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class);
+    Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class);
     // Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class);
     // Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class);
 });
