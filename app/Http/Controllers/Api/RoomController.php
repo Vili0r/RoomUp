@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\TemporaryImage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -66,6 +67,9 @@ class RoomController extends Controller
         }
 
         $data['images'] = $images;
+        
+        $carbonDate = Carbon::parse($request->available_from);
+        $data['available_from'] = $carbonDate->format('Y-m-d');
 
         $room->update($data);
     }

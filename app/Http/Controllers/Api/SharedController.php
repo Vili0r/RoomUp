@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\TemporaryImage;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\SharedEditResource;
+use App\Http\Resources\Api\SharedEditResource;
 use App\Http\Resources\SharedShowResource;
 use App\Models\Room;
 
