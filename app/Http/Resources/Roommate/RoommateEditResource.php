@@ -24,6 +24,8 @@ class RoommateEditResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'budget' => $this->budget,
+            'available' => $this->available,
+            'live_at' => $this->live_at,
             'searching_for' => $this->searching_for,
             'room_size' => $this->room_size,
             'age' => $this->age,

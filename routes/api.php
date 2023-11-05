@@ -28,6 +28,8 @@ use App\Http\Controllers\Api\ToggleFavouriteController;
 use App\Http\Controllers\Api\UpdateProfilePhotoController;
 use App\Http\Controllers\Api\FlatDeletePhotoController;
 use App\Http\Controllers\Api\RoomDeletePhotoController;
+use App\Http\Controllers\Api\RoommateAvailabilityController;
+use App\Http\Controllers\Api\RoommateDeletePhotoController;
 use App\Http\Controllers\Api\SharedDeletePhotoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
@@ -93,7 +95,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::apiResource('/rooms', RoomController::class)
         ->only(['edit', 'update', 'destroy']);
     Route::apiResource('/roommates', RoommateController::class)
-        ->except(['index', 'create']);
+        ->only(['index', 'store', 'edit', 'update', 'destroy']);
     
     //Temporary image upload
     Route::post('/upload', TemporaryImageUploadController::class);
@@ -101,12 +103,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     //Route to update property availability
     Route::put('/availability/{model}/{id}', AvailabilityController::class)
         ->where('model', 'room|flat');
+    Route::put('/availability/roommate/{id}', RoommateAvailabilityController::class);
 
     //Route to delete photos
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoController::class);
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class);
     Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class);
-    // Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class);
+    Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);

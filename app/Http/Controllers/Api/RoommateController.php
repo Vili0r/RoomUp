@@ -232,7 +232,7 @@ class RoommateController extends Controller
             'amenities' => ['required', 'array', 'min:1'],
             'area' => ['required'],
             'city' => ['required'],
-            'images' => ['sometimes', 'array'],
+            'images' => ['sometimes'],
         ], [
             'searching_for.required' => 'The searching for field is required',
             'room_size.required' => 'The room size field is required',
