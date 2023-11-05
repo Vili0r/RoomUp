@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         ->only(['store', 'edit', 'update', 'destroy']);
     Route::apiResource('/rooms', RoomController::class)
         ->only(['edit', 'update', 'destroy']);
-    Route::apiResource('/roommate', RoommateController::class)
+    Route::apiResource('/roommates', RoommateController::class)
         ->except(['index', 'create']);
     
     //Temporary image upload
