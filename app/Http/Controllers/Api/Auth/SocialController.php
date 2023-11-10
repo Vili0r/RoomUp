@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Social;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Social;
 
 class SocialController extends Controller
 {
-    public function redirect($provider)
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request, string $provider)
     {
-        return Socialite::driver($provider)->redirect();    
-    }
-    
-    public function callback($provider)
-    {
-        $socialUser = Socialite::driver($provider)->stateless()->user();
+        $socialUser = Socialite::driver($provider)->stateless()->userFromToken($request->token);
  
         //check if user exists
         $user = User::where('email', $socialUser->getEmail())->first();
@@ -56,10 +54,11 @@ class SocialController extends Controller
             ]);
         }
 
-        //login user
-        Auth::login($user);
- 
-        //redirect user
-        return redirect('/dashboard');
+        $token = $user->createToken($request->device_name)->plainTextToken;
+    
+        return response()->json([
+            'token' => $token,
+            'user' => $user->only('id', 'first_name', 'email', 'avatar'),
+        ], 201);
     }
 }

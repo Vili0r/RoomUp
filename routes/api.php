@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Api\Auth\SocialController;
 use App\Http\Controllers\Api\AvailabilityController;
 use App\Http\Controllers\Api\Conversation\ConversationController;
 use App\Http\Controllers\Api\Conversation\ConversationReplyController;
@@ -116,6 +117,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
+
+//Social related routes
+Route::post('/auth/{provider}/social-login', SocialController::class)
+    ->where('provider', 'google|facebook');
 
 //Route for both authenticated and non-authenticated user 
 //as fetching data based on the request->user()

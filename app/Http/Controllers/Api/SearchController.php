@@ -43,7 +43,6 @@ class SearchController extends Controller
             ->sortByDesc('created_at')
             ->paginate(4)
             ->appends($request->query());
-
       
         return $properties;
     }
