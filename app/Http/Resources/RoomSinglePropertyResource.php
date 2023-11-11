@@ -28,7 +28,8 @@ class RoomSinglePropertyResource extends JsonResource
             'days_available' =>  Str::replace('_', ' ', $this->days_available->name) ?? '',
             'short_term' => $this->short_term ? "Short term" : "Long term",
             'images' => $this->images !== null ? array_merge($this->owner->images, $this->images) : $this->owner->images,
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
+            'url' => route('property.show', ['room', $this->id]),
             'owner' => $this->whenLoaded('owner', function () {
                 return new RoomSharedResource($this->owner);
             }),

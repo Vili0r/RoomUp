@@ -42,7 +42,8 @@ class RoommateSinglePropertyResource extends JsonResource
             'availability' => $this->whenLoaded('availability', function () {
                 return new AvailabilitySinglePropertyResource($this->availability);
             }),
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
+            'url' => route('single.roommate.show', $this->id)
         ];
     }
 }

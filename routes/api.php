@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\RoomDeletePhotoController;
 use App\Http\Controllers\Api\RoommateAvailabilityController;
 use App\Http\Controllers\Api\RoommateDeletePhotoController;
 use App\Http\Controllers\Api\SharedDeletePhotoController;
+use App\Http\Controllers\Api\SingleRoommateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -139,3 +140,6 @@ Route::group(['middleware' => $middleware], function () {
 //Single Property Detail Controller
 Route::get('/property/{model}/{id}', SinglePropertyController::class)
     ->where('model', 'room|flat');
+
+//Get single roommate
+Route::get('/roommates/{roommate}/quest', SingleRoommateController::class);

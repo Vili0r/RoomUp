@@ -20,7 +20,7 @@ class AdvertiserResource extends JsonResource
             'display_last_name' => $this->display_last_name,
             'telephone' => $this->telephone,
             'display_telephone' => $this->display_telephone,
-            'initials' => substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1),
+            'initials' => $this->last_name ? substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1) : substr($this->first_name, 0, 1),
         ];
     }
 }

@@ -17,6 +17,7 @@ class RoommateSearchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'model' => 'roommate',
             'id' => $this->id,
             'title' => $this->title,
             'budget' => $this->budget,
@@ -24,7 +25,7 @@ class RoommateSearchResource extends JsonResource
             'area' => $this->area,
             'city' => $this->city,
             'images' => $this->images,
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
             'views' => $this->views(),
             'availability' => $this->whenLoaded('availability', function () {
                 return new AvailabilityFlatSearchResultResource($this->availability);

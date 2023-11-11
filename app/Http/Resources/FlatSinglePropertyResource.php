@@ -26,8 +26,9 @@ class FlatSinglePropertyResource extends JsonResource
             'what_i_am' => Str::replace('_', ' ', $this->what_i_am->name) ?? '',
             'furnished' => Str::replace('_', ' ', $this->furnished->name) ?? '',
             'images' => $this->images,
-            'favouritedBy' => $this->favouritedBy(auth()->user()),
+            'favouritedBy' => $this->favouritedBy($request->user()),
             'amenities' => AmenitiesResource::collection($this->whenLoaded('amenities')),
+            'url' => route('property.show', ['flat', $this->id]),
             'address' => $this->whenLoaded('address', function () {
                 return new AddressSinglePropertyResource($this->address);
             }),
