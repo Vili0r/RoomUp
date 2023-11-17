@@ -146,7 +146,8 @@ class Flat extends Model
             'address' => [
                 'id' => $this->address->id,
                 'address_1' => $this->address->address_1,
-                'address_2' => $this->address->address_2,
+                'lat' => $this->address->lat,
+                'long' => $this->address->long,
                 'area' => $this->address->area,
                 'city' => $this->address->city,
                 'post_code' => $this->address->post_code,

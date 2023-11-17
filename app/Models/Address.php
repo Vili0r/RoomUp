@@ -35,6 +35,8 @@ class Address extends Model
             'id' => $this->id,
             'address_1' => $this->address_1,
             'address_2' => $this->address_2,
+            'lat' => $this->lat,
+            'long' => $this->long,
             'area' => $this->area,
             'city' => $this->city,
             'post_code' => $this->post_code,

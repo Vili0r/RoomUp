@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AdvancedPropertySearchController;
+use App\Http\Controllers\Api\AdvancedRoommateSearchController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\Auth\PasswordController;
@@ -28,6 +30,7 @@ use App\Http\Controllers\Api\TemporaryImageUploadController;
 use App\Http\Controllers\Api\ToggleFavouriteController;
 use App\Http\Controllers\Api\UpdateProfilePhotoController;
 use App\Http\Controllers\Api\FlatDeletePhotoController;
+use App\Http\Controllers\Api\MapSearchController;
 use App\Http\Controllers\Api\RoomDeletePhotoController;
 use App\Http\Controllers\Api\RoommateAvailabilityController;
 use App\Http\Controllers\Api\RoommateDeletePhotoController;
@@ -72,7 +75,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     //Toggle Favourite Controller
     Route::post('/favourite/{model}/{id}', ToggleFavouriteController::class)
-        ->where('model', 'room|flat');
+        ->where('model', 'room|flat|roommate');
 
     //My Properties Controller
     Route::get('my-properties', MyPropertiesController::class);
@@ -129,17 +132,28 @@ $middleware = ['api'];
 if (Request::header('Authorization')) 
    $middleware = array_merge(['auth:sanctum']);
 Route::group(['middleware' => $middleware], function () {
+
     //Home search controller for SearchScreen
     Route::get('home-search', SearchController::class);
+   
+    //Map search based on coordinates
+    Route::post('map-search', MapSearchController::class);
+
     //Header filter controller
     Route::get('/header-filter', HeaderFilterController::class);
+
     // Autocomplete controller
     Route::get('/autocomplete', [LocationController::class, 'autocomplete']);
+
+    //Single Property Detail Controller
+    Route::get('/property/{model}/{id}', SinglePropertyController::class)
+        ->where('model', 'room|flat');
+
+    //Get single roommate
+    Route::get('/roommates/{roommate}/quest', SingleRoommateController::class);
+
+    //Advaced Search Controllers
+    Route::get('/search', AdvancedPropertySearchController::class);
+    Route::get('/roommate-search', AdvancedRoommateSearchController::class);
 });
 
-//Single Property Detail Controller
-Route::get('/property/{model}/{id}', SinglePropertyController::class)
-    ->where('model', 'room|flat');
-
-//Get single roommate
-Route::get('/roommates/{roommate}/quest', SingleRoommateController::class);

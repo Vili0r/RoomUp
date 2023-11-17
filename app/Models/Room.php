@@ -138,7 +138,8 @@ class Room extends Model
             'address' => [
                 'id' => $this->owner->address->id,
                 'address_1' => $this->owner->address->address_1,
-                'address_2' => $this->owner->address->address_2,
+                'lat' => $this->owner->address->lat,
+                'long' => $this->owner->address->long,
                 'area' => $this->owner->address->area,
                 'city' => $this->owner->address->city,
                 'post_code' => $this->owner->address->post_code,
