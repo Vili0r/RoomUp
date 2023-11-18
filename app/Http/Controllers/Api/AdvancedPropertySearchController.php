@@ -65,10 +65,21 @@ class AdvancedPropertySearchController extends Controller
    
             $results = RoomSearchResultResource::collection($query->paginate(6)->appends($request->query()));
         }
-
+     
         return response()->json([
-            'selectedPropertyQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
-            'results' => $results,
+            'selectedListingQueries' => (object) $request->query(),
+            'data' => $results,
+            'pagination' => [
+                'total' => $results->total(),
+                'count' => $results->count(),
+                'per_page' => $results->perPage(),
+                'current_page' => $results->currentPage(),
+                'total_pages' => $results->lastPage(),
+                'links' => [
+                    'prev' => $results->previousPageUrl(),
+                    'next' => $results->nextPageUrl(),
+                ],
+            ],
         ]);
     }
 
