@@ -35,7 +35,7 @@ class AdvancedRoommateSearchController extends Controller
         $results = RoommateSearchResource::collection($query->paginate(6)->appends($request->query()));
         
         return response()->json([
-            'selectedListingQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
+            'selectedRoommateQueries' => (object) $request->query(), //casting to object as we want an empty object if there is nothing in the query
             'data' => $results,
             'pagination' => [
                 'total' => $results->total(),

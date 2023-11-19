@@ -67,7 +67,7 @@ class AdvancedPropertySearchController extends Controller
         }
      
         return response()->json([
-            'selectedListingQueries' => (object) $request->query(),
+            'selectedPropertyQueries' => (object) $request->query(),
             'data' => $results,
             'pagination' => [
                 'total' => $results->total(),
