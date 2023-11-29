@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('area');
             $table->string('city');
             $table->string('post_code');
+            $table->decimal('lat', 10, 7);
+            $table->decimal('long', 10, 7);
+            $table->string('display_name')->nullable();
             $table->morphs('owner');
             $table->timestamps();
         });

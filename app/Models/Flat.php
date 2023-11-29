@@ -20,7 +20,7 @@ use Laravel\Scout\Searchable;
 
 class Flat extends Model
 {
-    use HasFactory, SoftDeletes, FilterByUser, Searchable;
+    use HasFactory, SoftDeletes, FilterByUser;
 
     protected $fillable = [
         'title',
