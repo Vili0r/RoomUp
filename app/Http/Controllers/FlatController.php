@@ -17,6 +17,8 @@ use App\Enums\Size;
 use App\Enums\Stations;
 use App\Enums\Type;
 use App\Enums\WhatIAmFlat;
+use App\Http\Requests\FlatStoreRequest;
+use App\Http\Requests\FlatUpdateRequest;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatResource;
@@ -61,55 +63,8 @@ class FlatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'amenities' => ['required'],
-            'address_1' => ['required'],
-            'address_2' => ['sometimes'],
-            'area' => ['required'],
-            'city' => ['required'],
-            'post_code' => ['required'],
-            'minutes' => ['required'],
-            'mode' => ['required'],
-            'station' => ['required'],
-            'first_name' => ['required'],
-            'last_name' => ['required'],
-            'display_last_name' => ['sometimes'],
-            'telephone' => ['required'],
-            'display_telephone' => ['sometimes'],
-            'new_flatmate_min_age' => ['required', 'numeric'],
-            'new_flatmate_max_age' => ['required', 'numeric'],
-            'new_flatmate_smoker' => ['required'],
-            'new_flatmate_pets' => ['sometimes'],
-            'new_flatmate_references' => ['sometimes'],
-            'new_flatmate_couples' => ['sometimes'],
-            'new_flatmate_gender' => ['required'],
-            'new_flatmate_occupation' => ['required'],
-            'new_flatmate_hobbies' => ['sometimes'],
-            'available_from' => ['required', 'date', 'after:today'],
-            'minimum_stay' => ['required'],
-            'maximum_stay' => ['required'],
-            'days_available' =>['required'], 
-            'short_term' => ['sometimes'],
-        ]);
-
-        $data = $request->validate([
-            'title' => ['required', 'min:10', 'max:50'],
-            'description' => ['required', 'min:50', 'max:500'],
-            'cost' => ['required', 'numeric'],
-            'deposit' => ['required', 'numeric'],
-            'size' => ['required', 'integer'],
-            'type' => ['required', 'integer'],
-            'live_at' => ['sometimes'],
-            'what_i_am' => ['required'],
-            'furnished' => ['required'],
-            'featured' => ['sometimes'],
-            'available' => ['sometimes'],
-            'user_id' => ['sometimes'],
-            'images' => ['required', 'array'],
-        ]);
-       
+    public function store(FlatStoreRequest $request): RedirectResponse
+    {       
         $images = [];
         if (!empty($request->images)) {
             foreach ($request->images as $image) {
@@ -129,9 +84,18 @@ class FlatController extends Controller
                 $temporaryImage->delete();
             }
         }
-        $data['images'] = $images;
 
-        $flat = auth()->user()->flats()->create($data);
+        $flat = auth()->user()->flats()->create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'cost' => $request->cost,
+            'deposit' => $request->deposit,
+            'size' => $request->size,
+            'type' => $request->type,
+            'what_i_am' => $request->what_i_am,
+            'furnished' => $request->furnished,
+            'images' => $images,
+        ]);
 
         $flat->amenities()->attach($request->input('amenities.*.id'));
         
@@ -234,90 +198,11 @@ class FlatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Flat $flat): RedirectResponse
+    public function update(FlatUpdateRequest $request, Flat $flat): RedirectResponse
     {
         if (auth()->id() !== $flat->user_id) {
             abort(403); // Return a forbidden response
         }
-
-        $request->validate([
-            'address_1' => ['required', 'max:30'],
-            'address_2' => ['sometimes'],
-            'area' => ['required', 'max:20'],
-            'city' => ['required', 'max:20'],
-            'post_code' => ['required', 'max:7'],
-            'minutes' => ['required'],
-            'mode' => ['required'],
-            'station' => ['required'],
-            'first_name' => ['required', 'max:20'],
-            'last_name' => ['required', 'max:20'],
-            'display_last_name' => ['sometimes'],
-            'telephone' => ['required'],
-            'display_telephone' => ['sometimes'],
-            'station' => ['required'],
-            'new_flatmate_min_age' => [
-                'required', 
-                'numeric', 
-                'min:18'
-            ],
-            'new_flatmate_max_age' => [
-                'required', 
-                'numeric', 
-                'min:18',
-                'gt:new_flatmate_min_age'
-            ],
-            'new_flatmate_smoker' => ['required'],
-            'new_flatmate_pets' => ['sometimes'],
-            'new_flatmate_references' => ['sometimes'],
-            'new_flatmate_couples' => ['sometimes'],
-            'new_flatmate_gender' => ['required'],
-            'new_flatmate_occupation' => ['required'],
-            'new_flatmate_hobbies' => ['sometimes'],
-            'available_from' => ['required', 'after:tomorrow'],
-            'days_available' => ['required'],
-            'maximum_stay' => ['required','gt:minimum_stay'],
-            'minimum_stay' => ['required'],
-            'short_term' => ['sometimes'],
-            'amenities' => ['required'],
-        ],[
-            'available_from.required' => 'The available from field is required',
-            'days_available.required' => 'The days available field is required',
-            'maximum_stay.required' => 'The maximum stay field is required',
-            'maximum_stay.gt' => 'The maximum stay field must be greater than minimum stay',
-            'minimum_stay.required' => 'The minimum stay field is required',
-            'new_flatmate_smoker.required' => 'The new flatmate smoker field is required',
-            'new_flatmate_pets.required' => 'The new flatmate pets field is required',
-            'new_flatmate_occupation.required' => 'The new flatmate occupation field is required',
-            'new_flatmate_gender.required' => 'The new flatmate gender field is required',
-            'new_flatmate_min_age.required' => 'The new flatmate minimum age field is required',
-            'new_flatmate_min_age.numeric' => 'This does not appear to be a number',
-            'new_flatmate_min_age.before' => 'Your new flatmate should be more than 18 years old',
-            'new_flatmate_max_age.required' => 'The new flatmate maximum age field is required',
-            'new_flatmate_max_age.numeric' => 'This does not appear to be a number',
-            'new_flatmate_max_age.after' => 'The :attribute must be greater than the min age',
-            'new_flatmate_max_age.before' => 'Your new flatmate should be more than 18 years old',
-            'post_code.required' => 'The post code field is required',
-            'address_1.required' => 'The address field is required',
-            'what_i_am.required' => 'Your current status field is required',
-            'first_name.required' => 'The first name field is required',
-            'last_name.required' => 'The last name field is required',
-        ]);
-
-        $data = $request->validate([
-            'title' => ['required', 'min:10', 'max:50'],
-            'description' => ['required',  'min:50', 'max:500'],
-            'cost' => ['required', 'numeric'],
-            'deposit' => ['required', 'numeric'],
-            'size' => ['required', 'integer'],
-            'type' => ['required', 'integer'],
-            'live_at' => ['sometimes'],
-            'what_i_am' => ['required'],
-            'furnished' => ['required'],
-            'featured' => ['sometimes'],
-            'available' => ['sometimes'],
-            'user_id' => ['sometimes'],
-            'images' => ['sometimes', 'max:9'],
-        ]);
        
         //Creating empty array
         $images = [];
@@ -341,12 +226,19 @@ class FlatController extends Controller
                 $temporaryImage->delete();
             }
         }
-
-        //Assigning the images to data['images']
-        $data['images'] = $images;
         
         //Updating Flat
-        $flat->update($data);
+        $flat->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'cost' => $request->cost,
+            'deposit' => $request->deposit,
+            'size' => $request->size,
+            'type' => $request->type,
+            'what_i_am' => $request->what_i_am,
+            'furnished' => $request->furnished,
+            'images' => $images,
+        ]);
 
         $flat->amenities()->sync($request->input('amenities.*.id'));
        

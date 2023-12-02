@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use Tests\TestCase;
 |
 */
 
-uses(TestCase::class, RefreshDatabase::class)->in('Feature');
+uses(TestCase::class, RefreshDatabase::class)->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,18 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
+expect()->extend('toBeRedirectedFor', function (string $url, string $method = 'get') {
+    $response = null;
+
+    if (!$this->value) {
+        $response = test()->{$method}($url);
+    } else {
+        $response = actingAs($this->value)->{$method}($url);
+    }
+
+    return $response->assertStatus(302);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Functions
@@ -46,4 +59,14 @@ expect()->extend('toBeOne', function () {
 function login($user = null)
 {
     return test()->actingAs($user ?? User::factory()->create());
+}
+
+function actingAs(Authenticatable $user)
+{
+    return test()->actingAs($user);
+}
+
+function expectGuest()
+{
+    return test()->expect(null);
 }
