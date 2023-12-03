@@ -1,39 +1,41 @@
 <?php
 
 use App\Models\Amenity;
+use App\Models\Hobby;
 use App\Models\TemporaryImage;
 use App\Models\User;
 use Faker\Factory as Faker;
 
 beforeEach(fn () => $this->user = User::factory()->create());
 
-it('does not allow unauthenticated user to store a flat listing', function() {
-    $response = $this->post('/flat');
+it('does not allow unauthenticated user to store a roommate listing', function() {
+    $response = $this->post('/roommate');
 
     $response->assertStatus(302);
 });
 
 it('validates the request details', function (){
-
     actingAs($this->user)
-        ->post('/flat')->assertSessionHasErrors([
+        ->post('/roommate')->assertSessionHasErrors([
             'title',
             'description',
-            'cost',
-            'deposit',
-            'size',
-            'type',
-            'what_i_am',
-            'furnished',
-            'images',
+            'budget',
+            'searching_for',
+            'room_size',
+            'age',
+            'smoker',
+            'pets',
+            'occupation',
+            'gender',
+            'hobbies',
             'amenities',
-            'address_1',
             'area',
             'city',
-            'post_code',
-            'minutes',
-            'mode',
-            'station',
+            'images',
+            'available_from',
+            'minimum_stay',
+            'maximum_stay',
+            'days_available', 
             'first_name',
             'last_name',
             'telephone',
@@ -42,29 +44,25 @@ it('validates the request details', function (){
             'new_flatmate_smoker',
             'new_flatmate_gender',
             'new_flatmate_occupation',
-            'available_from',
-            'minimum_stay',
-            'maximum_stay',
-            'days_available', 
         ]);
 });
 
-it('creates a flat lisitng', function () {
+it('creates a roommate lisitng', function () {
     $amenities = Amenity::factory(10)->create();
+    $hobbies = Hobby::factory(10)->create();
     $faker = Faker::create();
 
     $relationData = [
-        'amenities' => $amenities->random(),
-        'address_1' => $faker->streetAddress,
-        'address_2' => $faker->optional()->secondaryAddress,
-        'area' => $faker->city,
-        'city' => $faker->city,
-        'post_code' => $faker->postcode,
-        'long' => $faker->randomFloat(7, -180, 180),
-        'lat' => $faker->randomFloat(7, -180, 180),
-        'minutes' => $faker->numberBetween(1, 5),
-        'mode' => $faker->numberBetween(1, 4),
-        'station' => $faker->numberBetween(1, 10),
+        'amenities' => [
+            ['id' => $amenities->random()->id],
+            ['id' => $amenities->random()->id],
+            ['id' => $amenities->random()->id],
+        ],
+        'hobbies' => [
+            ['id' => $hobbies->random()->id],
+            ['id' => $hobbies->random()->id],
+            ['id' => $hobbies->random()->id],
+        ],
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'display_last_name' => $faker->optional()->boolean,
@@ -86,17 +84,18 @@ it('creates a flat lisitng', function () {
     ];
 
     $data = [
-        'title' => "I dont know",
+        'title' => 'i dont have',
         'description' => $faker->text(200),
-        'cost' => $faker->numberBetween(100, 1000),
-        'deposit' => $faker->numberBetween(50, 500), 
-        'size' => $faker->numberBetween(1, 6), 
-        'type' => $faker->numberBetween(1, 3), 
-        'live_at' => now(), 
-        'what_i_am' => $faker->numberBetween(1, 2), 
-        'furnished' => $faker->numberBetween(1, 2), 
-        'featured' => $faker->boolean(),
-        'available' => $faker->boolean(),
+        'budget' => $faker->numberBetween(100, 1000),
+        'searching_for' => $faker->numberBetween(1, 3),
+        'room_size' => $faker->numberBetween(1, 2),
+        'age' => $faker->numberBetween(18, 30),
+        'smoker' => $faker->numberBetween(1, 2),
+        'pets' => $faker->numberBetween(1, 2),
+        'occupation' => $faker->numberBetween(1, 2),
+        'gender' => $faker->numberBetween(1, 2),
+        'area' => $faker->city,
+        'city' => $faker->city,
         'user_id' => $this->user->id, 
     ];
 
@@ -113,26 +112,22 @@ it('creates a flat lisitng', function () {
 
     $mergedData = array_merge($relationData, $data);
     $response = actingAs($this->user)
-        ->post('/flat', $mergedData);
+        ->post('/roommate', $mergedData);
 
     // Assert that the flat is stored in the database
-    $this->assertDatabaseHas('flats', [
+    $this->assertDatabaseHas('roommates', [
         'title' => $data['title'],
         'description' => $data['description'],
-        'cost' => $data['cost'],
-        'deposit' => $data['deposit'],
-        'size' => $data['size'],
-        'type' => $data['type'],
-        'what_i_am' => $data['what_i_am'],
-        'furnished' => $data['furnished'],
-    ]);
-
-    // Assert that the flat's address is stored in the database
-    $this->assertDatabaseHas('addresses', [
-        'address_1' => $relationData['address_1'],
-        'address_2' => $relationData['address_2'],
-        'area' => $relationData['area'],
-        'city' => $relationData['city'],
+        'budget' => $data['budget'],
+        'searching_for' => $data['searching_for'],
+        'room_size' => $data['room_size'],
+        'age' => $data['age'],
+        'smoker' => $data['smoker'],
+        'area' => $data['area'],
+        'city' => $data['city'],
+        'pets' => $data['pets'],
+        'occupation' => $data['occupation'],
+        'gender' => $data['gender'],
     ]);
 
     // Assert that the flat's advertiser is stored in the database
@@ -140,13 +135,6 @@ it('creates a flat lisitng', function () {
         'first_name' => $relationData['first_name'],
         'last_name' => $relationData['last_name'],
         'telephone' => $relationData['telephone'],
-    ]);
-
-    // Assert that the flat's transport is stored in the database
-    $this->assertDatabaseHas('transports', [
-        'minutes' => $relationData['minutes'],
-        'mode' => $relationData['mode'],
-        'station' => $relationData['station'],
     ]);
 
     // Assert that the flat's flatmate is stored in the database
@@ -175,15 +163,15 @@ it('creates a flat lisitng', function () {
     $response->assertRedirect('/dashboard');
 });
 
-it('allows authenticated user to access create flat route', function() {
+it('allows authenticated user to access create roommate route', function() {
     $response = actingAs($this->user)
-                ->get('/flat/create');
+                ->get('/roommate/create');
 
     $response->assertStatus(200);
 });
 
-it('deos not allow unauthenticated user to access create flat route', function() {
-    $response = $this->get('/flat/create');
+it('deos not allow unauthenticated user to access create roommate route', function() {
+    $response = $this->get('/roommate/create');
 
     $response->assertStatus(302);
 });
