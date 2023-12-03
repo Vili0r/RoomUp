@@ -3,31 +3,32 @@
 use App\Models\Amenity;
 use App\Models\User;
 use Faker\Factory as Faker;
+use App\Models\TemporaryImage;
  
 it('redirects unauthenticated users')
     ->expectGuest()->toBeRedirectedFor('/flat/1', 'put');
 
-it('fails if the flat does not exist', function () {
+it('fails if the flat listing does not exist', function () {
     $user = User::factory()->create();
     actingAs($user)
         ->put('/flat/1')
         ->assertStatus(404);
 });
 
-it('fails if the user does not own the flat', function () {
+it('fails if the user does not own the flat listing', function () {
     $user = User::factory()->create();
     $anotherUser = User::factory()->create();
     actingAs($anotherUser);
     $faker = Faker::create();
     $flat = $anotherUser->flats()->create([
-        'title' => $faker->sentence(3), // Generate a title with 5 words
-        'description' => $faker->text(200), // Generate a description with 200 characters
-        'cost' => $faker->numberBetween(100, 1000), // Generate a random cost between 100 and 1000 with 2 decimal places
-        'deposit' => $faker->numberBetween(50, 500), // Generate a random deposit between 50 and 500 with 2 decimal places
-        'size' => $faker->numberBetween(1, 6), // Generate a random size between 500 and 2000
-        'type' => $faker->numberBetween(1, 3), // Generate a random type between 1 and 5
-        'what_i_am' => $faker->numberBetween(1, 2), // Generate a what_i_am with 10 words
-        'furnished' => $faker->numberBetween(1, 2), // Generate a random boolean for 'furnished'le'
+        'title' => $faker->sentence(3),
+        'description' => $faker->text(200), 
+        'cost' => $faker->numberBetween(100, 1000), 
+        'deposit' => $faker->numberBetween(50, 500), 
+        'size' => $faker->numberBetween(1, 6), 
+        'type' => $faker->numberBetween(1, 3), 
+        'what_i_am' => $faker->numberBetween(1, 2), 
+        'furnished' => $faker->numberBetween(1, 2), 
         'user_id' => $user->id, 
         'images' => ['image1.jpg', 'image2.jpg'],
     ]);
@@ -42,14 +43,14 @@ it('validates the request details', function () {
     actingAs($user);
     $faker = Faker::create();
     $flat = $user->flats()->create([
-        'title' => $faker->sentence(3), // Generate a title with 5 words
-        'description' => $faker->text(200), // Generate a description with 200 characters
-        'cost' => $faker->numberBetween(100, 1000), // Generate a random cost between 100 and 1000 with 2 decimal places
-        'deposit' => $faker->numberBetween(50, 500), // Generate a random deposit between 50 and 500 with 2 decimal places
-        'size' => $faker->numberBetween(1, 6), // Generate a random size between 500 and 2000
-        'type' => $faker->numberBetween(1, 3), // Generate a random type between 1 and 5
-        'what_i_am' => $faker->numberBetween(1, 2), // Generate a what_i_am with 10 words
-        'furnished' => $faker->numberBetween(1, 2), // Generate a random boolean for 'furnished'le'
+        'title' => $faker->sentence(3),
+        'description' => $faker->text(200), 
+        'cost' => $faker->numberBetween(100, 1000), 
+        'deposit' => $faker->numberBetween(50, 500), 
+        'size' => $faker->numberBetween(1, 6), 
+        'type' => $faker->numberBetween(1, 3), 
+        'what_i_am' => $faker->numberBetween(1, 2), 
+        'furnished' => $faker->numberBetween(1, 2), 
         'user_id' => $user->id, 
         'images' => ['image1.jpg', 'image2.jpg'],
     ]);
@@ -88,27 +89,27 @@ it('validates the request details', function () {
         ]);
 });
 
-it('updates the flat', function () {
+it('updates the flat listing', function () {
     $amenities = Amenity::factory(10)->create();
     $user = User::factory()->create();
     actingAs($user);
     $faker = Faker::create();
     $flat = $user->flats()->create([
-        'title' => $faker->sentence(3), // Generate a title with 5 words
-        'description' => $faker->text(200), // Generate a description with 200 characters
-        'cost' => $faker->numberBetween(100, 1000), // Generate a random cost between 100 and 1000 with 2 decimal places
-        'deposit' => $faker->numberBetween(50, 500), // Generate a random deposit between 50 and 500 with 2 decimal places
-        'size' => $faker->numberBetween(1, 6), // Generate a random size between 500 and 2000
-        'type' => $faker->numberBetween(1, 3), // Generate a random type between 1 and 5
-        'what_i_am' => $faker->numberBetween(1, 2), // Generate a what_i_am with 10 words
-        'furnished' => $faker->numberBetween(1, 2), // Generate a random boolean for 'furnished'le'
+        'title' => $faker->sentence(3),
+        'description' => $faker->text(200), 
+        'cost' => $faker->numberBetween(100, 1000), 
+        'deposit' => $faker->numberBetween(50, 500), 
+        'size' => $faker->numberBetween(1, 6), 
+        'type' => $faker->numberBetween(1, 3), 
+        'what_i_am' => $faker->numberBetween(1, 2), 
+        'furnished' => $faker->numberBetween(1, 2), 
         'user_id' => $user->id, 
         'images' => ['image1.jpg', 'image2.jpg'],
     ]);
 
     $relationData = [
         'amenities' => $amenities->random(),
-        'address_1' => $faker->streetAddress,
+        'address_1' => "16 Efterpis",
         'address_2' => $faker->optional()->secondaryAddress,
         'area' => $faker->city,
         'city' => $faker->city,
@@ -140,18 +141,29 @@ it('updates the flat', function () {
     
     $newData = [
         'title' => 'Updated title', 
-        'description' => 'Updated DescriptionQuia sit eius impedit impedit. Nostrum perspiciatis voluptatem illum ipsa nisi omnis quia qui. Corporis ad est maxime numquam nostrum dignissimos.', // Generate a description with 200 characters
+        'description' => 'Updated DescriptionQuia sit eius impedit impedit. Nostrum perspiciatis voluptatem illum ipsa nisi omnis quia qui. Corporis ad est maxime numquam nostrum dignissimos.', 
         'cost' => 1000, 
         'deposit' => 500, 
         'size' => 1, 
         'type' =>  2, 
         'what_i_am' => 1, 
         'furnished' => 2, 
+        'images' => ['imageUPD1.jpg', 'imageUPD2.jpg'],
     ];
 
-    $mergedData = array_merge($relationData, $newData);
+    $images = $flat->images;
+    foreach ($newData['images'] as $temporaryImage) {
+        $image_path = 'images/' . $temporaryImage;
+        TemporaryImage::factory()->create([
+            'file' => $temporaryImage,
+            'folder' => 'png' 
+        ]);
+       array_push($images, $image_path);
+    }
 
-    actingAs($user)
+    $mergedData = array_merge($relationData, $newData);
+    
+    $response = actingAs($user)
         ->put('/flat/'. $flat->id, $mergedData);
     
     // Assert that the flat is stored in the database
@@ -165,4 +177,12 @@ it('updates the flat', function () {
         'what_i_am' => 1, 
         'furnished' => 2, 
     ]);
+
+    // Assert that the temporary image is deleted
+    foreach ($newData['images'] as $temporaryImage) {
+        $this->assertDatabaseMissing('temporary_images', ['file' => $temporaryImage]);
+        $this->assertFileDoesNotExist(public_path('image/' . $temporaryImage));
+    }
+
+    $response->assertRedirect('/dashboard');
 });

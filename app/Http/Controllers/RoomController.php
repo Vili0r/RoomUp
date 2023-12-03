@@ -7,6 +7,7 @@ use App\Enums\Furnishings;
 use App\Enums\MaximumStay;
 use App\Enums\MinimumStay;
 use App\Enums\RoomSize;
+use App\Http\Requests\RoomUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\EnumResource;
 use App\Http\Resources\RoomResource;
@@ -41,28 +42,11 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room): RedirectResponse
+    public function update(RoomUpdateRequest $request, Room $room): RedirectResponse
     {
         if (auth()->id() !== $room->owner->user_id) {
             abort(403); // Return a forbidden response
         }
-        //dd($request);
-
-        $data = $request->validate([
-            'sub_title' => ['required', 'min:10', 'max:25'],
-            'sub_description' => ['required', 'min:50', 'max:250'],
-            'room_size' => ['required'],
-            'room_cost' => ['required'],
-            'room_deposit' => ['required'],
-            'room_furnished' => ['required'],
-            'room_references' => ['sometimes'],
-            'available_from' => ['required', 'after:tomorrow'],
-            'minimum_stay' => ['required'],
-            'maximum_stay' => ['required','gt:minimum_stay'],
-            'days_available' => ['required'],
-            'short_term' => ['sometimes'],
-            'images' => ['sometimes', 'max:9'],
-        ]);
 
         $images = [];
         if($room->images != null){
@@ -87,9 +71,22 @@ class RoomController extends Controller
                 $temporaryImage->delete();
             }
         }
-        $data['images'] = $images;
 
-        $room->update($data);
+        $room->update([
+            'sub_title' => $request->sub_title,
+            'sub_description' => $request->sub_description,
+            'room_size' => $request->room_size,
+            'room_cost' => $request->room_cost,
+            'room_deposit' => $request->room_deposit,
+            'room_furnished' => $request->room_furnished,
+            'room_references' => $request->room_references,
+            'available_from' => $request->available_from,
+            'minimum_stay' => $request->minimum_stay,
+            'maximum_stay' => $request->maximum_stay,
+            'days_available' => $request->days_available,
+            'short_term' => $request->short_term,
+            'images' => $images,
+        ]);
 
         return to_route('shared.show', $room->owner->id);
     }

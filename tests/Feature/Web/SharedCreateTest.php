@@ -1,24 +1,28 @@
 <?php
 
 use App\Models\Amenity;
+use App\Models\Shared;
 use App\Models\TemporaryImage;
 use App\Models\User;
 use Faker\Factory as Faker;
 
 beforeEach(fn () => $this->user = User::factory()->create());
 
-it('does not allow unauthenticated user to store a flat listing', function() {
-    $response = $this->post('/flat');
-
+it('does not allow unauthenticated user to store a shared listing', function() {
+    $response = $this->post('/shared');
     $response->assertStatus(302);
 });
 
-it('creates a flat lisitng', function () {
+it('creates a shared listing', function () {
     $amenities = Amenity::factory(10)->create();
     $faker = Faker::create();
 
     $relationData = [
-        'amenities' => $amenities->random(),
+        'amenities' => [
+            ['id' => $amenities->random()->id],
+            ['id' => $amenities->random()->id],
+            ['id' => $amenities->random()->id],
+        ],
         'address_1' => $faker->streetAddress,
         'address_2' => $faker->optional()->secondaryAddress,
         'area' => $faker->city,
@@ -42,26 +46,48 @@ it('creates a flat lisitng', function () {
         'new_flatmate_couples' => $faker->optional()->boolean,
         'new_flatmate_gender' => $faker->numberBetween(1, 3),
         'new_flatmate_occupation' => $faker->numberBetween(1, 3),
-        'available_from' => $faker->dateTimeBetween('tomorrow', '+1 year')->format('Y-m-d'),
-        'minimum_stay' => $faker->numberBetween(1, 16),
-        'maximum_stay' => $faker->numberBetween(1, 16),
-        'days_available' => $faker->numberBetween(1, 3),
-        'short_term' => $faker->optional()->boolean,
+        'rooms' => [
+            [
+                'room_size' => $faker->numberBetween(1, 2),
+                'room_cost' => $faker->numberBetween(100, 1000),
+                'room_deposit' => $faker->numberBetween(50, 500),
+                'room_furnished' => $faker->numberBetween(1, 2),
+                'room_references' => ['sometimes'],
+                'available_from' => $faker->dateTimeBetween('tomorrow', '+1 year')->format('Y-m-d'),
+                'minimum_stay' => $faker->numberBetween(1, 16),
+                'maximum_stay' => $faker->numberBetween(1, 16),
+                'days_available' => $faker->numberBetween(1, 3),
+                'short_term' => $faker->optional()->boolean,
+            ],
+            [
+                'room_size' => $faker->numberBetween(1, 2),
+                'room_cost' => $faker->numberBetween(100, 1000),
+                'room_deposit' => $faker->numberBetween(50, 500),
+                'room_furnished' => $faker->numberBetween(1, 2),
+                'room_references' => ['sometimes'],
+                'available_from' => $faker->dateTimeBetween('tomorrow', '+1 year')->format('Y-m-d'),
+                'minimum_stay' => $faker->numberBetween(1, 16),
+                'maximum_stay' => $faker->numberBetween(1, 16),
+                'days_available' => $faker->numberBetween(1, 3),
+                'short_term' => $faker->optional()->boolean,
+            ],
+        ]
     ];
 
     $data = [
-        'title' => "I dont know",
+        'title' => "I don't know",
         'description' => $faker->text(200),
-        'cost' => $faker->numberBetween(100, 1000),
-        'deposit' => $faker->numberBetween(50, 500), 
+        'available_rooms' => $faker->numberBetween(1, 10),
         'size' => $faker->numberBetween(1, 6), 
         'type' => $faker->numberBetween(1, 3), 
-        'live_at' => now(), 
-        'what_i_am' => $faker->numberBetween(1, 2), 
-        'furnished' => $faker->numberBetween(1, 2), 
-        'featured' => $faker->boolean(),
-        'available' => $faker->boolean(),
-        'user_id' => $this->user->id, 
+        'current_occupants' => $faker->numberBetween(0, 10),
+        'what_i_am' => $faker->numberBetween(1, 2),
+        'current_flatmate_age' => $faker->numberBetween(18, 60),
+        'current_flatmate_smoker' => $faker->numberBetween(1, 2),
+        'current_flatmate_pets' => $faker->numberBetween(1, 2),
+        'current_flatmate_occupation' => $faker->numberBetween(1, 2),
+        'current_flatmate_gender' => $faker->numberBetween(1, 2), 
+        'images' => []
     ];
 
     // Mock the file storage and create temporary images
@@ -77,19 +103,46 @@ it('creates a flat lisitng', function () {
 
     $mergedData = array_merge($relationData, $data);
     $response = actingAs($this->user)
-        ->post('/flat', $mergedData);
-
+        ->post('/shared', $mergedData);
+    
     // Assert that the flat is stored in the database
-    $this->assertDatabaseHas('flats', [
+    $this->assertDatabaseHas('shareds', [
         'title' => $data['title'],
         'description' => $data['description'],
-        'cost' => $data['cost'],
-        'deposit' => $data['deposit'],
+        'available_rooms' => $data['available_rooms'],
         'size' => $data['size'],
-        'type' => $data['type'],
+        'type' => $data['type'], 
+        'current_occupants' => $data['current_occupants'],
         'what_i_am' => $data['what_i_am'],
-        'furnished' => $data['furnished'],
+        'current_flatmate_age' => $data['current_flatmate_age'],
+        'current_flatmate_smoker' => $data['current_flatmate_smoker'],
+        'current_flatmate_pets' => $data['current_flatmate_pets'],
+        'current_flatmate_occupation' => $data['current_flatmate_occupation'],
+        'current_flatmate_gender' => $data['current_flatmate_gender'],
     ]);
+    $sharedId = Shared::latest()->first()->id;
+
+    // Assert that the shared property's amenities are stored in the database
+    $this->assertDatabaseHas('amenity_shared', [
+        'amenity_id' => $relationData['amenities'][0]['id'],
+        'shared_id' => Shared::latest()->first()->id,
+    ]);
+
+    // Assert that the associated rooms are stored in the database
+    for($i = 0; $i < 1; $i++) {
+        $this->assertDatabaseHas('rooms', [
+            'room_size' => $relationData['rooms'][$i]['room_size'],
+            'room_cost' => $relationData['rooms'][$i]['room_cost'],
+            'room_deposit' => $relationData['rooms'][$i]['room_deposit'],
+            'room_furnished' => $relationData['rooms'][$i]['room_furnished'],
+            'available_from' => $relationData['rooms'][$i]['available_from'],
+            'minimum_stay' => $relationData['rooms'][$i]['minimum_stay'],
+            'maximum_stay' => $relationData['rooms'][$i]['maximum_stay'],
+            'days_available' => $relationData['rooms'][$i]['days_available'],
+            'owner_type' => Shared::class,
+            'owner_id' => Shared::latest()->first()->id,
+        ]);
+    }
 
     // Assert that the flat's address is stored in the database
     $this->assertDatabaseHas('addresses', [
@@ -123,40 +176,34 @@ it('creates a flat lisitng', function () {
         'new_flatmate_gender' => $relationData['new_flatmate_gender'],
     ]);
 
-    // Assert that the flat's availability is stored in the database
-    $this->assertDatabaseHas('availabilities', [
-        'available_from' => $relationData['available_from'],
-        'minimum_stay' => $relationData['minimum_stay'],
-        'maximum_stay' => $relationData['maximum_stay'],
-        'days_available' => $relationData['days_available'],
-    ]);
-
     // Assert that the temporary images are deleted from the database
     foreach ($temporaryImages as $temporaryImage) {
         $this->assertDatabaseMissing('temporary_images', ['file' => $temporaryImage]);
     }
 
-    $response->assertRedirect('/dashboard');
+    $response->assertRedirect('/shared/'.$sharedId); 
 });
 
 it('validates the request details', function (){
+    $data = [];
 
     actingAs($this->user)
-        ->post('/flat')->assertSessionHasErrors([
+        ->post('/shared', $data)->assertSessionHasErrors([
             'title',
             'description',
-            'cost',
-            'deposit',
-            'size',
-            'type',
+            'available_rooms',
+            'size', 
+            'type', 
+            'current_occupants',
             'what_i_am',
-            'furnished',
             'images',
             'amenities',
             'address_1',
             'area',
             'city',
             'post_code',
+            'long',
+            'lat' ,
             'minutes',
             'mode',
             'station',
@@ -168,22 +215,19 @@ it('validates the request details', function (){
             'new_flatmate_smoker',
             'new_flatmate_gender',
             'new_flatmate_occupation',
-            'available_from',
-            'minimum_stay',
-            'maximum_stay',
-            'days_available', 
+            'rooms'
         ]);
 });
 
-it('allows authenticated user to access create flat route', function() {
+it('allows authenticated user to access create shared route', function() {
     $response = actingAs($this->user)
-                ->get('/flat/create');
+                ->get('/shared/create');
 
     $response->assertStatus(200);
 });
 
-it('deos not allow unauthenticated user to access create flat route', function() {
-    $response = $this->get('/flat/create');
+it('deos not allow unauthenticated user to access create shared route', function() {
+    $response = $this->get('/shared/create');
 
     $response->assertStatus(302);
 });
