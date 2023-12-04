@@ -22,9 +22,9 @@ class AddressFactory extends Factory
             'address_2' => fake()->streetAddress(),
             'area' => fake()->name(),
             'city' => fake()->name(),
+            'long' => fake()->longitude(),
+            'lat' => fake()->latitude(),
             'post_code' => fake()->postcode(),
-            'owner_id' => rand(1, 100000),
-            //'owner_type' => "APP\Models\Shared",
         ];
     }
 }
