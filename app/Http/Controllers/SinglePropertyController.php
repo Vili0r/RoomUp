@@ -7,7 +7,6 @@ use App\Http\Resources\RoomSinglePropertyResource;
 use App\Models\Flat;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Jobs\UserViewedFlat;
 use App\Jobs\UserViewedRoom;
 use App\Models\Room;
@@ -37,7 +36,9 @@ class SinglePropertyController extends Controller
 
             if($request->user()) {
                 dispatch(new UserViewedFlat($request->user(), $flat));
-            }
+            } else {
+                dispatch(new UserViewedFlat(null, $flat));
+            } 
         }
 
         if($request->wantsJson()){

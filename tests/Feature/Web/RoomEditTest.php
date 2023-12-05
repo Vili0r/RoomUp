@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Room;
 use App\Models\Shared;
 use App\Models\User;
 use Faker\Factory as Faker;

@@ -20,7 +20,9 @@ class SingleRoommateController extends Controller
     
         if($request->user()) {
             dispatch(new UserViewedRoommate($request->user(), $roommate));
-        }
+        } else {
+            dispatch(new UserViewedRoommate(null, $roommate));
+        } 
        
         return Inertia::render('Home/SingleRoommate', [
             'roommate' => new RoommateSinglePropertyResource($roommate),
