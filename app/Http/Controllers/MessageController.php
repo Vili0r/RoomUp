@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationCreated;
+use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\PropertyMessageResource;
 use App\Http\Resources\Roommate\RoommateMessageResource;
@@ -68,15 +69,8 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(MessageStoreRequest $request): RedirectResponse
     {
-        $request->validate([
-            'full_name' => ['string', 'required', 'max:255'],
-            'email' => ['string', 'required', 'email', 'max:255'],
-            'message_text' => ['required', 'max:500'],
-            'phone_number' => ['required', 'max_digits:12'],
-        ]);
-
         if ($request->owner_type == 'flat') {
             $property = Flat::with(['user'])->findOrFail($request->owner_id);
             $propertyUserId = $property->user_id;
@@ -92,11 +86,11 @@ class MessageController extends Controller
         }
 
         //Save message because we need to throttle them to avoid spams
-
+        
         $sentMessages = Message::where('user_id', auth()->id())
-            ->where('created_at', '>', now()->subMinute())
-            ->count();
-
+        ->where('created_at', '>', now()->subMinute())
+        ->count();
+        
         if($sentMessages < 5) {
             $text = $property->messages()->create([
                 'user_id' => auth()->id(),
