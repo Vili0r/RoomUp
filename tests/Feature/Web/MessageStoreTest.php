@@ -5,7 +5,6 @@ use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Broadcast;
 use App\Notifications\PropertyMessageNotification;
 use App\Events\ConversationCreated;
 use App\Models\Conversation;
@@ -80,7 +79,6 @@ it('stores a message for a listing', function () {
         }
     );
 
-    $sentMessages = 1;
     $message = Message::latest()->get();
 
     // Assert a conversation was created

@@ -50,7 +50,6 @@ it('returns the messages of the authenticated user', function () {
     // Make a request to the index method
     $response = $this->get(route('message.index'));
 
-
     // Assert the response status is 200 OK
     $response->assertStatus(200);
     // Assert the response has the correct Inertia view with the paginated messages

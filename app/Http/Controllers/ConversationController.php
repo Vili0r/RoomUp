@@ -36,7 +36,7 @@ class ConversationController extends Controller
         }
 
         $conversation->load(['user', 'message.owner', 'parent', 'message.user', 'replies' => function ($query) {
-            $query->paginate(10); // Limit to 20 replies per conversation
+            $query->paginate(10); // Limit to 10 replies per conversation
         }]);
 
         $conversations = $request->user()->conversations()->get();
