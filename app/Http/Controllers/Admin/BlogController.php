@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogStoreRequest;
+use App\Http\Requests\BlogUpdateRequest;
 use App\Http\Resources\Blog\BlogEditResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\Blog\BlogIndexResource;
@@ -54,17 +56,9 @@ class BlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(BlogStoreRequest $request): RedirectResponse
     {
         $this->authorize('create articles');
-
-        $request->validate([
-            'image' => ['required', 'image'],
-            'title' => ['required', 'min:3', 'max:100'],
-            'body' => ['required', 'min:3'],
-            'published_at' => ['required', 'after:tomorrow'],
-            'category_id' => ['required'],
-        ]);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('blogs');
@@ -113,19 +107,11 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog): RedirectResponse
+    public function update(BlogUpdateRequest $request, Blog $blog): RedirectResponse
     {
         $this->authorize('edit articles');
 
         $image = $blog->image;
-
-        $request->validate([
-            'image' => ['sometimes'],
-            'title' => ['required', 'min:3', 'max:100'],
-            'body' => ['required', 'min:3'],
-            'published_at' => ['required', 'after:tomorrow'],
-            'category_id' => ['required'],
-        ]);
 
         if ($request->hasFile('image')) {
             Storage::delete($image);
