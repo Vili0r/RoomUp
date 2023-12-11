@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
         $name = $this->faker->text(20);
 
         return [
-            'name' => $name,
+            'name' => 'House '. $name,
             'slug' => Str::slug($name)
         ];
     }

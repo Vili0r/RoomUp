@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\Blog\CategoryIndexResource;
 use App\Http\Resources\Blog\CategoryResource;
 use Illuminate\Http\Request;
@@ -48,13 +50,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CategoryStoreRequest $request): RedirectResponse
     {
         $this->authorize('create articles');
-
-        $request->validate([
-            'name' => ['required', 'min:3', 'max:20'],
-        ]);
 
         Category::create([
             'name' => $request->name,
@@ -79,13 +77,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
         $this->authorize('edit articles');
-
-        $request->validate([
-            'name' => ['required', 'min:3', 'max:20'],
-        ]);
 
         $category->update([
             'name' => $request->name,

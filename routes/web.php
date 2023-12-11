@@ -118,7 +118,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Route to update address on shared property
     Route::put('/property/{model}/{id}/address', UpdateAddressController::class)
         ->where('model', 'room|flat')
-        ->name('address.update');
+        ->name('address.update'); //not tested yet
     
     //Route to change availability on shared property
     Route::put('/shared/{shared}/availability', SharedAvailabilityController::class)
@@ -162,19 +162,19 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     
     //Route to delete photos
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class)
-        ->name('shared.deletePhotos.destroy');
+        ->name('shared.deletePhotos.destroy'); //not tested yet
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoContoller::class)
-        ->name('flat.deletePhotos.destroy');
+        ->name('flat.deletePhotos.destroy'); //not tested yet
     Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class)
-        ->name('room.deletePhotos.destroy');
+        ->name('room.deletePhotos.destroy'); //not tested yet
     Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class)
-        ->name('roommate.deletePhotos.destroy');
+        ->name('roommate.deletePhotos.destroy'); //not tested yet
 
     //Temporary image upload - FilePond
-    Route::post('/upload', TemporaryImageUploadController::class);
+    Route::post('/upload', TemporaryImageUploadController::class);//not tested yet
     //Temporary image delete - FilePond
     Route::delete('/revert/{folder}', TemporaryImageDeleteController::class)
-        ->name('revert.image');
+        ->name('revert.image');//not tested yet
 
     //Conversation reply controller
     Route::post('/conversation/{conversation}/reply', ConversationReplyController::class)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogCommentStoreRequest;
 use App\Http\Resources\Blog\CommentIndexResource;
 use App\Models\Blog;
 use App\Models\Comment;
@@ -23,14 +24,8 @@ class BlogCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Blog $blog)
+    public function store(BlogCommentStoreRequest $request, Blog $blog)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'], 
-            'content' => ['required', 'max:500']
-        ]);
-
         $comment = $blog->comments()->create([
             'name' => $request->name,
             'email' => $request->email,
