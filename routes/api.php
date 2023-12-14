@@ -87,10 +87,10 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     //Conversation Controller
     Route::get('/conversation', ConversationController::class);
-    Route::get('/conversation/{conversation}', ShowConversationController::class);
+    Route::get('/conversation/{conversation}', ShowConversationController::class)->name('api.conversation.show');
 
     //Conversation reply controller
-    Route::post('/conversation/{conversation}/reply', ConversationReplyController::class);
+    Route::post('/conversation/{conversation}/reply', ConversationReplyController::class)->name('api.conversation.reply');
 
     //Api Resource Controller
     Route::apiResource('/flats', FlatController::class)

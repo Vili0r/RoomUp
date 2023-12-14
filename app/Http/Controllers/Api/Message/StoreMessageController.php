@@ -8,25 +8,18 @@ use App\Models\Flat;
 use App\Models\Message;
 use App\Models\Room;
 use App\Models\Roommate;
-use Illuminate\Http\Request;
 use App\Notifications\PropertyMessageNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Events\ConversationCreated;
+use App\Http\Requests\MessageStoreRequest;
 
 class StoreMessageController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(MessageStoreRequest $request)
     {
-        $request->validate([
-            'full_name' => ['string', 'required', 'max:255'],
-            'email' => ['string', 'required', 'email', 'max:255'],
-            'message_text' => ['required', 'max:500'],
-            'phone_number' => ['required', 'max_digits:12'],
-        ]);
-
         if ($request->owner_type == 'flat') {
             $property = Flat::with(['user'])->findOrFail($request->owner_id);
             $propertyUserId = $property->user_id;

@@ -88,8 +88,8 @@ class MessageController extends Controller
         //Save message because we need to throttle them to avoid spams
         
         $sentMessages = Message::where('user_id', auth()->id())
-        ->where('created_at', '>', now()->subMinute())
-        ->count();
+            ->where('created_at', '>', now()->subMinute())
+            ->count();
         
         if($sentMessages < 5) {
             $text = $property->messages()->create([
