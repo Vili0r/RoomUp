@@ -62,7 +62,7 @@ class FlatStoreRequest extends FormRequest
             'featured' => ['sometimes'],
             'available' => ['sometimes'],
             'user_id' => ['sometimes'],
-            'images' => ['required', 'array'],
+            'images' => ['required'],
         ];
     }
 }

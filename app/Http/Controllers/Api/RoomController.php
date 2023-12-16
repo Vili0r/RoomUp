@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomUpdateRequest;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\TemporaryImage;
@@ -28,27 +29,11 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room)
+    public function update(RoomUpdateRequest $request, Room $room)
     {
         if ($request->user()->id !== $room->owner->user_id) {
             abort(403); // Return a forbidden response
         }
-
-        $data = $request->validate([
-            'sub_title' => ['required', 'min:10', 'max:25'],
-            'sub_description' => ['required', 'min:50', 'max:250'],
-            'room_size' => ['required'],
-            'room_cost' => ['required'],
-            'room_deposit' => ['required'],
-            'room_furnished' => ['required'],
-            'room_references' => ['sometimes'],
-            'available_from' => ['required', 'after:tomorrow'],
-            'minimum_stay' => ['required'],
-            'maximum_stay' => ['required','gt:minimum_stay'],
-            'days_available' => ['required'],
-            'short_term' => ['sometimes'],
-            'images' => ['sometimes'],
-        ]);
 
         $images = [];
         if($room->images != null){
@@ -65,13 +50,24 @@ class RoomController extends Controller
                 $temporaryImage->delete();
             }
         }
-
-        $data['images'] = $images;
         
         $carbonDate = Carbon::parse($request->available_from);
-        $data['available_from'] = $carbonDate->format('Y-m-d');
 
-        $room->update($data);
+        $room->update([
+            'sub_title' => $request->sub_title,
+            'sub_description' => $request->sub_description,
+            'room_size' => $request->room_size,
+            'room_cost' => $request->room_cost,
+            'room_deposit' => $request->room_deposit,
+            'room_furnished' => $request->room_furnished,
+            'room_references' => $request->room_references,
+            'available_from' => $carbonDate->format('Y-m-d'),
+            'minimum_stay' => $request->minimum_stay,
+            'maximum_stay' => $request->maximum_stay,
+            'days_available' => $request->days_available,
+            'short_term' => $request->short_term,
+            'images' => $images,
+        ]);
     }
 
     /**
