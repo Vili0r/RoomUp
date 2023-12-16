@@ -108,7 +108,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     //Route to update property availability
     Route::put('/availability/{model}/{id}', AvailabilityController::class)
         ->where('model', 'room|flat');
-    Route::put('/availability/roommate/{id}', RoommateAvailabilityController::class);
+    Route::put('/availability/roommate/{roommate}', RoommateAvailabilityController::class)
+        ->name('api.roommate.availability');
 
     //Route to delete photos
     Route::delete('/flat/{flat}/delete-photo', FlatDeletePhotoController::class);
@@ -134,10 +135,10 @@ if (Request::header('Authorization'))
 Route::group(['middleware' => $middleware], function () {
 
     //Home search controller for SearchScreen
-    Route::get('home-search', SearchController::class);
+    Route::get('/home-search', SearchController::class);
    
     //Map search based on coordinates
-    Route::post('map-search', MapSearchController::class);
+    Route::post('/map-search', MapSearchController::class);
 
     //Header filter controller
     Route::get('/header-filter', HeaderFilterController::class);

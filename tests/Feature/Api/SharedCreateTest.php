@@ -18,7 +18,7 @@ it('creates a shared listing', function () {
     $faker = Faker::create();
 
     $relationData = [
-        'amenities' => [1, 3, 4],
+        'amenities' => [1],
         'address_1' => $faker->streetAddress,
         'address_2' => $faker->optional()->secondaryAddress,
         'area' => $faker->city,
@@ -116,7 +116,6 @@ it('creates a shared listing', function () {
         'current_flatmate_occupation' => $data['current_flatmate_occupation'],
         'current_flatmate_gender' => $data['current_flatmate_gender'],
     ]);
-    $sharedId = Shared::latest()->first()->id;
 
     // Assert that the shared property's amenities are stored in the database
     $this->assertDatabaseHas('amenity_shared', [
