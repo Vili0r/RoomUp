@@ -97,8 +97,8 @@ it('validates the request details', function (){
 });
 
 it('updates the roommate listing', function () {
-    Amenity::factory(10)->create();
-    Hobby::factory(10)->create();
+    $amenity = Amenity::factory()->create();
+    $hobby = Hobby::factory()->create();
     $user = User::factory()->create();
     actingAs($user);
     $faker = Faker::create();
@@ -121,8 +121,8 @@ it('updates the roommate listing', function () {
     ]);
 
     $relationData = [
-        'amenities' => [1],
-        'hobbies' => [2],
+        'amenities' => [$amenity->id],
+        'hobbies' => [$hobby->id],
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'display_last_name' => $faker->optional()->boolean,

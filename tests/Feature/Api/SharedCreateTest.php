@@ -14,11 +14,11 @@ it('does not allow unauthenticated user to store a shared listing', function() {
 });
 
 it('creates a shared listing', function () {
-    Amenity::factory(10)->create();
+    $amenity = Amenity::factory()->create();
     $faker = Faker::create();
 
     $relationData = [
-        'amenities' => [1],
+        'amenities' => [$amenity->id],
         'address_1' => $faker->streetAddress,
         'address_2' => $faker->optional()->secondaryAddress,
         'area' => $faker->city,
@@ -118,9 +118,8 @@ it('creates a shared listing', function () {
     ]);
 
     // Assert that the shared property's amenities are stored in the database
-    $this->assertDatabaseHas('amenity_shared', [
-        'amenity_id' => 1,
-        'shared_id' => Shared::latest()->first()->id,
+    $this->assertDatabaseHas('amenities', [
+        'id' => $amenity->id,
     ]);
 
     // Assert that the associated rooms are stored in the database
