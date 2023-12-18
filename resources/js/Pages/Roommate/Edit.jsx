@@ -86,7 +86,6 @@ const Edit = (props) => {
         pets: roommate.pets,
         occupation: roommate.occupation,
         gender: roommate.gender,
-        budget: roommate.budget,
         area: roommate.area,
         city: roommate.city,
         available_from: roommate.availability.available_from,
