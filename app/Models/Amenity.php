@@ -13,12 +13,4 @@ class Amenity extends Model
     protected $fillable = [
         'name',
     ];
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
-    }
 }
