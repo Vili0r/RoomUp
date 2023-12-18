@@ -1,12 +1,12 @@
 import React from "react";
 import { Hero1 } from "@/assets";
-import AccordionItem from "../components/AccordionItem";
+import AccordionItem from "@/Components";
 import { motion } from "framer-motion";
 import { slideIn, staggerContainer } from "../utils/motion";
 
 const HowItWorks = () => {
     return (
-        <div className="section grid bg-white dark:bg-gray-900">
+        <div className="grid bg-white section dark:bg-gray-900">
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
@@ -30,7 +30,7 @@ const HowItWorks = () => {
                         }}
                     >
                         <img
-                            className="h-full w-full object-cover"
+                            className="object-cover w-full h-full"
                             src={Hero1}
                             alt="how it works"
                         />
