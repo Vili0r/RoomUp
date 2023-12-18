@@ -77,7 +77,6 @@ const Create = (props) => {
             pets: "",
             occupation: "",
             gender: "",
-            budget: "",
             area: "",
             city: "",
             available_from: "",
