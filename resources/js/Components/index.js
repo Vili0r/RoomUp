@@ -1,7 +1,6 @@
 import AccordionItem from "./AccordionItem";
 import FeaturedCard from "./FeaturedCard";
 import ArticlesCard from "./ArticlesCard";
-import Filters from "./Filters";
 import MapCard from "./MapCard";
 import PropertyCard from "./PropertyCard";
 import FilterModal from "./FilterModal";
@@ -65,7 +64,6 @@ export {
     ArticlesCard,
     MapCard,
     PropertyCard,
-    Filters,
     FilterModal,
     PlaceAdModal,
     SearchModal,
