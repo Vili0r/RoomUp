@@ -3,7 +3,6 @@ import FeaturedCard from "./FeaturedCard";
 import ArticlesCard from "./ArticlesCard";
 import MapCard from "./MapCard";
 import PropertyCard from "./PropertyCard";
-import FilterModal from "./FilterModal";
 import PlaceAdModal from "./PlaceAdModal";
 import SearchModal from "./SearchModal";
 import RoommateSearchModal from "./RoommateSearchModal";
@@ -64,7 +63,6 @@ export {
     ArticlesCard,
     MapCard,
     PropertyCard,
-    FilterModal,
     PlaceAdModal,
     SearchModal,
     RoommateSearchModal,
