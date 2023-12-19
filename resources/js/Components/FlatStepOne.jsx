@@ -1,5 +1,5 @@
 import React from "react";
-import { InputError } from "@/Components";
+import InputError from "./InputError";
 
 const StepOne = ({
     data,

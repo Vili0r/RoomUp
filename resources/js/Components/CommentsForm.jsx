@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { InputError } from ".";
+import InputError from "./InputError";
 
 const CommentsForm = ({ id }) => {
     const [errors, setErrors] = useState([]);

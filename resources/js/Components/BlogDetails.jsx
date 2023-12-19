@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { BlogViewer } from ".";
+import BlogViewer from "./BlogViewer";
 
 const BlogDetails = ({ blog }) => {
     const showImage = () => {
