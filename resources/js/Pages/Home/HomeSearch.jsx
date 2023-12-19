@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, usePage, Link, router, useForm } from "@inertiajs/react";
-import { MapCard, PrimaryButton } from "@/Components";
+import { Head, usePage, Link, useForm } from "@inertiajs/react";
+import PrimaryButton from "@/Components/PrimaryButton";
+import MapCard from "@/Components/MapCard";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { SlMap } from "react-icons/sl";

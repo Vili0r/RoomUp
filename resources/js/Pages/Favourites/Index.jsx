@@ -1,7 +1,8 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { FavouritePropertyCard, Pagination } from "@/Components";
+import FavouritePropertyCard from "@/Components/FavouritePropertyCard";
+import Pagination from "@/Components/Pagination";
 
 const Index = (props) => {
     const { properties } = usePage().props;

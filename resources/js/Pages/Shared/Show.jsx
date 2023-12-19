@@ -3,15 +3,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import {
-    InputError,
-    InputLabel,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    DangerButton,
-    RoomCard,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
+import Modal from "@/Components/Modal";
+import RoomCard from "@/Components/RoomCard";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { DebounceInput } from "react-debounce-input";

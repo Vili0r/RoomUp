@@ -3,9 +3,10 @@ import { Link, usePage } from "@inertiajs/react";
 import ThemeContext from "../context/ThemeContext";
 import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
-import { AiOutlineTeam, AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
-import { PlaceAdModal, SearchModal } from "@/Components";
+import SearchModal from "./SearchModal";
+import PlaceAdModal from "./PlaceAdModal";
 
 const Header = ({ user, selectedQueries }) => {
     const { theme, handleTheme } = useContext(ThemeContext);

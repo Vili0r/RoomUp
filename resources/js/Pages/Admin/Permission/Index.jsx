@@ -1,18 +1,16 @@
 import React, { useState, useRef } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm, Link, router } from "@inertiajs/react";
-import {
-    InputError,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    TableRow,
-    TableDataCell,
-    TableHeaderCell,
-    TableBody,
-    TableHead,
-    Pagination,
-} from "@/Components";
+import Pagination from "@/Components/Pagination";
+import TableRow from "@/Components/TableRow";
+import TableDataCell from "@/Components/TableDataCell";
+import TableHeaderCell from "@/Components/TableHeaderCell";
+import TableBody from "@/Components/TableBody";
+import TableHead from "@/Components/TableHead";
+import InputError from "@/Components/InputError";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 const Index = ({ auth }) => {
     const { permissions, filters } = usePage().props;

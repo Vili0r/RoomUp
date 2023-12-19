@@ -1,7 +1,10 @@
 import React from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { BlogCard, BlogWidget, Categories, FeaturedBlogs } from "@/Components";
+import BlogCard from "@/Components/BlogCard";
+import BlogWidget from "@/Components/BlogWidget";
+import Categories from "@/Components/Categories";
+import FeaturedBlogs from "@/Components/FeaturedBlogs";
 
 const Blog = (props) => {
     const { blogs, recentBlogs, featuredBlogs, categories } = usePage().props;

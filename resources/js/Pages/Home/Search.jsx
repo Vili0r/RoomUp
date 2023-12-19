@@ -4,7 +4,7 @@ import { Head, usePage, Link, useForm } from "@inertiajs/react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
 import { HousePlaceholder } from "@/assets";
-import { PrimaryButton } from "@/Components";
+import PrimaryButton from "@/Components/PrimaryButton";
 import moment from "moment";
 import axios from "axios";
 

@@ -3,19 +3,17 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm, Link, router } from "@inertiajs/react";
-import {
-    InputError,
-    InputLabel,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    TableRow,
-    TableDataCell,
-    TableHeaderCell,
-    TableBody,
-    TableHead,
-    Pagination,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TableRow from "@/Components/TableRow";
+import TableDataCell from "@/Components/TableDataCell";
+import TableHeaderCell from "@/Components/TableHeaderCell";
+import TableBody from "@/Components/TableBody";
+import TableHead from "@/Components/TableHead";
+import Pagination from "@/Components/Pagination";
 
 const Index = ({ auth }) => {
     const { roles, permissions, filters } = usePage().props;

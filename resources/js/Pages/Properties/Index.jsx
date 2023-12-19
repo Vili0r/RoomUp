@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, Link, router } from "@inertiajs/react";
-import {
-    Pagination,
-    TableRow,
-    TableDataCell,
-    TableHeaderCell,
-    TableBody,
-    TableHead,
-} from "@/Components";
+import Pagination from "@/Components/Pagination";
+import TableRow from "@/Components/TableRow";
+import TableDataCell from "@/Components/TableDataCell";
+import TableHeaderCell from "@/Components/TableHeaderCell";
+import TableBody from "@/Components/TableBody";
+import TableHead from "@/Components/TableHead";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { DebounceInput } from "react-debounce-input";

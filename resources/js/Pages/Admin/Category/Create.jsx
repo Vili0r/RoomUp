@@ -1,7 +1,8 @@
 import React from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
-import { InputError, PrimaryButton } from "@/Components";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
 
 export default function Create(props) {
     const { data, setData, post, processing, errors } = useForm({

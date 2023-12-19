@@ -8,7 +8,7 @@ import { BiCategoryAlt, BiCommentDetail } from "react-icons/bi";
 import { CiLogout, CiSettings } from "react-icons/ci";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
-import { SidebarNavLink } from "@/Components";
+import SidebarNavLink from "../Components/SidebarNavLink";
 
 export default function AdminLayoutII({ auth, children }) {
     const [showSidebarMenu, setShowSidebarMenu] = useState(false);

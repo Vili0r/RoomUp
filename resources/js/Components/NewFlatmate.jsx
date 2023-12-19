@@ -1,6 +1,6 @@
 import React from "react";
-
-import { InputError, Checkbox } from "@/Components";
+import InputError from "./InputError";
+import Checkbox from "./Checkbox";
 
 const NewFlatmate = ({
     data,

@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { staggerContainer } from "../utils/motion";
-import { TypingText, TitleText } from "@/components";
+import { TitleText } from "@/Components/TitleText";
+import { TypingText } from "@/Components/TypingText";
 
 const Subscribe = () => {
     return (

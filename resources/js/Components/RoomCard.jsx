@@ -3,13 +3,11 @@ import { MdOutlineEventAvailable } from "react-icons/md";
 import { Link, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import {
-    InputError,
-    InputLabel,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-} from "@/Components";
+import InputError from "./InputError";
+import InputLabel from "./InputLabel";
+import SecondaryButton from "./SecondaryButton";
+import Modal from "./Modal";
+import PrimaryButton from "./PrimaryButton";
 
 const RoomCard = ({ room }) => {
     const [openModal, setOpenModal] = useState(false);

@@ -4,13 +4,11 @@ import { Disclosure } from "@headlessui/react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import {
-    InputError,
-    PrimaryButton,
-    InputLabel,
-    StepFour,
-    NewFlatmate,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import StepFour from "@/Components/StepFour";
+import NewFlatmate from "@/Components/NewFlatmate";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { BsCheck, BsTrash } from "react-icons/bs";
 

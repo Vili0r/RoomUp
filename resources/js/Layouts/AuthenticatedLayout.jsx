@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import NavLink from "@/Components/NavLink";
 import { Link } from "@inertiajs/react";
-import { Footer, Header } from "@/sections";
+import Footer from "@/sections/Footer";
+import Header from "@/sections/Header";
 import { FaHouseUser } from "react-icons/fa";
 import { CgUser } from "react-icons/cg";
 import { MdSavedSearch } from "react-icons/md";
@@ -11,7 +12,7 @@ import { BiMessageDetail } from "react-icons/bi";
 import { BsInbox } from "react-icons/bs";
 import { TbFriends, TbLayoutSidebarLeftCollapse } from "react-icons/tb";
 import { CgMenuRight } from "react-icons/cg";
-import { ResponsiveNavLink } from "@/Components";
+import ResponsiveNavLink from "../Components/ResponsiveNavLink";
 
 export default function Authenticated({ auth, children }) {
     const [showMenu, setShowMenu] = useState(false);

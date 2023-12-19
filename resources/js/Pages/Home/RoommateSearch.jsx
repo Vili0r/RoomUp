@@ -3,7 +3,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, router, Link, useForm } from "@inertiajs/react";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
-import { PrimaryButton } from "@/Components";
+import PrimaryButton from "@/Components/PrimaryButton";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";

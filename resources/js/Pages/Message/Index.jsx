@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { HousePlaceholder } from "@/assets";
 import moment from "moment";
-import { Pagination } from "@/Components";
+import Pagination from "@/Components/Pagination";
 
 const Index = (props) => {
     const { messages } = usePage().props;

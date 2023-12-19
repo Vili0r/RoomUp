@@ -3,7 +3,9 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, Link, usePage } from "@inertiajs/react";
-import { InputError, PrimaryButton, InputLabel } from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const genders = [

@@ -5,15 +5,13 @@ import { Disclosure } from "@headlessui/react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
-import {
-    StepFour,
-    FlatStepOne,
-    StepTwo,
-    InputError,
-    InputLabel,
-    PrimaryButton,
-    NewFlatmate,
-} from "@/Components";
+import StepFour from "@/Components/StepFour";
+import NewFlatmate from "@/Components/NewFlatmate";
+import StepTwo from "@/Components/StepTwo";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import FlatStepOne from "@/Components/FlatStepOne";
 import { BsCheck, BsTrash } from "react-icons/bs";
 import { RxExclamationTriangle } from "react-icons/rx";
 // Import React FilePond

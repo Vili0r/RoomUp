@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
 import { Link, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { PrimaryButton } from "@/Components";
+import PrimaryButton from "./PrimaryButton";
 
 const FavouritePropertyCard = ({ property, index }) => {
     const { post, get } = useForm({

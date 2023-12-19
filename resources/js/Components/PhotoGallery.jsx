@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "@inertiajs/react";
 import { HousePlaceholder } from "@/assets";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { MdOutlinePhotoSizeSelectActual, MdOutlineClose } from "react-icons/md";
-import { PrimaryButton } from "@/Components";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import PrimaryButton from "./PrimaryButton";
 
 const PhotoGallery = ({ images, title, id, model, favourite }) => {
     const [showAllPhotos, setShowAllPhotos] = useState(false);

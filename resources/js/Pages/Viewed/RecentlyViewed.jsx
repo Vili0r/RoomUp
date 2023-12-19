@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { FavouritePropertyCard } from "@/Components";
+import FavouritePropertyCard from "@/Components/FavouritePropertyCard";
 
 const RecentlyViewed = (props) => {
     const { properties, indexLimit } = usePage().props;

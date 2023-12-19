@@ -1,7 +1,8 @@
 import React from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
-import { InputError, PrimaryButton } from "@/Components";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 

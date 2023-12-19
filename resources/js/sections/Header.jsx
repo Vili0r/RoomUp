@@ -6,7 +6,8 @@ import { FaBloggerB } from "react-icons/fa";
 import { AiOutlineTeam } from "react-icons/ai";
 import { RiAdvertisementLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
-import { PlaceAdModal, SearchModal } from "@/Components";
+import PlaceAdModal from "@/Components/PlaceAdModal";
+import SearchModal from "@/Components/SearchModal";
 
 const Header = ({ user }) => {
     const { theme, handleTheme } = useContext(ThemeContext);

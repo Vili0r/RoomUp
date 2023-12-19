@@ -1,9 +1,7 @@
 import React from "react";
-import {
-    AdvertisedBy,
-    PhotoGallery,
-    PropertyDetailsAmenities,
-} from "@/Components";
+import AdvertisedBy from "./AdvertisedBy";
+import PhotoGallery from "./PhotoGallery";
+import PropertyDetailsAmenities from "./PropertyDetailsAmenities";
 import { CiLocationOn } from "react-icons/ci";
 import { FiMinimize, FiMaximize } from "react-icons/fi";
 import { BsCalendar4Week } from "react-icons/bs";

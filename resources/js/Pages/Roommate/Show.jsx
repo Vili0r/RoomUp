@@ -3,14 +3,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import {
-    InputError,
-    InputLabel,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    DangerButton,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
+import Modal from "@/Components/Modal";
 import moment from "moment";
 
 const Show = (props) => {

@@ -1,5 +1,4 @@
 import React from "react";
-import { BsBookmark } from "react-icons/bs";
 import { VscSymbolProperty } from "react-icons/vsc";
 import { AiOutlineUserAdd, AiOutlineCheck } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";

@@ -1,4 +1,5 @@
-import { Footer, Header } from "@/sections";
+import Footer from "@/sections/Footer";
+import Header from "@/sections/Header";
 
 export default function Guest({ children, user }) {
     return (

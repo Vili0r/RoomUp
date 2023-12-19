@@ -1,13 +1,11 @@
 import React, { useState, useRef } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm, Link } from "@inertiajs/react";
-import {
-    InputError,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    DangerButton,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import DangerButton from "@/Components/DangerButton";
 
 const Edit = ({ auth }) => {
     const [deletePermissionModal, setDeletePermissionModal] = useState(false);

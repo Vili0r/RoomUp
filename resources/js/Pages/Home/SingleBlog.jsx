@@ -1,14 +1,12 @@
 import React from "react";
 import { Head, usePage } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import {
-    Author,
-    BlogDetails,
-    BlogWidget,
-    Categories,
-    Comments,
-    CommentsForm,
-} from "@/Components";
+import Author from "@/Components/Author";
+import BlogDetails from "@/Components/BlogDetails";
+import BlogWidget from "@/Components/BlogWidget";
+import Categories from "@/Components/Categories";
+import Comments from "@/Components/Comments";
+import CommentsForm from "@/Components/CommentsForm";
 
 const SingleBlog = (props) => {
     const { blog, categories, relatedBlogs } = usePage().props;

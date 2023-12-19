@@ -3,7 +3,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, useForm, router, Link } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { InputError } from "@/Components";
+import InputError from "@/Components/InputError";
 import { CgMenuRight } from "react-icons/cg";
 
 const Index = (props) => {

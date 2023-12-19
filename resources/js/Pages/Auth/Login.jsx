@@ -3,7 +3,9 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Hero3, facebook } from "@/assets";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Checkbox, InputError, PrimaryButton } from "@/Components";
+import InputError from "@/Components/InputError";
+import Checkbox from "@/Components/Checkbox";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState("password");

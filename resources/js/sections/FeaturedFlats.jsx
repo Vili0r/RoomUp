@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Popular1, Popular2, Popular3, Popular4, Popular5 } from "@/assets";
 import { motion } from "framer-motion";
 import { staggerContainer } from "../utils/motion";
-import { TypingText, TitleText, FeaturedCard } from "@/components";
+import { TypingText } from "@/Components/TypingText";
+import { TitleText } from "@/Components/TitleText";
+import FeaturedCard from "@/Components/FeaturedCard";
 
 const featured = [
     {
@@ -59,7 +61,7 @@ const FeaturedFlats = () => {
                     title={
                         <span className="dark:text-gray-400">
                             Choose a property you want{" "}
-                            <br className="md:block hidden" /> to explore
+                            <br className="hidden md:block" /> to explore
                             <span className="text-[#F5B041]">.</span>
                         </span>
                     }

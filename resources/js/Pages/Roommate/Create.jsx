@@ -3,14 +3,12 @@ import React, { useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import {
-    QuestCreateSteps,
-    InputError,
-    PrimaryButton,
-    InputLabel,
-    StepFour,
-    NewFlatmate,
-} from "@/Components";
+import QuestCreateSteps from "@/Components/QuestCreateSteps";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import StepFour from "@/Components/StepFour";
+import NewFlatmate from "@/Components/NewFlatmate";
 import { BsCheck } from "react-icons/bs";
 import {
     stepOneSchema,

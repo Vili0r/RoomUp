@@ -1,9 +1,10 @@
 import React from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
-import { InputError, PrimaryButton } from "@/Components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Create(props) {
     const { categories } = usePage().props;

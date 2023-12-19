@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, Head, usePage } from "@inertiajs/react";
 import { AiOutlineMail } from "react-icons/ai";
-import { InputError } from "@/Components";
+import InputError from "@/Components/InputError";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { HousePlaceholder } from "@/assets";
 import { BsEyeFill } from "react-icons/bs";

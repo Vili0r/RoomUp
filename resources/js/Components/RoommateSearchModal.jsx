@@ -3,7 +3,8 @@ import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { router, usePage } from "@inertiajs/react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { MultiRangeSlider, PrimaryButton, TextInput } from "@/Components";
+import TextInput from "./TextInput";
+import PrimaryButton from "./PrimaryButton";
 import {
     roomSize,
     hobbies,

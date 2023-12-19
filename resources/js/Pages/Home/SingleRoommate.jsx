@@ -1,7 +1,7 @@
 import React from "react";
 import { Head, usePage } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { RoommateDetails } from "@/Components";
+import RoommateDetails from "@/Components/RoommateDetails";
 
 const SingleRoommate = (props) => {
     const { roommate } = usePage().props;

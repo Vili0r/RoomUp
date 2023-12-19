@@ -1,6 +1,6 @@
 import React from "react";
 import { Hero1 } from "@/assets";
-import AccordionItem from "@/Components";
+import AccordionItem from "@/Components/AccordionItem";
 import { motion } from "framer-motion";
 import { slideIn, staggerContainer } from "../utils/motion";
 

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
-import {
-    InputError,
-    InputLabel,
-    SecondaryButton,
-    Modal,
-    PrimaryButton,
-    DangerButton,
-} from "@/Components";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import SecondaryButton from "@/Components/SecondaryButton";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import DangerButton from "@/Components/DangerButton";
 import moment from "moment";
 
 const Show = (props) => {

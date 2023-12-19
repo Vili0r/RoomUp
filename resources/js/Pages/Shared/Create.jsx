@@ -6,17 +6,15 @@ import axios from "axios";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { DebounceInput } from "react-debounce-input";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
-import {
-    CreateSteps,
-    InputError,
-    PrimaryButton,
-    InputLabel,
-    StepOne,
-    StepTwo,
-    StepFour,
-    CurrentFlatmate,
-    NewFlatmate,
-} from "@/Components";
+import CreateSteps from "@/Components/CreateSteps";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import StepOne from "@/Components/StepOne";
+import StepTwo from "@/Components/StepTwo";
+import StepFour from "@/Components/StepFour";
+import NewFlatmate from "@/Components/NewFlatmate";
+import CurrentFlatmate from "@/Components/CurrentFlatmate";
 import { BsCheck } from "react-icons/bs";
 import {
     stepOneSchema,

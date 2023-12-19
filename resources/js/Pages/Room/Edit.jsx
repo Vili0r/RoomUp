@@ -1,7 +1,9 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, Link, useForm } from "@inertiajs/react";
-import { InputError, InputLabel, PrimaryButton } from "@/Components";
+import { Head, usePage, useForm } from "@inertiajs/react";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { BsCheck, BsTrash } from "react-icons/bs";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";

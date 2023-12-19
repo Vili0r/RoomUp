@@ -5,16 +5,14 @@ import makeAnimated from "react-select/animated";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { DebounceInput } from "react-debounce-input";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
-import {
-    CreateSteps,
-    InputError,
-    PrimaryButton,
-    InputLabel,
-    FlatStepOne,
-    StepTwo,
-    StepFour,
-    NewFlatmate,
-} from "@/Components";
+import CreateSteps from "@/Components/CreateSteps";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputLabel from "@/Components/InputLabel";
+import FlatStepOne from "@/Components/FlatStepOne";
+import StepTwo from "@/Components/StepTwo";
+import StepFour from "@/Components/StepFour";
+import NewFlatmate from "@/Components/NewFlatmate";
 import {
     stepOneSchema,
     stepTwoSchema,

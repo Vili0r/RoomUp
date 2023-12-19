@@ -7,12 +7,10 @@ import { ImOffice, ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { router, usePage } from "@inertiajs/react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import {
-    MultiRangeSlider,
-    PrimaryButton,
-    TextInput,
-    RoommateSearchModal,
-} from "@/Components";
+import MultiRangeSlider from "./MultiRangeSlider";
+import PrimaryButton from "./PrimaryButton";
+import TextInput from "./TextInput";
+import RoommateSearchModal from "./RoommateSearchModal.jsx";
 import { AiOutlineClose } from "react-icons/ai";
 import {
     bedrooms,

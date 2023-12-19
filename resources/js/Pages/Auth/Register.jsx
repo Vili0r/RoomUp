@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Hero5 } from "@/assets";
-import { InputError, PrimaryButton } from "@/Components";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
