@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('featured')->default(0);
             $table->foreignId('author_id')->constrained('users');
             $table->foreignId('category_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

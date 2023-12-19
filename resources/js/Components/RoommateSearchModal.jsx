@@ -5,6 +5,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
+import MultiRangeSlider from "./MultiRangeSlider";
 import {
     roomSize,
     hobbies,
