@@ -54,6 +54,7 @@ import Categories from "./Categories";
 import Author from "./Author";
 import CommentsForm from "./CommentsForm";
 import Comments from "./Comments";
+import FeaturedCard from "./FeaturedCard";
 
 export {
     AccordionItem,
