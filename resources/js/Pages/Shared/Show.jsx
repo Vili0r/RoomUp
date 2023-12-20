@@ -145,8 +145,7 @@ const Show = (props) => {
 
     const getAddresses = (search) => {
         if (search) {
-            const url = new URL("http://roomup.test/api/autocomplete");
-            url.searchParams.set("query", search);
+            const url = `/api/autocomplete?query=${search}`;
             axios
                 .get(url, {
                     headers: {
