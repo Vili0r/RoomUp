@@ -11,7 +11,10 @@ import {
     MdOutlineHourglassEmpty,
     MdOutlineAirplanemodeActive,
 } from "react-icons/md";
+import { FiMapPin } from "react-icons/fi";
 import moment from "moment";
+import Map, { Marker } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const PropertyDetails = ({ property }) => {
     return (
@@ -143,16 +146,46 @@ const PropertyDetails = ({ property }) => {
                                     <h1 className="text-xl font-bold text-gray-700 font-popp">
                                         Where will you live
                                     </h1>
-                                    <iframe
-                                        className="w-full xs:h-[500px] h-[350px] rounded-xl mt-7"
-                                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d19888.886967391547!2d-0.9595379997695183!3d51.456120793431964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1675966769682!5m2!1sen!2suk"
-                                        width="600"
-                                        height="450"
-                                        style={{ border: "0" }}
-                                        allowFullScreen=""
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                    ></iframe>
+                                    <div className="w-full xs:h-[500px] h-[350px] rounded-xl mt-7">
+                                        <Map
+                                            mapboxAccessToken={
+                                                import.meta.env
+                                                    .VITE_MAPBOX_ACCESS_TOKEN
+                                            }
+                                            mapStyle="mapbox://styles/tsouvili/clqgg9eeb00ii01o974j8ge9v"
+                                            initialViewState={{
+                                                longitude: property.owner
+                                                    ? property.owner.address
+                                                          .long
+                                                    : property.address.long,
+                                                latitude: property.owner
+                                                    ? property.owner.address.lat
+                                                    : property.address.lat,
+                                                zoom: 11,
+                                            }}
+                                        >
+                                            <Marker
+                                                longitude={
+                                                    property.owner
+                                                        ? property.owner.address
+                                                              .long
+                                                        : property.address.long
+                                                }
+                                                latitude={
+                                                    property.owner
+                                                        ? property.owner.address
+                                                              .lat
+                                                        : property.address.lat
+                                                }
+                                                offsetLeft={-20}
+                                                offsetTop={-10}
+                                            >
+                                                <p className="text-2xl text-white cursor-pointer animate-bounce">
+                                                    <FiMapPin size={24} />
+                                                </p>
+                                            </Marker>
+                                        </Map>
+                                    </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                                 <div className="">

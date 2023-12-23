@@ -251,9 +251,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
                             <Dialog.Panel className="w-full max-w-xl overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                 <div className="text-sm text-gray-500">
                                     <div className="relative flex flex-col items-center justify-center h-full py-6 overflow-hidden bg-gray-50 sm:py-12">
-                                        <div className="absolute inset-auto scale-150 bg-orange-200 h-96 w-96 opacity-20 blur-3xl"></div>
+                                        {/* <div className="absolute inset-auto scale-150 bg-orange-200 h-96 w-96 opacity-20 blur-3xl"></div>
 
-                                        <div className="absolute inset-auto scale-150 translate-x-full bg-green-200 h-96 w-96 opacity-20 blur-3xl"></div>
+                                        <div className="absolute inset-auto scale-150 translate-x-full bg-green-200 h-96 w-96 opacity-20 blur-3xl"></div> */}
                                         <div className="w-full">
                                             <div className="max-w-lg px-10 mb-6">
                                                 <div className="flex justify-between">

@@ -18,9 +18,9 @@ import axios from "axios";
 
 const HomeSearch = (props) => {
     const { post } = useForm({});
-    const { properties, selectedPropertyQueries } = usePage().props;
+    const { properties, selectedQueries } = usePage().props;
     const [toggleMap, setToggleMap] = useState(false);
-    const [query, setQuery] = useState(selectedPropertyQueries?.search || "");
+    const [query, setQuery] = useState(selectedQueries?.search || "");
     const [items, setItems] = useState(properties.data);
     const [nextPage, setNextPage] = useState(properties.next_page_url);
     const target = useRef(null);
@@ -96,7 +96,7 @@ const HomeSearch = (props) => {
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Search Results" />
-            <div className="">
+            <div className="mb-10">
                 <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 mt-[5rem]">
                     <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
                         <AiOutlineSearch className="w-7 h-7" />
@@ -125,9 +125,10 @@ const HomeSearch = (props) => {
                         <MapCard
                             toggleMap={toggleMap}
                             setToggleMap={setToggleMap}
+                            listings={items}
                         />
 
-                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4">
+                        <div className="grid grid-cols-1 gap-8 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:col-span-2 lg:gap-4">
                             {items.map((property, index) => (
                                 <div
                                     className="col-span-1 cursor-pointer group"
@@ -228,7 +229,7 @@ const HomeSearch = (props) => {
                                                     </p>
                                                     <p className="mt-2 text-sm text-gray-800">
                                                         <strong>
-                                                            $
+                                                            £
                                                             {property.owner
                                                                 ? property.room_cost
                                                                 : property.cost}
@@ -255,18 +256,20 @@ const HomeSearch = (props) => {
                         </div>
                         <div ref={target} className="-translate-y-32"></div>
                     </div>
-                    <div
-                        className="fixed items-center justify-center transform translate-x-[50%] right-1/2 bottom-4 lg:hidden"
-                        style={{ transition: ".4s" }}
-                    >
-                        <button
-                            onClick={() => setToggleMap(true)}
-                            className="flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full font-popp "
+                    {!toggleMap && (
+                        <div
+                            className="fixed items-center justify-center transform translate-x-[50%] right-1/2 bottom-4 lg:hidden"
+                            style={{ transition: ".4s" }}
                         >
-                            Show map
-                            <SlMap className="mt-1" />
-                        </button>
-                    </div>
+                            <button
+                                onClick={() => setToggleMap(true)}
+                                className="flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full font-popp "
+                            >
+                                Show map
+                                <SlMap className="mt-1" />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </GuestLayout>

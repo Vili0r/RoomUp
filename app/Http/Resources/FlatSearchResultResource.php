@@ -22,6 +22,7 @@ class FlatSearchResultResource extends JsonResource
             'images' => $this->images,
             'favouritedBy' => $this->favouritedBy($request->user()),
             'views' => $this->views(),
+            'long' => $this->address->long,
             'address' => $this->whenLoaded('address', function () {
                 return new AddressRoomSearchResultResource($this->address);
             }),

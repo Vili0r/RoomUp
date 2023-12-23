@@ -20,7 +20,7 @@ class UserViewedFlat implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(?User $user, Flat $flat)
+    public function __construct(User $user, Flat $flat)
     {
         $this->user = $user;
         $this->flat = $flat;
@@ -31,39 +31,15 @@ class UserViewedFlat implements ShouldQueue
      */
     public function handle(): void
     {
-        // $viewed = $this->user->viewedFlats;
+        $viewed = $this->user->viewedFlats;
        
-        // if($viewed->contains($this->flat)){
-        //     $viewed->where('id', $this->flat->id)->first()->pivot->increment('count');
-        //     return;
-        // }
-
-        // $this->user->viewedFlats()->attach($this->flat, [
-        //     'count' => 1
-        // ]);
-        if ($this->user) {
-            $viewed = $this->user->viewedFlats;
-            
-            if($viewed->contains($this->flat)){
-                $viewed->where('id', $this->flat->id)->first()->pivot->increment('count');
-                return;
-            }
-            
-            $this->user->viewedFlats()->attach($this->flat, [
-                'count' => 1
-            ]);
-        } else {
-    
-            $flatExists = $this->flat->viewedUsers->contains('user_id', null);
-
-            if ($flatExists) {
-                $pivot = $this->flat->viewedUsers->where('user_id', null)->first()->pivot;
-                $pivot->increment('count');
-            } else {
-                $this->flat->viewedUsers()->attach(null, [
-                    'count' => 1
-                ]);
-            }
+        if($viewed->contains($this->flat)){
+            $viewed->where('id', $this->flat->id)->first()->pivot->increment('count');
+            return;
         }
+
+        $this->user->viewedFlats()->attach($this->flat, [
+            'count' => 1
+        ]);
     }
 }

@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use App\Jobs\UserViewedFlat;
 use App\Jobs\UserViewedRoom;
 use App\Models\Room;
+use App\Models\User;
 
 class SinglePropertyController extends Controller
 {
@@ -27,7 +28,8 @@ class SinglePropertyController extends Controller
             if($request->user()) {
                 dispatch(new UserViewedRoom($request->user(), $room));
             } else {
-                dispatch(new UserViewedRoom(null, $room));
+                $user = User::where('email', 'non-authenticated-user@roomup.gr')->first();
+                dispatch(new UserViewedRoom($user, $room));
             } 
         } elseif ($model === "flat") {
             $flat = Flat::find($id);
@@ -37,7 +39,8 @@ class SinglePropertyController extends Controller
             if($request->user()) {
                 dispatch(new UserViewedFlat($request->user(), $flat));
             } else {
-                dispatch(new UserViewedFlat(null, $flat));
+                $user = User::where('email', 'non-authenticated-user@roomup.gr')->first();
+                dispatch(new UserViewedFlat($user, $flat));
             } 
         }
 

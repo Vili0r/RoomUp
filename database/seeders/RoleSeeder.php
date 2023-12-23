@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
@@ -80,5 +81,13 @@ class RoleSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ])->assignRole('admin');
+        
+        User::create([
+            'first_name' => "non-authenticated-user",
+            'email' => "non-authenticated-user@roomup.gr",
+            'email_verified_at' => now(),
+            'password' => Hash::make('vQKR@!RR!c44dP'),
+            'remember_token' => Str::random(10),
+        ])->assignRole('user');
     }
 }

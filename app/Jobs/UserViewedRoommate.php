@@ -20,7 +20,7 @@ class UserViewedRoommate implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(?User $user, Roommate $roommate)
+    public function __construct(User $user, Roommate $roommate)
     {
         $this->user = $user;
         $this->roommate = $roommate;
@@ -31,39 +31,15 @@ class UserViewedRoommate implements ShouldQueue
      */
     public function handle(): void
     {
-        // $viewed = $this->user->viewedRoommates;
+        $viewed = $this->user->viewedRoommates;
 
-        // if($viewed->contains($this->roommate)){
-        //     $viewed->where('id', $this->roommate->id)->first()->pivot->increment('count');
-        //     return;
-        // }
-
-        // $this->user->viewedRoommates()->attach($this->roommate, [
-        //     'count' => 1
-        // ]);
-        if ($this->user) {
-            $viewed = $this->user->viewedRoommates;
-            
-            if($viewed->contains($this->roommate)){
-                $viewed->where('id', $this->roommate->id)->first()->pivot->increment('count');
-                return;
-            }
-            
-            $this->user->viewedRoommates()->attach($this->roommate, [
-                'count' => 1
-            ]);
-        } else {
-    
-            $roommateExists = $this->roommate->viewedUsers->contains('user_id', null);
-
-            if ($roommateExists) {
-                $pivot = $this->roommate->viewedUsers->where('user_id', null)->first()->pivot;
-                $pivot->increment('count');
-            } else {
-                $this->roommate->viewedUsers()->attach(null, [
-                    'count' => 1
-                ]);
-            }
+        if($viewed->contains($this->roommate)){
+            $viewed->where('id', $this->roommate->id)->first()->pivot->increment('count');
+            return;
         }
+
+        $this->user->viewedRoommates()->attach($this->roommate, [
+            'count' => 1
+        ]);
     }
 }

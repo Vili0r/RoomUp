@@ -20,7 +20,7 @@ class UserViewedRoom implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(?User $user, Room $room)
+    public function __construct(User $user, Room $room)
     {
         $this->user = $user;
         $this->room = $room;
@@ -31,29 +31,15 @@ class UserViewedRoom implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->user) {
-            $viewed = $this->user->viewedRooms;
-            
-            if($viewed->contains($this->room)){
-                $viewed->where('id', $this->room->id)->first()->pivot->increment('count');
-                return;
-            }
-            
-            $this->user->viewedRooms()->attach($this->room, [
-                'count' => 1
-            ]);
-        } else {
-    
-            $roomExists = $this->room->viewedUsers->contains('user_id', null);
-
-            if ($roomExists) {
-                $pivot = $this->room->viewedUsers->where('user_id', null)->first()->pivot;
-                $pivot->increment('count');
-            } else {
-                $this->room->viewedUsers()->attach(null, [
-                    'count' => 1
-                ]);
-            }
+        $viewed = $this->user->viewedRooms();
+       
+        if($viewed->contains($this->room)){
+            $viewed->where('id', $this->room->id)->first()->pivot->increment('count');
+            return;
         }
+
+        $this->user->viewedRooms()()->attach($this->room, [
+            'count' => 1
+        ]);
     }
 }
