@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use App\Traits\MustVerifyMobile;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\PivotOrderableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,11 +18,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Notifications\Notification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, Searchable, PivotOrderableTrait;
-
+    use MustVerifyMobile;
     /**
      * The attributes that are mass assignable.
      *
@@ -35,7 +37,16 @@ class User extends Authenticatable
         'avatar',
         'gender',
         'birthdate',
-        'looking_for'
+        'looking_for',
+        'phone_number',
+        'mobile_verify_code',
+        'mobile_attempts_left',
+        'mobile_last_attempt_date',
+        'mobile_verify_code_sent_at',
+        'facebook_link',
+        'instagram_link',
+        'tiktok_link',
+        'linkedin_link',
     ];
 
     /**
@@ -56,7 +67,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'birthdate' => 'datetime:Y-m-d',
+        'number_verified_at' => 'datetime',
+        'mobile_verify_code_sent_at' => 'datetime',
+        'mobile_last_attempt_date' => 'datetime'
     ];
+
+    public function routeNotificationForVonage(Notification $notification): string
+    {
+        return $this->phone_number;
+    }
+
+    public function verification(): HasOne
+    {
+        return $this->hasOne(UserVerification::class);
+    }
 
     public function socials(): HasMany
     {

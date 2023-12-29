@@ -57,8 +57,10 @@ class AuthController extends Controller
             $filename = uniqid() . "_" . $file->getClientOriginalName();
             $file->move(public_path('uploads/avatars'), $filename);
             $url = 'uploads/avatars/' . $filename;
+            $isPhotoVerified = now();
         } else {
             $url = 'https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp';
+            $isPhotoVerified = null;
         }
 
         $user = User::create([
@@ -72,6 +74,16 @@ class AuthController extends Controller
             'avatar' => $url,
         ]);
 
+        $user->sendEmailVerificationNotification();
+
+        // Create the associated UserVerification record
+        $userVerification = $user->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => $user->hasVerifiedEmail() ? now() : null, 
+            'photo_verified_at' => $isPhotoVerified, 
+        ]);
+        $userVerification->save();
+    
         return response()->json($user, 201);
     }
 

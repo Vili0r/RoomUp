@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AmenitySeeder::class,
             HobbySeeder::class,
-            CategorySeeder::class,
+            // CategorySeeder::class,
         ]);
  
-        $this->callWith(UserSeeder::class, [
-            'users' => 100
-        ]);
+        // $this->callWith(UserSeeder::class, [
+        //     'users' => 100
+        // ]);
         // $this->callWith(SharedSeeder::class, [
         //     'count' => 10000
         // ]);

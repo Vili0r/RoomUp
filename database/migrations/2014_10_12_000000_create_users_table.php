@@ -17,6 +17,16 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone_number')->unique()->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
+            $table->tinyInteger('mobile_attempts_left')->default(0);
+            $table->timestamp('mobile_last_attempt_date')->nullable();
+            $table->timestamp('mobile_verify_code_sent_at')->nullable();
+            $table->string('mobile_verify_code')->nullable();
+            $table->string('facebook_link')->nullable();
+            $table->string('instagram_link')->nullable();
+            $table->string('tiktok_link')->nullable();
+            $table->string('linkedin_link')->nullable();
             $table->string('password');
             $table->string('avatar')->default('https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp');
             $table->string('gender')->nullable();

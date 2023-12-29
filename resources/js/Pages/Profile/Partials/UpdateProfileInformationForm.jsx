@@ -55,32 +55,53 @@ export default function UpdateProfileInformation({
 
                 <div>
                     <InputLabel htmlFor="last_name" value="Last Name" />
-
-                    <TextInput
-                        id="last_name"
-                        className="block w-full mt-1"
-                        value={data.last_name}
-                        onChange={(e) => setData("last_name", e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="off"
-                    />
-
+                    <div className="relative">
+                        <TextInput
+                            id="last_name"
+                            className="block w-full mt-1"
+                            value={data.last_name}
+                            onChange={(e) =>
+                                setData("last_name", e.target.value)
+                            }
+                            required
+                            isFocused
+                            autoComplete="off"
+                        />
+                        {user.verification.last_name_verified_at !== null ? (
+                            <span className="bg-green-600/70 absolute px-2 py-1 text-white rounded-md top-[9px] right-1">
+                                Verified
+                            </span>
+                        ) : (
+                            <span className="bg-gray-600/70 absolute px-2 py-1 text-white rounded-md top-[9px] right-1">
+                                Unverified
+                            </span>
+                        )}
+                    </div>
                     <InputError className="mt-2" message={errors.last_name} />
                 </div>
 
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="block w-full mt-1"
-                        value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
+                    <div className="relative">
+                        <TextInput
+                            id="email"
+                            type="email"
+                            className="block w-full mt-1"
+                            value={data.email}
+                            onChange={(e) => setData("email", e.target.value)}
+                            required
+                            autoComplete="username"
+                        />
+                        {user.verification.email_verified_at !== null ? (
+                            <span className="bg-green-600/70 absolute px-2 py-1 text-white rounded-md top-[9px] right-1">
+                                Verified
+                            </span>
+                        ) : (
+                            <span className="bg-gray-600/70 absolute px-2 py-1 text-white rounded-md top-[9px] right-1">
+                                Unverified
+                            </span>
+                        )}
+                    </div>
 
                     <InputError className="mt-2" message={errors.email} />
                 </div>

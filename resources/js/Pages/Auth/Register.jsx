@@ -141,6 +141,27 @@ export default function Register() {
                     />
                 </div>
                 <div className="w-full [@media(max-width:637px)]:mx-auto mx-[7rem] [@media(max-width:637px)]:text-center md:mx-0 mt-[4rem] px-6 py-8 md:px-8 md:w-1/2">
+                    {Object.keys(errors).length !== 0 && (
+                        <div className="w-full max-w-2xl mx-auto mb-5">
+                            <div className="flex p-5 bg-white rounded-lg shadow">
+                                <div>
+                                    <svg
+                                        className="w-6 h-6 text-yellow-500 fill-current"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M0 0h24v24H0V0z" fill="none" />
+                                        <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+                                    </svg>
+                                </div>
+                                <div className="ml-3">
+                                    <h2 className="font-semibold text-gray-800">
+                                        Please fix the errors
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     {step == "2" && (
                         <div className="flex justify-between mt-5 mb-10 text-gray-600 rounded-md text-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             <PrimaryButton
@@ -351,7 +372,7 @@ export default function Register() {
                                 </div>
 
                                 <div>
-                                    <div className="relative mt-5">
+                                    <div className="relative mt-6">
                                         <select
                                             type="text"
                                             name="gender"
@@ -392,7 +413,7 @@ export default function Register() {
                                 </div>
 
                                 <div>
-                                    <div className="relative mt-5">
+                                    <div className="relative mt-6">
                                         <select
                                             type="text"
                                             name="looking_for"
@@ -433,7 +454,7 @@ export default function Register() {
                                     )}
                                 </div>
 
-                                <div className="relative mt-5">
+                                <div className="relative mt-6">
                                     <input
                                         type="file"
                                         name="avatar"

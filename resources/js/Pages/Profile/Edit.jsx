@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import UpdatePhoneNumber from "./Partials/UpdatePhoneNumber";
 import { Head, usePage } from "@inertiajs/react";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
@@ -26,6 +27,9 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             status={status}
                             className="max-w-xl"
                         />
+                    </div>
+                    <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <UpdatePhoneNumber user={user} className="max-w-xl" />
                     </div>
 
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">

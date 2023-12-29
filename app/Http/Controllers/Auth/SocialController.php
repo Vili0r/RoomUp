@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Social;
 use App\Models\User;
+use App\Notifications\SuccessfulRegistration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -40,6 +41,7 @@ class SocialController extends Controller
                 'provider_token' => $socialUser->token,
                 'provider_refresh_token' => $socialUser->refreshToken,
             ]);
+            $user->sendEmailVerificationNotification();
         }
 
         //if user exist
@@ -58,6 +60,12 @@ class SocialController extends Controller
 
         //login user
         Auth::login($user);
+
+        // Create the associated UserVerification record
+        $userVerification = $user->verification()->create([
+            'email_verified_at' => auth()->check() ? now() : null, 
+        ]);
+        $userVerification->save();
  
         //redirect user
         return redirect('/dashboard');

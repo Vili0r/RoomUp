@@ -15,6 +15,7 @@
         "laravel/scout": "^10.2",
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.8",
+        "laravel/vonage-notification-channel": "^3.2",
         "meilisearch/meilisearch-php": "^1.1",
         "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-medialibrary": "^10.0.0",

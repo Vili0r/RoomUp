@@ -38,6 +38,8 @@ class SocialController extends Controller
                 'provider_token' => $socialUser->token,
                 'provider_refresh_token' => $socialUser->refreshToken,
             ]);
+
+            $user->sendEmailVerificationNotification();
         }
 
         //if user exist
@@ -55,6 +57,12 @@ class SocialController extends Controller
         }
 
         $token = $user->createToken($request->device_name)->plainTextToken;
+
+        // Create the associated UserVerification record
+        $userVerification = $user->verification()->create([
+            'email_verified_at' => $user->hasVerifiedEmail() ? now() : null, 
+        ]);
+        $userVerification->save();
     
         return response()->json([
             'token' => $token,

@@ -48,8 +48,10 @@ class RegisteredUserController extends Controller
 
         if($request->hasFile('avatar')){
             $avatar = $request->file('avatar')->store('avatars', 'public');
+            $isPhotoVerified = now();
         } else {
             $avatar = 'https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp';
+            $isPhotoVerified = null;
         }
 
         $user = User::create([
@@ -63,9 +65,19 @@ class RegisteredUserController extends Controller
             'avatar' => $avatar,
         ]);
 
+        $user->sendEmailVerificationNotification();
+
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Create the associated UserVerification record
+        $userVerification = $user->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => auth()->check() ? now() : null, 
+            'photo_verified_at' => $isPhotoVerified, 
+        ]);
+        $userVerification->save();
 
         return redirect(RouteServiceProvider::HOME);
     }

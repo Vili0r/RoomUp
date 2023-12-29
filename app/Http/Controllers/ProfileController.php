@@ -36,8 +36,26 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
+        
+        if ($request->user()->isDirty('phone_number')) {
+            $request->user()->mobile_verified_at = null;
+            $request->user()->verification()->update([
+                'phone_verified_at' => null,
+            ]);
+        }
 
         $request->user()->save();
+
+        // Create the associated UserVerification record
+        if($request->filled('last_name') || $request->user()->last_name !== null) {
+            $lastNameVerified = now();
+        } else {
+            $lastNameVerified = null;
+        }
+        
+        $request->user()->verification()->update([
+            'last_name_verified_at' =>  $lastNameVerified, 
+        ]);
 
         return Redirect::route('profile.edit');
     }

@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
         $role1 = Role::create(['name' => 'admin']);
         $role2 = Role::create(['name' => 'moderator']);
         $role3 = Role::create(['name' => 'writer']);
+        Role::create(['name' => 'home owner PMS']);
         Role::create(['name' => 'user']);
 
         // create permissions
@@ -64,6 +65,7 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'phone_number' => '12345678'
         ])->assignRole('moderator');
        
         User::create([
@@ -72,6 +74,7 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'phone_number' => '23456789'
         ])->assignRole('writer');
 
         User::create([
@@ -80,6 +83,7 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'phone_number' => '34567891'
         ])->assignRole('admin');
         
         User::create([
@@ -88,6 +92,16 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('vQKR@!RR!c44dP'),
             'remember_token' => Str::random(10),
+            'phone_number' => '456789101'
         ])->assignRole('user');
+
+        User::create([
+            'first_name' => "test-home-owner",
+            'email' => "test-home-owner-pms@roomup.gr",
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+            'phone_number' => '5678910111'
+        ])->assignRole('home owner PMS');
     }
 }
