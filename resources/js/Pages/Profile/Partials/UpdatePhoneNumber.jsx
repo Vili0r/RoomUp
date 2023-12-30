@@ -2,7 +2,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Link, useForm, router } from "@inertiajs/react";
+import { useForm, router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 
 export default function UpdatePhoneNumber({ className, user }) {
@@ -14,7 +14,9 @@ export default function UpdatePhoneNumber({ className, user }) {
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        patch(route("profile-phone-number.update"), {
+            preserveScroll: true,
+        });
     };
 
     const handleButtonClick = () => {
@@ -76,22 +78,24 @@ export default function UpdatePhoneNumber({ className, user }) {
                     />
                 </div>
 
-                {user.verification.phone_verified_at === null && (
-                    <div>
-                        <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
-                            <button
-                                onClick={handleButtonClick}
-                                type="button"
-                                // href={route("verification-mobile.notice")}
-                                // method="get"
-                                // as="button"
-                                className="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                            >
-                                Click here to verify your phone number.
-                            </button>
-                        </p>
-                    </div>
-                )}
+                {user.phone_number !== null
+                    ? user.verification.phone_verified_at === null && (
+                          <div>
+                              <p className="mt-2 text-sm text-gray-800 dark:text-gray-200">
+                                  <button
+                                      onClick={handleButtonClick}
+                                      type="button"
+                                      // href={route("verification-mobile.notice")}
+                                      // method="get"
+                                      // as="button"
+                                      className="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                                  >
+                                      Click here to verify your phone number.
+                                  </button>
+                              </p>
+                          </div>
+                      )
+                    : null}
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>

@@ -4,6 +4,10 @@ import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import UpdatePhoneNumber from "./Partials/UpdatePhoneNumber";
 import { Head, usePage } from "@inertiajs/react";
+import UpdateProfilePhoto from "./Partials/UpdateProfilePhoto";
+import UpdateSocialLinks from "./Partials/UpdateSocialLinks";
+import UpdateSelfieDocument from "./Partials/UpdateSelfieDocument";
+import UpdateIdDocument from "./Partials/UpdateIdDocument";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
     const { user } = usePage().props;
@@ -33,7 +37,26 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     </div>
 
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <UpdateProfilePhoto user={user} className="max-w-xl" />
+                    </div>
+
+                    <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <UpdateSocialLinks user={user} className="max-w-xl" />
+                    </div>
+
+                    <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
                         <UpdatePasswordForm className="max-w-xl" />
+                    </div>
+
+                    <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <UpdateSelfieDocument
+                            user={user}
+                            className="max-w-xl"
+                        />
+                    </div>
+
+                    <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
+                        <UpdateIdDocument user={user} className="max-w-xl" />
                     </div>
 
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">

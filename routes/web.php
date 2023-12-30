@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\RevokeUserPermissionController;
 use App\Http\Controllers\Admin\RevokeUserRoleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\ConversationController;
@@ -49,6 +48,11 @@ use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use App\Http\Controllers\UpdateAddressController;
+use App\Http\Controllers\UpdateIdDocumentController;
+use App\Http\Controllers\UpdatePhoneNumberController;
+use App\Http\Controllers\UpdatePhotoProfileController;
+use App\Http\Controllers\UpdateSelfieController;
+use App\Http\Controllers\UpdateSocialLinksController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +118,16 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+    Route::post('/profile-photo', UpdatePhotoProfileController::class)
+        ->name('profile-photo.update');
+    Route::patch('/profile-phone_number', UpdatePhoneNumberController::class)
+        ->name('profile-phone-number.update');
+    Route::patch('/profile-social_links', UpdateSocialLinksController::class)
+        ->name('profile-social-links.update');
+    Route::patch('/profile-seflie-verification', UpdateSelfieController::class)
+        ->name('profile-seflie-verification.update');
+    Route::patch('/profile-id_document-verification', UpdateIdDocumentController::class)
+        ->name('profile-id_document-verification.update');
 
     //Route to update address on shared property
     Route::put('/property/{model}/{id}/address', UpdateAddressController::class)

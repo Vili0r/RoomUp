@@ -61,11 +61,13 @@ class SocialController extends Controller
         //login user
         Auth::login($user);
 
-        // Create the associated UserVerification record
-        $userVerification = $user->verification()->create([
-            'email_verified_at' => auth()->check() ? now() : null, 
-        ]);
-        $userVerification->save();
+        if(!$socials) {
+            // Create the associated UserVerification record
+            $userVerification = $user->verification()->create([
+                'email_verified_at' => auth()->check() ? now() : null, 
+            ]);
+            $userVerification->save();
+        }
  
         //redirect user
         return redirect('/dashboard');

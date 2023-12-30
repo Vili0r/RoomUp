@@ -1,7 +1,7 @@
 import AuxiliaryLayout from "@/Layouts/AuxiliaryLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 
 export default function VerifyEmail() {
     const { phone_number, status } = usePage().props;
@@ -97,15 +97,6 @@ export default function VerifyEmail() {
                     >
                         Verify
                     </PrimaryButton>
-
-                    {/* <Link
-                        href={route("verification.send-verification-code")}
-                        method="post"
-                        as="button"
-                        className="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                    >
-                        Send Code
-                    </Link> */}
                 </div>
             </form>
         </AuxiliaryLayout>
