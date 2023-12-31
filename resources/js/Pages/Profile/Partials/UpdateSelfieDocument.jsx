@@ -13,9 +13,10 @@ export default function UpdateSelfieDocument({ className, user }) {
     const photoRef = useRef(null);
     const imgRef1 = useRef();
     const imgRef2 = useRef();
+    const isFirstRender = useRef(true);
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
-            avatar: null,
+            selfie: null,
         });
 
     const getVideo = async () => {
@@ -37,6 +38,18 @@ export default function UpdateSelfieDocument({ className, user }) {
         }
     };
 
+    const renderFace = async (image, x, y, width, height) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+
+        context?.drawImage(image, x, y, width, height, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+            image.src = URL.createObjectURL(blob);
+        }, "image/jpeg");
+    };
+
     const takePhoto = () => {
         const width = 414;
         const height = width / (16 / 9);
@@ -52,6 +65,9 @@ export default function UpdateSelfieDocument({ className, user }) {
         setHasPhoto(true);
         stopVideo();
         setStreamStarted(false);
+
+        const imageDataUrl = photo.toDataURL("image/jpeg", 1.0);
+        setData("selfie", imageDataUrl);
     };
 
     const closePhoto = () => {
@@ -74,38 +90,49 @@ export default function UpdateSelfieDocument({ className, user }) {
         }
     };
 
-    // useEffect(() => {
-    //     const loadModels = async () => {
-    //         const MODEL_URL = '/models';
-    //         await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-    //         await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-    //         await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
-    //     };
+    const verifyPhotos = () => {
+        console.log("okay");
+        if (isFirstRender.current) {
+            isFirstRender.current = false; // toggle flag after first render/mounting
+            return;
+        }
 
-    //     const compareFaces = async () => {
-    //         if (imgRef1.current && imgRef2.current) {
-    //             // Detect the faces
-    //             const detections1 = await faceapi.detectSingleFace(imgRef1.current).withFaceLandmarks().withFaceDescriptor();
-    //             const detections2 = await faceapi.detectSingleFace(imgRef2.current).withFaceLandmarks().withFaceDescriptor();
+        (async () => {
+            // loading the models
+            await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
+            await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+            await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+            await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+            await faceapi.nets.faceExpressionNet.loadFromUri("/models");
 
-    //             if (detections1 && detections2) {
-    //                 // Compute the distance between the two faces
-    //                 const distance = faceapi.euclideanDistance(detections1.descriptor, detections2.descriptor);
-    //                 console.log("Distance between faces:", distance);
+            // detect a single face from the ID card image
+            const idCardFacedetection = await faceapi
+                .detectSingleFace(
+                    imgRef1.current,
+                    new faceapi.TinyFaceDetectorOptions()
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptor();
 
-    //                 // Define a threshold for considering faces as "similar"
-    //                 const threshold = 0.6;  // Adjust as needed
-    //                 if (distance < threshold) {
-    //                     console.log("Faces are similar");
-    //                 } else {
-    //                     console.log("Faces are not similar");
-    //                 }
-    //             }
-    //         }
-    //     };
+            // detect a single face from the selfie image
+            const selfieFacedetection = await faceapi
+                .detectSingleFace(
+                    imgRef2.current,
+                    new faceapi.TinyFaceDetectorOptions()
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptor();
 
-    //     loadModels().then(compareFaces);
-    // }, []);
+            if (idCardFacedetection && selfieFacedetection) {
+                // Using Euclidean distance to comapare face descriptions
+                const distance = faceapi.euclideanDistance(
+                    idCardFacedetection.descriptor,
+                    selfieFacedetection.descriptor
+                );
+                console.log(distance);
+            }
+        })();
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -139,97 +166,76 @@ export default function UpdateSelfieDocument({ className, user }) {
                 alt=""
                 className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3"
             />
+            <img
+                ref={imgRef2}
+                src={data.selfie}
+                alt=""
+                className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3"
+            />
 
-            <div>
-                <div className="relative">
-                    <video
-                        ref={videoRef}
-                        autoPlay={true}
-                        style={{ display: streamStarted ? "block" : "none" }}
-                    />
-                    {streamStarted && (
-                        <button
-                            onClick={takePhoto}
-                            type="button"
-                            className="absolute px-4 py-2 mb-2 text-lg font-medium text-center text-white rounded-lg bottom-3 left-4 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 me-2"
-                        >
-                            Snap!
-                        </button>
-                    )}
-                    {!streamStarted && (
-                        <PrimaryButton
-                            onClick={getVideo}
-                            className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
-                        >
-                            Get a selfie
-                        </PrimaryButton>
-                    )}
-                </div>
-                <div
-                    className={
-                        `fixed top-0 left-[100%] flex items-center transition` +
-                        { hasPhoto }
-                            ? "left-0"
-                            : ""
-                    }
-                >
-                    <canvas ref={photoRef}></canvas>
-                    <button onClick={closePhoto}>Close!</button>
-                </div>
+            <div className="relative">
+                <video
+                    ref={videoRef}
+                    autoPlay={true}
+                    style={{ display: streamStarted ? "block" : "none" }}
+                />
+                {streamStarted && (
+                    <button
+                        onClick={takePhoto}
+                        type="button"
+                        className="absolute px-4 py-2 mb-2 text-lg font-medium text-center text-white rounded-lg bottom-3 left-4 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 me-2"
+                    >
+                        Snap!
+                    </button>
+                )}
             </div>
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                {/* <div>
-                    <div className="relative">
-                        <div className="mt-6">
-                            <input
-                                type="file"
-                                name="avatar"
-                                className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                onChange={(e) =>
-                                    setData("avatar", e.target.files[0])
-                                }
-                            />
+            <div
+                className={
+                    `fixed top-0 left-[100%] flex items-center transition` +
+                    { hasPhoto }
+                        ? "left-0"
+                        : ""
+                }
+            >
+                <canvas ref={photoRef}></canvas>
+                {/* <button onClick={closePhoto}>Close!</button> */}
+            </div>
 
-                            <label
-                                htmlFor="avatar"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                            >
-                                Photo Profile
-                            </label>
-                        </div>
-                        {user.verification.photo_verified_at !== null ? (
-                            <span className="bg-green-600/70 absolute px-2 py-1 text-white rounded-md top-[12px] right-1">
-                                Verified
-                            </span>
-                        ) : (
-                            <span className="bg-gray-600/70 absolute px-2 py-1 text-white rounded-md top-[12px] right-1">
-                                Unverified
-                            </span>
-                        )}
-                    </div>
-                    <InputError className="mt-2" message={errors.avatar} />
-                </div> */}
+            <div className="flex items-center gap-4 mt-5">
+                <PrimaryButton
+                    className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
+                    disabled={processing}
+                >
+                    Save
+                </PrimaryButton>
 
-                <div className="flex items-center gap-4">
+                <Transition
+                    show={recentlySuccessful}
+                    enterFrom="opacity-0"
+                    leaveTo="opacity-0"
+                    className="transition ease-in-out"
+                >
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Saved.
+                    </p>
+                </Transition>
+                {!streamStarted && (
                     <PrimaryButton
-                        className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
-                        disabled={processing}
+                        onClick={getVideo}
+                        className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
                     >
-                        Save
+                        Get a selfie
                     </PrimaryButton>
+                )}
 
-                    <Transition
-                        show={recentlySuccessful}
-                        enterFrom="opacity-0"
-                        leaveTo="opacity-0"
-                        className="transition ease-in-out"
-                    >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Saved.
-                        </p>
-                    </Transition>
-                </div>
-            </form>
+                <button
+                    onClick={verifyPhotos}
+                    type="button"
+                    className="px-4 py-2 text-xs font-semibold tracking-widest text-center text-gray-900 border border-gray-800 rounded-lg hover:text-white hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                >
+                    Verify
+                </button>
+            </div>
         </section>
     );
 }
