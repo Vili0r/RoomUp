@@ -15,26 +15,26 @@ class UpdatePhotoProfileController extends Controller
         $request->validate([
             'avatar' => 'required',
         ]);
-        $file = $request->file('avatar');
-        $filename = uniqid() . "_" . $file->getClientOriginalName();
-        $file->move(public_path('uploads/avatars'), $filename);
-        $url = 'uploads/avatars/' . $filename;
 
-        // Validate if a file was uploaded
-        if (!$file) {
-            return back()->with('status', 'no-file-found');
+        if ($request->file('avatar')){
+            $file = $request->file('avatar');
+            $filename = uniqid() . "_" . $file->getClientOriginalName();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $url = 'uploads/avatars/' . $filename;
+
+            $user = $request->user();
+            $user->update([
+                'avatar' => $url
+            ]);
+            $user->save();
+
+            $user->verification()->update([
+                'photo_verified_at' =>  now(), 
+                'selfie_verified_at' => null,
+            ]);
+
+            return back()->with('status', 'profile-photo-uploaded');
         }
-
-        $user = $request->user();
-        $user->update([
-            'avatar' => $url
-        ]);
-        $user->save();
-
-        $user->verification()->update([
-            'photo_verified_at' =>  now(), 
-        ]);
-
-        return back()->with('status', 'profile-photo-uploaded');
+        return back()->with('status', 'profile-photo-not-uploaded');
     }
 }

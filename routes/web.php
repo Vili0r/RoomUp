@@ -124,9 +124,9 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('profile-phone-number.update');
     Route::patch('/profile-social_links', UpdateSocialLinksController::class)
         ->name('profile-social-links.update');
-    Route::patch('/profile-seflie-verification', UpdateSelfieController::class)
+    Route::post('/profile-seflie-verification', UpdateSelfieController::class)
         ->name('profile-seflie-verification.update');
-    Route::patch('/profile-id_document-verification', UpdateIdDocumentController::class)
+    Route::post('/profile-id_document-verification', UpdateIdDocumentController::class)
         ->name('profile-id_document-verification.update');
 
     //Route to update address on shared property

@@ -37,7 +37,11 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     </div>
 
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
-                        <UpdateProfilePhoto user={user} className="max-w-xl" />
+                        <UpdateProfilePhoto
+                            user={user}
+                            status={status}
+                            className="max-w-xl"
+                        />
                     </div>
 
                     <div className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">

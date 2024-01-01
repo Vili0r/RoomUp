@@ -1,20 +1,74 @@
+import React, { useRef, useState } from "react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
+import * as faceapi from "face-api.js";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 
-export default function UpdateProfilePhoto({ className, user }) {
+export default function UpdateProfilePhoto({ className, user, status }) {
+    const imgRef1 = useRef();
+    const [isFaceInPhoto, setIsFaceInPhoto] = useState(null);
+    const [image, setImage] = useState(null);
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
             avatar: null,
         });
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const maxFileSize = 1048576; // 1MB,
+        if (file.size > maxFileSize) {
+            // Inform user the file is too large
+            setIsFaceInPhoto(
+                "The file is too large. Please upload a file smaller than 1MB."
+            );
+            return;
+        }
+        if (file && file.type.match("image.*")) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImage(e.target.result); // The result contains the base64 encoded image
+            };
+            reader.readAsDataURL(file);
+            setData("avatar", file);
+        } else {
+            setIsFaceInPhoto("Please select an image file.");
+        }
+    };
+
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("profile-photo.update"), {
-            preserveScroll: true,
-        });
+        (async () => {
+            // loading the models
+            await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
+            await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+            await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+            await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+            await faceapi.nets.faceExpressionNet.loadFromUri("/models");
+
+            // detect a single face from the ID card image
+            const idCardFacedetection = await faceapi
+                .detectSingleFace(
+                    imgRef1.current,
+                    new faceapi.TinyFaceDetectorOptions()
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptor();
+
+            // Check if a face was detected in the ID card image
+            if (!idCardFacedetection) {
+                setIsFaceInPhoto(
+                    "No face detected in the uploaded Photo. Please try again with a different photo."
+                );
+                return;
+            }
+
+            post(route("profile-photo.update"), {
+                preserveScroll: true,
+            });
+        })();
     };
 
     return (
@@ -30,6 +84,36 @@ export default function UpdateProfilePhoto({ className, user }) {
                 </p>
             </header>
 
+            {isFaceInPhoto && (
+                <div className="w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow">
+                    <div className="flex gap-2">
+                        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg ">
+                            <MdOutlineNotificationsNone size={24} />
+                        </div>
+                        <div className="text-sm font-normal ms-3">
+                            <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                                {isFaceInPhoto}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {status === "profile-photo-not-uploaded" && (
+                <div className="w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow">
+                    <div className="flex gap-2">
+                        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg ">
+                            <MdOutlineNotificationsNone size={24} />
+                        </div>
+                        <div className="text-sm font-normal ms-3">
+                            <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                                The photo profile has not been uploaded! Try
+                                again.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <img
                 src={
                     user.avatar !==
@@ -41,6 +125,14 @@ export default function UpdateProfilePhoto({ className, user }) {
                 className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3"
             />
 
+            <img
+                crossOrigin="anonymous"
+                ref={imgRef1}
+                src={image}
+                alt=""
+                className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3 h-auto hidden"
+            />
+
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
                     <div className="relative">
@@ -49,9 +141,7 @@ export default function UpdateProfilePhoto({ className, user }) {
                                 type="file"
                                 name="avatar"
                                 className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                onChange={(e) =>
-                                    setData("avatar", e.target.files[0])
-                                }
+                                onChange={handleImageChange}
                             />
 
                             <label
