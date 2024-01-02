@@ -13,14 +13,22 @@ import { BsInbox } from "react-icons/bs";
 import { TbFriends, TbLayoutSidebarLeftCollapse } from "react-icons/tb";
 import { CgMenuRight } from "react-icons/cg";
 import ResponsiveNavLink from "../Components/ResponsiveNavLink";
+import { BsChat } from "react-icons/bs";
+import AssistanceChat from "@/Components/AssistanceChat";
+import { MdOutlineVerifiedUser } from "react-icons/md";
 
 export default function Authenticated({ auth, children }) {
     const [showMenu, setShowMenu] = useState(false);
+    const [showChat, setShowChat] = useState(false);
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     function handleMenuToggle() {
         setShowMenu(!showMenu);
+    }
+
+    function handleChatToggle() {
+        setShowChat(!showChat);
     }
 
     function handleMenuClose() {
@@ -33,6 +41,7 @@ export default function Authenticated({ auth, children }) {
             ? main.classList.add("show-menu")
             : main.classList.remove("show-menu");
     }, [showMenu]);
+
     return (
         <>
             <nav className="bg-[#270740] pt-[2rem] fixed top-0 left-0 w-[100%] h-[100vh]">
@@ -60,7 +69,7 @@ export default function Authenticated({ auth, children }) {
                                         : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                 }
                                 alt=""
-                                className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3"
+                                className="w-[70px] sm:w-[90px] lg:w-[120px] lg:mb-5 mb-3.5"
                             />
                         </div>
 
@@ -270,6 +279,18 @@ export default function Authenticated({ auth, children }) {
                                                 <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
                                                 Roommate
                                             </NavLink>
+                                            <NavLink
+                                                className="gap-2"
+                                                href={route(
+                                                    "verification.index"
+                                                )}
+                                                active={route().current(
+                                                    "verification.index"
+                                                )}
+                                            >
+                                                <MdOutlineVerifiedUser className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                Verify
+                                            </NavLink>
                                         </div>
                                     </div>
 
@@ -380,6 +401,24 @@ export default function Authenticated({ auth, children }) {
                         </nav>
                         {children}
                     </div>
+                    <button
+                        onClick={handleChatToggle}
+                        className="fixed inline-flex items-center justify-center w-16 h-16 p-0 m-0 text-sm font-medium leading-5 normal-case bg-black border border-gray-200 rounded-full cursor-pointer bottom-4 right-4 disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-700 bg-none hover:text-gray-900"
+                        type="button"
+                    >
+                        {showChat ? (
+                            <AiOutlineClose
+                                size={28}
+                                className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-90"
+                            />
+                        ) : (
+                            <BsChat
+                                size={28}
+                                className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-12"
+                            />
+                        )}
+                    </button>
+                    <AssistanceChat showChat={showChat} />
                     <Footer />
                 </main>
             </div>

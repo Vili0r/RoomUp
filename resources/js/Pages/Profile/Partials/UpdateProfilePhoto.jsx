@@ -17,14 +17,14 @@ export default function UpdateProfilePhoto({ className, user, status }) {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        const maxFileSize = 1048576; // 1MB,
-        if (file.size > maxFileSize) {
-            // Inform user the file is too large
-            setIsFaceInPhoto(
-                "The file is too large. Please upload a file smaller than 1MB."
-            );
-            return;
-        }
+        // const maxFileSize = 1048576; // 1MB,
+        // if (file.size > maxFileSize) {
+        //     // Inform user the file is too large
+        //     setIsFaceInPhoto(
+        //         "The file is too large. Please upload a file smaller than 1MB."
+        //     );
+        //     return;
+        // }
         if (file && file.type.match("image.*")) {
             const reader = new FileReader();
             reader.onload = (e) => {
