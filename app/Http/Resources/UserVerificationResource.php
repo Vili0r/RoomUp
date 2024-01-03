@@ -23,6 +23,7 @@ class UserVerificationResource extends JsonResource
             'selfie_verified_at' => $this->selfie_verified_at ? $this->selfie_verified_at->format('Y-m-d') : null,
             'id_document_verified_at' => $this->id_document_verified_at ? $this->id_document_verified_at->format('Y-m-d') : null,
             'profile_verified_at' => $this->profile_verified_at ? $this->profile_verified_at->format('Y-m-d') : null,
+            'status' => $this->status,
         ];
     }
 }

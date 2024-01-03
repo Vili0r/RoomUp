@@ -53,7 +53,7 @@ use App\Http\Controllers\UpdatePhoneNumberController;
 use App\Http\Controllers\UpdatePhotoProfileController;
 use App\Http\Controllers\UpdateSelfieController;
 use App\Http\Controllers\UpdateSocialLinksController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\UserVerificationController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -207,7 +207,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->only(['index', 'create', 'store', 'destroy']);
     Route::resource('/conversation', ConversationController::class)
         ->only(['index', 'show', 'destroy']);
-    Route::resource('/verification', VerificationController::class)
+    Route::resource('/verification', UserVerificationController::class)
         ->only(['index', 'store']);
     Route::get('my-properties', PropertyController::class)->name('my-properties');
 

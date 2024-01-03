@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\VerificationStatus;
 
 class UserVerification extends Model
 {
@@ -18,6 +19,7 @@ class UserVerification extends Model
         'selfie_verified_at',
         'id_document_verified_at',
         'profile_verified_at',
+        'status'
     ];
 
     protected $casts = [
@@ -29,6 +31,7 @@ class UserVerification extends Model
         'selfie_verified_at' => 'datetime',
         'id_document_verified_at' => 'datetime',
         'profile_verified_at' => 'datetime',
+        'status' => VerificationStatus::class,
     ];
 
     public function user()
