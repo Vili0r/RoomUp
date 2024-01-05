@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class AdminUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,15 +21,10 @@ class UserResource extends JsonResource
             'email' => $this->email, 
             'gender' => $this->gender, 
             'looking_for' => $this->looking_for, 
-            'phone_number' => $this->phone_number, 
             'avatar' => $this->avatar, 
-            'facebook_link' => $this->facebook_link, 
-            'instagram_link' => $this->instagram_link, 
-            'tiktok_link' => $this->tiktok_link, 
-            'linkedin_link' => $this->linkedin_link, 
             'birthdate' => $this->birthdate ? $this->birthdate->format('Y-m-d') : "",
             'last_login_at' => $this->last_login_at ? $this->last_login_at->format('Y-m-d') : "",
-            'verification' => new UserVerificationResource($this->verification),
+            'verification' => new AdminUserVerificationResource($this->verification),
             'roles' => $this->getRoleNames(),
             'permissions' => $this->getPermissionNames(),
             'userRoles' => RoleResource::collection($this->whenLoaded('roles')),

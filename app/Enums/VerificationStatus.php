@@ -7,7 +7,7 @@ enum VerificationStatus: int
     case Unverified  = 1; 
     case Verified = 2; 
     case Pending = 3;
-    case Cancelled = 3;
+    case Cancelled = 4;
     
     public function text(): string
     {

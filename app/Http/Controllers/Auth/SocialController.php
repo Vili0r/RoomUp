@@ -33,6 +33,7 @@ class SocialController extends Controller
                 'email' => $socialUser->getEmail(),
                 'password' => Hash::make(Str::random(7)),
                 'avatar' => $socialUser->getAvatar(),
+                'last_login_at' => now(),
             ]);
             //create socials
             $user->socials()->create([
@@ -67,6 +68,12 @@ class SocialController extends Controller
                 'email_verified_at' => auth()->check() ? now() : null, 
             ]);
             $userVerification->save();
+        }
+
+        if (Auth::check()) {
+            auth()->user()->update([
+                'last_login_at' => now(),
+            ]);
         }
  
         //redirect user

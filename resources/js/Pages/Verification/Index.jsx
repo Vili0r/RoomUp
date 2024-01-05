@@ -1,11 +1,8 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, router } from "@inertiajs/react";
+import { Head, usePage, router, useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { BsCheckCircle } from "react-icons/bs";
-import { BsCheckCircleFill } from "react-icons/bs";
 import { IoShieldCheckmark } from "react-icons/io5";
-import { MdOutlineVerifiedUser } from "react-icons/md";
 import { BiUser } from "react-icons/bi";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { AiOutlinePhone } from "react-icons/ai";
@@ -15,11 +12,38 @@ import { HiOutlineIdentification } from "react-icons/hi2";
 
 const Index = (props) => {
     const { user } = usePage().props;
+    const { processing } = useForm({});
 
-    const verifyAccount = () => {
-        router.post("/verification", {
-            preserveScroll: true,
-        });
+    const submit = (e) => {
+        e.preventDefault();
+
+        const canBeVerified =
+            user.verification.last_name_verified_at !== null &&
+            user.verification.email_verified_at !== null &&
+            user.verification.phone_verified_at !== null &&
+            user.verification.social_media_verified_at &&
+            user.verification.phone_verified_at !== null &&
+            user.verification.selfie_verified_at !== null &&
+            user.verification.id_document_verified_at !== null;
+
+        if (canBeVerified) {
+            router.post("/verification");
+        } else {
+            alert("Please go through the steps to verify your account.");
+        }
+    };
+
+    const getVerificationMessage = (status) => {
+        switch (status) {
+            case "Pending":
+                return "Your account verification is pending.";
+            case "Verified":
+                return "You have successfully verified your account.";
+            case "Cancelled":
+                return "Account has been cancelled.";
+            default:
+                return "Go through the steps to verify your account.";
+        }
     };
 
     return (
@@ -152,24 +176,38 @@ const Index = (props) => {
                                 <div>
                                     <IoShieldCheckmark
                                         size={64}
-                                        className="text-gray-200 "
+                                        className={`${
+                                            user.verification.status ===
+                                            "Pending"
+                                                ? "text-gray-800"
+                                                : user.verification.status ===
+                                                  "Verified"
+                                                ? "text-green-500"
+                                                : user.verification.status ===
+                                                  "Unverified"
+                                                ? "text-gray-200"
+                                                : "text-orange-300"
+                                        }`}
                                     />
                                     <h2 className="block mt-4 font-sans text-3xl antialiased font-extrabold leading-relaxed tracking-normal text-gray-700">
-                                        Verified
+                                        {user.verification.status}
                                     </h2>
                                     <p className="block font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
-                                        You have successfully verified your
-                                        account.
+                                        {getVerificationMessage(
+                                            user.verification.status
+                                        )}
                                     </p>
                                 </div>
-
-                                <PrimaryButton
-                                    onClick={verifyAccount}
-                                    className="inline-flex items-center px-4 py-3 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
-                                    disabled={processing}
-                                >
-                                    Verify
-                                </PrimaryButton>
+                                {user.verification.status === "Unverified" ? (
+                                    <form onSubmit={submit}>
+                                        <PrimaryButton
+                                            className="inline-flex items-center px-4 py-3 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
+                                            disabled={processing}
+                                        >
+                                            Verify
+                                        </PrimaryButton>
+                                    </form>
+                                ) : null}
                             </div>
                         </div>
                     </div>

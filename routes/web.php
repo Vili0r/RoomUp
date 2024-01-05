@@ -209,7 +209,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->only(['index', 'show', 'destroy']);
     Route::resource('/verification', UserVerificationController::class)
         ->only(['index', 'store']);
-    Route::get('my-properties', PropertyController::class)->name('my-properties');
+    Route::get('/my-properties', PropertyController::class)->name('my-properties');
 
     //Admin
     Route::group(['middleware' => ['role:admin|writer|moderator'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

@@ -63,6 +63,7 @@ class RegisteredUserController extends Controller
             'birthdate' => $request->birthdate,
             'looking_for' => $request->looking_for,
             'avatar' => $avatar,
+            'last_login_at' => now(),
         ]);
 
         $user->sendEmailVerificationNotification();

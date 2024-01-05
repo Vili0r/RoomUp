@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AdminUserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -27,9 +27,9 @@ class UserController extends Controller
     {
         $this->authorize('user management');
         
-        $users = UserResource::collection(
+        $users = AdminUserResource::collection(
             User::query()
-                ->with(['permissions', 'roles'])
+                ->with(['permissions', 'roles', 'verification'])
                 ->when($request->input('search'), function($query, $search) {
                     $query->where('first_name', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%");
@@ -118,7 +118,7 @@ class UserController extends Controller
         $user->load(['roles', 'permissions']);
 
         return Inertia::render("Admin/User/Edit", [
-            'user' => new UserResource($user),
+            'user' => new AdminUserResource($user),
             'roles' => RoleResource::collection(Role::all()),
             'permissions' => PermissionResource::collection(Permission::all()),
         ]);

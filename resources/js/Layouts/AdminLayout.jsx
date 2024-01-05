@@ -8,6 +8,7 @@ import { BiCategoryAlt, BiCommentDetail } from "react-icons/bi";
 import { CiLogout, CiSettings } from "react-icons/ci";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
+import { IoShieldCheckmark } from "react-icons/io5";
 import SidebarNavLink from "../Components/SidebarNavLink";
 
 export default function AdminLayoutII({ auth, children }) {
@@ -236,6 +237,33 @@ export default function AdminLayoutII({ auth, children }) {
                                             } block text-xs max-w-max mx-auto absolute left-[-15px] right-0 bottom-[2px]`}
                                         >
                                             Users
+                                        </span>
+                                    </SidebarNavLink>
+
+                                    <SidebarNavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                        className=""
+                                        style={{ transition: "background .3s" }}
+                                    >
+                                        <IoShieldCheckmark className="text-xl text-[#F2F2F2]" />
+                                        <span
+                                            className="font-[500]"
+                                            style={{
+                                                trnasition:
+                                                    "color .4s, opacity .4s",
+                                            }}
+                                        >
+                                            Verify
+                                        </span>
+                                        <span
+                                            className={`${
+                                                showSidebarMenu
+                                                    ? "opacity-100"
+                                                    : "opacity-0"
+                                            } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
+                                        >
+                                            Verify
                                         </span>
                                     </SidebarNavLink>
 

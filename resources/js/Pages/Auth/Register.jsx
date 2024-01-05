@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Hero5 } from "@/assets";
 import InputError from "@/Components/InputError";
@@ -65,6 +65,8 @@ export default function Register() {
 
     const [showPassword, setShowPassword] = useState("password");
     const [step, setStep] = useState(1);
+    const imgRef1 = useRef();
+    const [image, setImage] = useState(null);
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm(
             {
@@ -124,10 +126,60 @@ export default function Register() {
         );
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        // const maxFileSize = 1048576; // 1MB,
+        // if (file.size > maxFileSize) {
+        //     // Inform user the file is too large
+        //     setIsFaceInPhoto(
+        //         "The file is too large. Please upload a file smaller than 1MB."
+        //     );
+        //     return;
+        // }
+        if (file && file.type.match("image.*")) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImage(e.target.result); // The result contains the base64 encoded image
+            };
+            reader.readAsDataURL(file);
+            setData("avatar", file);
+        } else {
+            setIsFaceInPhoto("Please select an image file.");
+        }
+    };
+
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("register"));
+        e.preventDefault();
+
+        (async () => {
+            // loading the models
+            await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
+            await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+            await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+            await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+            await faceapi.nets.faceExpressionNet.loadFromUri("/models");
+
+            // detect a single face from the ID card image
+            const idCardFacedetection = await faceapi
+                .detectSingleFace(
+                    imgRef1.current,
+                    new faceapi.TinyFaceDetectorOptions()
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptor();
+
+            // Check if a face was detected in the ID card image
+            if (!idCardFacedetection) {
+                setIsFaceInPhoto(
+                    "No face detected in the uploaded Photo. Please try again with a different photo."
+                );
+                return;
+            }
+
+            post(route("register"));
+        })();
     };
 
     return (
@@ -459,9 +511,7 @@ export default function Register() {
                                         type="file"
                                         name="avatar"
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                        onChange={(e) =>
-                                            setData("avatar", e.target.files[0])
-                                        }
+                                        onChange={handleImageChange}
                                     />
 
                                     <label
@@ -477,6 +527,13 @@ export default function Register() {
                                         />
                                     )}
                                 </div>
+                                <img
+                                    crossOrigin="anonymous"
+                                    ref={imgRef1}
+                                    src={image}
+                                    alt=""
+                                    className="w-[50px] sm:w-[70px] lg:w-[90px] mb-3 h-auto hidden"
+                                />
                                 <div className="my-6">
                                     <PrimaryButton
                                         disabled={processing}

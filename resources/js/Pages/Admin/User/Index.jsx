@@ -27,6 +27,7 @@ const Index = ({ auth }) => {
         const value = e.target.value;
         handleSearch(value);
     };
+    console.log(users);
 
     return (
         <AdminLayout auth={auth}>
@@ -131,7 +132,11 @@ const Index = ({ auth }) => {
                                                                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
 
                                                                         <h2 className="text-sm font-normal text-emerald-500">
-                                                                            Active
+                                                                            {
+                                                                                user
+                                                                                    .verification
+                                                                                    .status
+                                                                            }
                                                                         </h2>
                                                                     </div>
                                                                 </TableDataCell>

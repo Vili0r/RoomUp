@@ -47,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'instagram_link',
         'tiktok_link',
         'linkedin_link',
+        'last_login_at',
     ];
 
     /**
@@ -69,7 +70,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthdate' => 'datetime:Y-m-d',
         'number_verified_at' => 'datetime',
         'mobile_verify_code_sent_at' => 'datetime',
-        'mobile_last_attempt_date' => 'datetime'
+        'mobile_last_attempt_date' => 'datetime',
+        'last_login_at' => 'datetime'
     ];
 
     public function routeNotificationForVonage(Notification $notification): string

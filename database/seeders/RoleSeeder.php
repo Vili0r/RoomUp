@@ -59,7 +59,7 @@ class RoleSeeder extends Seeder
         $role3->givePermissionTo('edit articles');
 
         //Create users
-        User::create([
+        $moderator = User::create([
             'first_name' => "moderator",
             'email' => "moderator@roomup.gr",
             'email_verified_at' => now(),
@@ -67,8 +67,14 @@ class RoleSeeder extends Seeder
             'remember_token' => Str::random(10),
             'phone_number' => '12345678'
         ])->assignRole('moderator');
+
+        $moderatorVerification = $moderator->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => now(), 
+        ]);
+        $moderatorVerification->save();
        
-        User::create([
+        $writer = User::create([
             'first_name' => "writer",
             'email' => "writer@roomup.gr",
             'email_verified_at' => now(),
@@ -77,7 +83,13 @@ class RoleSeeder extends Seeder
             'phone_number' => '23456789'
         ])->assignRole('writer');
 
-        User::create([
+        $writerVerification = $writer->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => now(), 
+        ]);
+        $writerVerification->save();
+
+        $admin = User::create([
             'first_name' => "admin",
             'email' => "admin@roomup.gr",
             'email_verified_at' => now(),
@@ -85,8 +97,14 @@ class RoleSeeder extends Seeder
             'remember_token' => Str::random(10),
             'phone_number' => '34567891'
         ])->assignRole('admin');
+
+        $adminVerification = $admin->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => now(), 
+        ]);
+        $adminVerification->save();
         
-        User::create([
+        $user = User::create([
             'first_name' => "non-authenticated-user",
             'email' => "non-authenticated-user@roomup.gr",
             'email_verified_at' => now(),
@@ -94,6 +112,12 @@ class RoleSeeder extends Seeder
             'remember_token' => Str::random(10),
             'phone_number' => '456789101'
         ])->assignRole('user');
+
+        $userVerification = $user->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => now(), 
+        ]);
+        $userVerification->save();
 
         User::create([
             'first_name' => "test-home-owner",
