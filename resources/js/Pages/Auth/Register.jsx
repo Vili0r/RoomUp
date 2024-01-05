@@ -7,6 +7,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import * as faceapi from "face-api.js";
 
 const genders = [
     {
@@ -151,35 +152,35 @@ export default function Register() {
     const submit = (e) => {
         e.preventDefault();
 
-        e.preventDefault();
+        if (data.avatar !== null) {
+            (async () => {
+                // loading the models
+                await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
+                await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+                await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+                await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+                await faceapi.nets.faceExpressionNet.loadFromUri("/models");
 
-        (async () => {
-            // loading the models
-            await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
-            await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
-            await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
-            await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
-            await faceapi.nets.faceExpressionNet.loadFromUri("/models");
+                // detect a single face from the ID card image
+                const idCardFacedetection = await faceapi
+                    .detectSingleFace(
+                        imgRef1.current,
+                        new faceapi.TinyFaceDetectorOptions()
+                    )
+                    .withFaceLandmarks()
+                    .withFaceDescriptor();
 
-            // detect a single face from the ID card image
-            const idCardFacedetection = await faceapi
-                .detectSingleFace(
-                    imgRef1.current,
-                    new faceapi.TinyFaceDetectorOptions()
-                )
-                .withFaceLandmarks()
-                .withFaceDescriptor();
+                // Check if a face was detected in the ID card image
+                if (!idCardFacedetection) {
+                    setIsFaceInPhoto(
+                        "No face detected in the uploaded Photo. Please try again with a different photo."
+                    );
+                    return;
+                }
+            })();
+        }
 
-            // Check if a face was detected in the ID card image
-            if (!idCardFacedetection) {
-                setIsFaceInPhoto(
-                    "No face detected in the uploaded Photo. Please try again with a different photo."
-                );
-                return;
-            }
-
-            post(route("register"));
-        })();
+        post(route("register"));
     };
 
     return (

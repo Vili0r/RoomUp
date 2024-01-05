@@ -17,7 +17,7 @@ const Index = ({ auth }) => {
     const handleSearch = (value) => {
         setSearchInput(value);
         router.get(
-            "/admin/users",
+            "/admin/user/verification",
             { search: value },
             { preserveState: true, replace: true }
         );
@@ -30,7 +30,7 @@ const Index = ({ auth }) => {
 
     return (
         <AdminLayout auth={auth}>
-            <Head title="Admin | User" />
+            <Head title="Admin | User | Verification" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -40,7 +40,7 @@ const Index = ({ auth }) => {
                                 <div className="items-start justify-between md:flex">
                                     <div className="max-w-lg">
                                         <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
-                                            All Users
+                                            Account verification application
                                         </h3>
 
                                         <span className="absolute mt-5">
@@ -68,14 +68,6 @@ const Index = ({ auth }) => {
                                             placeholder="Search..."
                                             className="block w-full mt-3 py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         />
-                                    </div>
-                                    <div className="mt-3 md:mt-0">
-                                        <Link
-                                            href={route("admin.users.create")}
-                                            className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
-                                        >
-                                            Create user
-                                        </Link>
                                     </div>
                                 </div>
 
@@ -105,9 +97,7 @@ const Index = ({ auth }) => {
                                                             <TableHeaderCell>
                                                                 Status
                                                             </TableHeaderCell>
-                                                            <TableHeaderCell>
-                                                                Live at
-                                                            </TableHeaderCell>
+
                                                             <TableHeaderCell>
                                                                 Action
                                                             </TableHeaderCell>
@@ -130,26 +120,8 @@ const Index = ({ auth }) => {
                                                                     {user.email}
                                                                 </TableDataCell>
                                                                 <TableDataCell>
-                                                                    <div
-                                                                        className={`${
-                                                                            user
-                                                                                ?.verification
-                                                                                ?.status ===
-                                                                            "Verified"
-                                                                                ? "bg-emerald-100/60"
-                                                                                : "bg-gray-100/60"
-                                                                        } + inline-flex items-center px-3 py-1 rounded-full gap-x-2  dark:bg-gray-800`}
-                                                                    >
-                                                                        <h2
-                                                                            className={`${
-                                                                                user
-                                                                                    ?.verification
-                                                                                    ?.status ===
-                                                                                "Verified"
-                                                                                    ? "text-emerald-500"
-                                                                                    : "text-gray-500"
-                                                                            } + text-sm font-normal `}
-                                                                        >
+                                                                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100/60 gap-x-2 dark:bg-gray-800">
+                                                                        <h2 className="text-sm font-normal ">
                                                                             {
                                                                                 user
                                                                                     ?.verification
@@ -158,20 +130,16 @@ const Index = ({ auth }) => {
                                                                         </h2>
                                                                     </div>
                                                                 </TableDataCell>
-                                                                <TableDataCell>
-                                                                    {
-                                                                        user.last_login_at
-                                                                    }
-                                                                </TableDataCell>
+
                                                                 <TableDataCell>
                                                                     <Link
                                                                         href={route(
-                                                                            "admin.users.edit",
+                                                                            "admin.user.verification.edit",
                                                                             user.id
                                                                         )}
                                                                         className="underline text-[#F1C40F] hover:text-orange-400"
                                                                     >
-                                                                        Edit/Delete
+                                                                        Edit
                                                                     </Link>
                                                                 </TableDataCell>
                                                             </TableRow>
