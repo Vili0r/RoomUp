@@ -77,6 +77,7 @@ class RegisteredUserController extends Controller
             'last_name_verified_at' => now(), 
             'email_verified_at' => auth()->check() ? now() : null, 
             'photo_verified_at' => $isPhotoVerified, 
+            'status' => 1
         ]);
         $userVerification->save();
 

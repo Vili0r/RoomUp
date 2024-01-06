@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\RevokeController;
 use App\Http\Controllers\Admin\RevokeUserPermissionController;
 use App\Http\Controllers\Admin\RevokeUserRoleController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserApproveVerificationController;
+use App\Http\Controllers\Admin\UserRejectVerificationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserVerifyController;
 use App\Http\Controllers\Auth\SocialController;
@@ -241,8 +243,6 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
             Route::resource('/users', UserController::class)->except(['show']);
             Route::resource('/roles', RoleController::class)->except(['create', 'show']);
             Route::resource('/permissions', PermissionController::class)->except(['create', 'show']);
-            Route::get('/user/{user}/verification', [UserVerifyController::class, 'index'])
-                ->name('user.verification.index');
 
             //Route to change featured blogs on home page
             Route::put('/blog/{blog}/featured', BlogFeaturedController::class)
@@ -253,6 +253,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
                 ->name('user.verification.index');
             Route::get('/user/{user}/verification/edit', [UserVerifyController::class, 'edit'])
                 ->name('user.verification.edit');
+            Route::post('/user/{user}/verification', UserApproveVerificationController::class)
+                ->name('user.approve.verification');
+            Route::post('/user/{user}/verification/reject', UserRejectVerificationController::class)
+                ->name('user.reject.verification');
         });
     });
 });

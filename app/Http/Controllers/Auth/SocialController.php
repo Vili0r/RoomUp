@@ -43,8 +43,13 @@ class SocialController extends Controller
                 'provider_refresh_token' => $socialUser->refreshToken,
             ]);
             $user->sendEmailVerificationNotification();
-        }
 
+            $user->verification()->create([
+                'email_verified_at' => now(), 
+                'status' => 1
+            ]);
+        }
+        
         //if user exist
         $socials = Social::where('provider', $provider)->where('user_id', $user->id)->first();
 
@@ -61,14 +66,6 @@ class SocialController extends Controller
 
         //login user
         Auth::login($user);
-
-        if(!$socials) {
-            // Create the associated UserVerification record
-            $userVerification = $user->verification()->create([
-                'email_verified_at' => auth()->check() ? now() : null, 
-            ]);
-            $userVerification->save();
-        }
 
         if (Auth::check()) {
             auth()->user()->update([

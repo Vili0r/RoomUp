@@ -72,7 +72,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <BiUser className="w-5 h-5 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <BiUser className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
 
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-sm antialiased font-semibold leading-relaxed tracking-normal text-gray-700 xxs:text-base">
@@ -90,7 +90,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <MdOutlineMailOutline className="w-4 h-4 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <MdOutlineMailOutline className="w-4 h-4 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
 
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-sm antialiased font-semibold leading-relaxed tracking-normal text-gray-700 xxs:text-base">
@@ -108,7 +108,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <AiOutlinePhone className="w-5 h-5 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <AiOutlinePhone className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-900">
                                             Step 3
@@ -126,7 +126,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <TfiSettings className="w-5 h-5 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <TfiSettings className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-900">
                                             Step 4
@@ -143,7 +143,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <MdOutlinePhotoCamera className="w-5 h-5 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <MdOutlinePhotoCamera className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
                                             Step 5
@@ -161,7 +161,7 @@ const Index = (props) => {
                                             : "text-gray-900 bg-gray-300"
                                     } + relative z-10 grid w-10 h-10 [@media(max-width:400px)]:w-8 [@media(max-width:400px)]:h-8 font-bold  transition-all duration-300 bg-gray-900 rounded-full place-items-center`}
                                 >
-                                    <HiOutlineIdentification className="w-5 h-5 [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
+                                    <HiOutlineIdentification className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
                                             Step 6

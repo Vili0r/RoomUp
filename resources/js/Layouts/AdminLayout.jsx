@@ -17,7 +17,7 @@ export default function AdminLayoutII({ auth, children }) {
     return (
         <div className="w-full min-h-screen bg-[#F7F4F4]">
             {/* HEADER */}
-            <header className="header fixed top-0 left-0 w-[100%] z-[100] bg-[#1D191E] backdrop-blur-[16px]">
+            <header className="header fixed top-0 left-0 w-[100%] z-[100] bg-[#2F3E4D] backdrop-blur-[16px]">
                 <div className="mx-4 my-4 flex justify-between items-center h-[3.5rem] lg:h-[5rem]">
                     <div className="text-sm text-[#F2F2F2] cursor-pointer lg:text-2xl">
                         <button
@@ -49,7 +49,7 @@ export default function AdminLayoutII({ auth, children }) {
                     showSidebarMenu
                         ? "lg:w-[120px] [@media(max-width:1023px)]:left-[-100%]"
                         : "lg:w-[300px] w-[280px]"
-                }  sidebar fixed top-[3.5rem] bg-[#1D191E] h-[100%] lg:top-[5rem] lg:transition-width lg:duration-400 backdrop-blur-[16px] z-[100] py-8 px-6 [@media(max-width:300px)]:w-[232px] [@media(max-width:300px)]:px-4`}
+                }  sidebar fixed top-[3.5rem] bg-[#2F3E4D] h-[100%] lg:top-[5rem] lg:transition-width lg:duration-400 backdrop-blur-[16px] z-[100] py-8 px-6 [@media(max-width:300px)]:w-[232px] [@media(max-width:300px)]:px-4`}
                 style={{ transition: "left .4s" }}
             >
                 <nav className="flex flex-col gap-[2rem] pb-[3rem] h-[100%] lg:pb-[4rem] lg:overflow-hidden">
