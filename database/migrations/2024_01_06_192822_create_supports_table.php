@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_verifications', function (Blueprint $table) {
-            $table->string('selfie')->nullable()->after('photo_verified_at');
-            $table->string('id_document')->nullable()->after('selfie_verified_at');
+        Schema::create('supports', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('status')->nullable();
+            $table->timestamp('last_active_at')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_verifications', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('supports');
     }
 };

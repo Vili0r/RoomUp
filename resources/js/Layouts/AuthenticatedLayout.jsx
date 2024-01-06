@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import NavLink from "@/Components/NavLink";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import Footer from "@/sections/Footer";
 import Header from "@/sections/Header";
 import { FaHouseUser } from "react-icons/fa";
@@ -20,6 +20,8 @@ import { MdOutlineVerifiedUser } from "react-icons/md";
 export default function Authenticated({ auth, children }) {
     const [showMenu, setShowMenu] = useState(false);
     const [showChat, setShowChat] = useState(false);
+    const [isInitialRequestMade, setIsInitialRequestMade] = useState(false);
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -27,9 +29,23 @@ export default function Authenticated({ auth, children }) {
         setShowMenu(!showMenu);
     }
 
-    function handleChatToggle() {
+    const handleChatToggle = async () => {
+        // Open the chat if it's currently closed
+        if (!showChat) {
+            // If the initial request hasn't been made yet, make the request
+            if (!isInitialRequestMade) {
+                try {
+                    router.post("/customer-support");
+
+                    // Set that the initial request has been made
+                    setIsInitialRequestMade(true);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
         setShowChat(!showChat);
-    }
+    };
 
     function handleMenuClose() {
         setShowMenu(false);
@@ -418,7 +434,10 @@ export default function Authenticated({ auth, children }) {
                             />
                         )}
                     </button>
-                    <AssistanceChat showChat={showChat} />
+                    <AssistanceChat
+                        showChat={showChat}
+                        setShowChat={setShowChat}
+                    />
                     <Footer />
                 </main>
             </div>

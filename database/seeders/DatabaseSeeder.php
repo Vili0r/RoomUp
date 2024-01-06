@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AmenitySeeder::class,
             HobbySeeder::class,
+            SupportSeeder::class,
             // CategorySeeder::class,
         ]);
  

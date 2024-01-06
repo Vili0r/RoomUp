@@ -48,6 +48,7 @@ use App\Http\Controllers\SharedFavouriteController;
 use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\SingleCategoryController;
 use App\Http\Controllers\SingleRoommateController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use App\Http\Controllers\UpdateAddressController;
@@ -197,6 +198,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     //Conversation reply controller
     Route::post('/conversation/{conversation}/reply', ConversationReplyController::class)
         ->name('conversation.reply');
+    
+    //Customer support controller
+    Route::post('/customer-support', SupportController::class)
+        ->name('customer-support');
 
     //Resource controller
     Route::resource('/flat', FlatController::class)

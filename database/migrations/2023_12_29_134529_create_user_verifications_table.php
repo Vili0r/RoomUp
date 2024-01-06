@@ -19,9 +19,12 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('social_media_verified_at')->nullable();
             $table->timestamp('photo_verified_at')->nullable();
+            $table->string('selfie')->nullable();
             $table->timestamp('selfie_verified_at')->nullable();
+            $table->string('id_document')->nullable();
             $table->timestamp('id_document_verified_at')->nullable();
             $table->timestamp('profile_verified_at')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

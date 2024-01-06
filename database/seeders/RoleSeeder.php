@@ -24,10 +24,12 @@ class RoleSeeder extends Seeder
         $role1 = Role::create(['name' => 'admin']);
         $role2 = Role::create(['name' => 'moderator']);
         $role3 = Role::create(['name' => 'writer']);
+        $role4 = Role::create(['name' => 'customer service']);
         Role::create(['name' => 'home owner PMS']);
         Role::create(['name' => 'user']);
 
         // create permissions
+        Permission::create(['name' => 'respond']);
         Permission::create(['name' => 'create articles']);
         Permission::create(['name' => 'edit articles']);
         Permission::create(['name' => 'delete articles']);
@@ -58,6 +60,8 @@ class RoleSeeder extends Seeder
         $role3->givePermissionTo('create articles');
         $role3->givePermissionTo('edit articles');
 
+        $role4->givePermissionTo('respond');
+
         //Create users
         $moderator = User::create([
             'first_name' => "moderator",
@@ -65,12 +69,14 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'phone_number' => '12345678'
+            'phone_number' => '12345678',
+            'last_login_at' => now(),
         ])->assignRole('moderator');
 
         $moderatorVerification = $moderator->verification()->create([
             'last_name_verified_at' => now(), 
             'email_verified_at' => now(), 
+            'status' => 1,
         ]);
         $moderatorVerification->save();
        
@@ -80,12 +86,14 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'phone_number' => '23456789'
+            'phone_number' => '23456789',
+            'last_login_at' => now(),
         ])->assignRole('writer');
 
         $writerVerification = $writer->verification()->create([
             'last_name_verified_at' => now(), 
             'email_verified_at' => now(), 
+            'status' => 1,
         ]);
         $writerVerification->save();
 
@@ -95,12 +103,14 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'phone_number' => '34567891'
+            'phone_number' => '34567891',
+            'last_login_at' => now(),
         ])->assignRole('admin');
 
         $adminVerification = $admin->verification()->create([
             'last_name_verified_at' => now(), 
             'email_verified_at' => now(), 
+            'status' => 2,
         ]);
         $adminVerification->save();
         
@@ -110,12 +120,14 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('vQKR@!RR!c44dP'),
             'remember_token' => Str::random(10),
-            'phone_number' => '456789101'
+            'phone_number' => '456789101',
+            'last_login_at' => now(),
         ])->assignRole('user');
 
         $userVerification = $user->verification()->create([
             'last_name_verified_at' => now(), 
             'email_verified_at' => now(), 
+            'status' => 1,
         ]);
         $userVerification->save();
 
@@ -125,7 +137,25 @@ class RoleSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'remember_token' => Str::random(10),
-            'phone_number' => '5678910111'
+            'phone_number' => '5678910111',
+            'last_login_at' => now(),
         ])->assignRole('home owner PMS');
+        
+        $customerServiceUser = User::create([
+            'first_name' => "support",
+            'email' => "support@roomup.gr",
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+            'phone_number' => '5678910112',
+            'last_login_at' => now(),
+        ])->assignRole('customer service');
+
+        $customerServiceUserVerification = $customerServiceUser->verification()->create([
+            'last_name_verified_at' => now(), 
+            'email_verified_at' => now(), 
+            'status' => 1,
+        ]);
+        $customerServiceUserVerification->save();
     }
 }

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->text('looking_for')->nullable();
             $table->date('birthdate')->nullable();
             $table->rememberToken();
+            $table->timestamp('last_login_at');
             $table->timestamps();
         });
     }
