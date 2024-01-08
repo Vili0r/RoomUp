@@ -3,6 +3,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, usePage, useForm, router, Link } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
+import { CustomerService } from "@/assets";
 import InputError from "@/Components/InputError";
 import { CgMenuRight } from "react-icons/cg";
 
@@ -118,7 +119,7 @@ const Index = (props) => {
                                         className="w-[60px] h-[60px] flex-none rounded-md bg-slate-100"
                                     />
                                     <div className="relative flex-auto min-w-0">
-                                        <h2 className="pr-20 font-semibold text-slate-900">
+                                        <h2 className="pr-20 font-semibold capitalize text-slate-900">
                                             {item.user_id === props.auth.user.id
                                                 ? item.message.owner.receiver
                                                       ?.first_name
@@ -163,7 +164,7 @@ const Index = (props) => {
                         } flex-col flex-auto w-full h-screen p-6 overflow-y-hidden`}
                     >
                         <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 rounded-2xl">
-                            <div className="sticky flex justify-between py-4 text-xl font-semibold border-b-2">
+                            <div className="sticky flex justify-between py-4 text-xl font-semibold capitalize border-b-2">
                                 <Link
                                     href={route("conversation.index")}
                                     className="inline-flex [@media(min-width:700px)]:hidden items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 dark:hover:bg-gray-900 focus:outline-none dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400"
@@ -359,7 +360,11 @@ const Index = (props) => {
                                 </div>
                                 <img
                                     src={
-                                        singleConversation.message?.owner.images
+                                        singleConversation.message?.model ===
+                                        "support"
+                                            ? CustomerService
+                                            : singleConversation.message?.owner
+                                                  .images
                                             ? showImage() +
                                               singleConversation.message.owner
                                                   .images[0]
@@ -368,19 +373,24 @@ const Index = (props) => {
                                     className="object-cover h-64 rounded-xl"
                                     alt=""
                                 />
-                                <div className="py-4 font-semibold">
-                                    Created{" "}
-                                    {moment(
-                                        singleConversation.message?.owner
-                                            .created_at
-                                    ).format("MMM DD, YYYY")}
-                                </div>
-                                <div className="font-light">
-                                    {
-                                        singleConversation.message?.owner
-                                            .description
-                                    }
-                                </div>
+                                {singleConversation.message?.model ===
+                                "support" ? null : (
+                                    <>
+                                        <div className="py-4 font-semibold">
+                                            Created{" "}
+                                            {moment(
+                                                singleConversation.message
+                                                    ?.owner.created_at
+                                            ).format("MMM DD, YYYY")}
+                                        </div>
+                                        <div className="font-light">
+                                            {
+                                                singleConversation.message
+                                                    ?.owner.description
+                                            }
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     )}

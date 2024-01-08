@@ -25,13 +25,13 @@ class MessageConversationResource extends JsonResource
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
                 'id' => $this->owner->id,
-                'title' => $this->owner->title,
-                'description' => substr($this->owner->description, 0, 100) . '...',
-                'cost' => $this->owner->cost ?? '',
+                'title' => $this->owner->title ? $this->owner->title : 'Customer Support',
+                'description' => $this->owner->description ? substr($this->owner->description, 0, 100) . '...' : '',
+                'cost' => $this->owner->cost ? $this->owner->cost : '',
                 'receiver' => $this->whenLoaded('user', function () {
                     return new UserConversationResource($this->owner->user);
                 }),
-                'images' => $this->owner->images,
+                'images' => $this->owner->images ? $this->owner->images : '',
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
             ],
         ];

@@ -29,8 +29,10 @@ class MessageController extends Controller
         $messages = Message::with(['owner'])
             ->where('receiver_id', auth()->id())
             ->orWhere('user_id', auth()->id())
+            ->where('owner_type', '!=', 'App\Models\Support')
             ->latest()
             ->paginate(5);
+
         
         return Inertia::render('Message/Index',[
             'messages' => MessageResource::collection($messages)

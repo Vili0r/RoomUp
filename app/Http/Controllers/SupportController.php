@@ -30,7 +30,7 @@ class SupportController extends Controller
                 'phone_number' => '123456789',
                 'receiver_id' => 6,
                 'owner_id' => 1,
-                'owner_type' => Support::class,
+                'owner_type' => 'App\Models\Support',
             ]);
 
             $sentMessage = [

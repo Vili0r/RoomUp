@@ -19,6 +19,7 @@ import Popular5 from "./popular5.jpg";
 import Headset from "./headset.svg";
 import HousePlaceholder from "./HousePlaceholder.jpeg";
 import SidebarBg from "./SidebarBg.jpeg";
+import CustomerService from "./CustomerService.png";
 
 export {
     logo,
@@ -42,4 +43,5 @@ export {
     HousePlaceholder,
     SidebarBg,
     ErrorImage,
+    CustomerService,
 };
