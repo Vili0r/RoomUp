@@ -50,7 +50,8 @@ class Conversation extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Conversation::class, 'parent_id')->latestFirst();
+        return $this->hasMany(Conversation::class, 'parent_id')
+                ->latestFirst();
     }
 
     public function touchLastReply()

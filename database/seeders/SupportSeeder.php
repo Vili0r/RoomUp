@@ -16,6 +16,7 @@ class SupportSeeder extends Seeder
         Support::create([
             'name' => 'customer support',
             'email' => 'support@roomup.gr',
+            'user_id' => 6,
             'last_active_at' => now()
         ]);
     }

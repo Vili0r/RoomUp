@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import NavLink from "@/Components/NavLink";
-import { Link, router } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Footer from "@/sections/Footer";
 import Header from "@/sections/Header";
 import { FaHouseUser } from "react-icons/fa";
@@ -16,35 +16,38 @@ import ResponsiveNavLink from "../Components/ResponsiveNavLink";
 import { BsChat } from "react-icons/bs";
 import AssistanceChat from "@/Components/AssistanceChat";
 import { MdOutlineVerifiedUser } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Authenticated({ auth, children }) {
     const [showMenu, setShowMenu] = useState(false);
     const [showChat, setShowChat] = useState(false);
     const [isInitialRequestMade, setIsInitialRequestMade] = useState(false);
-
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     function handleMenuToggle() {
         setShowMenu(!showMenu);
     }
+    const { data, refetch } = useQuery({
+        queryKey: ["customerSupportConversation"],
+        queryFn: () => axios.get("/customer-support").then((res) => res.data),
+        enabled: false, // Prevents the query from automatically running
+    });
 
-    const handleChatToggle = async () => {
+    const handleChatToggle = () => {
+        setShowChat(!showChat);
         // Open the chat if it's currently closed
-        if (!showChat) {
-            // If the initial request hasn't been made yet, make the request
-            if (!isInitialRequestMade) {
-                try {
-                    router.post("/customer-support");
-
-                    // Set that the initial request has been made
-                    setIsInitialRequestMade(true);
-                } catch (error) {
-                    console.error(error);
-                }
+        if (!showChat && !isInitialRequestMade) {
+            try {
+                refetch();
+                setIsInitialRequestMade(true);
+                // Set that the initial request has been made
+                setIsInitialRequestMade(true);
+            } catch (error) {
+                console.error(error);
             }
         }
-        setShowChat(!showChat);
     };
 
     function handleMenuClose() {
@@ -417,27 +420,34 @@ export default function Authenticated({ auth, children }) {
                         </nav>
                         {children}
                     </div>
-                    <button
-                        onClick={handleChatToggle}
-                        className="fixed inline-flex items-center justify-center w-16 h-16 p-0 m-0 text-sm font-medium leading-5 normal-case bg-black border border-gray-200 rounded-full cursor-pointer bottom-4 right-4 disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-700 bg-none hover:text-gray-900"
-                        type="button"
-                    >
-                        {showChat ? (
-                            <AiOutlineClose
-                                size={28}
-                                className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-90"
+                    {auth.user.roles[0] !== "customer service" && (
+                        <>
+                            <button
+                                onClick={handleChatToggle}
+                                className="fixed inline-flex items-center justify-center w-16 h-16 p-0 m-0 text-sm font-medium leading-5 normal-case bg-black border border-gray-200 rounded-full cursor-pointer bottom-4 right-4 disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-700 bg-none hover:text-gray-900"
+                                type="button"
+                            >
+                                {showChat ? (
+                                    <AiOutlineClose
+                                        size={28}
+                                        className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-90"
+                                    />
+                                ) : (
+                                    <BsChat
+                                        size={28}
+                                        className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-12"
+                                    />
+                                )}
+                            </button>
+
+                            <AssistanceChat
+                                conversation={data}
+                                user={auth.user}
+                                showChat={showChat}
+                                setShowChat={setShowChat}
                             />
-                        ) : (
-                            <BsChat
-                                size={28}
-                                className="text-white transition-transform duration-500 ease-in-out rotate-target hover:rotate-12"
-                            />
-                        )}
-                    </button>
-                    <AssistanceChat
-                        showChat={showChat}
-                        setShowChat={setShowChat}
-                    />
+                        </>
+                    )}
                     <Footer />
                 </main>
             </div>

@@ -9,6 +9,9 @@ const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
 import { ThemeProvider } from "./context/ThemeContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -21,9 +24,11 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <ThemeProvider>
-                <App {...props} />
-            </ThemeProvider>
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider>
+                    <App {...props} />
+                </ThemeProvider>
+            </QueryClientProvider>
         );
     },
     progress: {

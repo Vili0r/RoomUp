@@ -49,6 +49,7 @@ use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\SingleCategoryController;
 use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\SupportReplyController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use App\Http\Controllers\UpdateAddressController;
@@ -200,7 +201,7 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('conversation.reply');
     
     //Customer support controller
-    Route::post('/customer-support', SupportController::class)
+    Route::get('/customer-support', SupportController::class)
         ->name('customer-support');
 
     //Resource controller
