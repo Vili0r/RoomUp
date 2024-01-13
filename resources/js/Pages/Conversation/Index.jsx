@@ -188,7 +188,10 @@ const Index = (props) => {
                                                     replies?.map((reply) =>
                                                         reply.user_id !==
                                                         props.auth.user.id ? (
-                                                            <div className="col-start-1 col-end-8 mt-2 rounded-lg">
+                                                            <div
+                                                                key={reply.id}
+                                                                className="col-start-1 col-end-8 mt-2 rounded-lg"
+                                                            >
                                                                 <div className="flex flex-row items-center">
                                                                     <div className="flex items-center justify-center uppercase flex-shrink-0 text-black w-10 h-10 bg-[#F5B041] rounded-full">
                                                                         {singleConversation.user_id ===
@@ -215,7 +218,10 @@ const Index = (props) => {
                                                                 </div>
                                                             </div>
                                                         ) : (
-                                                            <div className="col-start-6 col-end-13 mt-2 rounded-lg">
+                                                            <div
+                                                                key={reply.id}
+                                                                className="col-start-6 col-end-13 mt-2 rounded-lg"
+                                                            >
                                                                 <div className="flex flex-row-reverse items-center justify-start">
                                                                     <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-black uppercase bg-[#F5B041] rounded-full">
                                                                         {singleConversation.user_id !==

@@ -65,7 +65,7 @@ class SupportController extends Controller
                     $conversation->touchLastReply();
         
                     $conversation->users()->sync(array_unique(
-                        array_merge([6], [auth()->id()])
+                        array_merge([auth()->id()], [6])
                     ));
         
                     $conversation->load(['users']);
@@ -107,7 +107,9 @@ class SupportController extends Controller
             'parent', 
             'message.user', 
             'replies' => function ($query) {
-                $query->limit(10);
-            }]);
+                $query->take(10);
+        }]);
+
+        $conversation->replies = $conversation->replies->reverse();
     }
 }

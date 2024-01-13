@@ -29,7 +29,11 @@ class MessageConversationResource extends JsonResource
                 'description' => $this->owner->description ? substr($this->owner->description, 0, 100) . '...' : '',
                 'cost' => $this->owner->cost ? $this->owner->cost : '',
                 'receiver' => $this->whenLoaded('user', function () {
-                    return new UserConversationResource($this->owner->user);
+                    return new UserConversationResource(
+                        strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)) === 'support'
+                        ? auth()->user()
+                        : $this->owner->user
+                    );
                 }),
                 'images' => $this->owner->images ? $this->owner->images : '',
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
