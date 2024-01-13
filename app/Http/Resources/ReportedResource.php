@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class MessageResource extends JsonResource
+class ReportedResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,22 +17,17 @@ class MessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'full_name' => $this->full_name,
-            'message_text' => $this->message_text,
+            'contact_name' => $this->contact_name,
+            'email' => $this->email,
+            'details' => $this->details,
+            'reason' => Str::replace('_', ' ', $this->reason->name),
+            'status' => Str::replace('_', ' ', $this->status->name),
+            'resolved_at' => $this->resolved_at ? $this->resolved_at->format('Y-m-d') : '',
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
                 'id' => $this->owner->id,
-                'title' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)) === 'support' 
-                        ? 'Customer Support' 
-                        : ($this->owner->title ?? $this->owner->owner->title),
+                'title' => $this->owner->title ?? $this->owner->owner->title,
                 'description' => $this->owner->description ? substr($this->owner->description, 0, 100) . '...' :  substr($this->owner->owner->description, 0, 100) . '...',
-                'size' => $this->owner->size ? Str::replace('_', ' ', $this->owner->size->name) : Str::replace('_', ' ', $this->owner->room_size->name),
-                'type' => $this->owner_type === "App\Models\Room" ? 
-                        Str::replace('_', ' ', $this->owner->owner->type->name) : (
-                            $this->owner->type ?
-                        Str::replace('_', ' ', $this->owner->type->name) :
-                        Str::replace('_', ' ', $this->owner->searching_for->name)
-                    ),
                 'images' => $this->owner->images ? $this->owner->images : $this->owner->owner->images,
                 'created_at' => $this->owner->created_at->format('Y-m-d'), 
                 'address_1' => $this->owner_type === "App\Models\Room" ? 
@@ -43,7 +38,7 @@ class MessageResource extends JsonResource
                         $this->owner->owner->address->area : (
                         $this->owner->address ? $this->owner->address->area : $this->owner->area
                     ),
-            ],
+                ],
         ];
     }
 }

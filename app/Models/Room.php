@@ -87,6 +87,11 @@ class Room extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
+    public function reported(): MorphMany
+    {
+        return $this->morphMany(ReportedListing::class, 'owner');
+    }
+
     public function scopeMaxPrice(Builder $query, $price): Builder
     {
         $price = intval($price);

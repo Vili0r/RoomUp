@@ -6,6 +6,7 @@ import { AiOutlineUser, AiOutlineKey, AiOutlineHome } from "react-icons/ai";
 import { MdFingerprint, MdOutlineArticle } from "react-icons/md";
 import { BiCategoryAlt, BiCommentDetail } from "react-icons/bi";
 import { CiLogout, CiSettings } from "react-icons/ci";
+import { SlFlag } from "react-icons/sl";
 import { RiProfileLine } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoShieldCheckmark } from "react-icons/io5";
@@ -347,6 +348,33 @@ export default function AdminLayoutII({ auth, children }) {
                         </h3>
 
                         <div className="flex flex-col gap-[.25rem]">
+                            <SidebarNavLink
+                                href={route("admin.reported-listings.index")}
+                                active={route().current(
+                                    "admin.reported-listings.index"
+                                )}
+                                className=""
+                                style={{ transition: "background .3s" }}
+                            >
+                                <SlFlag className="text-xl text-[#F2F2F2]" />
+                                <span
+                                    className="font-[500]"
+                                    style={{
+                                        trnasition: "color .4s, opacity .4s",
+                                    }}
+                                >
+                                    Flagged
+                                </span>
+                                <span
+                                    className={`${
+                                        showSidebarMenu
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                    } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
+                                >
+                                    Flagged
+                                </span>
+                            </SidebarNavLink>
                             <SidebarNavLink
                                 href={route("dashboard")}
                                 active={route().current("dashboard")}

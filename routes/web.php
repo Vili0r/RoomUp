@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BlogFeaturedController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ReportedListingIndexController;
 use App\Http\Controllers\Admin\RevokeController;
 use App\Http\Controllers\Admin\RevokeUserPermissionController;
 use App\Http\Controllers\Admin\RevokeUserRoleController;
@@ -49,7 +50,7 @@ use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\SingleCategoryController;
 use App\Http\Controllers\SingleRoommateController;
 use App\Http\Controllers\SupportController;
-use App\Http\Controllers\SupportReplyController;
+use App\Http\Controllers\ReportedListingController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
 use App\Http\Controllers\UpdateAddressController;
@@ -111,6 +112,10 @@ Route::get('/category/{category:slug}', SingleCategoryController::class)
 //Comments for Blogs Controller
 Route::resource('/blogs.comments', BlogCommentController::class)
     ->only(['index', 'store']);
+
+//Report listing Controller
+Route::resource('/reported-listings', ReportedListingController::class)
+    ->only(['create', 'store']);
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
     //Dashboard controller
@@ -234,6 +239,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         //Comments for Blogs Controller
         Route::resource('/blogs.comments', BlogCommentController::class)
             ->only(['update', 'destroy']);
+
+        //Reported listings controller
+        Route::get('/reported-listings', ReportedListingIndexController::class)
+            ->name('reported-listings.index');
 
         //User & Permissions & Roles
         Route::middleware(['role:admin'])->group(function () {

@@ -115,6 +115,11 @@ class Roommate extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
+    public function reported(): MorphMany
+    {
+        return $this->morphMany(ReportedListing::class, 'owner');
+    }
+
     public function scopeMaxBudget(Builder $query, $value): Builder
     {
         $value = intval($value);

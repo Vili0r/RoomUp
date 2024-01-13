@@ -6,10 +6,12 @@ import { CiLocationOn } from "react-icons/ci";
 import { FiMinimize, FiMaximize } from "react-icons/fi";
 import { BsCalendar4Week } from "react-icons/bs";
 import { SiTransportforlondon } from "react-icons/si";
+import { useForm } from "@inertiajs/react";
 import {
     MdShortText,
     MdOutlineHourglassEmpty,
     MdOutlineAirplanemodeActive,
+    MdOutlineReportProblem,
 } from "react-icons/md";
 import { FiMapPin } from "react-icons/fi";
 import moment from "moment";
@@ -17,6 +19,15 @@ import Map, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const PropertyDetails = ({ property }) => {
+    const { get } = useForm({
+        id: property.id,
+        type: property.model,
+    });
+
+    const handleClick = () => {
+        get(route("reported-listings.create"));
+    };
+
     return (
         <div className="max-w-[2520px] xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="max-w-screen-xl mx-auto">
@@ -270,6 +281,20 @@ const PropertyDetails = ({ property }) => {
                                     </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
+                                <div className="">
+                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
+                                        More Information
+                                    </h1>
+                                    <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
+                                        <button
+                                            onClick={handleClick}
+                                            className="flex items-start gap-2 px-5 py-3 capitalize border-2 border-gray-100 rounded-md"
+                                        >
+                                            <MdOutlineReportProblem className="w-6 h-6" />{" "}
+                                            Report Listing
+                                        </button>
+                                    </div>
+                                </div>
                             </dl>
                         </div>
                         <div className="w-full md:sticky md:top-[5.5rem] md:w-[28rem]">
