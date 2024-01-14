@@ -25,8 +25,8 @@ class ReportedResource extends JsonResource
             'resolved_at' => $this->resolved_at ? $this->resolved_at->format('Y-m-d') : '',
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
-                'id' => $this->owner->id,
-                'title' => $this->owner->title ?? $this->owner->owner->title,
+                'id' => $this->owner->id ?? '',
+                'title' => $this->owner->title ?? $this->owner->owner->title ?? '',
             ],
         ];
     }

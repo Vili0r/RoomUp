@@ -4,6 +4,7 @@ import { AiOutlineFlag } from "react-icons/ai";
 import { HiOutlineCheckCircle } from "react-icons/hi2";
 import { MdOutlinePending } from "react-icons/md";
 import { BsHourglassSplit } from "react-icons/bs";
+import { FiDelete } from "react-icons/fi";
 import { Head, usePage, Link, router } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
 import TableRow from "@/Components/TableRow";
@@ -152,10 +153,24 @@ export default function Index(props) {
                                                     filters.status == 3
                                                         ? "z-10 ring-2 ring-blue-700 text-blue-700"
                                                         : ""
-                                                } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
+                                                } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
                                             >
                                                 <HiOutlineCheckCircle className="w-5 h-5 mr-2" />
                                                 Resolved
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleStatusFilterChange(4)
+                                                }
+                                                type="button"
+                                                className={`${
+                                                    filters.status == 4
+                                                        ? "z-10 ring-2 ring-blue-700 text-blue-700"
+                                                        : ""
+                                                } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
+                                            >
+                                                <FiDelete className="w-5 h-5 mr-2" />
+                                                Deleted
                                             </button>
                                         </div>
                                     </div>
@@ -283,6 +298,30 @@ export default function Index(props) {
 
                                                                 <h2 className="text-sm font-normal">
                                                                     Resolved
+                                                                </h2>
+                                                            </div>
+                                                        )}
+                                                        {item.status ===
+                                                            "Deleted" && (
+                                                            <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-red-100/60 dark:bg-gray-800">
+                                                                <svg
+                                                                    width="12"
+                                                                    height="12"
+                                                                    viewBox="0 0 12 12"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <path
+                                                                        d="M10 3L4.5 8.5L2 6"
+                                                                        stroke="currentColor"
+                                                                        strokeWidth="1.5"
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                    />
+                                                                </svg>
+
+                                                                <h2 className="text-sm font-normal">
+                                                                    Deleted
                                                                 </h2>
                                                             </div>
                                                         )}

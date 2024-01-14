@@ -49,6 +49,27 @@ export default function Show(props) {
                                             Flagged Listing
                                         </h3>
                                     </div>
+                                    {props.auth.user.roles[0] === "admin" && (
+                                        <Link
+                                            href={route(
+                                                "admin.reported-listings.delete.property",
+                                                reportedListing.id
+                                            )}
+                                            data={{
+                                                title: reportedListing.owner
+                                                    .title,
+                                                owner_id:
+                                                    reportedListing.owner.id,
+                                                model: reportedListing.model,
+                                            }}
+                                            method="post"
+                                            as="button"
+                                            type="button"
+                                            className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-red-600 border rounded-lg"
+                                        >
+                                            Delete Listing
+                                        </Link>
+                                    )}
                                 </div>
                                 <div className="">
                                     <div className="relative mt-6 text-gray-700 shadow-lg bg-gray-500/5 bg-clip-border rounded-xl w-96">

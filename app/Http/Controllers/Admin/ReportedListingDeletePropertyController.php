@@ -3,23 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Models\ReportedListing;
-use App\Notifications\ListingErrorNotification;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Flat;
 use App\Models\Room;
 use App\Models\Roommate;
+use App\Notifications\ListingDeletedNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
-class ReportedListingEmailListingOwnerController extends Controller
+class ReportedListingDeletePropertyController extends Controller
 {
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request, ReportedListing $reportedListing): RedirectResponse
     {
-        $this->authorize('approve comments');
+        $this->authorize('user management');
 
         if ($request->model == 'flat') {
             $property = Flat::with(['user'])->findOrFail($request->owner_id);
@@ -32,19 +33,20 @@ class ReportedListingEmailListingOwnerController extends Controller
             $propertyUserEmail = $property->user->email;
         }
 
+        Storage::delete($property->images);
+        $property->delete();
+
         $message = [
             'propertyId' => $request->owner_id,
             'propertyModel' => $request->model,
-            'propertyTitle' => $request->title,
-            'details' => $request->details,              
-            'reason' => $request->reason,              
+            'propertyTitle' => $request->title,           
         ];
 
         Notification::route('mail', $propertyUserEmail)
-            ->notify(new ListingErrorNotification($message));
-
+            ->notify(new ListingDeletedNotification($message));
+        
         $reportedListing->update([
-            'status' => 2
+            'status' => 4,
         ]);
 
         return to_route('admin.reported-listings.index');

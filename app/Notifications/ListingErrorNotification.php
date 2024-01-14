@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReportListingEmailToListingOwnerNotification extends Notification implements ShouldQueue
+class ListingErrorNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -47,7 +47,7 @@ class ReportListingEmailToListingOwnerNotification extends Notification implemen
         return (new MailMessage)
                     ->line('Your listing ' . $this->propertyTitle . ' has been reported in regards to' . $this->reason)
                     ->line($this->details)
-                    ->action('Notification Action', url('/' .$this->propertyModel. '/' . $this->propertyId))
+                    ->action('My Property', url('/' .$this->propertyModel. '/' . $this->propertyId))
                     ->line('Thank you for using our application!');
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BlogFeaturedController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ReportedListingDeletePropertyController;
 use App\Http\Controllers\Admin\ReportedListingEmailListingOwnerController;
 use App\Http\Controllers\Admin\ReportedListingIndexController;
 use App\Http\Controllers\Admin\ReportedListingResolveController;
@@ -284,6 +285,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
                 ->name('user.approve.verification');
             Route::post('/user/{user}/verification/reject', UserRejectVerificationController::class)
                 ->name('user.reject.verification');
+
+            //Reported listings delete property controller
+            Route::post('/reported-listings/{reported_listing}/delete', ReportedListingDeletePropertyController::class)
+                ->name('reported-listings.delete.property');
         });
     });
 });
