@@ -27,18 +27,7 @@ class ReportedResource extends JsonResource
             'owner' => [
                 'id' => $this->owner->id,
                 'title' => $this->owner->title ?? $this->owner->owner->title,
-                'description' => $this->owner->description ? substr($this->owner->description, 0, 100) . '...' :  substr($this->owner->owner->description, 0, 100) . '...',
-                'images' => $this->owner->images ? $this->owner->images : $this->owner->owner->images,
-                'created_at' => $this->owner->created_at->format('Y-m-d'), 
-                'address_1' => $this->owner_type === "App\Models\Room" ? 
-                        $this->owner->owner->address->address_1 : (
-                        $this->owner->address ? $this->owner->address->address_1 : $this->owner->city
-                    ),
-                'area' => $this->owner_type === "App\Models\Room" ? 
-                        $this->owner->owner->address->area : (
-                        $this->owner->address ? $this->owner->address->area : $this->owner->area
-                    ),
-                ],
+            ],
         ];
     }
 }

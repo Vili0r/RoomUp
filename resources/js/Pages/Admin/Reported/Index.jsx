@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { BiCommentDetail, BiCommentX, BiCommentCheck } from "react-icons/bi";
+import { AiOutlineFlag } from "react-icons/ai";
+import { HiOutlineCheckCircle } from "react-icons/hi2";
+import { MdOutlinePending } from "react-icons/md";
+import { BsHourglassSplit } from "react-icons/bs";
 import { Head, usePage, Link, router } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
 import TableRow from "@/Components/TableRow";
@@ -11,14 +14,14 @@ import TableHead from "@/Components/TableHead";
 import moment from "moment";
 
 export default function Index(props) {
-    const { reportedListings, filters, auth } = usePage().props;
+    const { reportedListings, filters } = usePage().props;
     const { data, meta } = reportedListings;
     const [searchInput, setSearchInput] = useState(filters.search);
-    const [approvedFilter, setApprovedFilter] = useState(filters.approved);
+    const [statusFilter, setStatusFilter] = useState(filters.status);
 
     const handleSearch = (value) => {
         setSearchInput(value);
-        setApprovedFilter(approvedValue);
+        // setApprovedFilter(approvedValue);
         router.get(
             "/admin/reported-listings",
             { search: value },
@@ -26,11 +29,11 @@ export default function Index(props) {
         );
     };
 
-    const handleApproved = (value) => {
-        setApprovedFilter(value);
+    const handleStatus = (value) => {
+        setStatusFilter(value);
         router.get(
             "/admin/reported-listings",
-            { approved: value },
+            { status: value },
             { preserveState: true, replace: true }
         );
     };
@@ -40,8 +43,8 @@ export default function Index(props) {
         handleSearch(value);
     };
 
-    const handleApprovedFilterChange = (approved) => {
-        handleApproved(approved);
+    const handleStatusFilterChange = (approved) => {
+        handleStatus(approved);
     };
 
     return (
@@ -50,11 +53,11 @@ export default function Index(props) {
             errors={props.errors}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Dashboard|Comments
+                    Dashboard|Reported Listings
                 </h2>
             }
         >
-            <Head title="Comments" />
+            <Head title="Reported Listings" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -100,51 +103,59 @@ export default function Index(props) {
                                         >
                                             <button
                                                 onClick={() =>
-                                                    handleApprovedFilterChange(
-                                                        ""
-                                                    )
+                                                    handleStatusFilterChange("")
                                                 }
                                                 type="button"
                                                 className={`${
-                                                    filters.approved == null
+                                                    filters.status == null
                                                         ? "z-10 ring-2 ring-blue-700 text-blue-700"
                                                         : ""
                                                 } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
                                             >
-                                                <BiCommentDetail className="w-5 h-5 mr-2" />
+                                                <AiOutlineFlag className="w-5 h-5 mr-2" />
                                                 All
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    handleApprovedFilterChange(
-                                                        false
-                                                    )
+                                                    handleStatusFilterChange(1)
                                                 }
                                                 type="button"
                                                 className={`${
-                                                    filters.approved === "false"
+                                                    filters.status == 1
                                                         ? "z-10 ring-2 ring-blue-700 text-blue-700"
                                                         : ""
                                                 } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
                                             >
-                                                <BiCommentX className="w-5 h-5 mr-2" />
-                                                Halted
+                                                <MdOutlinePending className="w-5 h-5 mr-2" />
+                                                Pending
                                             </button>
                                             <button
                                                 onClick={() =>
-                                                    handleApprovedFilterChange(
-                                                        1
-                                                    )
+                                                    handleStatusFilterChange(2)
                                                 }
                                                 type="button"
                                                 className={`${
-                                                    filters.approved == 1
+                                                    filters.status == 2
+                                                        ? "z-10 ring-2 ring-blue-700 text-blue-700"
+                                                        : ""
+                                                } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
+                                            >
+                                                <BsHourglassSplit className="w-5 h-5 mr-2" />
+                                                Reviewed
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleStatusFilterChange(3)
+                                                }
+                                                type="button"
+                                                className={`${
+                                                    filters.status == 3
                                                         ? "z-10 ring-2 ring-blue-700 text-blue-700"
                                                         : ""
                                                 } inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white`}
                                             >
-                                                <BiCommentCheck className="w-5 h-5 mr-2" />
-                                                Approved
+                                                <HiOutlineCheckCircle className="w-5 h-5 mr-2" />
+                                                Resolved
                                             </button>
                                         </div>
                                     </div>
@@ -163,6 +174,9 @@ export default function Index(props) {
                                                     Reason
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
+                                                    Title
+                                                </TableHeaderCell>
+                                                <TableHeaderCell>
                                                     Status
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
@@ -171,23 +185,33 @@ export default function Index(props) {
                                                 <TableHeaderCell>
                                                     Created at
                                                 </TableHeaderCell>
-
-                                                <TableHeaderCell>
-                                                    Action
-                                                </TableHeaderCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {data.map((item) => (
                                                 <TableRow key={item.id}>
                                                     <TableDataCell>
-                                                        {item.contact_name}
+                                                        <Link
+                                                            href={route(
+                                                                "admin.reported-listings.show",
+                                                                item.id
+                                                            )}
+                                                            method="get"
+                                                            as="button"
+                                                            type="button"
+                                                            className="py-1.5 px-3 text-gray-600 underline hover:font-bold duration-150"
+                                                        >
+                                                            {item.contact_name}
+                                                        </Link>
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {item.email}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {item.reason}
+                                                    </TableDataCell>
+                                                    <TableDataCell>
+                                                        {item.owner.title}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {item.status ===
@@ -239,7 +263,7 @@ export default function Index(props) {
                                                             </div>
                                                         )}
                                                         {item.status ===
-                                                            "Approved" && (
+                                                            "Resolved" && (
                                                             <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
                                                                 <svg
                                                                     width="12"
@@ -258,7 +282,7 @@ export default function Index(props) {
                                                                 </svg>
 
                                                                 <h2 className="text-sm font-normal">
-                                                                    Approved
+                                                                    Resolved
                                                                 </h2>
                                                             </div>
                                                         )}
@@ -278,29 +302,6 @@ export default function Index(props) {
                                                         ).format(
                                                             "MMM DD, YYYY"
                                                         )}
-                                                    </TableDataCell>
-                                                    <TableDataCell>
-                                                        {
-                                                            <Link
-                                                                href=""
-                                                                method="put"
-                                                                as="button"
-                                                                type="button"
-                                                                className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-indigo-600 border rounded-lg"
-                                                            >
-                                                                Approve
-                                                            </Link>
-                                                        }
-
-                                                        <Link
-                                                            href=""
-                                                            method="delete"
-                                                            as="button"
-                                                            type="button"
-                                                            className="ml-2 py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-rose-600 border rounded-lg"
-                                                        >
-                                                            Delete
-                                                        </Link>
                                                     </TableDataCell>
                                                 </TableRow>
                                             ))}

@@ -14,18 +14,18 @@ class ReportedListingIndexController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $reportedListings = ReportedResource::collection(
             ReportedListing::query()
                 ->with(['owner'])
                 ->when($request->input('search'), function($query, $search) {
-                    $query->where('name', 'like', "%{$search}%")
+                    $query->where('contact_name', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%")
-                        ->orWhere('content', 'like', "%{$search}%");
+                        ->orWhere('reason', 'like', "%{$search}%");
                 })
-                ->when($request->input('approved'), function($query, $approved) {
-                    $query->where('approved', $approved);
+                ->when($request->input('status'), function($query, $status) {
+                    $query->where('status', $status);
                 })
                 ->latest()
                 ->paginate(7)
@@ -33,7 +33,7 @@ class ReportedListingIndexController extends Controller
 
         return Inertia::render('Admin/Reported/Index', [
             'reportedListings' => $reportedListings,
-            'filters' => $request->only(['search', 'approved'])
+            'filters' => $request->only(['search', 'status'])
         ]);
     }
 }

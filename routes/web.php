@@ -6,7 +6,10 @@ use App\Http\Controllers\Admin\BlogFeaturedController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ReportedListingEmailListingOwnerController;
 use App\Http\Controllers\Admin\ReportedListingIndexController;
+use App\Http\Controllers\Admin\ReportedListingResolveController;
+use App\Http\Controllers\Admin\ReportedListingShowController;
 use App\Http\Controllers\Admin\RevokeController;
 use App\Http\Controllers\Admin\RevokeUserPermissionController;
 use App\Http\Controllers\Admin\RevokeUserRoleController;
@@ -243,6 +246,15 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         //Reported listings controller
         Route::get('/reported-listings', ReportedListingIndexController::class)
             ->name('reported-listings.index');
+        //Reported listings show controller
+        Route::get('/reported-listings/{reported_listing}', ReportedListingShowController::class)
+            ->name('reported-listings.show');
+        //Reported listings resolve controller
+        Route::put('/reported-listings/{reported_listing}/resolve', ReportedListingResolveController::class)
+            ->name('reported-listings.resolved');
+        //Reported listings resolve controller
+        Route::post('/reported-listings/{reported_listing}/email', ReportedListingEmailListingOwnerController::class)
+            ->name('reported-listings.email-listing-owner');
 
         //User & Permissions & Roles
         Route::middleware(['role:admin'])->group(function () {
