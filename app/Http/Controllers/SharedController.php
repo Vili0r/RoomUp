@@ -317,6 +317,17 @@ class SharedController extends Controller
         $currentRooms->whereNotIn('id', collect($request->rooms)->pluck('id'))->each(function ($room) {
             $room->delete();
         });
+
+        $shared->address()->update([
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
+            'area' => $request->area,
+            'city' => $request->city,
+            'post_code' => $request->post_code,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'display_name' => $request->display_name,
+        ]);
        
         $shared->advertiser()->update([
             'first_name' => $request->first_name,

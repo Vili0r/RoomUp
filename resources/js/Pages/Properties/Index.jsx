@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, Link, router } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
@@ -12,8 +12,9 @@ import { HousePlaceholder } from "@/assets";
 import { DebounceInput } from "react-debounce-input";
 
 export default function Index(props) {
-    const { properties, filters } = usePage().props;
+    const { properties, filters, notification } = usePage().props;
     const [searchInput, setSearchInput] = useState(filters.search);
+    const [visible, setVisible] = useState(false);
 
     const showImage = () => {
         return "/storage/";
@@ -33,6 +34,19 @@ export default function Index(props) {
         handleSearch(value);
     };
 
+    useEffect(() => {
+        let timer;
+
+        if (notification !== null) {
+            setVisible(true);
+            timer = setTimeout(() => {
+                setVisible(false);
+            }, 10000);
+        }
+
+        return () => clearTimeout(timer);
+    }, [notification]);
+
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -46,6 +60,46 @@ export default function Index(props) {
             <Head title="My Properties" />
 
             <div className="py-12">
+                {/* Notification */}
+                <div
+                    className={`fixed top-[3.75rem] right-4 ${
+                        visible ? "opacity-100" : "opacity-0"
+                    } transition-opacity duration-300`}
+                >
+                    <div className="flex rounded-lg shadow-lg w-96">
+                        <div className="flex items-center px-6 py-4 bg-green-500 rounded-l-lg">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="text-white fill-current"
+                                viewBox="0 0 16 16"
+                                width="20"
+                                height="20"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
+                                ></path>
+                            </svg>
+                        </div>
+                        <div className="flex items-center justify-between w-full px-4 py-6 bg-white border border-gray-200 rounded-r-lg border-l-transparent">
+                            <div>{notification}</div>
+                            <button onClick={() => setVisible(false)}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="text-gray-700 fill-current"
+                                    viewBox="0 0 16 16"
+                                    width="20"
+                                    height="20"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">

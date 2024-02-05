@@ -57,13 +57,13 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\ReportedListingController;
 use App\Http\Controllers\TemporaryImageDeleteController;
 use App\Http\Controllers\TemporaryImageUploadController;
-use App\Http\Controllers\UpdateAddressController;
 use App\Http\Controllers\UpdateIdDocumentController;
 use App\Http\Controllers\UpdatePhoneNumberController;
 use App\Http\Controllers\UpdatePhotoProfileController;
 use App\Http\Controllers\UpdateSelfieController;
 use App\Http\Controllers\UpdateSocialLinksController;
 use App\Http\Controllers\UserVerificationController;
+use App\Http\Controllers\VirtualTourController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -143,11 +143,6 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->name('profile-seflie-verification.update');
     Route::post('/profile-id_document-verification', UpdateIdDocumentController::class)
         ->name('profile-id_document-verification.update');
-
-    //Route to update address on shared property
-    Route::put('/property/{model}/{id}/address', UpdateAddressController::class)
-        ->where('model', 'room|flat')
-        ->name('address.update'); //not tested yet
     
     //Route to change availability on shared property
     Route::put('/shared/{shared}/availability', SharedAvailabilityController::class)
@@ -228,6 +223,16 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::resource('/verification', UserVerificationController::class)
         ->only(['index', 'store']);
     Route::get('/my-properties', PropertyController::class)->name('my-properties');
+
+    //Virtual Tours Store Controller
+    Route::post('/virtual-tour', [VirtualTourController::class, 'checkout'])
+        ->name('virtual-tour.checkout');
+    
+    //Checkout Controller
+    Route::get('/checkout/success', [VirtualTourController::class, 'success'])
+        ->name('checkout.success');
+    Route::get('/checkout/failure', [VirtualTourController::class, 'failure'])
+        ->name('checkout.failure');
 
     //Admin
     Route::group(['middleware' => ['role:admin|writer|moderator'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

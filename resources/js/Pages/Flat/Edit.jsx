@@ -14,6 +14,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import FlatStepOne from "@/Components/FlatStepOne";
 import { BsCheck, BsTrash } from "react-icons/bs";
 import { RxExclamationTriangle } from "react-icons/rx";
+import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
+import { DebounceInput } from "react-debounce-input";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
@@ -46,6 +48,7 @@ const Edit = (props) => {
         newFlatmateOccupation,
         pets,
         notification,
+        csrf_token,
     } = usePage().props;
     const selectedOptions = flat.amenities.map((item) => {
         return {
@@ -56,6 +59,9 @@ const Edit = (props) => {
     const animatedComponents = makeAnimated();
     const [selectedAmenities, setSelectedAmenities] = useState(selectedOptions);
     const [visible, setVisible] = useState(false);
+    const [search, setSearch] = useState("");
+    const [selectedAddress, setSelectedAddress] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const {
         data,
@@ -191,6 +197,41 @@ const Edit = (props) => {
         return response;
     };
 
+    const handleSelectedAddress = (selectedAddress, e) => {
+        e.preventDefault();
+
+        setData((prevData) => ({
+            ...prevData,
+            address_1: selectedAddress.address.name,
+            city: selectedAddress.address.state,
+            area: selectedAddress.address.suburb
+                ? selectedAddress.address.suburb
+                : selectedAddress.address.city,
+            post_code: selectedAddress.address.postcode,
+            lat: selectedAddress.lat,
+            long: selectedAddress.lon,
+            display_name: selectedAddress.display_name,
+        }));
+    };
+
+    const getAddresses = (search) => {
+        if (search) {
+            const url = `/api/autocomplete?query=${search}`;
+            axios
+                .get(url, {
+                    headers: {
+                        "X-CSRF-TOKEN": csrf_token,
+                    },
+                })
+                .then(function (response) {
+                    setSearchResults(response.data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
+    };
+
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -303,6 +344,77 @@ const Edit = (props) => {
                                             />
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                                            <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                                <AiOutlineSearch className="w-7 h-7" />
+                                                <DebounceInput
+                                                    value={search}
+                                                    minLength={1}
+                                                    debounceTimeout={500}
+                                                    onChange={(e) => {
+                                                        getAddresses(
+                                                            e.target.value
+                                                        );
+                                                        setSearch(
+                                                            e.target.value
+                                                        );
+                                                    }}
+                                                    className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                                                    placeholder="Efterpis, Cholargos..."
+                                                />
+                                                <button
+                                                    onClick={() => {
+                                                        setSearch("");
+                                                        getAddresses("");
+                                                    }}
+                                                    className="absolute top-5 right-5"
+                                                >
+                                                    <AiOutlineClose size={28} />
+                                                </button>
+                                            </div>
+                                            {search.length >= 2 &&
+                                                (searchResults?.length > 0 ? (
+                                                    <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
+                                                        <ul>
+                                                            {searchResults.map(
+                                                                (
+                                                                    address,
+                                                                    index
+                                                                ) => (
+                                                                    <li className="border-b border-gray-200">
+                                                                        <button
+                                                                            onClick={(
+                                                                                e
+                                                                            ) => {
+                                                                                setSelectedAddress(
+                                                                                    address
+                                                                                );
+                                                                                handleSelectedAddress(
+                                                                                    address,
+                                                                                    e
+                                                                                );
+                                                                            }}
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
+                                                                        >
+                                                                            <span className="ml-4">
+                                                                                {
+                                                                                    address.display_name
+                                                                                }
+                                                                            </span>
+                                                                        </button>
+                                                                    </li>
+                                                                )
+                                                            )}
+                                                        </ul>
+                                                    </div>
+                                                ) : (
+                                                    <div className="px-3 py-3">
+                                                        No results for "{search}
+                                                        "
+                                                    </div>
+                                                ))}
                                             <StepTwo
                                                 data={data}
                                                 errors={errors}

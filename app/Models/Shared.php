@@ -128,6 +128,11 @@ class Shared extends Model
         return $this->morphMany(Message::class, 'owner');
     }
 
+    public function tour(): MorphOne
+    {
+        return $this->morphOne(VirtualTour::class, 'owner');
+    }
+
     public function toSearchableArray(): array
     {
         return [

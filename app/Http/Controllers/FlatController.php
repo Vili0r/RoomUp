@@ -240,6 +240,17 @@ class FlatController extends Controller
 
         $flat->amenities()->sync($request->input('amenities.*.id'));
        
+        $flat->address()->update([
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
+            'area' => $request->area,
+            'city' => $request->city,
+            'post_code' => $request->post_code,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'display_name' => $request->display_name,
+        ]);
+        
         $flat->advertiser()->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
