@@ -11,6 +11,7 @@ import { RiProfileLine } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoShieldCheckmark } from "react-icons/io5";
 import SidebarNavLink from "../Components/SidebarNavLink";
+import { GiProtectionGlasses } from "react-icons/gi";
 
 export default function AdminLayoutII({ auth, children }) {
     const [showSidebarMenu, setShowSidebarMenu] = useState(false);
@@ -373,6 +374,33 @@ export default function AdminLayoutII({ auth, children }) {
                                     } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
                                 >
                                     Flagged
+                                </span>
+                            </SidebarNavLink>
+                            <SidebarNavLink
+                                href={route("admin.virtual-tours.index")}
+                                active={route().current(
+                                    "admin.virtual-tours.index"
+                                )}
+                                className=""
+                                style={{ transition: "background .3s" }}
+                            >
+                                <GiProtectionGlasses className="text-xl text-[#F2F2F2]" />
+                                <span
+                                    className="font-[500]"
+                                    style={{
+                                        trnasition: "color .4s, opacity .4s",
+                                    }}
+                                >
+                                    Virtual Tours
+                                </span>
+                                <span
+                                    className={`${
+                                        showSidebarMenu
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                    } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
+                                >
+                                    Virtual Tours
                                 </span>
                             </SidebarNavLink>
                             <SidebarNavLink

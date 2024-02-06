@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class ReportedResource extends JsonResource
+class VirtualTourShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,10 +19,8 @@ class ReportedResource extends JsonResource
             'id' => $this->id,
             'contact_name' => $this->contact_name,
             'email' => $this->email,
+            'contact_number' => $this->contact_number,
             'details' => $this->details,
-            'reason' => Str::replace('_', ' ', $this->reason->name),
-            'status' => Str::replace('_', ' ', $this->status->name),
-            'resolved_at' => $this->resolved_at ? $this->resolved_at->format('Y-m-d') : '',
             'model' => strtolower(substr($this->owner_type, strrpos($this->owner_type, '\\') + 1)),
             'owner' => [
                 'id' => $this->owner->id ?? '',

@@ -19,6 +19,11 @@ use App\Http\Controllers\Admin\UserApproveVerificationController;
 use App\Http\Controllers\Admin\UserRejectVerificationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserVerifyController;
+use App\Http\Controllers\Admin\VirtualTourCompletedController;
+use App\Http\Controllers\Admin\VirtualTourCancelController;
+use App\Http\Controllers\Admin\VirtualTourEmailListingOwnerController;
+use App\Http\Controllers\Admin\VirtualTourIndexController;
+use App\Http\Controllers\Admin\VirtualTourShowController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\ConversationController;
@@ -224,11 +229,9 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         ->only(['index', 'store']);
     Route::get('/my-properties', PropertyController::class)->name('my-properties');
 
-    //Virtual Tours Store Controller
+    //Virtual Tour Controller
     Route::post('/virtual-tour', [VirtualTourController::class, 'checkout'])
         ->name('virtual-tour.checkout');
-    
-    //Checkout Controller
     Route::get('/checkout/success', [VirtualTourController::class, 'success'])
         ->name('checkout.success');
     Route::get('/checkout/failure', [VirtualTourController::class, 'failure'])
@@ -262,6 +265,19 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         Route::post('/reported-listings/{reported_listing}/email', ReportedListingEmailListingOwnerController::class)
             ->name('reported-listings.email-listing-owner');
 
+        //Virtual Tour index controller
+        Route::get('/virtual-tours', VirtualTourIndexController::class)
+            ->name('virtual-tours.index');
+        //Virtual Tour show controller
+        Route::get('/virtual-tours/{virtual_tour}', VirtualTourShowController::class)
+            ->name('virtual-tours.show');
+        //Virtual Tours resolve controller
+        Route::put('/virtual-tours/{virtual_tour}/completed', VirtualTourCompletedController::class)
+            ->name('virtual-tours.completed');
+        //Virtual Tours resolve controller
+        Route::post('/virtual-tours/{virtual_tour}/email', VirtualTourEmailListingOwnerController::class)
+            ->name('virtual-tours.email-listing-owner');
+
         //User & Permissions & Roles
         Route::middleware(['role:admin'])->group(function () {
             //Revoke permissions for roles
@@ -294,6 +310,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
             //Reported listings delete property controller
             Route::post('/reported-listings/{reported_listing}/delete', ReportedListingDeletePropertyController::class)
                 ->name('reported-listings.delete.property');
+
+            //Virtual Tours delete property controller
+            Route::put('/virtual-tours/{virtual_tour}/cancel', VirtualTourCancelController::class)
+                ->name('virtual-tours.cancel');
         });
     });
 });

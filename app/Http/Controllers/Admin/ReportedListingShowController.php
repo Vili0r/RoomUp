@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ReportedResource;
+use App\Http\Resources\ReportedShowResource;
 use App\Models\ReportedListing;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -21,7 +21,7 @@ class ReportedListingShowController extends Controller
         $reportedListing->load('owner');
 
         return Inertia::render('Admin/Reported/Show', [
-            'reportedListing' => new ReportedResource($reportedListing),
+            'reportedListing' => new ReportedShowResource($reportedListing),
         ]);
     }
 }
