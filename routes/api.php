@@ -31,11 +31,14 @@ use App\Http\Controllers\Api\ToggleFavouriteController;
 use App\Http\Controllers\Api\UpdateProfilePhotoController;
 use App\Http\Controllers\Api\FlatDeletePhotoController;
 use App\Http\Controllers\Api\MapSearchController;
+use App\Http\Controllers\Api\ReportListingStoreController;
 use App\Http\Controllers\Api\RoomDeletePhotoController;
 use App\Http\Controllers\Api\RoommateAvailabilityController;
 use App\Http\Controllers\Api\RoommateDeletePhotoController;
 use App\Http\Controllers\Api\SharedDeletePhotoController;
 use App\Http\Controllers\Api\SingleRoommateController;
+use App\Http\Controllers\Api\SupportController;
+use App\Http\Controllers\Api\VirtualTourController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -84,6 +87,13 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/message', MessageController::class);
     Route::get('/message/create', CreateMessageController::class);
     Route::post('/message/store', StoreMessageController::class);
+    
+    //Report listing store Controller
+    Route::post('/report-listing/store', ReportListingStoreController::class);
+
+    //Virtual Tour Controller
+    Route::post('/virtual-tour/payment-intent', [VirtualTourController::class, 'checkout']);
+    Route::post('/virtual-tour/success', [VirtualTourController::class, 'success']);
 
     //Conversation Controller
     Route::get('/conversation', ConversationController::class);
@@ -116,6 +126,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/shared/{shared}/delete-photo', SharedDeletePhotoController::class);
     Route::delete('/room/{room}/delete-photo', RoomDeletePhotoController::class);
     Route::delete('/roommate/{roommate}/delete-photo', RoommateDeletePhotoController::class);
+
+    //Customer support controller
+    Route::get('/customer-support', SupportController::class);
 });
 //Auth related routes
 Route::post('/login', [AuthController::class, 'login']);
