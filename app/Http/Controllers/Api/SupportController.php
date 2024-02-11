@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Events\ConversationCreated;
 use App\Http\Resources\Api\ConversationSupportResource;
-use App\Http\Resources\ConversationResource;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Notifications\CustomerSupportNotification;
@@ -82,7 +81,7 @@ class SupportController extends Controller
                 
             return new ConversationSupportResource($conversation);
         } 
-        
+
         $conversation = Conversation::where('user_id', 6)
             ->where('body', 'Hi, how can I help you today?')
             ->where('message_id', $existingMessage->id)

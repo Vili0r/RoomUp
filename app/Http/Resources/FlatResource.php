@@ -45,6 +45,9 @@ class FlatResource extends JsonResource
             'availability' => $this->whenLoaded('availability', function () {
                 return new AvailabilityResource($this->availability);
             }),
+            'tour' => $this->whenLoaded('tour', function () {
+                return new VirtualTourResource($this->tour);
+            }),
         ];
     }
 }

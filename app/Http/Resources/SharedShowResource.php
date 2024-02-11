@@ -25,6 +25,9 @@ class SharedShowResource extends JsonResource
                 return new AddressResource($this->address);
             }),
             'rooms' => SharedRoomResource::collection($this->whenLoaded('rooms')),
+            'tour' => $this->whenLoaded('tour', function () {
+                return new VirtualTourResource($this->tour);
+            }),
         ];
     }
 }

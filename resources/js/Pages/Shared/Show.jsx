@@ -12,19 +12,14 @@ import Modal from "@/Components/Modal";
 import RoomCard from "@/Components/RoomCard";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
-import { DebounceInput } from "react-debounce-input";
-import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 
 const Show = (props) => {
-    const { shared, notification, csrf_token } = usePage().props;
+    const { shared, notification } = usePage().props;
     const [openModal, setOpenModal] = useState(false);
-    const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
+    const [openVirtualTourModal, setOpenVirtualTourModal] = useState(false);
     const [openDeletePropertyModal, setOpenDeletePropertyModal] =
         useState(false);
     const [visible, setVisible] = useState(false);
-    const [search, setSearch] = useState("");
-    const [selectedAddress, setSelectedAddress] = useState([]);
-    const [searchResults, setSearchResults] = useState([]);
 
     const {
         data,
@@ -38,14 +33,12 @@ const Show = (props) => {
     } = useForm({
         live_at: shared.live_at,
         available: shared.available,
-        address_1: shared.address.address_1,
-        address_2: shared.address.address_2,
-        area: shared.address.area,
-        city: shared.address.city,
-        post_code: shared.address.post_code,
-        lat: shared.address.lat,
-        long: shared.address.long,
-        display_name: shared.address.display_name,
+        owner_id: shared.id,
+        owner_type: "shared",
+        contact_name: "",
+        email: "",
+        contact_number: "",
+        details: "",
     });
 
     const showImage = () => {
@@ -64,8 +57,8 @@ const Show = (props) => {
         reset();
     };
 
-    const closeUpdateAddressModal = () => {
-        setOpenUpdateAddressModal(false);
+    const closeVirtualTourModal = () => {
+        setOpenVirtualTourModal(false);
 
         reset();
     };
@@ -101,15 +94,33 @@ const Show = (props) => {
         });
     };
 
-    const updateAddress = (e) => {
+    const handleVirtualTour = () => {
+        if (shared.tour.payment_status !== "Successful") {
+            setOpenVirtualTourModal(true);
+        }
+    };
+
+    const storeVirtualTourBooking = (e) => {
         e.preventDefault();
 
-        put(route("address.update", ["room", shared.id]), {
-            onSuccess: () => {
-                closeUpdateAddressModal();
-            },
-            onFinish: () => reset(),
-        });
+        axios
+            .post("/virtual-tour", data)
+            .then((response) => {
+                // Redirect to Stripe Checkout
+                window.location.href = response.data.url;
+            })
+            .catch((error) => {
+                console.error("Error creating Stripe session", error);
+            });
+    };
+
+    const handleOnChange = (event) => {
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
     };
 
     const deleteProperty = (e) => {
@@ -126,39 +137,6 @@ const Show = (props) => {
             top: position,
             behavior: "smooth",
         });
-    };
-
-    const handleSelectedAddress = (e, selectedAddress) => {
-        e.preventDefault();
-        setData({
-            address_1: selectedAddress.address.name,
-            city: selectedAddress.address.state,
-            area: selectedAddress.address.suburb
-                ? selectedAddress.address.suburb
-                : selectedAddress.address.city,
-            post_code: selectedAddress.address.postcode,
-            lat: selectedAddress.lat,
-            long: selectedAddress.lon,
-            display_name: selectedAddress.display_name,
-        });
-    };
-
-    const getAddresses = (search) => {
-        if (search) {
-            const url = `/api/autocomplete?query=${search}`;
-            axios
-                .get(url, {
-                    headers: {
-                        "X-CSRF-TOKEN": csrf_token,
-                    },
-                })
-                .then(function (response) {
-                    setSearchResults(response.data);
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
-        }
     };
 
     return (
@@ -248,200 +226,104 @@ const Show = (props) => {
                     </form>
                 </Modal>
                 <Modal
-                    show={openUpdateAddressModal}
-                    onClose={closeUpdateAddressModal}
+                    show={openVirtualTourModal}
+                    onClose={closeVirtualTourModal}
                 >
-                    <form onSubmit={updateAddress} className="p-6">
+                    <form onSubmit={storeVirtualTourBooking} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Update address of your property
+                            Book a virtual tour for your property
                         </h2>
 
-                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
-                            <AiOutlineSearch className="w-7 h-7" />
-                            <DebounceInput
-                                value={search}
-                                minLength={1}
-                                debounceTimeout={500}
-                                onChange={(e) => {
-                                    getAddresses(e.target.value);
-                                    setSearch(e.target.value);
-                                }}
-                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                                placeholder="Efterpis, Cholargos..."
-                            />
-                            <button
-                                onClick={() => {
-                                    setSearch("");
-                                    getAddresses("");
-                                }}
-                                className="absolute top-5 right-5"
-                            >
-                                <AiOutlineClose size={28} />
-                            </button>
-                        </div>
-                        {search.length >= 2 &&
-                            (searchResults?.length > 0 ? (
-                                <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
-                                    <ul>
-                                        {searchResults.map((address, index) => (
-                                            <li className="border-b border-gray-200">
-                                                <button
-                                                    onClick={(e) => {
-                                                        setSelectedAddress(
-                                                            address
-                                                        );
-                                                        handleSelectedAddress(
-                                                            e,
-                                                            address
-                                                        );
-                                                    }}
-                                                    key={index}
-                                                    className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
-                                                >
-                                                    <span className="ml-4">
-                                                        {address.display_name}
-                                                    </span>
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ) : (
-                                <div className="px-3 py-3">
-                                    No results for "{search}"
-                                </div>
-                            ))}
-
-                        <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
-                            <div className="relative md:col-span-3">
-                                <input
-                                    type="text"
-                                    id="address_1"
-                                    placeholder="Address Line 1"
-                                    value={data.address_1}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    disabled={true}
-                                />
-                                <label
-                                    htmlFor="address_1"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    Address Line 1
-                                </label>
-                                {errors.address_1 && (
+                        <div className="mt-2">
+                            <p className="text-sm text-gray-500">
+                                <div className="relative mt-[3rem]">
+                                    <input
+                                        type="text"
+                                        name="contact_name"
+                                        value={data.contact_name}
+                                        placeholder="Full Name"
+                                        className="w-full px-3 py-3 border border-gray-300 rounded-md shadow w-contact peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                        autoComplete="off"
+                                        onChange={handleOnChange}
+                                    />
+                                    <label
+                                        htmlFor="name"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    >
+                                        Full Name
+                                    </label>
                                     <InputError
-                                        message={errors.address_1}
+                                        message={errors.contact_name}
                                         className="mt-2"
                                     />
-                                )}
-                            </div>
-
-                            <div className="relative md:col-span-2">
-                                <input
-                                    type="text"
-                                    name="address_2"
-                                    id="address_2"
-                                    placeholder="Address Line 2"
-                                    value={data.address_2}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    disabled={true}
-                                />
-                                <label
-                                    htmlFor="address_2"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    Address Line 2
-                                </label>
-                                {errors.address_2 && (
+                                </div>
+                                <div className="relative mt-5">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={data.email}
+                                        placeholder="Email Address"
+                                        className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                        autoComplete="off"
+                                        onChange={handleOnChange}
+                                    />
+                                    <label
+                                        htmlFor="email"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    >
+                                        Email Address
+                                    </label>
                                     <InputError
-                                        message={errors.address_2}
+                                        message={errors.email}
                                         className="mt-2"
                                     />
-                                )}
-                            </div>
-
-                            <div className="relative mt-5 md:col-span-2">
-                                <input
-                                    type="text"
-                                    name="city"
-                                    id="city"
-                                    placeholder="City"
-                                    value={data.city}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    disabled={true}
-                                />
-                                <label
-                                    htmlFor="city"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    City
-                                </label>
-
-                                {errors.city && (
-                                    <InputError
-                                        message={errors.city}
-                                        className="mt-5"
+                                </div>
+                                <div className="relative mt-5">
+                                    <input
+                                        name="contact_number"
+                                        value={data.contact_number}
+                                        placeholder="Phone Number"
+                                        className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                        autoComplete="off"
+                                        onChange={handleOnChange}
                                     />
-                                )}
-                            </div>
-
-                            <div className="relative mt-5 md:col-span-2">
-                                <input
-                                    type="text"
-                                    name="area"
-                                    id="area"
-                                    placeholder="Area"
-                                    value={data.area}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    disabled={true}
-                                />
-                                <label
-                                    htmlFor="area"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    Area
-                                </label>
-
-                                {errors.area && (
+                                    <label
+                                        htmlFor="contact_number"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    >
+                                        Phone Number
+                                    </label>
                                     <InputError
-                                        message={errors.area}
-                                        className="mt-5"
+                                        message={errors.contact_number}
+                                        className="mt-2"
                                     />
-                                )}
-                            </div>
-
-                            <div className="relative mt-5 md:col-span-1">
-                                <input
-                                    type="text"
-                                    name="post_code"
-                                    id="post_code"
-                                    placeholder="Post Code"
-                                    value={data.post_code}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    disabled={true}
-                                />
-                                <label
-                                    htmlFor="post_code"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    TK
-                                </label>
-                                {errors.post_code && (
+                                </div>
+                                <div className="relative mt-5">
+                                    <textarea
+                                        type="text"
+                                        name="details"
+                                        value={data.details}
+                                        placeholder="Details"
+                                        className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
+                                        autoComplete="off"
+                                        onChange={handleOnChange}
+                                    />
+                                    <label
+                                        htmlFor="details"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    >
+                                        Details
+                                    </label>
                                     <InputError
-                                        message={errors.post_code}
-                                        className="mt-5"
+                                        message={errors.details}
+                                        className="mt-2"
                                     />
-                                )}
-                            </div>
+                                </div>
+                            </p>
                         </div>
 
                         <div className="flex justify-end mt-6">
-                            <SecondaryButton onClick={closeUpdateAddressModal}>
+                            <SecondaryButton onClick={closeVirtualTourModal}>
                                 Cancel
                             </SecondaryButton>
 
@@ -449,7 +331,7 @@ const Show = (props) => {
                                 className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                 disabled={processing}
                             >
-                                Update Address
+                                Book Virtual Tour
                             </PrimaryButton>
                         </div>
                     </form>
@@ -657,12 +539,17 @@ const Show = (props) => {
                                         </button>
 
                                         <PrimaryButton
-                                            onClick={() =>
-                                                setOpenUpdateAddressModal(true)
+                                            onClick={handleVirtualTour}
+                                            disabled={
+                                                shared.tour.payment_status ===
+                                                "Successful"
                                             }
                                             className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-black border-2 border-black rounded-lg hover:text-white hover:bg-black"
                                         >
-                                            Update Address
+                                            Virtual Tour{" "}
+                                            {shared.tour.payment_status ===
+                                                "Successful" &&
+                                                shared.tour.status}
                                         </PrimaryButton>
                                     </div>
                                     <p className="col-start-1 mt-4 text-sm leading-6 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">

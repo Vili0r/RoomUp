@@ -361,7 +361,7 @@ const Edit = (props) => {
                                                     className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
                                                     placeholder="Efterpis, Cholargos..."
                                                 />
-                                                <button
+                                                {/* <button
                                                     onClick={() => {
                                                         setSearch("");
                                                         getAddresses("");
@@ -369,7 +369,7 @@ const Edit = (props) => {
                                                     className="absolute top-5 right-5"
                                                 >
                                                     <AiOutlineClose size={28} />
-                                                </button>
+                                                </button> */}
                                             </div>
                                             {search.length >= 2 &&
                                                 (searchResults?.length > 0 ? (

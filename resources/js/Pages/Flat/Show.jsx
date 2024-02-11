@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, Link, useForm } from "@inertiajs/react";
+import { Head, usePage, useForm } from "@inertiajs/react";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import InputError from "@/Components/InputError";
@@ -78,6 +78,12 @@ const Show = (props) => {
             },
             onFinish: () => reset(),
         });
+    };
+
+    const handleVirtualTour = () => {
+        if (flat.tour.payment_status !== "Successful") {
+            setOpenVirtualTourModal(true);
+        }
     };
 
     const storeVirtualTourBooking = (e) => {
@@ -464,12 +470,17 @@ const Show = (props) => {
                                             Manage availability
                                         </button>
                                         <PrimaryButton
-                                            onClick={() =>
-                                                setOpenVirtualTourModal(true)
+                                            onClick={handleVirtualTour}
+                                            disabled={
+                                                flat.tour.payment_status ===
+                                                "Successful"
                                             }
                                             className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-black border-2 border-black rounded-lg hover:text-white hover:bg-black"
                                         >
-                                            Virtual Tour
+                                            Virtual Tour{" "}
+                                            {flat.tour.payment_status ===
+                                                "Successful" &&
+                                                flat.tour.status}
                                         </PrimaryButton>
                                     </div>
                                     <p className="col-start-1 mt-4 text-sm leading-6 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">

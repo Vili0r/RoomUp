@@ -137,7 +137,7 @@ class SharedController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        $shared->load(['address', 'rooms']);
+        $shared->load(['address', 'rooms', 'tour']);
 
         return response()->json([
             'shared' => new SharedShowResource($shared),

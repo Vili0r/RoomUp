@@ -14,7 +14,7 @@ class VirtualTourController extends Controller
    {
         if ($request->owner_type == 'flat') {
             $property = Flat::findOrFail($request->owner_id);
-        } elseif ($request->owner_type == 'room') {
+        } elseif ($request->owner_type == 'shared') {
             $property = Shared::findOrFail($request->owner_id);
         }
 

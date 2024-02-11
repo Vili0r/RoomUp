@@ -154,7 +154,7 @@ class FlatController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        $flat->load(['address']);
+        $flat->load(['address', 'tour']);
 
         return Inertia::render("Flat/Show", [
             'flat' => new FlatShowResource($flat),
@@ -170,7 +170,14 @@ class FlatController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        $flat->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'availability']);
+        $flat->load([
+            'amenities', 
+            'advertiser', 
+            'address', 
+            'transport', 
+            'flatmate', 
+            'availability',
+        ]);
 
         return Inertia::render("Flat/Edit", [
             'flat' => new FlatResource($flat),

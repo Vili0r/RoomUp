@@ -25,6 +25,9 @@ class FlatShowResource extends JsonResource
             'address' => $this->whenLoaded('address', function () {
                 return new AddressResource($this->address);
             }),
+            'tour' => $this->whenLoaded('tour', function () {
+                return new VirtualTourResource($this->tour);
+            }),
         ];
     }
 }

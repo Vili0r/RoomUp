@@ -113,7 +113,15 @@ class FlatController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        $flat->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'availability']);
+        $flat->load([
+            'amenities', 
+            'advertiser', 
+            'address', 
+            'transport', 
+            'flatmate', 
+            'availability',
+            'tour',
+        ]);
 
         return response()->json([
             'flat' => new FlatResource($flat),

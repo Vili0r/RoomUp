@@ -197,7 +197,7 @@ class SharedController extends Controller
             abort(403); // Return a forbidden response
         }
 
-        $shared->load(['address', 'rooms']);
+        $shared->load(['address', 'rooms', 'tour']);
 
         return Inertia::render("Shared/Show", [
             'shared' => new SharedShowResource($shared),
