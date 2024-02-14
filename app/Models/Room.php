@@ -140,15 +140,15 @@ class Room extends Model
                 'title' => $this->owner->title,
                 'description' => $this->owner->description,
             ],
-            'address' => [
-                'id' => $this->owner->address->id,
-                'address_1' => $this->owner->address->address_1,
-                'lat' => $this->owner->address->lat,
-                'long' => $this->owner->address->long,
-                'area' => $this->owner->address->area,
-                'city' => $this->owner->address->city,
-                'post_code' => $this->owner->address->post_code,
-            ]
+            // 'address' => [
+            //     'id' => $this->owner->address->id,
+            //     'address_1' => $this->owner->address->address_1,
+            //     'lat' => $this->owner->address->lat,
+            //     'long' => $this->owner->address->long,
+            //     'area' => $this->owner->address->area,
+            //     'city' => $this->owner->address->city,
+            //     'post_code' => $this->owner->address->post_code,
+            // ]
         ];
     }
 }

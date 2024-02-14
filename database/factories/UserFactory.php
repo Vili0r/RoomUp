@@ -24,6 +24,8 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'last_login_at' => now(),
+            'phone_number' => '1234567890123',
             'gender' => 'male',
             'birthdate' => $birthdate,
             'looking_for' => 'I have a flat or house share',

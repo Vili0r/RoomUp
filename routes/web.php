@@ -121,7 +121,6 @@ Route::get('/category/{category:slug}', SingleCategoryController::class)
 //Comments for Blogs Controller
 Route::resource('/blogs.comments', BlogCommentController::class)
     ->only(['index', 'store']);
-
 //Report listing Controller
 Route::resource('/reported-listings', ReportedListingController::class)
     ->only(['create', 'store']);

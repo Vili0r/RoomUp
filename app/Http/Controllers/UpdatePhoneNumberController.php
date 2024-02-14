@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 
@@ -19,18 +18,18 @@ class UpdatePhoneNumberController extends Controller
         ]);
 
         $user = $request->user();
-        $user->update([
-            'phone_number' => $request->phone_number
-        ]);
+        $originalPhoneNumber = $user->phone_number;
+        $newPhoneNumber = $request->phone_number;
+        $user->phone_number = $request->phone_number;
         $user->save();
 
-        if ($user->isDirty('phone_number')) {
+        if ($originalPhoneNumber !== $newPhoneNumber) {
             $user->mobile_verified_at = null;
             $user->verification()->update([
                 'phone_verified_at' => null,
             ]);
         }
 
-        return Redirect::route('profile.edit');
+        return redirect()->route('profile.edit');
     }
 }

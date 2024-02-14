@@ -7,7 +7,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 const Create = (props) => {
     const { property, reasons } = usePage().props;
     const { data, setData, processing, reset, post, errors } = useForm({
-        contact_name: props.auth.user.first_name || "",
+        contact_name: props.auth.user?.first_name || "",
         email: "",
         reason: "",
         details: "",

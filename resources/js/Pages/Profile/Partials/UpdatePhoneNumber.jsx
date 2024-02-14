@@ -59,8 +59,6 @@ export default function UpdatePhoneNumber({ className, user }) {
                                 setData("phone_number", e.target.value)
                             }
                             required
-                            isFocused
-                            autoComplete="off"
                         />
                         {user.verification.phone_verified_at !== null ? (
                             <span className="bg-green-600/70 absolute px-2 py-1 text-white rounded-md top-[9px] right-1">

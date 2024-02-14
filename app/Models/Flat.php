@@ -153,15 +153,15 @@ class Flat extends Model
             'furnished' => $this->furnished,
             'images' => $this->images,
             'created_at' => $this->created_at->format('Y-m-d'),
-            'address' => [
-                'id' => $this->address->id,
-                'address_1' => $this->address->address_1,
-                'lat' => $this->address->lat,
-                'long' => $this->address->long,
-                'area' => $this->address->area,
-                'city' => $this->address->city,
-                'post_code' => $this->address->post_code,
-            ],
+            // 'address' => [
+            //     'id' => $this->address->id,
+            //     'address_1' => $this->address->address_1,
+            //     'lat' => $this->address->lat,
+            //     'long' => $this->address->long,
+            //     'area' => $this->address->area,
+            //     'city' => $this->address->city,
+            //     'post_code' => $this->address->post_code,
+            // ],
         ];
     }
 }

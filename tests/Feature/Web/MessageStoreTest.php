@@ -97,8 +97,6 @@ it('stores a message for a listing', function () {
 
     Event::assertDispatched(ConversationCreated::class);
     broadcast(new ConversationCreated($conversation))->toOthers();
-
-    // Assert that the event was dispatched
     
     // Assert the response has the correct Inertia view with the paginated messages
     $response->assertRedirect('/dashboard');

@@ -56,8 +56,6 @@ export default function UpdateSocialLinks({ className, user }) {
                         onChange={(e) =>
                             setData("facebook_link", e.target.value)
                         }
-                        isFocused
-                        autoComplete="off"
                     />
 
                     <InputError
@@ -75,8 +73,6 @@ export default function UpdateSocialLinks({ className, user }) {
                         onChange={(e) =>
                             setData("instagram_link", e.target.value)
                         }
-                        isFocused
-                        autoComplete="off"
                     />
 
                     <InputError
@@ -92,8 +88,6 @@ export default function UpdateSocialLinks({ className, user }) {
                         className="block w-full mt-1"
                         value={data.tiktok_link}
                         onChange={(e) => setData("tiktok_link", e.target.value)}
-                        isFocused
-                        autoComplete="off"
                     />
 
                     <InputError className="mt-2" message={errors.tiktok_link} />
@@ -108,8 +102,6 @@ export default function UpdateSocialLinks({ className, user }) {
                         onChange={(e) =>
                             setData("linkedin_link", e.target.value)
                         }
-                        isFocused
-                        autoComplete="off"
                     />
 
                     <InputError
