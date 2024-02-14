@@ -2,8 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Inertia\Testing\AssertableInertia;
 
 uses(RefreshDatabase::class);
