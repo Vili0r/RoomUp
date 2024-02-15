@@ -33,6 +33,6 @@ class ReportListingStoreController extends Controller
             'details' => $request->details,
         ]);
 
-        return response()->json("Listing Reporte successfully", 200);
+        return response()->json("Listing Reported successfully", 200);
     }
 }
