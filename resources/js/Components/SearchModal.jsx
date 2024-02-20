@@ -142,6 +142,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
         furnishedStepThree,
         shortTermStepThree,
     } = t("header.searchModal.stepThree");
+    const {
+        petsStepFour,
+        flatmateOccupationStepFour,
+        flatmateGenderFour,
+        availableRoomsStepFour,
+        currentOccupatStepFour,
+        flatmateSmokerStepFour,
+    } = t("header.searchModal.stepFour");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -940,7 +948,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Pets
+                                                                                {
+                                                                                    petsStepFour
+                                                                                }
                                                                             </p>
                                                                             <select
                                                                                 name="pets"
@@ -964,7 +974,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {flatmatePets.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -974,9 +985,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -985,8 +997,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Flatmate
-                                                                                Occupation
+                                                                                {
+                                                                                    flatmateOccupationStepFour
+                                                                                }
                                                                             </p>
                                                                             <select
                                                                                 name="occupation"
@@ -1010,7 +1023,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {flatmateOccupation.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -1020,9 +1034,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -1031,8 +1046,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Flatmate
-                                                                                Gender
+                                                                                {
+                                                                                    flatmateGenderFour
+                                                                                }
                                                                             </p>
                                                                             <select
                                                                                 name="gender"
@@ -1056,7 +1072,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {flatmateGender.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -1066,9 +1083,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -1079,8 +1097,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Available
-                                                                                Rooms
+                                                                                {
+                                                                                    availableRoomsStepFour
+                                                                                }
                                                                             </p>
                                                                             <select
                                                                                 name="availableRoom"
@@ -1104,7 +1123,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {availableRooms.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -1114,9 +1134,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -1125,8 +1146,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Current
-                                                                                Occupant
+                                                                                {
+                                                                                    currentOccupatStepFour
+                                                                                }
                                                                             </p>
 
                                                                             <select
@@ -1151,7 +1173,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {currentOccupants.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -1161,9 +1184,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -1172,8 +1196,9 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                         <div className="relative sm:col-span-2">
                                                                             <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
-                                                                                Flatmate
-                                                                                smoker
+                                                                                {
+                                                                                    flatmateSmokerStepFour
+                                                                                }
                                                                             </p>
                                                                             <select
                                                                                 name="smoker"
@@ -1197,7 +1222,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 {flatmateSmoker.map(
                                                                                     ({
                                                                                         id,
-                                                                                        name,
+                                                                                        nameEn,
+                                                                                        nameGr,
                                                                                     }) => (
                                                                                         <option
                                                                                             key={
@@ -1207,9 +1233,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                                 id
                                                                                             }
                                                                                         >
-                                                                                            {
-                                                                                                name
-                                                                                            }
+                                                                                            {i18n.language ===
+                                                                                            "en"
+                                                                                                ? nameEn
+                                                                                                : nameGr}
                                                                                         </option>
                                                                                     )
                                                                                 )}
@@ -1228,10 +1255,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 <ImArrowLeft2 className="w-5 h-5" />
                                                                             </span>
                                                                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                                Previous
+                                                                                {
+                                                                                    previous
+                                                                                }
                                                                             </span>
                                                                             <span className="relative invisible">
-                                                                                Previous
+                                                                                {
+                                                                                    previous
+                                                                                }
                                                                             </span>
                                                                         </PrimaryButton>
                                                                     </div>
