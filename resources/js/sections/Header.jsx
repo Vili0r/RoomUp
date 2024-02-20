@@ -8,6 +8,8 @@ import { RiAdvertisementLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import PlaceAdModal from "@/Components/PlaceAdModal";
 import SearchModal from "@/Components/SearchModal";
+import { IoIosGlobe } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 const Header = ({ user }) => {
     const { theme, handleTheme } = useContext(ThemeContext);
@@ -15,7 +17,10 @@ const Header = ({ user }) => {
     const { url } = usePage();
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-
+    const { i18n } = useTranslation();
+    const [lng, setLng] = useState(i18n.language);
+    const { t } = useTranslation();
+    const { placeAd, blog, searchHeader, login } = t("header");
     const closeModal = () => {
         setIsOpen(false);
     };
@@ -37,6 +42,16 @@ const Header = ({ user }) => {
             setNavColor(true);
         } else {
             setNavColor(false);
+        }
+    };
+
+    const changeLanguage = () => {
+        if (lng == "en") {
+            i18n.changeLanguage("gr");
+            setLng("ελ");
+        } else {
+            i18n.changeLanguage("en");
+            setLng("en");
         }
     };
 
@@ -64,20 +79,20 @@ const Header = ({ user }) => {
                     <span
                         className={`
                             ${navColor ? "text-gray-500 " : "text-gray-400"}
-                                self-center ml-2  text-xl font-[500] whitespace-nowrap font-popp`}
+                                self-center ml-2  text-xl font-[500] whitespace-nowrap `}
                     >
                         RoomUp
                     </span>
                 </Link>
 
                 {/* {url.includes("/home-search") && (
-                    <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                    <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold  text-lg">
                         <AiOutlineSearch className="w-7 h-7" />
                         <input
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
+                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 "
                             placeholder="Enter address, city or zipcode"
                         />
                     </div>
@@ -93,7 +108,7 @@ const Header = ({ user }) => {
                                     className="sm:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:640px)]:hidden font-popp">
+                                <span className="[@media(max-width:640px)]:hidden ">
                                     Home
                                 </span>
                             </Link>
@@ -107,8 +122,8 @@ const Header = ({ user }) => {
                                     className="sm:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
-                                    Place Ad
+                                <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
+                                    {placeAd}
                                 </span>
                             </button>
                         </li>
@@ -127,8 +142,8 @@ const Header = ({ user }) => {
                                     className="sm:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp">
-                                    Blog
+                                <span className="[@media(max-width:639px)]:hidden ">
+                                    {blog}
                                 </span>
                             </Link>
                         </li>
@@ -141,8 +156,8 @@ const Header = ({ user }) => {
                                     className="sm:hidden"
                                     style={{ fontSize: "1.25rem" }}
                                 />
-                                <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
-                                    Search
+                                <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
+                                    {searchHeader}
                                 </span>
                             </button>
                         </li>
@@ -157,7 +172,7 @@ const Header = ({ user }) => {
                                             className="sm:hidden"
                                             style={{ fontSize: "1.25rem" }}
                                         />
-                                        <span className="[@media(max-width:639px)]:hidden font-popp md:m-[-2rem]">
+                                        <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
                                             Dashboard
                                         </span>
                                     </Link>
@@ -174,12 +189,23 @@ const Header = ({ user }) => {
                                             className="sm:hidden"
                                             style={{ fontSize: "1.25rem" }}
                                         />
-                                        <span className="[@media(max-width:639px)]:hidden font-popp">
-                                            Login
+                                        <span className="[@media(max-width:639px)]:hidden ">
+                                            {login}
                                         </span>
                                     </Link>
                                 </>
                             )}
+                        </li>
+                        <li>
+                            <button
+                                className="flex items-center gap-1 hover:text-[#F1C40F]"
+                                onClick={changeLanguage}
+                            >
+                                <IoIosGlobe style={{ fontSize: "1.25rem" }} />
+                                <span className="[@media(max-width:639px)]:hidden">
+                                    {lng}
+                                </span>
+                            </button>
                         </li>
                     </ul>
                 </div>

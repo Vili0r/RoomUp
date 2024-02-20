@@ -10,15 +10,25 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { MeiliSearch } from "meilisearch";
 import { DebounceInput } from "react-debounce-input";
 import { HousePlaceholder } from "@/assets";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
     const [openQueryModal, setOpenQueryModal] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
     const [query, setQuery] = useState("");
-    const [selectedHitIndex, setSelectedHitIndex] = useState(0);
     const [totlaHits, setTotalHits] = useState(0);
     const [client, setClient] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { t } = useTranslation();
+    const { line1, line2, line3 } = t("hero.title");
+    const {
+        content,
+        searchInputHero,
+        contentModal,
+        noResult,
+        inputTitle,
+        found,
+    } = t("hero.searchInput");
     const showImage = () => {
         return "/storage/";
     };
@@ -70,12 +80,11 @@ const Hero = () => {
                 className="pt-[4rem] pl-[2rem] grid gap-y-[3.5rem] md:grid-cols-2 md:pt-[3rem] lg:pt-[5rem] lg:gap-[2rem] lg:pr-[2rem]"
             >
                 <motion.div variants={textVariant(1.2)} className="">
-                    <h1 className="xxs:text-[2.55rem] xs:text-[2.75rem] text-[2.25rem] leading-[120%] mb-[1.25rem] mr-[1.25rem] text-gray-300 font-popp">
-                        Find <br /> Your Perfect <br /> Property / Flatmate
+                    <h1 className="xxs:text-[2.55rem] xs:text-[2.75rem] text-[2.25rem] leading-[120%] mb-[1.25rem] mr-[1.25rem] text-gray-300">
+                        {line1} <br /> {line2} <br /> {line3}
                     </h1>
-                    <p className="font-popp mb-[2rem] mr-[2rem] md:w-[75%] text-gray-300 font-bold">
-                        Effortlessly search for compatible roommates and secure
-                        your next living arrangement
+                    <p className="mb-[2rem] mr-[2rem] md:w-[75%] text-gray-300 font-bold">
+                        {t("hero.description")}
                     </p>
                     <div
                         onClick={openModal}
@@ -91,26 +100,26 @@ const Hero = () => {
                                 value={query}
                                 className="w-[90%] bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 bg-gray-300 text-black block mt-2 placeholder-gray-400/70  dark:placeholder-gray-500 rounded-lg px-5 py-2.5 focus:border-[#f0a122] focus:ring-[#f0a122] text-xl focus:ring-opacity-40"
                                 style={{ margin: "0 .5rem" }}
-                                placeholder="Search by location..."
+                                placeholder={content}
                                 disabled
                             />
                         </div>
                         <span
-                            className="xs:inline-block hidden text-[.938rem] font-popp font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
+                            className="xs:inline-block hidden text-[.938rem] font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
                             style={{
                                 boxShadow: "0 4px 8px #f0a122",
                                 padding: "14px 28px",
                                 transition: ".3s",
                             }}
                         >
-                            Search
+                            {searchInputHero}
                         </span>
                     </div>
                     <Modal show={openQueryModal} onClose={closeModal}>
                         <div className="p-6">
                             <div className="flex justify-between mt-8 sm:mt-0">
                                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                    Enter the address or a post code
+                                    {contentModal}
                                 </h2>
                                 <button onClick={closeModal}>
                                     <AiOutlineClose size={20} />
@@ -141,9 +150,9 @@ const Hero = () => {
                                 />
                                 <label
                                     htmlFor="email"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                 >
-                                    Address or Post Code
+                                    {inputTitle}
                                 </label>
                             </div>
                             {isLoading && (
@@ -201,7 +210,7 @@ const Hero = () => {
                                     </div>
                                 ) : (
                                     <div className="px-3 py-3">
-                                        No results for "{query}"
+                                        {noResult} "{query}"
                                     </div>
                                 ))}
                             <div className="flex justify-between mt-6">
@@ -209,7 +218,7 @@ const Hero = () => {
                                     {" "}
                                     {searchResults?.length > 0 && (
                                         <span>
-                                            Found: {totlaHits} result(s)
+                                            {found}: {totlaHits} result(s)
                                         </span>
                                     )}
                                 </div>
@@ -217,35 +226,35 @@ const Hero = () => {
                                     onClick={handleSearch}
                                     className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                 >
-                                    Search
+                                    {searchInputHero}
                                 </PrimaryButton>
                             </div>
                         </div>
                     </Modal>
                     <div className="flex gap-3 justify-between w-[75%]">
                         <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300 font-popp">
+                            <h1 className="text-[1.5rem] font-medium text-gray-300">
                                 9k <span className="text-orange-400">+</span>
                             </h1>
-                            <span className="flex font-light text-gray-300 font-popp">
+                            <span className="flex font-light text-gray-300">
                                 Premium <br />
                                 Product
                             </span>
                         </div>
                         <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300 font-popp">
+                            <h1 className="text-[1.5rem] font-medium text-gray-300">
                                 2K <span className="text-orange-400">+</span>
                             </h1>
-                            <span className="flex font-light text-gray-300 font-popp">
+                            <span className="flex font-light text-gray-300">
                                 Happy <br />
                                 Customer
                             </span>
                         </div>
                         <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300 font-popp">
+                            <h1 className="text-[1.5rem] font-medium text-gray-300">
                                 28K <span className="text-orange-400">+</span>
                             </h1>
-                            <span className="flex font-light text-gray-300 font-popp">
+                            <span className="flex font-light text-gray-300">
                                 Award <br />
                                 Winning
                             </span>

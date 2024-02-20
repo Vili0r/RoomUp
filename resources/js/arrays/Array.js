@@ -8,10 +8,10 @@ export const bedrooms = [
 ];
 
 export const modes = [
-    { id: 1, name: "Walk" },
-    { id: 2, name: "By car" },
-    { id: 3, name: "By bus" },
-    { id: 4, name: "By bike" },
+    { id: 1, nameEn: "Walk", nameGr: "Περπάτημα" },
+    { id: 2, nameEn: "By car", nameGr: "Με αυτοκίνητο" },
+    { id: 3, nameEN: "By bus", nameGr: "Με λεωφορείο" },
+    { id: 4, nameEN: "By bike", nameGr: "Με ποδήλατο" },
 ];
 
 export const furnishings = [
@@ -67,11 +67,11 @@ export const availableRooms = [
 ];
 
 export const minutes = [
-    { id: 1, name: "Less than 5" },
-    { id: 2, name: "Between 5 and 10" },
-    { id: 3, name: "Between 10 and 15" },
-    { id: 4, name: "Between 15 and 20" },
-    { id: 5, name: "More than 20" },
+    { id: 1, nameEn: "Less than 5", nameGr: "Λιγότερο από 5" },
+    { id: 2, nameEn: "Between 5 and 10", nameGr: "Μεταξύ 5 και 10" },
+    { id: 3, nameEn: "Between 10 and 15", nameGr: "Μεταξύ 10 και 15" },
+    { id: 4, nameEn: "Between 15 and 20", nameGr: "Μεταξύ 15 και 20" },
+    { id: 5, nameEn: "More than 20", nameGr: "Περισσότερο από 20" },
 ];
 
 export const stations = [

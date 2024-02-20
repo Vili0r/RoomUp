@@ -4,8 +4,20 @@ import { Fragment } from "react";
 import { Link } from "@inertiajs/react";
 import { Hero1, Hero8, Hero2 } from "@/assets";
 import { AiOutlineClose } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 const PlaceAdModal = ({ isOpen, closeModal }) => {
+    const { t } = useTranslation();
+    const {
+        title,
+        room,
+        roomDescription,
+        whole,
+        wholeDescription,
+        roomWanted,
+        roomWantedDescription,
+    } = t("header.adModal");
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -41,7 +53,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                         <div className="w-full">
                                             <div className="flex justify-between max-w-lg px-10 mb-6">
                                                 <h1 className="text-5xl font-bold tracking-tight text-[#2f2963]">
-                                                    List your property
+                                                    {title}
                                                 </h1>
                                                 <button
                                                     onClick={closeModal}
@@ -54,11 +66,10 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                 <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
-                                                            Rooms to Rent ad.
+                                                            {room}
                                                         </h2>
                                                         <p className="text-sm text-white/50">
-                                                            Advertise one or
-                                                            more rooms
+                                                            {roomDescription}
                                                         </p>
                                                     </div>
                                                     <Link
@@ -77,11 +88,10 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                 <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
-                                                            Whole property ad.
+                                                            {whole}
                                                         </h2>
                                                         <p className="text-sm text-white/50">
-                                                            Advertise a self
-                                                            contained property
+                                                            {wholeDescription}
                                                         </p>
                                                     </div>
                                                     <Link
@@ -99,13 +109,12 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                 <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-blue-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
-                                                            Room wanted ad.
+                                                            {roomWanted}
                                                         </h2>
                                                         <p className="text-sm text-white/50">
-                                                            People offering
-                                                            rooms can find out
-                                                            more about you and
-                                                            get in touch
+                                                            {
+                                                                roomWantedDescription
+                                                            }
                                                         </p>
                                                     </div>
                                                     <Link

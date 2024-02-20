@@ -27,12 +27,28 @@ import {
     amenities,
 } from "@/arrays/Array";
 import { BsCheck } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 const places = [
-    { id: 1, title: "Apartment", image: MdOutlineApartment },
-    { id: 2, title: "Full House", image: BsHouseFill },
-    { id: 3, title: "Property", image: ImOffice },
-    { id: 4, title: "Room", image: MdOutlineBedroomParent },
+    {
+        id: 1,
+        titleEn: "Apartment",
+        titleGr: "Διαμέρισμα",
+        image: MdOutlineApartment,
+    },
+    {
+        id: 2,
+        titleEn: "Full House",
+        titleGr: "Μονοκατοικία",
+        image: BsHouseFill,
+    },
+    { id: 3, titleEn: "Property", titleGr: "Ιδιοκτησία", image: ImOffice },
+    {
+        id: 4,
+        titleEn: "Room",
+        titleGr: "Δωμάτιο",
+        image: MdOutlineBedroomParent,
+    },
 ];
 
 const SearchModal = ({ isOpen, closeModal }) => {
@@ -108,6 +124,24 @@ const SearchModal = ({ isOpen, closeModal }) => {
     const [pets, setPets] = useState(
         selectedPropertyQueries?.filter?.current_flatmate_pets ?? ""
     );
+    const { t, i18n } = useTranslation();
+    const { title, description } = t("header.searchModal");
+    const { rent, flatmate, searchBtn, next, previous } = t(
+        "header.searchModal.button"
+    );
+    const { stepOneTitle } = t("header.searchModal.stepOne");
+    const { priceRange, amenitiesStepTwo, bedroomStepTwo } = t(
+        "header.searchModal.stepTwo"
+    );
+    const {
+        availabilityStepThree,
+        addressStepThree,
+        minutesStepThree,
+        modeStepThree,
+        stationStepThree,
+        furnishedStepThree,
+        shortTermStepThree,
+    } = t("header.searchModal.stepThree");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -258,7 +292,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                             <div className="max-w-lg px-10 mb-6">
                                                 <div className="flex justify-between">
                                                     <h1 className="xs:text-[40px] text-[30px] font-bold tracking-tight text-[#2f2963]">
-                                                        Find your property
+                                                        {title}
                                                     </h1>
                                                     <button
                                                         onClick={closeModal}
@@ -270,59 +304,60 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                     </button>
                                                 </div>
                                                 <p className="mt-5 opacity-50">
-                                                    Select through the multiple
-                                                    filter to find your ideal
-                                                    room or property.
+                                                    {description}
                                                 </p>
 
                                                 <div className="border border-[#f3f3f3] rounded-2xl flex justify-between gap-1"></div>
 
                                                 <div className="flex justify-start mt-5">
-                                                    <div>
-                                                        <div className="w-full rounded-2xl relative flex justify-start gap-x-[5rem]">
-                                                            <button
-                                                                onClick={() =>
-                                                                    activeButton(
-                                                                        1
-                                                                    )
-                                                                }
+                                                    <div
+                                                        className={`${
+                                                            i18n.language ===
+                                                            "en"
+                                                                ? " gap-x-[5rem]"
+                                                                : "gap-x-[3.35rem]"
+                                                        }
+                                                    w-full rounded-2xl relative flex justify-start
+                                                    `}
+                                                    >
+                                                        <button
+                                                            onClick={() =>
+                                                                activeButton(1)
+                                                            }
+                                                        >
+                                                            <span
+                                                                className={`${
+                                                                    toggleActiveButton ==
+                                                                    "1"
+                                                                        ? "text-white  font-semibold lg:font-medium text-sm lg:text-xs bg-black rounded-xl [@media(max-width:440px)]:py-3"
+                                                                        : "text-black hover:text-white font-semibold lg:text-xs lg:font-medium text-sm h-8 bg-white hover:bg-black rounded-xl"
+                                                                } absolute font-semibold inline-flex items-center h-[2.5rem] w-[8rem] justify-center transition-all duration-150 transform items-center-full ease ease-in-out group-hover:translate-x-full`}
                                                             >
-                                                                <span
-                                                                    className={`${
-                                                                        toggleActiveButton ==
-                                                                        "1"
-                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black rounded-xl [@media(max-width:440px)]:py-3"
-                                                                            : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm h-8 bg-white hover:bg-black rounded-xl"
-                                                                    } absolute font-semibold inline-flex items-center h-[2.5rem] w-[8rem] justify-center transition-all duration-150 transform items-center-full ease ease-in-out group-hover:translate-x-full`}
-                                                                >
-                                                                    Rent
-                                                                </span>
-                                                                <span className="relative invisible">
-                                                                    Rent
-                                                                </span>
-                                                            </button>
-                                                            <button
-                                                                onClick={() =>
-                                                                    activeButton(
-                                                                        2
-                                                                    )
-                                                                }
+                                                                {rent}
+                                                            </span>
+                                                            <span className="relative invisible">
+                                                                {rent}
+                                                            </span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                activeButton(2)
+                                                            }
+                                                        >
+                                                            <span
+                                                                className={`${
+                                                                    toggleActiveButton ==
+                                                                    "2"
+                                                                        ? "text-white  font-semibold lg:font-medium text-sm lg:text-xs bg-black h-8 rounded-xl [@media(max-width:440px)]:py-3"
+                                                                        : "text-black hover:text-white  font-semibold lg:text-xs lg:font-medium text-sm bg-white hover:bg-black rounded-xl after:bg-black after:w-1/6 after:rounded-r-xl after:h-full after:border-black after:border-none after:absolute after:top-0 after:left-0"
+                                                                } absolute font-semibold transition-all  duration-150 inline-flex h-[2.5rem] w-[9.25rem] items-center justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full`}
                                                             >
-                                                                <span
-                                                                    className={`${
-                                                                        toggleActiveButton ==
-                                                                        "2"
-                                                                            ? "text-white font-popp font-semibold lg:font-medium text-sm lg:text-xs bg-black h-8 rounded-xl [@media(max-width:440px)]:py-3"
-                                                                            : "text-black hover:text-white font-popp font-semibold lg:text-xs lg:font-medium text-sm bg-white hover:bg-black rounded-xl after:bg-black after:w-1/6 after:rounded-r-xl after:h-full after:border-black after:border-none after:absolute after:top-0 after:left-0"
-                                                                    } absolute font-semibold transition-all  duration-150 inline-flex h-[2.5rem] w-[8rem] items-center justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full`}
-                                                                >
-                                                                    Flatmate
-                                                                </span>
-                                                                <span className="relative invisible">
-                                                                    Flatmate
-                                                                </span>
-                                                            </button>
-                                                        </div>
+                                                                {flatmate}
+                                                            </span>
+                                                            <span className="relative invisible">
+                                                                {flatmate}
+                                                            </span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -345,16 +380,17 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                         >
                                                             <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
                                                             <span className="relative group-hover:text-white">
-                                                                Search
+                                                                {searchBtn}
                                                             </span>
                                                         </button>
 
                                                         {step == 1 && (
                                                             <>
                                                                 <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp">
-                                                                        Type of
-                                                                        places
+                                                                    <p className="text-sm font-semibold ">
+                                                                        {
+                                                                            stepOneTitle
+                                                                        }
                                                                     </p>
                                                                     <div className="grid grid-cols-2 gap-3 [@media(max-width:350px)]:gap-x-7 lg:space-y-2 xl:gap-3 mt-[1rem] place-items-center">
                                                                         {places.map(
@@ -378,11 +414,12 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             : "border-gray-200"
                                                                                     } relative font-semibold transition-all duration-150 justify-center transform items-center-full ease ease-in-out group-hover:translate-x-full h-[100px] w-[150px] [@media(max-width:340px)]:h-[80px] [@media(max-width:460px)]:w-[100px] lg:w-[130px] border rounded-xl flex flex-col items-center gap-3`}
                                                                                 >
-                                                                                    <places.image className="mt-6 font-popp w-7 h-7 [@media(max-width:340px)]:mt-0" />
-                                                                                    <span className="font-popp text-[16px] mb-2 [@media(max-width:340px)]:hidden">
-                                                                                        {
-                                                                                            places.title
-                                                                                        }
+                                                                                    <places.image className="mt-6  w-7 h-7 [@media(max-width:340px)]:mt-0" />
+                                                                                    <span className=" text-[16px] mb-2 [@media(max-width:340px)]:hidden">
+                                                                                        {i18n.language ===
+                                                                                        "en"
+                                                                                            ? places.titleEn
+                                                                                            : places.titleGr}
                                                                                     </span>
                                                                                 </div>
                                                                             )
@@ -401,10 +438,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             <ImArrowRight2 className="w-5 h-5" />
                                                                         </span>
                                                                         <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Next
+                                                                            {
+                                                                                next
+                                                                            }
                                                                         </span>
                                                                         <span className="relative invisible">
-                                                                            Next
+                                                                            {
+                                                                                next
+                                                                            }
                                                                         </span>
                                                                     </PrimaryButton>
                                                                 </div>
@@ -414,9 +455,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                         {step == 2 && (
                                                             <>
                                                                 <div className="mt-[1rem] ml-8">
-                                                                    <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Price
-                                                                        Range
+                                                                    <p className="flex items-center justify-center mb-8 text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                        {
+                                                                            priceRange
+                                                                        }
                                                                     </p>
                                                                     <MultiRangeSlider
                                                                         rangeMin={
@@ -441,8 +483,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                 </div>
 
                                                                 <div className="mt-[2rem] [@media(max-width:340px)]:m-4">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Amenities
+                                                                    <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                        {
+                                                                            amenitiesStepTwo
+                                                                        }
                                                                     </p>
                                                                     <Select
                                                                         closeMenuOnSelect={
@@ -472,8 +516,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                 </div>
 
                                                                 <div className="mt-[2rem]">
-                                                                    <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                        Bedroom
+                                                                    <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                        {
+                                                                            bedroomStepTwo
+                                                                        }
                                                                     </p>
                                                                     <div className="flex justify-center gap-2 place-items-center [@media(max-width:450px)]:grid [@media(max-width:450px)]:grid-cols-3">
                                                                         {bedrooms.map(
@@ -497,7 +543,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             : "bg-white text-black"
                                                                                     } relative p-1 py-2 px-6 lg:px-[19px] border border-[#f3f3f3] rounded-lg hover:bg-black hover:text-white`}
                                                                                 >
-                                                                                    <span className="font-popp text-md">
+                                                                                    <span className=" text-md">
                                                                                         {
                                                                                             bedroom.title
                                                                                         }
@@ -519,10 +565,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             <ImArrowLeft2 className="w-5 h-5" />
                                                                         </span>
                                                                         <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Previous
+                                                                            {
+                                                                                previous
+                                                                            }
                                                                         </span>
                                                                         <span className="relative invisible">
-                                                                            Previous
+                                                                            {
+                                                                                previous
+                                                                            }
                                                                         </span>
                                                                     </PrimaryButton>
                                                                     <PrimaryButton
@@ -535,10 +585,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             <ImArrowRight2 className="w-5 h-5" />
                                                                         </span>
                                                                         <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Next
+                                                                            {
+                                                                                next
+                                                                            }
                                                                         </span>
                                                                         <span className="relative invisible">
-                                                                            Next
+                                                                            {
+                                                                                next
+                                                                            }
                                                                         </span>
                                                                     </PrimaryButton>
                                                                 </div>
@@ -549,8 +603,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                             <>
                                                                 <div className="grid grid-cols-1 gap-6 px-4 mt-7 xs:grid-cols-2">
                                                                     <div className="relative h-10 w-full min-w-[200px]">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Availability
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                availabilityStepThree
+                                                                            }
                                                                         </p>
                                                                         <TextInput
                                                                             type="date"
@@ -574,9 +630,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     </div>
 
                                                                     <div className="relative [@media(max-width:479px)]:mt-4">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Enter
-                                                                            Address
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                addressStepThree
+                                                                            }
                                                                         </p>
                                                                         <TextInput
                                                                             type="text"
@@ -603,8 +660,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                 <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                                                                     <div className="relative sm:col-span-2">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Minutes
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                minutesStepThree
+                                                                            }
                                                                         </p>
                                                                         <select
                                                                             name="minute"
@@ -628,7 +687,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             {minutes.map(
                                                                                 ({
                                                                                     id,
-                                                                                    name,
+                                                                                    nameEn,
+                                                                                    nameGr,
                                                                                 }) => (
                                                                                     <option
                                                                                         key={
@@ -638,9 +698,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             id
                                                                                         }
                                                                                     >
-                                                                                        {
-                                                                                            name
-                                                                                        }
+                                                                                        {i18n.language ==
+                                                                                        "en"
+                                                                                            ? nameEn
+                                                                                            : nameGr}
                                                                                     </option>
                                                                                 )
                                                                             )}
@@ -648,8 +709,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     </div>
 
                                                                     <div className="relative sm:col-span-2">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Mode
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                modeStepThree
+                                                                            }
                                                                         </p>
                                                                         <select
                                                                             name="mode"
@@ -673,7 +736,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             {modes.map(
                                                                                 ({
                                                                                     id,
-                                                                                    name,
+                                                                                    nameEn,
+                                                                                    nameGr,
                                                                                 }) => (
                                                                                     <option
                                                                                         key={
@@ -683,9 +747,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             id
                                                                                         }
                                                                                     >
-                                                                                        {
-                                                                                            name
-                                                                                        }
+                                                                                        {i18n.language ===
+                                                                                        "en"
+                                                                                            ? nameEn
+                                                                                            : nameGr}
                                                                                     </option>
                                                                                 )
                                                                             )}
@@ -693,8 +758,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     </div>
 
                                                                     <div className="relative sm:col-span-2">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Station
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                stationStepThree
+                                                                            }
                                                                         </p>
                                                                         <select
                                                                             name="station"
@@ -718,7 +785,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             {stations.map(
                                                                                 ({
                                                                                     id,
-                                                                                    name,
+                                                                                    nameEn,
+                                                                                    nameGr,
                                                                                 }) => (
                                                                                     <option
                                                                                         key={
@@ -728,9 +796,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             id
                                                                                         }
                                                                                     >
-                                                                                        {
-                                                                                            name
-                                                                                        }
+                                                                                        {i18n.language ===
+                                                                                        "en"
+                                                                                            ? nameEn
+                                                                                            : nameGr}
                                                                                     </option>
                                                                                 )
                                                                             )}
@@ -740,8 +809,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                 <div className="grid grid-cols-1 gap-6 px-4 mb-12 mt-7 xs:grid-cols-2">
                                                                     <div className="relative h-10 w-full min-w-[200px]">
-                                                                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                            Furnished
+                                                                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                            {
+                                                                                furnishedStepThree
+                                                                            }
                                                                         </p>
                                                                         <select
                                                                             name="furnished"
@@ -765,7 +836,8 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             {furnishings.map(
                                                                                 ({
                                                                                     id,
-                                                                                    name,
+                                                                                    nameEn,
+                                                                                    nameGr,
                                                                                 }) => (
                                                                                     <option
                                                                                         key={
@@ -775,9 +847,10 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                             id
                                                                                         }
                                                                                     >
-                                                                                        {
-                                                                                            name
-                                                                                        }
+                                                                                        {i18n.language ===
+                                                                                        "en"
+                                                                                            ? nameEn
+                                                                                            : nameGr}
                                                                                     </option>
                                                                                 )
                                                                             )}
@@ -785,10 +858,11 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                     </div>
                                                                     <div className="relative h-10 w-full min-w-[200px]">
                                                                         <div className="flex justify-start gap-2 mt-7">
-                                                                            <span className="mt-1 text-sm font-popp"></span>
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                                                                Short
-                                                                                Term
+                                                                            <span className="mt-1 text-sm "></span>
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                                                                {
+                                                                                    shortTermStepThree
+                                                                                }
                                                                             </p>
                                                                             <label className="relative cursor-pointer">
                                                                                 <input
@@ -823,10 +897,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                             <ImArrowLeft2 className="w-5 h-5" />
                                                                         </span>
                                                                         <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                            Previous
+                                                                            {
+                                                                                previous
+                                                                            }
                                                                         </span>
                                                                         <span className="relative invisible">
-                                                                            Previous
+                                                                            {
+                                                                                previous
+                                                                            }
                                                                         </span>
                                                                     </PrimaryButton>
                                                                     {type ===
@@ -841,10 +919,14 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                                 <ImArrowRight2 className="w-5 h-5" />
                                                                             </span>
                                                                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                                                                Next
+                                                                                {
+                                                                                    next
+                                                                                }
                                                                             </span>
                                                                             <span className="relative invisible">
-                                                                                Next
+                                                                                {
+                                                                                    next
+                                                                                }
                                                                             </span>
                                                                         </PrimaryButton>
                                                                     )}
@@ -857,7 +939,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                 <>
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Pets
                                                                             </p>
                                                                             <select
@@ -902,7 +984,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Flatmate
                                                                                 Occupation
                                                                             </p>
@@ -948,7 +1030,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Flatmate
                                                                                 Gender
                                                                             </p>
@@ -996,7 +1078,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
                                                                     <div className="grid grid-cols-1 gap-4 text-sm xxs:m-4 xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Available
                                                                                 Rooms
                                                                             </p>
@@ -1042,7 +1124,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Current
                                                                                 Occupant
                                                                             </p>
@@ -1089,7 +1171,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
                                                                         </div>
 
                                                                         <div className="relative sm:col-span-2">
-                                                                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
+                                                                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
                                                                                 Flatmate
                                                                                 smoker
                                                                             </p>
