@@ -60,6 +60,26 @@ const resources = {
                         flatmateSmokerStepFour: "Flatmate Smoker",
                     },
                 },
+                roommateSearchModal: {
+                    stepOne: {
+                        budgetStepOne: "Budget",
+                        cityStepOne: "City",
+                        areaStepOne: "Area",
+                    },
+                    stepTwo: {
+                        hobbiesStepTwo: "Hobbies",
+                        minimumAgeStepTwo: "Minimum Age",
+                        maximumAgeStepTwo: "Maximum Age",
+                    },
+                    stepThree: {
+                        petsStepThree: "Pets",
+                        roomSizeStepThree: "Room Size",
+                        flatmateOccupationStepThree: "Flatmate Occupation",
+                        flatmateGenderThree: "Flatmate Gender",
+                        shortTermStepThree: "Short Term",
+                        flatmateSmokerStepThree: "Flatmate Smoker",
+                    },
+                },
             },
             hero: {
                 title: {
@@ -78,7 +98,21 @@ const resources = {
                     found: "Found",
                 },
             },
-            login: {},
+            login: {
+                buttons: {
+                    googleBtn: "Sing in with Google",
+                    facebookBtn: "Sing in with Facebook",
+                    emailBtn: "or login with email",
+                    loginBtn: "Log in",
+                    signUpBtn: "or sign up",
+                    forgotPasswordBtn: "Forgot your password?",
+                },
+                loginForm: {
+                    emailInput: "Email Address",
+                    passwordInput: "Password",
+                    rememberMe: "Remember Me",
+                },
+            },
             blog: {},
         },
     },
@@ -136,6 +170,26 @@ const resources = {
                         flatmateSmokerStepFour: "Καπνιστής συγκάτοικος",
                     },
                 },
+                roommateSearchModal: {
+                    stepOne: {
+                        budgetStepOne: "Budget",
+                        cityStepOne: "Πόλη",
+                        areaStepOne: "Περιοχή",
+                    },
+                    stepTwo: {
+                        hobbiesStepTwo: "Χόμπι",
+                        minimumAgeStepTwo: "Ελάχιστη Ηλικία",
+                        maximumAgeStepTwo: "Μέγιστη Ηλικία",
+                    },
+                    stepThree: {
+                        petsStepThree: "Κατοικίδια",
+                        roomSizeStepThree: "Μέγεθος Δωματίου",
+                        flatmateOccupationStepThree: "Επάγγελμα Συγκάτοικου",
+                        flatmateGenderStepThree: "Φύλο Συγκάτοικου",
+                        shortTermStepThree: "Βραχυπρόθεσμο",
+                        flatmateSmokerStepThree: "Καπνιστής Συγκάτοικος",
+                    },
+                },
             },
             hero: {
                 title: {
@@ -155,7 +209,19 @@ const resources = {
                 },
             },
             blog: {},
-            login: {},
+            login: {
+                buttons: {
+                    googleBtn: "Εγγραφή με το Google",
+                    facebookBtn: "Εγγραφή με το Facebook",
+                    emailBtn: "ή συνδεθείτε με email",
+                    loginBtn: "Σύνδεση",
+                    signUpBtn: "ή εγγραφή",
+                    forgotPasswordBtn: "Ξεχάσατε τον κωδικό πρόσβασης;",
+                },
+                loginForm: {
+                    rememberMe: "Να παραμείνω συνδεδεμένος/η",
+                },
+            },
         },
     },
 };

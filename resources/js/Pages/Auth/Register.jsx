@@ -8,6 +8,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import * as faceapi from "face-api.js";
+import { useTranslation } from "react-i18next";
+import { setLocale } from "yup";
 
 const genders = [
     {
@@ -39,17 +41,23 @@ const lookingFor = [
     },
 ];
 
+setLocale({
+    mixed: {
+        required: "Χρειαζεται",
+    },
+});
+let stepOneSchema = yup.object().shape({
+    first_name: yup.string().required(),
+    last_name: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(6).max(20).required(),
+    password_confirmation: yup
+        .string()
+        .oneOf([yup.ref("password"), null])
+        .required(),
+});
 export default function Register() {
-    const stepOneSchema = yup.object().shape({
-        first_name: yup.string().required(),
-        last_name: yup.string().required(),
-        email: yup.string().email().required(),
-        password: yup.string().min(6).max(20).required(),
-        password_confirmation: yup
-            .string()
-            .oneOf([yup.ref("password"), null])
-            .required(),
-    });
+    const { t, i18n } = useTranslation();
 
     const stepTwoSchema = yup.object().shape({
         birthdate: yup
@@ -85,6 +93,16 @@ export default function Register() {
                 resolver: yupResolver(stepOneSchema),
             }
         );
+
+    const {
+        googleBtn,
+        facebookBtn,
+        emailBtn,
+        loginBtn,
+        signUpBtn,
+        forgotPasswordBtn,
+    } = t("login.buttons");
+    const { rememberMe } = t("login.loginForm");
 
     const handleNext = async () => {
         try {

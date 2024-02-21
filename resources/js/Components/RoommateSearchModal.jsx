@@ -15,6 +15,7 @@ import {
     flatmatePets,
 } from "@/arrays/Array";
 import { BsCheck } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
     const { selectedRoommateQueries } = usePage().props;
@@ -69,6 +70,22 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
             ? JSON.parse(selectedRoommateQueries?.filter?.short_term)
             : false
     );
+    const { t, i18n } = useTranslation();
+    const { searchBtn, next, previous } = t("header.searchModal.button");
+    const { budgetStepOne, cityStepOne, areaStepOne } = t(
+        "header.roommateSearchModal.stepOne"
+    );
+    const { hobbiesStepTwo, minimumAgeStepTwo, maximumAgeStepTwo } = t(
+        "header.roommateSearchModal.stepTwo"
+    );
+    const {
+        petsStepThree,
+        flatmateOccupationStepThree,
+        flatmateGenderStepThree,
+        roomSizeStepThree,
+        shortTermStepThree,
+        flatmateSmokerStepThree,
+    } = t("header.roommateSearchModal.stepThree");
 
     const handleMinChange = (value) => {
         setMin(value);
@@ -143,13 +160,15 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                 }`}
             >
                 <span className="absolute inset-0 transition duration-300 ease-out opacity-0 bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 group-hover:opacity-100 group-active:opacity-90"></span>
-                <span className="relative group-hover:text-white">Search</span>
+                <span className="relative group-hover:text-white">
+                    {searchBtn}
+                </span>
             </button>
             {step === 1 && (
                 <>
                     <div className="relative w-full h-10 mb-[5rem] ml-8">
-                        <p className="flex items-center justify-center mb-8 text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                            Budget
+                        <p className="flex items-center justify-center mb-8 text-sm font-semibold lg:pl-2 xl:pl-0">
+                            {budgetStepOne}
                         </p>
                         <MultiRangeSlider
                             rangeMin={0}
@@ -163,8 +182,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
 
                     <div className="grid grid-cols-1 gap-6 px-4 mt-12 xxs:grid-cols-4">
                         <div className="relative xxs:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                City
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {cityStepOne}
                             </p>
 
                             <TextInput
@@ -178,8 +197,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                             />
                         </div>
                         <div className="relative xxs:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Area
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {areaStepOne}
                             </p>
 
                             <TextInput
@@ -203,9 +222,9 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 <ImArrowRight2 className="w-5 h-5" />
                             </span>
                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                Next
+                                {next}
                             </span>
-                            <span className="relative invisible">Next</span>
+                            <span className="relative invisible">{next}</span>
                         </PrimaryButton>
                     </div>
                 </>
@@ -214,8 +233,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
             {step === 2 && (
                 <>
                     <div className="mt-7 mb-8 [@media(max-width:350px)]:ml-8 w-[16rem] xxs:w-[20rem] xs:w-96">
-                        <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                            Hobbies
+                        <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                            {hobbiesStepTwo}
                         </p>
                         <Select
                             closeMenuOnSelect={false}
@@ -230,8 +249,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
 
                     <div className="grid grid-cols-1 gap-6 px-4 xxs:px-0 mt-7 xs:grid-cols-2">
                         <div className="relative h-10 w-full min-w-[200px]">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Minimum Age
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {minimumAgeStepTwo}
                             </p>
                             <TextInput
                                 type="number"
@@ -245,8 +264,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                         </div>
 
                         <div className="relative [@media(max-width:479px)]:mt-4">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Maximum Age
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {maximumAgeStepTwo}
                             </p>
                             <TextInput
                                 type="number"
@@ -269,9 +288,11 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 <ImArrowLeft2 className="w-5 h-5" />
                             </span>
                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                Previous
+                                {previous}
                             </span>
-                            <span className="relative invisible">Previous</span>
+                            <span className="relative invisible">
+                                {previous}
+                            </span>
                         </PrimaryButton>
                         <PrimaryButton
                             onClick={handleNext}
@@ -281,9 +302,9 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 <ImArrowRight2 className="w-5 h-5" />
                             </span>
                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                Next
+                                {next}
                             </span>
-                            <span className="relative invisible">Next</span>
+                            <span className="relative invisible">{next}</span>
                         </PrimaryButton>
                     </div>
                 </>
@@ -293,8 +314,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                 <>
                     <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                         <div className="relative sm:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Room Size
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {roomSizeStepThree}
                             </p>
                             <select
                                 name="size"
@@ -303,18 +324,20 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 onChange={(e) => setSize(e.target.value)}
                             >
                                 <option value="">--</option>
-                                {roomSize.map(({ id, name }) => (
+                                {roomSize.map(({ id, nameEn, nameGr }) => (
                                     <option key={id} value={id}>
-                                        {name}
+                                        {i18n.language === "en"
+                                            ? nameEn
+                                            : nameGr}
                                     </option>
                                 ))}
                             </select>
                         </div>
                         <div className="relative sm:col-span-2">
                             <div className="flex justify-start gap-2 my-3 sm:my-7">
-                                <span className="mt-1 text-sm font-popp"></span>
-                                <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                    Short Term
+                                <span className="mt-1 text-sm "></span>
+                                <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                    {shortTermStepThree}
                                 </p>
                                 <label className="relative cursor-pointer">
                                     <input
@@ -332,8 +355,8 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                         </div>
 
                         <div className="relative sm:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Smoker
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {flatmateSmokerStepThree}
                             </p>
                             <select
                                 name="smoker"
@@ -342,18 +365,22 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 onChange={(e) => setSmoker(e.target.value)}
                             >
                                 <option value="">--</option>
-                                {flatmateSmoker.map(({ id, name }) => (
-                                    <option key={id} value={id}>
-                                        {name}
-                                    </option>
-                                ))}
+                                {flatmateSmoker.map(
+                                    ({ id, nameEn, nameGr }) => (
+                                        <option key={id} value={id}>
+                                            {i18n.language === "en"
+                                                ? nameEn
+                                                : nameGr}
+                                        </option>
+                                    )
+                                )}
                             </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 m-4 text-sm xxs:grid-cols-2 gap-y-2 sm:grid-cols-6 mt-7">
                         <div className="relative sm:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Pets
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {petsStepThree}
                             </p>
                             <select
                                 name="pets"
@@ -362,17 +389,19 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 onChange={(e) => setPets(e.target.value)}
                             >
                                 <option value="">--</option>
-                                {flatmatePets.map(({ id, name }) => (
+                                {flatmatePets.map(({ id, nameEn, nameGr }) => (
                                     <option key={id} value={id}>
-                                        {name}
+                                        {i18n.language === "en"
+                                            ? nameEn
+                                            : nameGr}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="relative sm:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Flatmate Occupation
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {flatmateOccupationStepThree}
                             </p>
 
                             <select
@@ -382,17 +411,21 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 onChange={(e) => setOccupation(e.target.value)}
                             >
                                 <option value="">--</option>
-                                {flatmateOccupation.map(({ id, name }) => (
-                                    <option key={id} value={id}>
-                                        {name}
-                                    </option>
-                                ))}
+                                {flatmateOccupation.map(
+                                    ({ id, nameEn, nameGr }) => (
+                                        <option key={id} value={id}>
+                                            {i18n.language === "en"
+                                                ? nameEn
+                                                : nameGr}
+                                        </option>
+                                    )
+                                )}
                             </select>
                         </div>
 
                         <div className="relative sm:col-span-2">
-                            <p className="text-sm font-semibold font-popp lg:pl-2 xl:pl-0">
-                                Flatmate Gender
+                            <p className="text-sm font-semibold lg:pl-2 xl:pl-0">
+                                {flatmateGenderStepThree}
                             </p>
                             <select
                                 name="gender"
@@ -401,11 +434,15 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 onChange={(e) => setGender(e.target.value)}
                             >
                                 <option value="">--</option>
-                                {flatmateGender.map(({ id, name }) => (
-                                    <option key={id} value={id}>
-                                        {name}
-                                    </option>
-                                ))}
+                                {flatmateGender.map(
+                                    ({ id, nameEn, nameGr }) => (
+                                        <option key={id} value={id}>
+                                            {i18n.language === "en"
+                                                ? nameEn
+                                                : nameGr}
+                                        </option>
+                                    )
+                                )}
                             </select>
                         </div>
                     </div>
@@ -419,9 +456,11 @@ const RoommateSearchModal = ({ step, handleBack, handleNext }) => {
                                 <ImArrowLeft2 className="w-5 h-5" />
                             </span>
                             <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                                Previous
+                                {previous}
                             </span>
-                            <span className="relative invisible">Previous</span>
+                            <span className="relative invisible">
+                                {previous}
+                            </span>
                         </PrimaryButton>
                     </div>
                 </>

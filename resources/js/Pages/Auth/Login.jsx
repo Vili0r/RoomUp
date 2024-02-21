@@ -6,6 +6,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import InputError from "@/Components/InputError";
 import Checkbox from "@/Components/Checkbox";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { useTranslation } from "react-i18next";
 
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState("password");
@@ -14,6 +15,16 @@ export default function Login({ status, canResetPassword }) {
         password: "",
         remember: "",
     });
+    const { t } = useTranslation();
+    const {
+        googleBtn,
+        facebookBtn,
+        emailBtn,
+        loginBtn,
+        signUpBtn,
+        forgotPasswordBtn,
+    } = t("login.buttons");
+    const { rememberMe } = t("login.loginForm");
 
     useEffect(() => {
         return () => {
@@ -73,8 +84,8 @@ export default function Login({ status, canResetPassword }) {
                                 </svg>
                             </div>
 
-                            <span className="w-5/6 px-4 py-3 font-bold text-center font-popp">
-                                Sign in with Google
+                            <span className="w-5/6 px-4 py-3 font-bold text-center ">
+                                {googleBtn}
                             </span>
                         </a>
                         <a
@@ -85,8 +96,8 @@ export default function Login({ status, canResetPassword }) {
                                 <img className="w-6 h-6" src={facebook} />
                             </div>
 
-                            <span className="w-5/6 px-4 py-3 font-bold text-center font-popp">
-                                Sign in with Facebook
+                            <span className="w-5/6 px-4 py-3 font-bold text-center ">
+                                {facebookBtn}
                             </span>
                         </a>
                     </div>
@@ -96,9 +107,9 @@ export default function Login({ status, canResetPassword }) {
 
                         <Link
                             href={route("welcome")}
-                            className="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline font-popp"
+                            className="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline "
                         >
-                            or login with email
+                            {emailBtn}
                         </Link>
 
                         <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
@@ -118,7 +129,7 @@ export default function Login({ status, canResetPassword }) {
                             />
                             <label
                                 htmlFor="email"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                             >
                                 Email Address
                             </label>
@@ -151,7 +162,7 @@ export default function Login({ status, canResetPassword }) {
 
                             <label
                                 htmlFor="password"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                             >
                                 Password
                             </label>
@@ -163,9 +174,9 @@ export default function Login({ status, canResetPassword }) {
                         <div className="my-6">
                             <PrimaryButton
                                 disabled={processing}
-                                className="w-full rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp hover:text-black"
+                                className="w-full rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none  hover:text-black"
                             >
-                                Log in
+                                {loginBtn}
                             </PrimaryButton>
                         </div>
 
@@ -177,7 +188,7 @@ export default function Login({ status, canResetPassword }) {
                                     onChange={handleOnChange}
                                 />
                                 <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                                    Remember me
+                                    {rememberMe}
                                 </span>
                             </label>
 
@@ -186,7 +197,7 @@ export default function Login({ status, canResetPassword }) {
                                     href={route("password.request")}
                                     className="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                                 >
-                                    Forgot your password?
+                                    {forgotPasswordBtn}
                                 </Link>
                             )}
                         </div>
@@ -196,9 +207,9 @@ export default function Login({ status, canResetPassword }) {
 
                         <Link
                             href={route("register")}
-                            className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline font-popp"
+                            className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline "
                         >
-                            or sign up
+                            {signUpBtn}
                         </Link>
 
                         <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

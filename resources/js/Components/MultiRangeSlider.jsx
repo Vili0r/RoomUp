@@ -43,11 +43,11 @@ const MultiRangeSlider = ({
         <>
             <div className="flex items-center justify-center space-x-1">
                 <div className="px-4 py-1 -mt-8 text-xs text-white truncate bg-black rounded">
-                    £{min}
+                    €{min}
                 </div>
 
                 <div className="px-4 py-1 -mt-8 text-xs text-white truncate bg-black rounded">
-                    £{max}
+                    €{max}
                 </div>
             </div>
             <div className="flex items-center justify-center">

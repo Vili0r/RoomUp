@@ -146,8 +146,8 @@ export const amenities = [
 ];
 
 export const roomSize = [
-    { id: 1, name: "Single" },
-    { id: 2, name: "Double" },
+    { id: 1, nameEn: "Single", nameGr: "Μονό" },
+    { id: 2, nameEn: "Double", nameGr: "Διπλό" },
 ];
 
 export const hobbies = [
