@@ -4,41 +4,49 @@ import { AiOutlineUserAdd, AiOutlineCheck } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
 import { CgAttribution } from "react-icons/cg";
 import { TbFileDescription } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const steps = [
     {
         id: "1",
         icon: <FaRegAddressCard className="w-full h-full" />,
-        title: "Address",
+        titleEn: "Address",
+        titleGr: "Διεύθυνση",
     },
     {
         id: "2",
         icon: <VscSymbolProperty className="w-full h-full" />,
-        title: "Property",
+        titleEn: "Property",
+        titleGr: "Κατοικία",
     },
     {
         id: "3",
         icon: <CgAttribution className="w-full h-full" />,
-        title: "Details",
+        titleEn: "Details",
+        titleGr: "Πληροφορίες",
     },
     {
         id: "4",
         icon: <AiOutlineUserAdd className="w-full h-full" />,
-        title: "Advertiser",
+        titleEn: "Advertiser",
+        titleGr: "Στοιχεία",
     },
     {
         id: "5",
         icon: <TbFileDescription className="w-full h-full" />,
-        title: "Flatmates",
+        titleEn: "Flatmates",
+        titleGr: "Συγκάτοικοι",
     },
     {
         id: "6",
         icon: <AiOutlineCheck className="w-full h-full" />,
-        title: "Confirm",
+        titleEn: "Confirm",
+        titleGr: "Επιβεβαίωση",
     },
 ];
 
 const CreateSteps = ({ activeStep }) => {
+    const { i18n } = useTranslation();
     return (
         <div className="w-full p-4">
             <div className="flex items-center">
@@ -64,9 +72,15 @@ const CreateSteps = ({ activeStep }) => {
                                     activeStep <= index
                                         ? "[@media(max-width:480px)]:hidden text-gray-500"
                                         : "text-[#F1C40F]"
-                                } absolute top-0 w-32 mt-16 -ml-10 text-base font-medium text-center capitalize`}
+                                } ${
+                                    i18n.language == "en"
+                                        ? "text-base"
+                                        : "text-xs"
+                                } absolute top-0 w-32 mt-16 -ml-10  font-medium text-center capitalize`}
                             >
-                                {step.title}
+                                {i18n.language == "en"
+                                    ? step.titleEn
+                                    : step.titleGr}
                             </div>
                         </div>
                         <div

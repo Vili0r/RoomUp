@@ -38,6 +38,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 
+import { useTranslation } from "react-i18next";
+
 const Create = (props) => {
     const animatedComponents = makeAnimated();
     const [step, setStep] = useState(1);
@@ -148,6 +150,8 @@ const Create = (props) => {
             resolver: yupResolver(stepOneSchema),
         }
     );
+
+    const { t } = useTranslation();
     //next step
     const handleNext = async () => {
         clearErrors();
@@ -157,7 +161,7 @@ const Create = (props) => {
             let schema;
             switch (step) {
                 case 1:
-                    schema = stepOneSchema;
+                    schema = stepOneSchema(t);
                     break;
                 case 2:
                     schema = stepTwoSchema;

@@ -169,10 +169,10 @@ const Header = ({ user }) => {
                                         className="font-semibold md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white"
                                     >
                                         <AiOutlineTeam
-                                            className="sm:hidden"
+                                            className="mr-2 sm:hidden"
                                             style={{ fontSize: "1.25rem" }}
                                         />
-                                        <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
+                                        <span className="[@media(max-width:639px)]:hidden ">
                                             Dashboard
                                         </span>
                                     </Link>

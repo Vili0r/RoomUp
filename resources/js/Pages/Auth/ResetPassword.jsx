@@ -5,6 +5,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
+import { useTranslation } from "react-i18next";
 
 export default function ResetPassword({ token, email }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,6 +14,10 @@ export default function ResetPassword({ token, email }) {
         password: "",
         password_confirmation: "",
     });
+
+    const { t } = useTranslation();
+    const { formBtn, emailForm, passwordForm, passwordConfirmationForm } =
+        t("auth.resetPassword");
 
     useEffect(() => {
         return () => {
@@ -35,14 +40,14 @@ export default function ResetPassword({ token, email }) {
             <Head title="Reset Password" />
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value={emailForm} />
 
                     <TextInput
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="username"
                         onChange={onHandleChange}
                     />
@@ -51,14 +56,14 @@ export default function ResetPassword({ token, email }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value={passwordForm} />
 
                     <TextInput
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="new-password"
                         isFocused={true}
                         onChange={onHandleChange}
@@ -70,14 +75,14 @@ export default function ResetPassword({ token, email }) {
                 <div className="mt-4">
                     <InputLabel
                         htmlFor="password_confirmation"
-                        value="Confirm Password"
+                        value={passwordConfirmationForm}
                     />
 
                     <TextInput
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="new-password"
                         onChange={onHandleChange}
                     />
@@ -90,7 +95,7 @@ export default function ResetPassword({ token, email }) {
 
                 <div className="flex items-center justify-end mt-4">
                     <PrimaryButton className="ml-4" disabled={processing}>
-                        Reset Password
+                        {formBtn}
                     </PrimaryButton>
                 </div>
             </form>

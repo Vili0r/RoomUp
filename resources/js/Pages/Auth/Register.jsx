@@ -9,56 +9,54 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import * as faceapi from "face-api.js";
 import { useTranslation } from "react-i18next";
-import { setLocale } from "yup";
 
 const genders = [
     {
         id: "1",
-        title: "Male",
+        titleEn: "Male",
+        titleGr: "Άνδρας",
     },
     {
         id: "2",
-        title: "Female",
+        titleEn: "Female",
+        titleGr: "Γυναίκα",
     },
     {
         id: "3",
-        title: "Prefer not to say",
+        titleEn: "Prefer not to say",
+        titleGr: "Προτιμώ να μην απαντήσω",
     },
 ];
 
 const lookingFor = [
     {
         id: "1",
-        title: "I am looking for a flat or a house share",
+        titleEn: "I am looking for a flat or a house share",
+        titleGr: "Ψάχνω για διαμέρισμα ή σπίτι",
     },
     {
         id: "2",
-        title: "I have a flat or house share",
+        titleEn: "I have a flat or house share",
+        titleGr: "Έχω διαμέρισμα ή σπίτι",
     },
     {
         id: "3",
-        title: "I would like to find people to form share",
+        titleEn: "I would like to find people to form share",
+        titleGr: "Θα ήθελα να βρω άτομα για να ψάξουμε για διαμέρισμα ή σπίτι",
     },
 ];
 
-setLocale({
-    mixed: {
-        required: "Χρειαζεται",
-    },
-});
-let stepOneSchema = yup.object().shape({
-    first_name: yup.string().required(),
-    last_name: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(6).max(20).required(),
-    password_confirmation: yup
-        .string()
-        .oneOf([yup.ref("password"), null])
-        .required(),
-});
 export default function Register() {
-    const { t, i18n } = useTranslation();
-
+    const stepOneSchema = yup.object().shape({
+        first_name: yup.string().required(),
+        last_name: yup.string().required(),
+        email: yup.string().email().required(),
+        password: yup.string().min(8).max(20).required(),
+        password_confirmation: yup
+            .string()
+            .oneOf([yup.ref("password"), null])
+            .required(),
+    });
     const stepTwoSchema = yup.object().shape({
         birthdate: yup
             .string()
@@ -94,15 +92,25 @@ export default function Register() {
             }
         );
 
+    const { t, i18n } = useTranslation();
     const {
-        googleBtn,
-        facebookBtn,
-        emailBtn,
+        firstNameForm,
+        lastNameForm,
+        emailForm,
+        passwordForm,
+        passwordConfirmationForm,
+    } = t("register.stepOneForm");
+    const { DOBForm, genderForm, lookingForForm, photoProfileForm } = t(
+        "register.stepTwoForm"
+    );
+    const {
+        fixErrors,
+        backBtn,
+        nextBtn,
         loginBtn,
-        signUpBtn,
-        forgotPasswordBtn,
-    } = t("login.buttons");
-    const { rememberMe } = t("login.loginForm");
+        processingBtn,
+        registerBtn,
+    } = t("register.misc");
 
     const handleNext = async () => {
         try {
@@ -227,7 +235,7 @@ export default function Register() {
                                 </div>
                                 <div className="ml-3">
                                     <h2 className="font-semibold text-gray-800">
-                                        Please fix the errors
+                                        {fixErrors}
                                     </h2>
                                 </div>
                             </div>
@@ -239,7 +247,7 @@ export default function Register() {
                                 className="cursor-pointer hover:text-[#F1C40F]"
                                 onClick={handleBack}
                             >
-                                Back
+                                {backBtn}
                             </PrimaryButton>
                             <span>{step}/2</span>
                         </div>
@@ -254,7 +262,7 @@ export default function Register() {
                                             type="text"
                                             name="first_name"
                                             id="first_name"
-                                            placeholder="First Name"
+                                            placeholder={firstNameForm}
                                             value={data.first_name}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                             autoComplete="off"
@@ -262,9 +270,9 @@ export default function Register() {
                                         />
                                         <label
                                             htmlFor="first_name"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            First Name
+                                            {firstNameForm}
                                         </label>
                                     </div>
                                     {errors.first_name && (
@@ -281,7 +289,7 @@ export default function Register() {
                                             type="text"
                                             name="last_name"
                                             id="last_name"
-                                            placeholder="Last Name"
+                                            placeholder={lastNameForm}
                                             value={data.last_name}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                             autoComplete="off"
@@ -289,9 +297,9 @@ export default function Register() {
                                         />
                                         <label
                                             htmlFor="last_name"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Last Name
+                                            {lastNameForm}
                                         </label>
                                     </div>
 
@@ -310,16 +318,16 @@ export default function Register() {
                                             name="email"
                                             id="email"
                                             value={data.email}
-                                            placeholder="Email Address"
+                                            placeholder={emailForm}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                             autoComplete="off"
                                             onChange={handleOnChange}
                                         />
                                         <label
                                             htmlFor="email"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Email Address
+                                            {emailForm}
                                         </label>
                                     </div>
 
@@ -352,7 +360,7 @@ export default function Register() {
                                             type={showPassword}
                                             name="password"
                                             id="password"
-                                            placeholder="Password"
+                                            placeholder={passwordForm}
                                             value={data.password}
                                             onChange={handleOnChange}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
@@ -360,9 +368,9 @@ export default function Register() {
 
                                         <label
                                             htmlFor="password"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Password
+                                            {passwordForm}
                                         </label>
                                     </div>
                                     {errors.password && (
@@ -379,7 +387,9 @@ export default function Register() {
                                             type="password"
                                             name="password_confirmation"
                                             id="password_confirmation"
-                                            placeholder="Confirm Password"
+                                            placeholder={
+                                                passwordConfirmationForm
+                                            }
                                             value={data.password_confirmation}
                                             onChange={handleOnChange}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
@@ -387,9 +397,9 @@ export default function Register() {
 
                                         <label
                                             htmlFor="password_confirmation"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Confirm Password
+                                            {passwordConfirmationForm}
                                         </label>
                                     </div>
                                     {errors.password_confirmation && (
@@ -405,9 +415,9 @@ export default function Register() {
                                 <div className="my-6">
                                     <PrimaryButton
                                         onClick={handleNext}
-                                        className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                        className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                     >
-                                        Next
+                                        {nextBtn}
                                     </PrimaryButton>
                                 </div>
                             </>
@@ -421,7 +431,7 @@ export default function Register() {
                                             type="date"
                                             name="birthdate"
                                             id="birthdate"
-                                            placeholder="Date Of Birth"
+                                            placeholder={DOBForm}
                                             value={data.birthdate}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                             autoComplete="off"
@@ -429,9 +439,9 @@ export default function Register() {
                                         />
                                         <label
                                             htmlFor="birthdate"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Date Of Birth
+                                            {DOBForm}
                                         </label>
                                     </div>
                                     {errors.birthdate && (
@@ -448,7 +458,7 @@ export default function Register() {
                                             type="text"
                                             name="gender"
                                             id="gender"
-                                            placeholder="Gender"
+                                            placeholder={genderForm}
                                             value={data.gender}
                                             className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                             autoComplete="off"
@@ -459,20 +469,30 @@ export default function Register() {
                                                 )
                                             }
                                         >
-                                            <option value="">
-                                                Select your gender
-                                            </option>
-                                            {genders.map(({ id, title }) => (
-                                                <option key={id} value={title}>
-                                                    {title}
-                                                </option>
-                                            ))}
+                                            <option value="">--</option>
+                                            {genders.map(
+                                                ({ id, titleEn, titleGr }) => (
+                                                    <option
+                                                        key={id}
+                                                        value={
+                                                            i18n.language ===
+                                                            "en"
+                                                                ? titleEn
+                                                                : titleGr
+                                                        }
+                                                    >
+                                                        {i18n.language === "en"
+                                                            ? titleEn
+                                                            : titleGr}
+                                                    </option>
+                                                )
+                                            )}
                                         </select>
                                         <label
                                             htmlFor="gender"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Gender
+                                            {genderForm}
                                         </label>
                                     </div>
                                     {errors.gender && (
@@ -500,20 +520,30 @@ export default function Register() {
                                                 )
                                             }
                                         >
-                                            <option value="">
-                                                Select what you are looking for
-                                            </option>
-                                            {lookingFor.map(({ id, title }) => (
-                                                <option key={id} value={title}>
-                                                    {title}
-                                                </option>
-                                            ))}
+                                            <option value="">--</option>
+                                            {lookingFor.map(
+                                                ({ id, titleEn, titleGr }) => (
+                                                    <option
+                                                        key={id}
+                                                        value={
+                                                            i18n.language ===
+                                                            "en"
+                                                                ? titleEn
+                                                                : titleGr
+                                                        }
+                                                    >
+                                                        {i18n.language === "en"
+                                                            ? titleEn
+                                                            : titleGr}
+                                                    </option>
+                                                )
+                                            )}
                                         </select>
                                         <label
                                             htmlFor="looking_for"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Looking For
+                                            {lookingForForm}
                                         </label>
                                     </div>
 
@@ -535,9 +565,9 @@ export default function Register() {
 
                                     <label
                                         htmlFor="avatar"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Photo Profile
+                                        {photoProfileForm}
                                     </label>
                                     {errors.avatar && (
                                         <InputError
@@ -556,11 +586,11 @@ export default function Register() {
                                 <div className="my-6">
                                     <PrimaryButton
                                         disabled={processing}
-                                        className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                        className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                     >
                                         {processing
-                                            ? "Processing..."
-                                            : "Register"}
+                                            ? processingBtn
+                                            : registerBtn}
                                     </PrimaryButton>
                                 </div>
                             </>
@@ -571,9 +601,9 @@ export default function Register() {
 
                         <Link
                             href={route("login")}
-                            className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline font-popp"
+                            className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline "
                         >
-                            or log in
+                            {loginBtn}
                         </Link>
 
                         <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

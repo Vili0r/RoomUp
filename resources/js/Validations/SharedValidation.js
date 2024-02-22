@@ -3,18 +3,31 @@ import * as yup from "yup";
 const maxFiles = 9;
 const supportedFormats = ["image/jpeg", "image/png", "image/jpg"];
 
-const stepOneSchema = yup.object().shape({
-    address_1: yup.string().max(30).required("Address is required"),
-    city: yup.string().max(20).required("City is required"),
-    area: yup.string().max(20).required("Area is required"),
-    post_code: yup
-        .string()
-        .max(7, "Post code must have maximum six characters")
-        .required("Post Code is required"),
-    minutes: yup.string().required("Minutes is required"),
-    mode: yup.string().required("Mode is required"),
-    station: yup.string().required("Station is required"),
-});
+const stepOneSchema = (t) => {
+    const {
+        address1Required,
+        address1Max,
+        cityRequired,
+        cityMax,
+        areaRequired,
+        areaMax,
+        postCodeRequired,
+        postCodeMax,
+        minutesRequired,
+        modeRequired,
+        stationRequired,
+    } = t("shared.validation.stepOne");
+
+    return yup.object().shape({
+        address_1: yup.string().max(30, address1Max).required(address1Required),
+        city: yup.string().max(20, cityMax).required(cityRequired),
+        area: yup.string().max(20, areaMax).required(areaRequired),
+        post_code: yup.string().max(7, postCodeMax).required(postCodeRequired),
+        minutes: yup.string().required(minutesRequired),
+        mode: yup.string().required(modeRequired),
+        station: yup.string().required(stationRequired),
+    });
+};
 
 const stepTwoSchema = yup.object().shape({
     available_rooms: yup

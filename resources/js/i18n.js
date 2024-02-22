@@ -113,6 +113,81 @@ const resources = {
                     rememberMe: "Remember Me",
                 },
             },
+            register: {
+                misc: {
+                    fixErrors: "Please fix the errors",
+                    backBtn: "Back",
+                    nextBtn: "Next",
+                    loginBtn: "or log in",
+                    processingBtn: "Processing...",
+                    registerBtn: "Register",
+                },
+                stepOneForm: {
+                    firstNameForm: "First Name",
+                    lastNameForm: "Last Name",
+                    emailForm: "Email Address",
+                    passwordForm: "Password",
+                    passwordConfirmationForm: "Confirm Password",
+                },
+                stepTwoForm: {
+                    DOBForm: "Date Of Birth",
+                    genderForm: "Gender",
+                    lookingForForm: "Looking For",
+                    photoProfileForm: "Photo Profile",
+                },
+            },
+            auth: {
+                confirmPassword: {
+                    confirmBtn: "Confirm",
+                    description:
+                        "This is a secure area of the application. Please confirm your password before continuing.",
+                },
+                forgotPassword: {
+                    confirmBtn: "Email Password Reset Link",
+                    description:
+                        "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.",
+                },
+                resetPassword: {
+                    formBtn: "Reset Password",
+                    emailForm: "Email",
+                    passwordForm: "Password",
+                    passwordConfirmationForm: "Confirm Password",
+                },
+                verifyEmail: {
+                    title: "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
+                    statusTitle:
+                        "A new verification link has been sent to the email address you provided during registration.",
+                    resendBtn: "Resend Verification Email",
+                    logOutBtn: "Log Out",
+                },
+                verifyMobile: {
+                    title: "Thanks for signing up! Before getting started, you need to verify your mobile phone number.",
+                    description: "'Please enter the OTP sent to your number:",
+                    codeForm: "Code",
+                    invalidCodeStatus: "This is an invalid code try again.",
+                    mobileNewCodeStatus: "New code has been sent.",
+                    mobileExpiredStatus: "The code has expired.",
+                    mobileErrorWaitStatus: "Reached maximum attempts.",
+                    verifyBtn: "Verify",
+                },
+            },
+            shared: {
+                validation: {
+                    stepOne: {
+                        address1Required: "Address is required",
+                        address1Max: "Address must be at most 30 characters",
+                        cityRequired: "City is required",
+                        cityMax: "City must be at most 20 characters",
+                        areaRequired: "Area is required",
+                        areaMax: "Area must be at most 20 characters",
+                        postCodeRequired: "Post Code is required",
+                        postCodeMax: "Post code must have maximum 7 characters",
+                        minutesRequired: "Minutes is required",
+                        modeRequired: "Mode is required",
+                        stationRequired: "Station is required",
+                    },
+                },
+            },
             blog: {},
         },
     },
@@ -208,7 +283,6 @@ const resources = {
                     found: "Βρέθηκαν",
                 },
             },
-            blog: {},
             login: {
                 buttons: {
                     googleBtn: "Εγγραφή με το Google",
@@ -222,6 +296,89 @@ const resources = {
                     rememberMe: "Να παραμείνω συνδεδεμένος/η",
                 },
             },
+            register: {
+                misc: {
+                    fixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                    backBtn: "Πίσω",
+                    nextBtn: "Επόμενο",
+                    loginBtn: "ή συνδεθείτε",
+                    processingBtn: "Επεξεργασία...",
+                    registerBtn: "Εγγραφή",
+                },
+                stepOneForm: {
+                    firstNameForm: "Όνομα",
+                    lastNameForm: "Επίθετο",
+                    emailForm: "Email",
+                    passwordForm: "Κωδικός",
+                    passwordConfirmationForm: "Επιβεβαίωση Κωδικού",
+                },
+                stepTwoForm: {
+                    DOBForm: "Ημερομηνία Γέννησης",
+                    genderForm: "Φύλο",
+                    lookingForForm: "Αναζητώ για",
+                    photoProfileForm: "Φωτογραφία Προφίλ",
+                },
+            },
+            auth: {
+                confirmPassword: {
+                    confirmBtn: "Επιβεβαίωση",
+                    description:
+                        "Αυτή είναι μια ασφαλής περιοχή της εφαρμογής. Παρακαλούμε επιβεβαιώστε τον κωδικό πρόσβασής σας πριν συνεχίσετε.",
+                },
+                forgotPassword: {
+                    confirmBtn: "Αποστολή link Επαναφοράς Κωδικού",
+                    description:
+                        "Ξεχάσατε τον κωδικό πρόσβασής σας; Κανένα πρόβλημα. Απλώς ενημερώστε μας τη διεύθυνση email σας και θα σας στείλουμε έναν σύνδεσμο επαναφοράς κωδικού που θα σας επιτρέψει να επιλέξετε έναν νέο.",
+                },
+                resetPassword: {
+                    formBtn: "Επαναφορά Κωδικού",
+                    emailForm: "Email",
+                    passwordForm: "Κωδικός Πρόσβασης",
+                    passwordConfirmationForm: "Επιβεβαίωση Κωδικού Πρόσβασης",
+                },
+                verifyEmail: {
+                    title: "Ευχαριστούμε για την εγγραφή! Πριν ξεκινήσετε, μπορείτε να επιβεβαιώσετε τη διεύθυνση email σας κάνοντας κλικ στον σύνδεσμο που μόλις σας στείλαμε; Αν δεν λάβατε το email, θα χαρούμε να σας στείλουμε ένα άλλο.",
+                    statusTitle:
+                        "Ένας νέος σύνδεσμος επαλήθευσης στάλθηκε στη διεύθυνση email που παρέχατε κατά την εγγραφή.",
+                    resendBtn: "Αποστολή Νέου Email Επαλήθευσης",
+                    logOutBtn: "Αποσύνδεση",
+                },
+                verifyMobile: {
+                    title: "Ευχαριστούμε που εγγραφήκατε! Πριν ξεκινήσετε, πρέπει να επαληθεύσετε τον αριθμό του κινητού σας τηλεφώνου.",
+                    description:
+                        "Παρακαλώ εισάγετε τον κωδικό OTP που στάλθηκε στον αριθμό σας:",
+                    codeForm: "Κωδικός",
+                    invalidCodeStatus:
+                        "Αυτός είναι ένας μη έγκυρος κωδικός, προσπαθήστε ξανά.",
+                    mobileNewCodeStatus: "Έχει σταλεί ένας νέος κωδικός.",
+                    mobileExpiredStatus: "Ο κωδικός έχει λήξει.",
+                    mobileErrorWaitdStatus:
+                        "Έχουν εξαντληθεί οι μέγιστες προσπάθειες.",
+                    verifyBtn: "Επαλήθευση",
+                },
+            },
+            shared: {
+                validation: {
+                    stepOne: {
+                        address1Required: "Η διεύθυνση είναι υποχρεωτική",
+                        address1Max:
+                            "Η διεύθυνση πρέπει να είναι το πολύ 30 χαρακτήρες",
+                        cityRequired: "Η πόλη είναι υποχρεωτική",
+                        cityMax: "Η πόλη πρέπει να είναι το πολύ 20 χαρακτήρες",
+                        areaRequired: "Η περιοχή είναι υποχρεωτική",
+                        areaMax:
+                            "Η περιοχή πρέπει να είναι το πολύ 20 χαρακτήρες",
+                        postCodeRequired:
+                            "Ο ταχυδρομικός κώδικας είναι υποχρεωτικός",
+                        postCodeMax:
+                            "Ο ταχυδρομικός κώδικας πρέπει να έχει το πολύ 7 χαρακτήρες",
+                        minutesRequired: "Τα λεπτά είναι υποχρεωτικά",
+                        modeRequired: "To μέσω μεταφοράς είναι υποχρεωτική",
+                        stationRequired: "Η στάση είναι υποχρεωτική",
+                    },
+                },
+            },
+            blog: {},
         },
     },
 };
