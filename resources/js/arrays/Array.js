@@ -40,11 +40,11 @@ export const flatmatePets = [
 ];
 
 export const currentOccupants = [
-    { id: 0, nameEn: "Zero", nameGr: "Μηδέν" },
+    { id: 0, nameEn: "Zero", nameGr: "Κανένας" },
     { id: 1, nameEn: "One", nameGr: "Ένα" },
     { id: 2, nameEn: "Two", nameGr: "Δύο" },
-    { id: 3, nameEn: "Three", nameGr: "Τρία" },
-    { id: 4, nameEn: "Four", nameGr: "Τέσσερα" },
+    { id: 3, nameEn: "Three", nameGr: "Τρείς" },
+    { id: 4, nameEn: "Four", nameGr: "Τέσσερεις" },
     { id: 5, nameEn: "Five", nameGr: "Πέντε" },
     { id: 6, nameEn: "Six", nameGr: "Έξι" },
     { id: 7, nameEn: "Seven", nameGr: "Επτά" },
@@ -148,6 +148,33 @@ export const amenities = [
 export const roomSize = [
     { id: 1, nameEn: "Single", nameGr: "Μονό" },
     { id: 2, nameEn: "Double", nameGr: "Διπλό" },
+];
+
+export const size = [
+    { id: 1, nameEn: "One Bedroom", nameGr: "Ένα Υπνοδωμάτιο" },
+    { id: 2, nameEn: "Two Bedrooms", nameGr: "Δύο Υπνοδωμάτια" },
+    { id: 3, nameEn: "Three Bedrooms", nameGr: "Τρία Υπνοδωμάτια" },
+    { id: 4, nameEn: "Four Bedrooms", nameGr: "Τέσσερα Υπνοδωμάτια" },
+    { id: 5, nameEn: "Five Bedrooms", nameGr: "Πέντε Υπνοδωμάτια" },
+    { id: 6, nameEn: "6+ Bedrooms", nameGr: "6+ Υπνοδωμάτια" },
+];
+
+export const type = [
+    { id: 1, nameEn: "Flat Apartment", nameGr: "Διαμέρισμα" },
+    { id: 2, nameEn: "House", nameGr: "Σπίτι" },
+    { id: 3, nameEn: "Property", nameGr: "Μονοκατοικία" },
+];
+
+export const whatIAm = [
+    { id: 1, nameEn: "Live in landlord", nameGr: "Ιδιοκτήτης που διαμένει" },
+    {
+        id: 2,
+        nameEn: "Live out landlord",
+        nameGr: "Ιδιοκτήτης που δεν διαμένει",
+    },
+    { id: 3, nameEn: "Current tenant", nameGr: "Τρέχων ενοικιαστής" },
+    { id: 4, nameEn: "Agent", nameGr: "Πράκτορας" },
+    { id: 5, nameEn: "Former flatmate", nameGr: "Πρώην συγκάτοικος" },
 ];
 
 export const hobbies = [

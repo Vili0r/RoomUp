@@ -1,7 +1,20 @@
 import React from "react";
 import InputError from "./InputError";
+import { useTranslation } from "react-i18next";
+import { modes, minutes, stations } from "@/arrays/Array";
 
-const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
+const StepTwo = ({ data, errors, handleOnChange }) => {
+    const { t, i18n } = useTranslation();
+    const {
+        address1StepTwo,
+        address2StepTwo,
+        cityStepTwo,
+        areaStepTwo,
+        postCodeStepTwo,
+        minutesStepTwo,
+        modeStepTwo,
+        stationStepTwo,
+    } = t("shared.forms.stepTwo");
     return (
         <>
             <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
@@ -9,7 +22,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     <input
                         type="text"
                         id="address_1"
-                        placeholder="Address Line 1"
+                        placeholder={address1StepTwo}
                         value={data.address_1}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -17,9 +30,9 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     />
                     <label
                         htmlFor="address_1"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Address Line 1
+                        {address1StepTwo}
                     </label>
                     {errors.address_1 && (
                         <InputError
@@ -34,7 +47,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         type="text"
                         name="address_2"
                         id="address_2"
-                        placeholder="Address Line 2"
+                        placeholder={address2StepTwo}
                         value={data.address_2}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -42,9 +55,9 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     />
                     <label
                         htmlFor="address_2"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Address Line 2
+                        {address2StepTwo}
                     </label>
                     {errors.address_2 && (
                         <InputError
@@ -59,7 +72,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         type="text"
                         name="city"
                         id="city"
-                        placeholder="City"
+                        placeholder={cityStepTwo}
                         value={data.city}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -67,13 +80,15 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     />
                     <label
                         htmlFor="city"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className={`${i18n.language == "en" ? "" : "-my-4"} ${
+                            !errors.city ? "my-0" : ""
+                        } absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800`}
                     >
-                        City
+                        {cityStepTwo}
                     </label>
 
                     {errors.city && (
-                        <InputError message={errors.city} className="mt-5" />
+                        <InputError message={errors.city} className="mt-3" />
                     )}
                 </div>
 
@@ -82,7 +97,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         type="text"
                         name="area"
                         id="area"
-                        placeholder="Area"
+                        placeholder={areaStepTwo}
                         value={data.area}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -90,13 +105,15 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     />
                     <label
                         htmlFor="area"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className={`${i18n.language == "en" ? "" : "-my-4"} ${
+                            !errors.city ? "my-0" : ""
+                        } absolute top-0 left-0 px-1 ml-3  text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800`}
                     >
-                        Area
+                        {areaStepTwo}
                     </label>
 
                     {errors.area && (
-                        <InputError message={errors.area} className="mt-5" />
+                        <InputError message={errors.area} className="mt-3" />
                     )}
                 </div>
 
@@ -105,7 +122,7 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         type="text"
                         name="post_code"
                         id="post_code"
-                        placeholder="Post Code"
+                        placeholder={postCodeStepTwo}
                         value={data.post_code}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -113,14 +130,16 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                     />
                     <label
                         htmlFor="post_code"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className={`${i18n.language == "en" ? "" : "-my-4"} ${
+                            !errors.city ? "my-0" : ""
+                        } absolute top-0 left-0 px-1 ml-3  text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800`}
                     >
-                        TK
+                        {postCodeStepTwo}
                     </label>
                     {errors.post_code && (
                         <InputError
                             message={errors.post_code}
-                            className="mt-5"
+                            className="mt-2"
                         />
                     )}
                 </div>
@@ -135,17 +154,17 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         onChange={handleOnChange}
                     >
                         <option value="">--</option>
-                        {minutes.map(({ id, name }) => (
+                        {minutes.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language === "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="minutes"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Minutes
+                        {minutesStepTwo}
                     </label>
                     {errors.minutes && (
                         <InputError message={errors.minutes} className="mt-2" />
@@ -160,17 +179,17 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         onChange={handleOnChange}
                     >
                         <option value="">--</option>
-                        {mode.map(({ id, name }) => (
+                        {modes.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language === "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="mode"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Mode
+                        {modeStepTwo}
                     </label>
                     {errors.mode && (
                         <InputError message={errors.mode} className="mt-2" />
@@ -185,17 +204,17 @@ const StepTwo = ({ data, errors, handleOnChange, minutes, mode, stations }) => {
                         onChange={handleOnChange}
                     >
                         <option value="">--</option>
-                        {stations.map(({ id, name }) => (
+                        {stations.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language === "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="station"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Station
+                        {stationStepTwo}
                     </label>
                     {errors.station && (
                         <InputError message={errors.station} className="mt-2" />

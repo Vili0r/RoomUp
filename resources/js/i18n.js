@@ -172,6 +172,36 @@ const resources = {
                 },
             },
             shared: {
+                miscs: {
+                    inputPlaceholder: "Efterpis, Cholargos...",
+                    nextBtn: "Next",
+                    backBtn: "Back",
+                    noResult: "No results for",
+                    fixErrors:
+                        "Please fix the following errors before procceding.",
+                    stepSixErrors: "Please fix the errors",
+                    processingBtn: "Processing...",
+                    placeAdBtn: "Place your ad",
+                },
+                forms: {
+                    stepTwo: {
+                        address1StepTwo: "Addresss Line 1",
+                        address2StepTwo: "Addresss Line 2",
+                        cityStepTwo: "City",
+                        areaStepTwo: "Area",
+                        postCodeStepTwo: "P_C",
+                        minutesStepTwo: "Minutes",
+                        modeStepTwo: "Mode",
+                        stationStepTwo: "Station",
+                    },
+                    stepOne: {
+                        availableRoomsStepOne: "I have",
+                        sizr2StepOne: "Size",
+                        typeStepOne: "Type",
+                        currentOccupantsStepOne: "Current Occupants",
+                        whatIAmStepOne: "What I am",
+                    },
+                },
                 validation: {
                     stepOne: {
                         address1Required: "Address is required",
@@ -185,6 +215,20 @@ const resources = {
                         minutesRequired: "Minutes is required",
                         modeRequired: "Mode is required",
                         stationRequired: "Station is required",
+                    },
+                    stepTwo: {
+                        availableRoomsRequired: "Available Rooms is required",
+                        availableRoomsTest:
+                            "Available rooms should be smaller than the difference between the Size and Current tenants",
+                        sizeRequired: "Size is required",
+                        sizeTest:
+                            "Size must be greater than the available rooms",
+                        typeRequired: "Type is required",
+                        currentOccupantsRequired:
+                            "Current occupants is required",
+                        currentOccupantsTest:
+                            "Current occupants must be less than the size of the property",
+                        whatIAmRequired: "Who i am is required",
                     },
                 },
             },
@@ -358,6 +402,36 @@ const resources = {
                 },
             },
             shared: {
+                miscs: {
+                    inputPlaceholder: "Ευτέρπης, Χολαργός...",
+                    nextBtn: "Επόμενο",
+                    backBtn: "Πίσω",
+                    noResult: "Δεν υπάρχουν αποτελέσματα για",
+                    fixErrors:
+                        "Παρακαλώ διορθώστε τα παρακάτω σφάλματα πριν συνεχίσετε.",
+                    stepSixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                    processingBtn: "Επεξεργασία...",
+                    placeAdBtn: "Δημοσίευση της αγγελίας σας",
+                },
+                forms: {
+                    stepTwo: {
+                        address1StepTwo: "Διεύθυνση 1",
+                        address2StepTwo: "Διεύθυνση 2",
+                        cityStepTwo: "Πόλη",
+                        areaStepTwo: "Περιοχή",
+                        postCodeStepTwo: "ΤΚ",
+                        minutesStepTwo: "Λεπτά",
+                        modeStepTwo: "Mέσω μεταφοράς",
+                        stationStepTwo: "Σταθμός",
+                    },
+                    stepOne: {
+                        availableRoomsStepOne: "Διαθέτω",
+                        sizeStepOne: "Μέγεθος",
+                        typeStepOne: "Τύπος",
+                        currentOccupantsStepOne: "Τρέχοντες Κάτοικοι",
+                        whatIAmStepOne: "Ποιος/α είμαι",
+                    },
+                },
                 validation: {
                     stepOne: {
                         address1Required: "Η διεύθυνση είναι υποχρεωτική",
@@ -375,6 +449,22 @@ const resources = {
                         minutesRequired: "Τα λεπτά είναι υποχρεωτικά",
                         modeRequired: "To μέσω μεταφοράς είναι υποχρεωτική",
                         stationRequired: "Η στάση είναι υποχρεωτική",
+                    },
+                    stepTwo: {
+                        availableRoomsRequired:
+                            "Το πεδίο διαθέσιμα δωμάτια είναι υποχρεωτικό",
+                        availableRoomsTest:
+                            "Τα διαθέσιμα δωμάτια πρέπει να είναι λιγότερα από τη διαφορά μεταξύ του μεγέθους και των τρεχόντων ενοίκων",
+                        sizeRequired: "Το πεδίο μέγεθος είναι υποχρεωτικό",
+                        sizeTest:
+                            "Το μέγεθος πρέπει να είναι μεγαλύτερο από τα διαθέσιμα δωμάτια",
+                        typeRequired: "Το πεδίο τύπος είναι υποχρεωτικό",
+                        currentOccupantsRequired:
+                            "Το πεδίο των τρεχόντων ενοίκων είναι υποχρεωτικό",
+                        currentOccupantsTest:
+                            "Ο αριθμός των τρεχόντων ενοίκων πρέπει να είναι μικρότερος από το μέγεθος της ιδιοκτησίας",
+                        whatIAmRequired:
+                            "Το πεδίο περιγραφής χρήστη είναι υποχρεωτικό",
                     },
                 },
             },

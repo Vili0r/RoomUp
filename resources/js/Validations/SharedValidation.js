@@ -29,42 +29,49 @@ const stepOneSchema = (t) => {
     });
 };
 
-const stepTwoSchema = yup.object().shape({
-    available_rooms: yup
-        .string()
-        .required("Available Rooms is required")
-        .test(
-            "smallerThanDiff",
-            "Available rooms should be smaller than the difference between the Size and Current tenants",
-            function (value) {
+const stepTwoSchema = (t) => {
+    const {
+        availableRoomsRequired,
+        availableRoomsTest,
+        sizeRequired,
+        sizeTest,
+        typeRequired,
+        currentOccupantsRequired,
+        currentOccupantsTest,
+        whatIAmRequired,
+    } = t("shared.validation.stepTwo");
+
+    return yup.object().shape({
+        available_rooms: yup
+            .string()
+            .required(availableRoomsRequired)
+            .test("smallerThanDiff", availableRoomsTest, function (value) {
                 const { size, current_occupants } = this.parent;
                 const diff = size - current_occupants;
                 return value <= diff;
-            }
-        ),
-    size: yup
-        .string()
-        .required("Size is required")
-        .when("available_rooms", (available_rooms, schema) => {
-            return schema.test({
-                test: (size) => size >= available_rooms,
-                message: "Size must be greater than the available rooms",
-            });
-        }),
-    type: yup.string().required("Type is required"),
-    current_occupants: yup
-        .string()
-        .required("Current occupants is required")
-        .when("size", (size, schema) => {
-            return schema.test({
-                test: (current_occupants) => current_occupants <= size,
-                message:
-                    "Current occupants must be less than the size of the property",
-            });
-        }),
-    what_i_am: yup.string().required("Who i am is required"),
-});
-
+            }),
+        size: yup
+            .string()
+            .required(sizeRequired)
+            .when("available_rooms", (available_rooms, schema) => {
+                return schema.test({
+                    test: (size) => size >= available_rooms,
+                    message: sizeTest,
+                });
+            }),
+        type: yup.string().required(typeRequired),
+        current_occupants: yup
+            .string()
+            .required(currentOccupantsRequired)
+            .when("size", (size, schema) => {
+                return schema.test({
+                    test: (current_occupants) => current_occupants <= size,
+                    message: currentOccupantsTest,
+                });
+            }),
+        what_i_am: yup.string().required(whatIAmRequired),
+    });
+};
 const stepThreeSchema = yup.array().of(
     yup.object().shape({
         available_from: yup

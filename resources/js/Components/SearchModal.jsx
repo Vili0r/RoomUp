@@ -259,7 +259,7 @@ const SearchModal = ({ isOpen, closeModal }) => {
 
     const amenitiesOptions = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });

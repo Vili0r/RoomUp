@@ -152,6 +152,17 @@ const Create = (props) => {
     );
 
     const { t } = useTranslation();
+    const {
+        inputPlaceholder,
+        nextBtn,
+        backBtn,
+        noResult,
+        fixErrors,
+        stepSixErrors,
+        processingBtn,
+        placeAdBtn,
+    } = t("shared.miscs");
+
     //next step
     const handleNext = async () => {
         clearErrors();
@@ -164,7 +175,7 @@ const Create = (props) => {
                     schema = stepOneSchema(t);
                     break;
                 case 2:
-                    schema = stepTwoSchema;
+                    schema = stepTwoSchema(t);
                     break;
                 case 3:
                     schema = stepThreeSchema;
@@ -197,7 +208,7 @@ const Create = (props) => {
         } catch (errors) {
             clearErrors();
             const validationErrors = {};
-
+            console.log(errors);
             errors.inner.forEach((error) => {
                 validationErrors[error.path] = error.message;
             });
@@ -378,7 +389,7 @@ const Create = (props) => {
                             <form onSubmit={submit}>
                                 {step == "1" && (
                                     <>
-                                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold  text-lg">
                                             <AiOutlineSearch className="w-7 h-7" />
                                             <DebounceInput
                                                 value={search}
@@ -390,8 +401,8 @@ const Create = (props) => {
                                                     );
                                                     setSearch(e.target.value);
                                                 }}
-                                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                                                placeholder="Efterpis, Cholargos..."
+                                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 "
+                                                placeholder={inputPlaceholder}
                                             />
                                             <button
                                                 onClick={() => {
@@ -440,7 +451,7 @@ const Create = (props) => {
                                                 </div>
                                             ) : (
                                                 <div className="px-3 py-3">
-                                                    No results for "{search}"
+                                                    {noResult}"{search}"
                                                 </div>
                                             ))}
 
@@ -448,17 +459,17 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            minutes={minutes}
-                                            mode={mode}
-                                            stations={stations}
+                                            // minutes={minutes}
+                                            // mode={mode}
+                                            // stations={stations}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
                                     </>
@@ -470,19 +481,19 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            availableRooms={availableRooms}
-                                            size={size}
-                                            type={type}
-                                            currentOccupants={currentOccupants}
-                                            whatIAm={whatIAm}
+                                            // availableRooms={availableRooms}
+                                            // size={size}
+                                            // type={type}
+                                            // currentOccupants={currentOccupants}
+                                            // whatIAm={whatIAm}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
                                         <div className="flex items-center justify-between">
@@ -492,7 +503,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -526,10 +537,7 @@ const Create = (props) => {
                                                                 </svg>
                                                             </div>
                                                             <p className="px-6 py-4 text-lg font-semibold text-red-900">
-                                                                Please fix the
-                                                                following errors
-                                                                before
-                                                                procceding.
+                                                                {fixErrors}
                                                             </p>
                                                         </div>
                                                         <div className="px-16 mb-4">
@@ -583,7 +591,7 @@ const Create = (props) => {
                                                             />
                                                             <label
                                                                 htmlFor="available_from"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Available From
                                                             </label>
@@ -627,7 +635,7 @@ const Create = (props) => {
                                                         />
                                                         <label
                                                             htmlFor="room_cost"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             Room Cost Per Month
                                                         </label>
@@ -659,7 +667,7 @@ const Create = (props) => {
                                                         />
                                                         <label
                                                             htmlFor="room_deposit"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             Room Deposit
                                                         </label>
@@ -708,7 +716,7 @@ const Create = (props) => {
                                                         </select>
                                                         <label
                                                             htmlFor="room_size"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             Room Size
                                                         </label>
@@ -755,7 +763,7 @@ const Create = (props) => {
                                                         </select>
                                                         <label
                                                             htmlFor="room_furnished"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             Room furnished
                                                         </label>
@@ -770,11 +778,11 @@ const Create = (props) => {
                                                 </div>
 
                                                 <div className="flex justify-start gap-2 mt-3">
-                                                    <span className="mt-1 text-sm font-popp"></span>
+                                                    <span className="mt-1 text-sm "></span>
                                                     <InputLabel
                                                         htmlFor="room_references"
                                                         value="References?"
-                                                        className="mt-1 text-sm font-popp"
+                                                        className="mt-1 text-sm "
                                                     />
                                                     <label className="relative cursor-pointer">
                                                         <input
@@ -839,7 +847,7 @@ const Create = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="minimum_stay"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Minimum Stay
                                                             </label>
@@ -892,7 +900,7 @@ const Create = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="maximum_stay"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Maximum Stay
                                                             </label>
@@ -943,7 +951,7 @@ const Create = (props) => {
                                                         </select>
                                                         <label
                                                             htmlFor="days_available"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             Days available
                                                         </label>
@@ -991,7 +999,7 @@ const Create = (props) => {
                                                 onClick={handleNext}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -1002,7 +1010,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -1023,7 +1031,7 @@ const Create = (props) => {
                                                 onClick={handleNext}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -1034,7 +1042,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -1084,7 +1092,7 @@ const Create = (props) => {
                                                 onClick={handleNext}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -1095,7 +1103,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -1126,8 +1134,7 @@ const Create = (props) => {
                                                         </div>
                                                         <div className="ml-3">
                                                             <h2 className="font-semibold text-gray-800">
-                                                                Please fix the
-                                                                errors
+                                                                {stepSixErrors}
                                                             </h2>
                                                         </div>
                                                     </div>
@@ -1240,11 +1247,11 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 disabled={processing}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {processing
-                                                    ? "Processing..."
-                                                    : "Place your ad"}
+                                                    ? processingBtn
+                                                    : placeAdBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -1255,7 +1262,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

@@ -1,16 +1,23 @@
 import React from "react";
 import InputError from "./InputError";
-
-const StepOne = ({
-    data,
-    errors,
-    handleOnChange,
+import { useTranslation } from "react-i18next";
+import {
     availableRooms,
     size,
     type,
-    currentOccupants,
     whatIAm,
-}) => {
+    currentOccupants,
+} from "@/arrays/Array";
+
+const StepOne = ({ data, errors, handleOnChange }) => {
+    const { t, i18n } = useTranslation();
+    const {
+        availableRoomsStepOne,
+        sizeStepOne,
+        typeStepOne,
+        currentOccupantsStepOne,
+        whatIAmStepOne,
+    } = t("shared.forms.stepOne");
     return (
         <>
             <div>
@@ -21,18 +28,18 @@ const StepOne = ({
                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         onChange={handleOnChange}
                     >
-                        <option value="">What i have</option>
-                        {availableRooms.map(({ id, name }) => (
+                        <option value="">{availableRoomsStepOne}</option>
+                        {availableRooms.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="available_rooms"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        I have
+                        {availableRoomsStepOne}
                     </label>
                 </div>
                 {errors.available_rooms && (
@@ -52,18 +59,18 @@ const StepOne = ({
                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={handleOnChange}
                         >
-                            <option value="">Size</option>
-                            {size.map(({ id, name }) => (
+                            <option value="">{sizeStepOne}</option>
+                            {size.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="size"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Size
+                            {sizeStepOne}
                         </label>
                     </div>
                     {errors.size && (
@@ -79,18 +86,18 @@ const StepOne = ({
                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={handleOnChange}
                         >
-                            <option value="">Type</option>
-                            {type.map(({ id, name }) => (
+                            <option value="">{typeStepOne}</option>
+                            {type.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="type"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Type
+                            {typeStepOne}
                         </label>
                     </div>
                     {errors.type && (
@@ -106,18 +113,18 @@ const StepOne = ({
                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         onChange={handleOnChange}
                     >
-                        <option value="">Current occupants</option>
-                        {currentOccupants.map(({ id, name }) => (
+                        <option value=""> {currentOccupantsStepOne}</option>
+                        {currentOccupants.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="current_occupants"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Current occupants
+                        {currentOccupantsStepOne}
                     </label>
                 </div>
                 {errors.current_occupants && (
@@ -136,18 +143,18 @@ const StepOne = ({
                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         onChange={handleOnChange}
                     >
-                        <option value="">What i am</option>
-                        {whatIAm.map(({ id, name }) => (
+                        <option value="">{whatIAmStepOne}</option>
+                        {whatIAm.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="what_i_am"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        What I Am
+                        {whatIAmStepOne}
                     </label>
                 </div>
                 {errors.what_i_am && (
