@@ -1,8 +1,17 @@
 import React from "react";
 import InputError from "./InputError";
 import Checkbox from "./Checkbox";
+import { useTranslation } from "react-i18next";
 
 const StepFour = ({ data, errors, handleOnChange }) => {
+    const { t, i18n } = useTranslation();
+    const {
+        firstNameStepFour,
+        lastNameStepFour,
+        displayLastNameStepFour,
+        telephoneStepFour,
+        displayTelephoneStepFour,
+    } = t("shared.forms.stepFour");
     return (
         <>
             <div>
@@ -11,7 +20,7 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                         type="text"
                         name="first_name"
                         id="first_name"
-                        placeholder="First Name"
+                        placeholder={firstNameStepFour}
                         value={data.first_name}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -19,9 +28,9 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                     />
                     <label
                         htmlFor="first_name"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        First Name
+                        {firstNameStepFour}
                     </label>
                 </div>
 
@@ -36,7 +45,7 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                         type="text"
                         name="last_name"
                         id="last_name"
-                        placeholder="Last Name"
+                        placeholder={lastNameStepFour}
                         value={data.last_name}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -44,9 +53,9 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                     />
                     <label
                         htmlFor="last_name"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Last Name
+                        {lastNameStepFour}
                     </label>
                 </div>
 
@@ -64,7 +73,7 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                         checked={data.display_last_name ? true : false}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        Display Last Name
+                        {displayLastNameStepFour}
                     </span>
                     <InputError
                         message={errors.display_last_name}
@@ -87,9 +96,9 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                     />
                     <label
                         htmlFor="telephone"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Telephone
+                        {telephoneStepFour}
                     </label>
                 </div>
 
@@ -107,7 +116,7 @@ const StepFour = ({ data, errors, handleOnChange }) => {
                         checked={data.display_telephone ? true : false}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        Display Telephone
+                        {displayTelephoneStepFour}
                     </span>
                     <InputError
                         message={errors.display_telephone}

@@ -24,6 +24,13 @@ import {
     stepFiveSchema,
     stepSixSchema,
 } from "../../Validations/SharedValidation";
+import {
+    furnishings,
+    roomSize,
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+} from "@/arrays/Array";
 import { yupResolver } from "@hookform/resolvers/yup";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
@@ -75,11 +82,11 @@ const Create = (props) => {
         mode,
         stations,
         amenities,
-        roomSize,
-        furnishings,
-        minimumStay,
-        maximumStay,
-        daysAvailable,
+        // roomSize,
+        // furnishings,
+        // minimumStay,
+        // maximumStay,
+        // daysAvailable,
         newFlatmateSmoking,
         currentFlatmateSmoking,
         newFlatmateGender,
@@ -151,7 +158,7 @@ const Create = (props) => {
         }
     );
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         inputPlaceholder,
         nextBtn,
@@ -162,6 +169,18 @@ const Create = (props) => {
         processingBtn,
         placeAdBtn,
     } = t("shared.miscs");
+    const {
+        availableFromStepThree,
+        roomCostStepThree,
+        roomDepositStepThree,
+        roomSizeStepThree,
+        roomFurnishedStepThree,
+        referencesStepThree,
+        minimumStayStepThree,
+        maximumStayStepThree,
+        daysAvailableStepThree,
+        shortTermStepThree,
+    } = t("shared.forms.stepThree");
 
     //next step
     const handleNext = async () => {
@@ -194,7 +213,7 @@ const Create = (props) => {
             }
 
             if (schema === stepThreeSchema) {
-                const isValid = await validateDynamicInputs();
+                const isValid = await validateDynamicInputs(t);
                 if (!isValid) {
                     return;
                 }
@@ -218,9 +237,9 @@ const Create = (props) => {
         }
     };
 
-    const validateDynamicInputs = async () => {
+    const validateDynamicInputs = async (t) => {
         try {
-            await stepThreeSchema.validate(roomAttributes, {
+            await stepThreeSchema(t).validate(roomAttributes, {
                 abortEarly: false,
             });
             return true;
@@ -574,7 +593,9 @@ const Create = (props) => {
                                                                 type="date"
                                                                 name="available_from"
                                                                 id="available_from"
-                                                                placeholder="Available From"
+                                                                placeholder={
+                                                                    availableFromStepThree
+                                                                }
                                                                 value={
                                                                     field.available_from
                                                                 }
@@ -593,7 +614,9 @@ const Create = (props) => {
                                                                 htmlFor="available_from"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Available From
+                                                                {
+                                                                    availableFromStepThree
+                                                                }
                                                             </label>
                                                         </div>
                                                         <span className="error">
@@ -620,7 +643,9 @@ const Create = (props) => {
                                                             type="text"
                                                             name="room_cost"
                                                             id="room_cost"
-                                                            placeholder="Room cost Per Month"
+                                                            placeholder={
+                                                                roomCostStepThree
+                                                            }
                                                             value={
                                                                 field.room_cost
                                                             }
@@ -637,7 +662,7 @@ const Create = (props) => {
                                                             htmlFor="room_cost"
                                                             className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Room Cost Per Month
+                                                            {roomCostStepThree}
                                                         </label>
 
                                                         <InputError
@@ -652,7 +677,9 @@ const Create = (props) => {
                                                             type="text"
                                                             name="room_deposit"
                                                             id="room_deposit"
-                                                            placeholder="Room Deposit"
+                                                            placeholder={
+                                                                roomDepositStepThree
+                                                            }
                                                             value={
                                                                 field.room_deposit
                                                             }
@@ -669,7 +696,9 @@ const Create = (props) => {
                                                             htmlFor="room_deposit"
                                                             className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Room Deposit
+                                                            {
+                                                                roomDepositStepThree
+                                                            }
                                                         </label>
                                                         <InputError
                                                             message={
@@ -701,7 +730,8 @@ const Create = (props) => {
                                                             {roomSize.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -709,7 +739,10 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
@@ -718,7 +751,7 @@ const Create = (props) => {
                                                             htmlFor="room_size"
                                                             className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Room Size
+                                                            {roomSizeStepThree}
                                                         </label>
 
                                                         <InputError
@@ -748,7 +781,8 @@ const Create = (props) => {
                                                             {furnishings.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -756,7 +790,10 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
@@ -765,7 +802,9 @@ const Create = (props) => {
                                                             htmlFor="room_furnished"
                                                             className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Room furnished
+                                                            {
+                                                                roomFurnishedStepThree
+                                                            }
                                                         </label>
 
                                                         <InputError
@@ -781,7 +820,9 @@ const Create = (props) => {
                                                     <span className="mt-1 text-sm "></span>
                                                     <InputLabel
                                                         htmlFor="room_references"
-                                                        value="References?"
+                                                        value={
+                                                            referencesStepThree
+                                                        }
                                                         className="mt-1 text-sm "
                                                     />
                                                     <label className="relative cursor-pointer">
@@ -828,7 +869,8 @@ const Create = (props) => {
                                                                 {minimumStay.map(
                                                                     ({
                                                                         id,
-                                                                        name,
+                                                                        nameEn,
+                                                                        nameGr,
                                                                     }) => (
                                                                         <option
                                                                             key={
@@ -838,9 +880,10 @@ const Create = (props) => {
                                                                                 id
                                                                             }
                                                                         >
-                                                                            {
-                                                                                name
-                                                                            }
+                                                                            {i18n.language ==
+                                                                            "en"
+                                                                                ? nameEn
+                                                                                : nameGr}
                                                                         </option>
                                                                     )
                                                                 )}
@@ -849,7 +892,9 @@ const Create = (props) => {
                                                                 htmlFor="minimum_stay"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Minimum Stay
+                                                                {
+                                                                    minimumStayStepThree
+                                                                }
                                                             </label>
 
                                                             <InputError
@@ -881,7 +926,8 @@ const Create = (props) => {
                                                                 {maximumStay.map(
                                                                     ({
                                                                         id,
-                                                                        name,
+                                                                        nameEn,
+                                                                        nameGr,
                                                                     }) => (
                                                                         <option
                                                                             key={
@@ -891,9 +937,10 @@ const Create = (props) => {
                                                                                 id
                                                                             }
                                                                         >
-                                                                            {
-                                                                                name
-                                                                            }
+                                                                            {i18n.language ==
+                                                                            "en"
+                                                                                ? nameEn
+                                                                                : nameGr}
                                                                         </option>
                                                                     )
                                                                 )}
@@ -902,7 +949,9 @@ const Create = (props) => {
                                                                 htmlFor="maximum_stay"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Maximum Stay
+                                                                {
+                                                                    maximumStayStepThree
+                                                                }
                                                             </label>
 
                                                             <InputError
@@ -936,7 +985,8 @@ const Create = (props) => {
                                                             {daysAvailable.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -944,7 +994,10 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
@@ -953,7 +1006,9 @@ const Create = (props) => {
                                                             htmlFor="days_available"
                                                             className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Days available
+                                                            {
+                                                                daysAvailableStepThree
+                                                            }
                                                         </label>
                                                         <InputError
                                                             message={
@@ -963,11 +1018,13 @@ const Create = (props) => {
                                                         />
                                                     </div>
                                                     <div className="flex justify-start gap-2 mt-3">
-                                                        <span className="mt-1 text-sm font-popp"></span>
+                                                        <span className="mt-1 text-sm "></span>
                                                         <InputLabel
                                                             htmlFor="short_term"
-                                                            value="Short term"
-                                                            className="mt-1 text-sm font-popp"
+                                                            value={
+                                                                shortTermStepThree
+                                                            }
+                                                            className="mt-1 text-sm "
                                                         />
                                                         <label className="relative cursor-pointer">
                                                             <input
@@ -997,7 +1054,7 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
                                             </PrimaryButton>
@@ -1029,7 +1086,7 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
                                             </PrimaryButton>
@@ -1090,7 +1147,7 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
                                             </PrimaryButton>
@@ -1178,7 +1235,7 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="title"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
                                                     Title
                                                 </label>
@@ -1205,7 +1262,7 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="description"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
                                                     Description
                                                 </label>

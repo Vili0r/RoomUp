@@ -41,7 +41,7 @@ export const flatmatePets = [
 
 export const currentOccupants = [
     { id: 0, nameEn: "Zero", nameGr: "Κανένας" },
-    { id: 1, nameEn: "One", nameGr: "Ένα" },
+    { id: 1, nameEn: "One", nameGr: "Ένας" },
     { id: 2, nameEn: "Two", nameGr: "Δύο" },
     { id: 3, nameEn: "Three", nameGr: "Τρείς" },
     { id: 4, nameEn: "Four", nameGr: "Τέσσερεις" },
@@ -165,6 +165,16 @@ export const type = [
     { id: 3, nameEn: "Property", nameGr: "Μονοκατοικία" },
 ];
 
+export const daysAvailable = [
+    { id: 1, nameEn: "Full week", nameGr: "Πλήρης εβδομάδα" },
+    {
+        id: 2,
+        nameEn: "From monday to friday only",
+        nameGr: "Από Δευτέρα έως Παρασκευή μόνο",
+    },
+    { id: 3, nameEn: "Weekends only", nameGr: "Μόνο τα Σαββατοκύριακα" },
+];
+
 export const whatIAm = [
     { id: 1, nameEn: "Live in landlord", nameGr: "Ιδιοκτήτης που διαμένει" },
     {
@@ -175,6 +185,46 @@ export const whatIAm = [
     { id: 3, nameEn: "Current tenant", nameGr: "Τρέχων ενοικιαστής" },
     { id: 4, nameEn: "Agent", nameGr: "Πράκτορας" },
     { id: 5, nameEn: "Former flatmate", nameGr: "Πρώην συγκάτοικος" },
+];
+
+export const minimumStay = [
+    { id: 0, nameEn: "No Minimum", nameGr: "Χωρίς ελάχιστο" },
+    { id: 1, nameEn: "One month", nameGr: "1 μήνας" },
+    { id: 2, nameEn: "Two months", nameGr: "2 μήνες" },
+    { id: 3, nameEn: "Three months", nameGr: "3 μήνες" },
+    { id: 4, nameEn: "Four months", nameGr: "4 μήνες" },
+    { id: 5, nameEn: "Five months", nameGr: "5 μήνες" },
+    { id: 6, nameEn: "Six months", nameGr: "6 μήνες" },
+    { id: 7, nameEn: "Seven months", nameGr: "7 μήνες" },
+    { id: 8, nameEn: "Eight months", nameGr: "8 μήνες" },
+    { id: 9, nameEn: "Nine months", nameGr: "9 μήνες" },
+    { id: 10, nameEn: "Ten months", nameGr: "10 μήνες" },
+    { id: 11, nameEn: "Eleven months", nameGr: "11 μήνες" },
+    { id: 12, nameEn: "One year", nameGr: "1 χρόνος" },
+    { id: 13, nameEn: "More than one year", nameGr: ">1 χρόνος" },
+    { id: 14, nameEn: "Two years", nameGr: "2 χρόνια" },
+    { id: 15, nameEn: "More than two years", nameGr: ">2 χρόνια" },
+    { id: 16, nameEn: "Three years", nameGr: "3 χρόνια" },
+];
+
+export const maximumStay = [
+    { id: 0, nameEn: "No Minimum", nameGr: "Χωρίς Μέγιστο" },
+    { id: 1, nameEn: "One month", nameGr: "1 μήνας" },
+    { id: 2, nameEn: "Two months", nameGr: "2 μήνες" },
+    { id: 3, nameEn: "Three months", nameGr: "3 μήνες" },
+    { id: 4, nameEn: "Four months", nameGr: "4 μήνες" },
+    { id: 5, nameEn: "Five months", nameGr: "5 μήνες" },
+    { id: 6, nameEn: "Six months", nameGr: "6 μήνες" },
+    { id: 7, nameEn: "Seven months", nameGr: "7 μήνες" },
+    { id: 8, nameEn: "Eight months", nameGr: "8 μήνες" },
+    { id: 9, nameEn: "Nine months", nameGr: "9 μήνες" },
+    { id: 10, nameEn: "Ten months", nameGr: "10 μήνες" },
+    { id: 11, nameEn: "Eleven months", nameGr: "11 μήνες" },
+    { id: 12, nameEn: "One year", nameGr: "1 χρόνος" },
+    { id: 13, nameEn: "More than one year", nameGr: ">1 χρόνος" },
+    { id: 14, nameEn: "Two years", nameGr: "2 χρόνια" },
+    { id: 15, nameEn: "More than two years", nameGr: ">2 χρόνια" },
+    { id: 16, nameEn: "Three years", nameGr: "3 χρόνια" },
 ];
 
 export const hobbies = [

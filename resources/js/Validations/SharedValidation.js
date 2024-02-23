@@ -72,52 +72,89 @@ const stepTwoSchema = (t) => {
         what_i_am: yup.string().required(whatIAmRequired),
     });
 };
-const stepThreeSchema = yup.array().of(
-    yup.object().shape({
-        available_from: yup
-            .date()
-            .typeError("Available from must be a date")
-            .min(new Date(), "Available from date must be in the future")
-            .required("Available from date is required"),
-        room_cost: yup
-            .number()
-            .typeError("Room cost doesn't look like a number")
-            .required("Cost of the room is required"),
-        room_deposit: yup
-            .number()
-            .typeError("Room deposit doesn't look like a number")
-            .required("Deposit of the room is required"),
-        room_size: yup.string().required("Size of the room is required"),
-        room_furnished: yup.string().required("Room furnished is required"),
-        minimum_stay: yup.string().required("Minimum stay is required"),
-        maximum_stay: yup
-            .string()
-            .test(
-                "greater-than-minimum",
-                "Maximum stay must be greater than minimum stay",
-                function (value) {
-                    const minimumStay = this.resolve(yup.ref("minimum_stay"));
-                    if (!minimumStay || !value) {
-                        return true; // Allow validation to pass if either field is empty
-                    }
-                    return parseInt(value, 10) > parseInt(minimumStay, 10);
-                }
-            )
-            .required("Maximum stay is required"),
-        days_available: yup.string().required("Days available is required"),
-    })
-);
 
-const stepFourSchema = yup.object().shape({
-    first_name: yup.string().max(20).required("First name is required"),
-    last_name: yup.string().max(20).required("Last name is required"),
-    telephone: yup
-        .string()
-        .min(8, "Phone number must be at least 8 digits")
-        .max(15, "Phone number cannot be more than 15 digits")
-        .matches(/^\d+$/, "Phone number can only contain digits")
-        .required("Telephone number is required"),
-});
+const stepThreeSchema = (t) => {
+    const {
+        availableFromRequired,
+        availableFromTypeError,
+        availableFromMin,
+        roomCostRequired,
+        roomCostTypeError,
+        roomDepositRequired,
+        roomDepositTypeError,
+        roomSizeRequired,
+        roomFurnishedRequired,
+        minimumStayRequired,
+        maximumStayRequired,
+        maximumStayTest,
+        daysAvailableRequired,
+    } = t("shared.validation.stepThree");
+
+    return yup.array().of(
+        yup.object().shape({
+            available_from: yup
+                .date()
+                .typeError(availableFromTypeError)
+                .min(new Date(), availableFromMin)
+                .required(availableFromRequired),
+            room_cost: yup
+                .number()
+                .typeError(roomCostTypeError)
+                .required(roomCostRequired),
+            room_deposit: yup
+                .number()
+                .typeError(roomDepositTypeError)
+                .required(roomDepositRequired),
+            room_size: yup.string().required(roomSizeRequired),
+            room_furnished: yup.string().required(roomFurnishedRequired),
+            minimum_stay: yup.string().required(minimumStayRequired),
+            maximum_stay: yup
+                .string()
+                .test(
+                    "greater-than-minimum",
+                    maximumStayTest,
+                    function (value) {
+                        const minimumStay = this.resolve(
+                            yup.ref("minimum_stay")
+                        );
+                        if (!minimumStay || !value) {
+                            return true; // Allow validation to pass if either field is empty
+                        }
+                        return parseInt(value, 10) > parseInt(minimumStay, 10);
+                    }
+                )
+                .required(maximumStayRequired),
+            days_available: yup.string().required(daysAvailableRequired),
+        })
+    );
+};
+
+const stepFourSchema = (t) => {
+    const {
+        firstNameMax,
+        firstNameRequired,
+        lastNameMax,
+        lastNameRequired,
+        telephoneMin,
+        telephoneMax,
+        telephoneMaxMatches,
+        telephoneRequired,
+    } = t("shared.validation.stepFour");
+
+    return yup.object().shape({
+        first_name: yup
+            .string()
+            .max(20, firstNameMax)
+            .required(firstNameRequired),
+        last_name: yup.string().max(20, lastNameMax).required(lastNameRequired),
+        telephone: yup
+            .string()
+            .min(8, telephoneMin)
+            .max(15, telephoneMax)
+            .matches(/^\d+$/, telephoneMaxMatches)
+            .required(telephoneRequired),
+    });
+};
 
 const stepFiveSchema = (current_occupants) =>
     yup.object().shape({

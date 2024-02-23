@@ -201,6 +201,25 @@ const resources = {
                         currentOccupantsStepOne: "Current Occupants",
                         whatIAmStepOne: "What I am",
                     },
+                    stepThree: {
+                        availableFromStepThree: "Available From",
+                        roomCostStepThree: "Room cost Per Month",
+                        roomDepositStepThree: "Room Deposit",
+                        roomSizeStepThree: "Room Size",
+                        roomFurnishedStepThree: "Room Furnished",
+                        referencesStepThree: "References?",
+                        minimumStayStepThree: "Minimum Stay",
+                        maximumStayStepThree: "Maximum Stay",
+                        daysAvailableStepThree: "Days Available",
+                        shortTermStepThree: "Short Term",
+                    },
+                    stepFour: {
+                        firstNameStepFour: "First Name",
+                        lastNameStepFour: "Last Name",
+                        displayLastNameStepFour: "Display Last Name",
+                        telephoneStepFour: "Telephone",
+                        displayTelephoneStepFour: "Display Telephone",
+                    },
                 },
                 validation: {
                     stepOne: {
@@ -229,6 +248,40 @@ const resources = {
                         currentOccupantsTest:
                             "Current occupants must be less than the size of the property",
                         whatIAmRequired: "Who i am is required",
+                    },
+                    stepThree: {
+                        availableFromTypeError: "Available from must be a date",
+                        availableFromMin:
+                            "Available from date must be in the future",
+                        availableFromRequired:
+                            "Available from date is required",
+                        roomCostTypeError:
+                            "Room cost doesn't look like a number",
+                        roomCostRequired: "Cost of the room is required",
+                        roomDepositTypeError:
+                            "Room deposit doesn't look like a number",
+                        roomDepositRequired: "Deposit of the room is required",
+                        roomSizeRequired: "Size of the room is required",
+                        roomFurnishedRequired: "Room furnished is required",
+                        minimumStayRequired: "Minimum stay is required",
+                        maximumStayTest:
+                            "Maximum stay must be greater than minimum stay",
+                        maximumStayRequired: "Maximum stay is required",
+                        daysAvailableRequired: "Days available is required",
+                    },
+                    stepFour: {
+                        firstNameMax:
+                            "First Name must not be greater than 20 characters",
+                        firstNameRequired: "First name is required",
+                        lastNameMax:
+                            "Last Name must not be greater than 20 characters",
+                        lastNameRequired: "Last name is required",
+                        telephoneMin: "Phone number must be at least 8 digits",
+                        telephoneMax:
+                            "Phone number cannot be more than 15 digits",
+                        telephoneMaxMatches:
+                            "Phone number can only contain digits",
+                        telephoneRequired: "Telephone number is required",
                     },
                 },
             },
@@ -431,6 +484,25 @@ const resources = {
                         currentOccupantsStepOne: "Τρέχοντες Κάτοικοι",
                         whatIAmStepOne: "Ποιος/α είμαι",
                     },
+                    stepThree: {
+                        availableFromStepThree: "Διαθέσιμο Από",
+                        roomCostStepThree: "Κόστος Δωματίου",
+                        roomDepositStepThree: "Προκαταβολή Δωματίου",
+                        roomSizeStepThree: "Μέγεθος Δωματίου",
+                        roomFurnishedStepThree: "Επιπλωμένο Δωμάτιο",
+                        referencesStepThree: "Παραπομπή",
+                        minimumStayStepThree: "Διάρκεια Διαμονής Από",
+                        maximumStayStepThree: "Διάρκεια Διαμονής Έως",
+                        daysAvailableStepThree: "Διαθέσιμες Ημέρες",
+                        shortTermStepThree: "Βραχυπρόθεσμο",
+                    },
+                    stepFour: {
+                        firstNameStepFour: "Όνομα",
+                        lastNameStepFour: "Επώνυμο",
+                        displayLastNameStepFour: "Εμφάνιση Επωνύμου",
+                        telephoneStepFour: "Τηλέφωνο",
+                        displayTelephoneStepFour: "Εμφάνιση Τηλεφώνου",
+                    },
                 },
                 validation: {
                     stepOne: {
@@ -465,6 +537,34 @@ const resources = {
                             "Ο αριθμός των τρεχόντων ενοίκων πρέπει να είναι μικρότερος από το μέγεθος της ιδιοκτησίας",
                         whatIAmRequired:
                             "Το πεδίο περιγραφής χρήστη είναι υποχρεωτικό",
+                    },
+                    stepThree: {
+                        availableFromTypeError:
+                            "Το πεδίο διαθεσιμό απο πρέπει να είναι μια ημερομηνία",
+                        availableFromMin:
+                            "Η ημερομηνία διαθεσιμότητας πρέπει να είναι στο μέλλον",
+                        availableFromRequired:
+                            "Η ημερομηνία διαθεσιμότητας είναι υποχρεωτική",
+                        roomCostTypeError:
+                            "Το κόστος του δωματίου δεν φαίνεται να είναι ένας αριθμός",
+                        roomCostRequired:
+                            "Το κόστος του δωματίου είναι υποχρεωτικό",
+                        roomDepositTypeError:
+                            "Η προκαταβολή του δωματίου δεν φαίνεται να είναι ένας αριθμός",
+                        roomDepositRequired:
+                            "Η προκαταβολή του δωματίου είναι υποχρεωτική",
+                        roomSizeRequired:
+                            "Το μέγεθος του δωματίου είναι υποχρεωτικό",
+                        roomFurnishedRequired:
+                            "Η επίπλωση του δωματίου είναι υποχρεωτική",
+                        minimumStayRequired:
+                            "Το ελάχιστο διάστημα διαμονής είναι υποχρεωτικό",
+                        maximumStayTest:
+                            "Το μέγιστο διάστημα διαμονής πρέπει να είναι μεγαλύτερο από το ελάχιστο διάστημα",
+                        maximumStayRequired:
+                            "Το μέγιστο διάστημα διαμονής είναι υποχρεωτικό",
+                        daysAvailableRequired:
+                            "Οι ημέρες διαθεσιμότητας είναι υποχρεωτικές",
                     },
                 },
             },
