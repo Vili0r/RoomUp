@@ -30,6 +30,7 @@ import {
     minimumStay,
     maximumStay,
     daysAvailable,
+    amenities,
 } from "@/arrays/Array";
 import { yupResolver } from "@hookform/resolvers/yup";
 // Import React FilePond
@@ -73,28 +74,28 @@ const Create = (props) => {
     ]);
 
     const {
-        whatIAm,
-        size,
-        type,
-        availableRooms,
-        currentOccupants,
-        minutes,
-        mode,
-        stations,
-        amenities,
+        // whatIAm,
+        // size,
+        // type,
+        // availableRooms,
+        // currentOccupants,
+        // minutes,
+        // mode,
+        // stations,
+        //amenities,
         // roomSize,
         // furnishings,
         // minimumStay,
         // maximumStay,
         // daysAvailable,
-        newFlatmateSmoking,
-        currentFlatmateSmoking,
-        newFlatmateGender,
-        currentFlatmateGender,
-        newFlatmateOccupation,
-        currentFlatmateOccupation,
-        pets,
-        references,
+        // newFlatmateSmoking,
+        // currentFlatmateSmoking,
+        // newFlatmateGender,
+        // currentFlatmateGender,
+        // newFlatmateOccupation,
+        // currentFlatmateOccupation,
+        // pets,
+        // references,
         csrf_token,
     } = usePage().props;
 
@@ -181,6 +182,9 @@ const Create = (props) => {
         daysAvailableStepThree,
         shortTermStepThree,
     } = t("shared.forms.stepThree");
+    const { amenitiesStepSix, titleStepSix, descriptionStepSix } = t(
+        "shared.forms.stepSix"
+    );
 
     //next step
     const handleNext = async () => {
@@ -200,13 +204,13 @@ const Create = (props) => {
                     schema = stepThreeSchema;
                     break;
                 case 4:
-                    schema = stepFourSchema;
+                    schema = stepFourSchema(t);
                     break;
                 case 5:
-                    schema = stepFiveSchema(data.current_occupants);
+                    schema = stepFiveSchema(data.current_occupants, t);
                     break;
                 case 6:
-                    schema = stepSixSchema;
+                    schema = stepSixSchema(t);
                     break;
                 default:
                     break;
@@ -227,7 +231,6 @@ const Create = (props) => {
         } catch (errors) {
             clearErrors();
             const validationErrors = {};
-            console.log(errors);
             errors.inner.forEach((error) => {
                 validationErrors[error.path] = error.message;
             });
@@ -360,7 +363,7 @@ const Create = (props) => {
     //Transforming amenties with label and value as required from react select package
     const options = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });
@@ -890,7 +893,7 @@ const Create = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="minimum_stay"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-xs text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 {
                                                                     minimumStayStepThree
@@ -947,7 +950,7 @@ const Create = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="maximum_stay"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-xs text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 {
                                                                     maximumStayStepThree
@@ -1114,16 +1117,16 @@ const Create = (props) => {
                                                 data={data}
                                                 errors={validationErrors}
                                                 handleOnChange={handleOnChange}
-                                                currentFlatmateSmoking={
-                                                    currentFlatmateSmoking
-                                                }
-                                                pets={pets}
-                                                currentFlatmateOccupation={
-                                                    currentFlatmateOccupation
-                                                }
-                                                currentFlatmateGender={
-                                                    currentFlatmateGender
-                                                }
+                                                // currentFlatmateSmoking={
+                                                //     currentFlatmateSmoking
+                                                // }
+                                                // pets={pets}
+                                                // currentFlatmateOccupation={
+                                                //     currentFlatmateOccupation
+                                                // }
+                                                // currentFlatmateGender={
+                                                //     currentFlatmateGender
+                                                // }
                                             />
                                         )}
 
@@ -1132,16 +1135,16 @@ const Create = (props) => {
                                                 data={data}
                                                 errors={validationErrors}
                                                 handleOnChange={handleOnChange}
-                                                newFlatmateSmoking={
-                                                    newFlatmateSmoking
-                                                }
-                                                newFlatmateGender={
-                                                    newFlatmateGender
-                                                }
-                                                newFlatmateOccupation={
-                                                    newFlatmateOccupation
-                                                }
-                                                pets={pets}
+                                                // newFlatmateSmoking={
+                                                //     newFlatmateSmoking
+                                                // }
+                                                // newFlatmateGender={
+                                                //     newFlatmateGender
+                                                // }
+                                                // newFlatmateOccupation={
+                                                //     newFlatmateOccupation
+                                                // }
+                                                // pets={pets}
                                             />
                                         )}
                                         <div className="my-6">
@@ -1200,7 +1203,7 @@ const Create = (props) => {
                                         <div className="mt-7">
                                             <InputLabel
                                                 htmlFor="amenties"
-                                                value="Amenities"
+                                                value={amenitiesStepSix}
                                                 className="mb-3"
                                             />
                                             <Select
@@ -1227,7 +1230,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="title"
                                                     id="title"
-                                                    placeholder="Title"
+                                                    placeholder={titleStepSix}
                                                     value={data.title}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -1237,7 +1240,7 @@ const Create = (props) => {
                                                     htmlFor="title"
                                                     className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Title
+                                                    {titleStepSix}
                                                 </label>
                                             </div>
 
@@ -1254,7 +1257,9 @@ const Create = (props) => {
                                                     name="description"
                                                     id="description"
                                                     rows="8"
-                                                    placeholder="description"
+                                                    placeholder={
+                                                        descriptionStepSix
+                                                    }
                                                     value={data.description}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -1264,7 +1269,7 @@ const Create = (props) => {
                                                     htmlFor="description"
                                                     className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Description
+                                                    {descriptionStepSix}
                                                 </label>
                                             </div>
 

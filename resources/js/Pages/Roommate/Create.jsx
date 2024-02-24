@@ -54,6 +54,7 @@ const Create = (props) => {
         roomSize,
     } = usePage().props;
 
+    console.log(props);
     const {
         data,
         setData,

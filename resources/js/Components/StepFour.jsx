@@ -4,7 +4,7 @@ import Checkbox from "./Checkbox";
 import { useTranslation } from "react-i18next";
 
 const StepFour = ({ data, errors, handleOnChange }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const {
         firstNameStepFour,
         lastNameStepFour,

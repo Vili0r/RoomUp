@@ -1,15 +1,23 @@
 import React from "react";
 import InputError from "./InputError";
+import { useTranslation } from "react-i18next";
+import {
+    flatmateSmoker,
+    flatmatePets,
+    flatmateOccupation,
+    flatmateGender,
+} from "@/arrays/Array";
 
-const CurrentFlatmate = ({
-    data,
-    errors,
-    handleOnChange,
-    currentFlatmateSmoking,
-    pets,
-    currentFlatmateOccupation,
-    currentFlatmateGender,
-}) => {
+const CurrentFlatmate = ({ data, errors, handleOnChange }) => {
+    const { t, i18n } = useTranslation();
+    const {
+        spanStepFive,
+        currentFlatmateAgeStepFive,
+        currentFlatmateSmokerStepFive,
+        currentFlatmatePetsStepFive,
+        currentFlatmateOccupationStepFive,
+        currentFlatmateGenderStepFive,
+    } = t("shared.forms.currentFlatmate");
     return (
         <div className="max-w-2xl px-8 py-4 mt-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div className="flex items-center justify-between">
@@ -18,7 +26,7 @@ const CurrentFlatmate = ({
                         type="text"
                         name="current_flatmate_age"
                         id="current_flatmate_age"
-                        placeholder="Current flatmate age"
+                        placeholder={currentFlatmateAgeStepFive}
                         value={data.current_flatmate_age}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -26,9 +34,9 @@ const CurrentFlatmate = ({
                     />
                     <label
                         htmlFor="current_flatmate_age"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Age
+                        {currentFlatmateAgeStepFive}
                     </label>
 
                     <InputError
@@ -37,11 +45,15 @@ const CurrentFlatmate = ({
                     />
                 </div>
                 <span
-                    className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                    className={` ${
+                        i18n.language == "en" ? "text-sm" : "text-xs"
+                    } ${
+                        errors.current_flatmate_age ? "mb-11 ml-1" : ""
+                    } px-3 py-1 font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500`}
                     tabIndex="0"
                     role="button"
                 >
-                    Current flatmate information
+                    {spanStepFive}
                 </span>
             </div>
             <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
@@ -54,17 +66,17 @@ const CurrentFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {currentFlatmateSmoking.map(({ id, name }) => (
+                            {flatmateSmoker.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="current_flatmate_smoker"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Smoker
+                            {currentFlatmateSmokerStepFive}
                         </label>
 
                         <InputError
@@ -83,17 +95,17 @@ const CurrentFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {pets.map(({ id, name }) => (
+                            {flatmatePets.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="current_flatmate_pets"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Pets
+                            {currentFlatmatePetsStepFive}
                         </label>
 
                         <InputError
@@ -112,17 +124,21 @@ const CurrentFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {currentFlatmateOccupation.map(({ id, name }) => (
-                                <option key={id} value={id}>
-                                    {name}
-                                </option>
-                            ))}
+                            {flatmateOccupation.map(
+                                ({ id, nameEn, nameGr }) => (
+                                    <option key={id} value={id}>
+                                        {i18n.language == "en"
+                                            ? nameEn
+                                            : nameGr}
+                                    </option>
+                                )
+                            )}
                         </select>
                         <label
                             htmlFor="current_flatmate_occupation"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Occupation
+                            {currentFlatmateOccupationStepFive}
                         </label>
 
                         <InputError
@@ -141,17 +157,17 @@ const CurrentFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {currentFlatmateGender.map(({ id, name }) => (
+                            {flatmateGender.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="current_flatmate_gender"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Gender
+                            {currentFlatmateGenderStepFive}
                         </label>
 
                         <InputError

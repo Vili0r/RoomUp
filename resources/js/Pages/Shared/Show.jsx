@@ -541,13 +541,13 @@ const Show = (props) => {
                                         <PrimaryButton
                                             onClick={handleVirtualTour}
                                             disabled={
-                                                shared.tour.payment_status ===
+                                                shared?.tour?.payment_status ===
                                                 "Successful"
                                             }
                                             className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-black border-2 border-black rounded-lg hover:text-white hover:bg-black"
                                         >
                                             Virtual Tour{" "}
-                                            {shared.tour.payment_status ===
+                                            {shared?.tour?.payment_status ===
                                                 "Successful" &&
                                                 shared.tour.status}
                                         </PrimaryButton>

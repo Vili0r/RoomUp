@@ -220,6 +220,30 @@ const resources = {
                         telephoneStepFour: "Telephone",
                         displayTelephoneStepFour: "Display Telephone",
                     },
+                    currentFlatmate: {
+                        spanStepFive: "Current flatmate information",
+                        currentFlatmateAgeStepFive: "Current flatmate age",
+                        currentFlatmateSmokerStepFive: "Smoker",
+                        currentFlatmatePetsStepFive: "Pets",
+                        currentFlatmateOccupationStepFive: "Occupation",
+                        currentFlatmateGenderStepFive: "Gender",
+                    },
+                    newFlatmate: {
+                        spanStepFive: "Preferences for new tenant",
+                        newFlatmateMinAgeStepFive: "Min age",
+                        newFlatmateMaxAgeStepFive: "Max Age",
+                        newFlatmateSmokerStepFive: "Smoker",
+                        newFlatmatePetsStepFive: "Pets",
+                        newFlatmateOccupationStepFive: "Occupation",
+                        newFlatmateGenderStepFive: "Gender",
+                        newFlatmateCouplesStepFive: "Couples?",
+                        newFlatmateReferencesStepFive: "References?",
+                    },
+                    stepSix: {
+                        amenitiesStepSix: "Amenities",
+                        titleStepSix: "Title",
+                        descriptionStepSix: "Description",
+                    },
                 },
                 validation: {
                     stepOne: {
@@ -282,6 +306,72 @@ const resources = {
                         telephoneMaxMatches:
                             "Phone number can only contain digits",
                         telephoneRequired: "Telephone number is required",
+                    },
+                    currentFlatmate: {
+                        currentFlatmateAgeTypeError:
+                            "That doesn't look like an age",
+                        currentFlatmateAgeMin:
+                            "You should be more than 18 years old",
+                        currentFlatmateAgeRequired: "Age is required",
+                        currentFlatmateSmokerRequired:
+                            "Smoker field is required",
+                        currentFlatmatePetsRequuired: "Pet field is required",
+                        currentFlatmateOccupationRequired:
+                            "Occupation field is required",
+                        currentFlatmateGenderRequired:
+                            "Gender field is required",
+                    },
+                    newFlatmate: {
+                        newFlatmateMinAgeTypeError:
+                            "That doesn't look like an age",
+                        newFlatmateMinAgeMin:
+                            "Your new flatmate should be more than 18 years old",
+                        newFlatmateMinAgeRequired:
+                            "New flatmate min age is required",
+                        newFlatmatemaxAgeTypeError:
+                            "That doesn't look like an age",
+                        newFlatmatemaxAgeMax:
+                            "Your new flatmate should be more than 18 years old",
+                        newFlatmatemaxAgeRequired:
+                            "New flatmate max age is required",
+                        newFlatmatemaxAgeTest:
+                            "Max age must be greater than the min age",
+                        newFlatmateSmokerRequired: "Smoker field is required",
+                        newFlatmatePetsRequired: "Pet field is required",
+                        newFlatmateOccupationRequired:
+                            "Occupation field is required",
+                        newFlatmateGenderRequired: "Gender field is required",
+                    },
+                    stepSix: {
+                        amenitiesMin: "At least one amenity is required",
+                        amenitiesRequired: "Amenities are required",
+                        titleMin: "Title must be at least 10 characters long",
+                        titleMax: "Title must be at least 50 characters long",
+                        titleRequired: "Title is required",
+                        descriptionMin:
+                            "Description must be at least 50 characters long",
+                        descriptionMax:
+                            "Description must be at least 500 characters long",
+                        descriptionRequired: "Description is required",
+                        photosMax: "You can upload up to 9 images",
+                        photosFileFormat: "Unsupported file format",
+                        photosFileSize: "File size is too large",
+                    },
+                },
+                edit: {
+                    miscs: {
+                        fixErrors: "Please fix the errors",
+                        propertyDetails: "Property details?",
+                        propertyAddressDetails: "Property Address details?",
+                        noResults: "No results for",
+                        inputPlaceholder: "Efterpis, Cholargos...",
+                        propertyAmenitiesDetails: "Property Amenities details?",
+                        roomDisclosure: "Room",
+                        advertiserDetails: "Advertiser details?",
+                        flatmatesDisclosure: "Flatmates?",
+                        confirmation: "Confirmation?",
+                        filesUploaded:
+                            "Files uploaded when creating advertisment",
                     },
                 },
             },
@@ -503,6 +593,31 @@ const resources = {
                         telephoneStepFour: "Τηλέφωνο",
                         displayTelephoneStepFour: "Εμφάνιση Τηλεφώνου",
                     },
+                    currentFlatmate: {
+                        spanStepFive: "Πληροφορίες τωρινός συγκατοίκου",
+                        currentFlatmateAgeStepFive: "Ηλικία",
+                        currentFlatmateSmokerStepFive: "Καπνιστής",
+                        currentFlatmatePetsStepFive: "Κατοικίδια",
+                        currentFlatmateOccupationStepFive: "Επάγγελμα",
+                        currentFlatmateGenderStepFive: "Φύλο",
+                    },
+                    newFlatmate: {
+                        spanStepFive: "Προτιμήσεις για νέο ενοικιαστή",
+                        newFlatmateMinAgeStepFive: "Ελάχιστη ηλικία",
+                        newFlatmateMaxAgeStepFive: "Μέγιστη ηλικία",
+                        newFlatmateSmokerStepFive: "Καπνιστής",
+                        newFlatmatePetsStepFive: "Κατοικίδια",
+                        newFlatmateOccupationStepFive: "Επάγγελμα",
+                        newFlatmateGenderStepFive: "Φύλο",
+                        newFlatmateCouplesStepFive: "Ζευγάρια",
+                        newFlatmateReferencesStepFive: "Αναφορές;",
+                    },
+                    stepSix: {
+                        amenitiesStepSix: "Παροχές",
+                        titleStepSix: "Τίτλος",
+                        descriptionStepSix: "Περιγραφή",
+                        imagesStepSix: "Σύρετε & Αφήστε τα αρχεία σας ή",
+                    },
                 },
                 validation: {
                     stepOne: {
@@ -565,6 +680,97 @@ const resources = {
                             "Το μέγιστο διάστημα διαμονής είναι υποχρεωτικό",
                         daysAvailableRequired:
                             "Οι ημέρες διαθεσιμότητας είναι υποχρεωτικές",
+                    },
+                    stepFour: {
+                        firstNameMax:
+                            "Το όνομα δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
+                        firstNameRequired: "Το όνομα απαιτείται",
+                        lastNameMax:
+                            "Το επώνυμο δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
+                        lastNameRequired: "Το επώνυμο απαιτείται",
+                        telephoneMin:
+                            "Ο αριθμός τηλεφώνου πρέπει να περιέχει τουλάχιστον 8 ψηφία",
+                        telephoneMax:
+                            "Ο αριθμός τηλεφώνου δεν μπορεί να ξεπερνά τα 15 ψηφία",
+                        telephoneMaxMatches:
+                            "Ο αριθμός τηλεφώνου πρέπει να περιέχει μόνο ψηφία",
+                        telephoneRequired: "Απαιτείται ο αριθμός τηλεφώνου",
+                    },
+                    currentFlatmate: {
+                        currentFlatmateAgeTypeError:
+                            "Αυτό δεν μοιάζει με ηλικία",
+                        currentFlatmateAgeMin:
+                            "Πρέπει να είστε πάνω από 18 ετών",
+                        currentFlatmateAgeRequired:
+                            "Η ηλικία είναι υποχρεωτική",
+                        currentFlatmateSmokerRequired:
+                            "Το πεδίο καπνιστής είναι υποχρεωτικό",
+                        currentFlatmatePetsRequuired:
+                            "Το πεδίο κατοικίδια είναι υποχρεωτικό",
+                        currentFlatmateOccupationRequired:
+                            "Το πεδίο επάγγελμα είναι υποχρεωτικό",
+                        currentFlatmateGenderRequired:
+                            "Το πεδίο φύλο είναι υποχρεωτικό",
+                    },
+                    newFlatmate: {
+                        newFlatmateMinAgeTypeError:
+                            "Αυτό δεν μοιάζει με ηλικία",
+                        newFlatmateMinAgeMin:
+                            "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
+                        newFlatmateMinAgeRequired:
+                            "Η ελάχιστη ηλικία του νέου συγκατοίκου απαιτείται",
+                        newFlatmatemaxAgeTypeError:
+                            "Αυτό δεν μοιάζει με ηλικία",
+                        newFlatmatemaxAgeMax:
+                            "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
+                        newFlatmatemaxAgeRequired:
+                            "Η μέγιστη ηλικία του νέου συγκατοίκου απαιτείται",
+                        newFlatmatemaxAgeTest:
+                            "Η μέγιστη ηλικία πρέπει να είναι μεγαλύτερη από την ελάχιστη ηλικία",
+                        newFlatmateSmokerRequired:
+                            "Το πεδίο καπνιστής είναι υποχρεωτικό",
+                        newFlatmatePetsRequired:
+                            "Το πεδίο κατοικίδια είναι υποχρεωτικό",
+                        newFlatmateOccupationRequired:
+                            "Το πεδίο επάγγελμα είναι υποχρεωτικό",
+                        newFlatmateGenderRequired:
+                            "Το πεδίο φύλο είναι υποχρεωτικό",
+                    },
+                    stepSix: {
+                        amenitiesMin: "Απαιτείται τουλάχιστον μία επιλογή",
+                        amenitiesRequired: "Απαιτείται τουλάχιστον μία επιλογή",
+                        titleMin:
+                            "Ο τίτλος πρέπει να περιλαμβάνει τουλάχιστον 10 χαρακτήρες",
+                        titleMax:
+                            "Ο τίτλος δεν πρέπει να υπερβαίνει τους 50 χαρακτήρες",
+                        titleRequired: "Ο τίτλος απαιτείται",
+                        descriptionMin:
+                            "Η περιγραφή πρέπει να περιλαμβάνει τουλάχιστον 50 χαρακτήρες",
+                        descriptionMax:
+                            "Η περιγραφή δεν πρέπει να υπερβαίνει τους 500 χαρακτήρες",
+                        descriptionRequired: "Η περιγραφή απαιτείται",
+                        photosMax: "Μπορείτε να ανεβάσετε έως και 9 εικόνες",
+                        photosFileFormat: "Μη υποστηριζόμενη μορφή αρχείου",
+                        photosFileSize:
+                            "Το μέγεθος του αρχείου είναι πολύ μεγάλο",
+                    },
+                },
+                edit: {
+                    miscs: {
+                        fixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                        propertyDetails: "Λεπτομέρειες ιδιοκτησίας;",
+                        propertyAddressDetails:
+                            "Λεπτομέρειες διεύθυνσης ιδιοκτησίας;",
+                        noResults: "Χωρίς αποτελέσματα για",
+                        inputPlaceholder: "Ευτέρπης, Χολαργός...",
+                        propertyAmenitiesDetails:
+                            "Λεπτομέρειες ανέσεων της ιδιοκτησίας;",
+                        roomDisclosure: "Δωμάτιο",
+                        advertiserDetails: "Λεπτομέρειες διαφημιζόμενου;",
+                        flatmatesDisclosure: "Συγκάτοικοι;",
+                        confirmation: "Επιβεβαίωση;",
+                        ilesUploaded:
+                            "Αρχεία που ανέβηκαν κατά τη δημιουργία διαφήμισης",
                     },
                 },
             },

@@ -19,6 +19,14 @@ import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
+import {
+    furnishings,
+    roomSize,
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+    amenities,
+} from "@/arrays/Array";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -29,6 +37,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
+
+import { useTranslation } from "react-i18next";
 
 const Edit = (props) => {
     const {
@@ -41,7 +51,7 @@ const Edit = (props) => {
         minutes,
         mode,
         stations,
-        amenities,
+        //amenities,
         roomSize,
         furnishings,
         minimumStay,
@@ -57,14 +67,24 @@ const Edit = (props) => {
         notification,
         csrf_token,
     } = usePage().props;
+    const { t, i18n } = useTranslation();
     const selectedOptions = shared.amenities.map((item) => {
         return {
             label: item.name,
             value: item.id,
         };
     });
+    const selectedOptionsWithLabels = selectedOptions.map((selectedOption) => {
+        const amenity = amenities.find(
+            (amenity) => amenity.id === selectedOption.value
+        );
+        const label = i18n.language === "gr" ? amenity.nameGr : amenity.nameEn;
+        return { ...selectedOption, label };
+    });
     const animatedComponents = makeAnimated();
-    const [selectedAmenities, setSelectedAmenities] = useState(selectedOptions);
+    const [selectedAmenities, setSelectedAmenities] = useState(
+        selectedOptionsWithLabels
+    );
     const [visible, setVisible] = useState(false);
     const [search, setSearch] = useState("");
     const [selectedAddress, setSelectedAddress] = useState([]);
@@ -117,6 +137,19 @@ const Edit = (props) => {
         rooms: shared.rooms,
         images: [],
     });
+
+    const {
+        fixErrors,
+        propertyDetails,
+        propertyAddressDetails,
+        noResults,
+        propertyAmenitiesDetails,
+        advertiserDetails,
+        flatmatesDisclosure,
+        confirmation,
+        filesUploaded,
+        inputPlaceholder,
+    } = t("shared.edit.miscs");
 
     const showImage = () => {
         return "/storage/";
@@ -214,7 +247,7 @@ const Edit = (props) => {
     //Transforming amenties with label and value as required from react select package
     const options = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });
@@ -318,7 +351,11 @@ const Edit = (props) => {
                                 <RxExclamationTriangle className="w-6 h-6 text-gray-700" />
                             </div>
                             <div className="flex items-center justify-between w-full px-4 py-6 bg-white border border-gray-200 rounded-r-lg border-l-transparent">
-                                <div>{notification}</div>
+                                <div>
+                                    {visible && i18n.language == "en"
+                                        ? notification
+                                        : "Παρακαλώ ενημερώστε τα δωμάτιά σας μεμονωμένα"}
+                                </div>
                                 <button onClick={() => setVisible(false)}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -356,7 +393,7 @@ const Edit = (props) => {
                                     </div>
                                     <div className="ml-3">
                                         <h2 className="font-semibold text-gray-800">
-                                            Please fix the errors
+                                            {fixErrors}
                                         </h2>
                                     </div>
                                 </div>
@@ -367,7 +404,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Property details?</span>
+                                            <span>{propertyDetails}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -381,13 +418,13 @@ const Edit = (props) => {
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                availableRooms={availableRooms}
-                                                size={size}
-                                                type={type}
-                                                currentOccupants={
-                                                    currentOccupants
-                                                }
-                                                whatIAm={whatIAm}
+                                                // availableRooms={availableRooms}
+                                                // size={size}
+                                                // type={type}
+                                                // currentOccupants={
+                                                //     currentOccupants
+                                                // }
+                                                // whatIAm={whatIAm}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -400,7 +437,7 @@ const Edit = (props) => {
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                                             <span>
-                                                Property Address details?
+                                                {propertyAddressDetails}
                                             </span>
                                             <ChevronUpIcon
                                                 className={`${
@@ -411,7 +448,7 @@ const Edit = (props) => {
                                             />
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                            <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                            <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold text-lg">
                                                 <AiOutlineSearch className="w-7 h-7" />
                                                 <DebounceInput
                                                     value={search}
@@ -425,18 +462,11 @@ const Edit = (props) => {
                                                             e.target.value
                                                         );
                                                     }}
-                                                    className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                                                    placeholder="Efterpis, Cholargos..."
+                                                    className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0"
+                                                    placeholder={
+                                                        inputPlaceholder
+                                                    }
                                                 />
-                                                {/* <button
-                                                    onClick={() => {
-                                                        setSearch("");
-                                                        getAddresses("");
-                                                    }}
-                                                    className="absolute top-5 right-5"
-                                                >
-                                                    <AiOutlineClose size={28} />
-                                                </button> */}
                                             </div>
                                             {search.length >= 2 &&
                                                 (searchResults?.length > 0 ? (
@@ -478,17 +508,16 @@ const Edit = (props) => {
                                                     </div>
                                                 ) : (
                                                     <div className="px-3 py-3">
-                                                        No results for "{search}
-                                                        "
+                                                        {noResults} "{search}"
                                                     </div>
                                                 ))}
                                             <StepTwo
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                minutes={minutes}
-                                                mode={mode}
-                                                stations={stations}
+                                                // minutes={minutes}
+                                                // mode={mode}
+                                                // stations={stations}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -501,7 +530,7 @@ const Edit = (props) => {
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                                             <span>
-                                                Property Amenities details?
+                                                {propertyAmenitiesDetails}
                                             </span>
                                             <ChevronUpIcon
                                                 className={`${
@@ -572,7 +601,7 @@ const Edit = (props) => {
                                                                 />
                                                                 <label
                                                                     htmlFor="available_from"
-                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
                                                                     Available
                                                                     From
@@ -645,7 +674,7 @@ const Edit = (props) => {
                                                             />
                                                             <label
                                                                 htmlFor="room_cost"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Room Cost Per
                                                                 Month
@@ -706,7 +735,7 @@ const Edit = (props) => {
                                                             />
                                                             <label
                                                                 htmlFor="room_deposit"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Room Deposit
                                                             </label>
@@ -786,7 +815,7 @@ const Edit = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="room_size"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Room Size
                                                             </label>
@@ -865,7 +894,7 @@ const Edit = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="room_furnished"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Room furnished
                                                             </label>
@@ -903,11 +932,11 @@ const Edit = (props) => {
                                                     </div>
 
                                                     <div className="flex justify-start gap-2 mt-3">
-                                                        <span className="mt-1 text-sm font-popp"></span>
+                                                        <span className="mt-1 text-sm"></span>
                                                         <InputLabel
                                                             htmlFor="room_references"
                                                             value="References?"
-                                                            className="mt-1 text-sm font-popp"
+                                                            className="mt-1 text-sm"
                                                         />
                                                         <label className="relative cursor-pointer">
                                                             <input
@@ -989,7 +1018,7 @@ const Edit = (props) => {
                                                                 </select>
                                                                 <label
                                                                     htmlFor="minimum_stay"
-                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
                                                                     Minimum Stay
                                                                 </label>
@@ -1071,7 +1100,7 @@ const Edit = (props) => {
                                                                 </select>
                                                                 <label
                                                                     htmlFor="maximum_stay"
-                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
                                                                     Maximum Stay
                                                                 </label>
@@ -1155,7 +1184,7 @@ const Edit = (props) => {
                                                             </select>
                                                             <label
                                                                 htmlFor="days_available"
-                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
                                                                 Days available
                                                             </label>
@@ -1190,11 +1219,11 @@ const Edit = (props) => {
                                                             )}
                                                         </div>
                                                         <div className="flex justify-start gap-2 mt-3">
-                                                            <span className="mt-1 text-sm font-popp"></span>
+                                                            <span className="mt-1 text-sm"></span>
                                                             <InputLabel
                                                                 htmlFor="short_term"
                                                                 value="Short term?"
-                                                                className="mt-1 text-sm font-popp"
+                                                                className="mt-1 text-sm"
                                                             />
                                                             <label className="relative cursor-pointer">
                                                                 <input
@@ -1243,7 +1272,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Advertiser details?</span>
+                                            <span>{advertiserDetails}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -1269,7 +1298,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Flatmates?</span>
+                                            <span>{flatmatesDisclosure}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -1329,7 +1358,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Confirmation?</span>
+                                            <span>{confirmation}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -1355,7 +1384,7 @@ const Edit = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="title"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
                                                         Title
                                                     </label>
@@ -1384,7 +1413,7 @@ const Edit = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="description"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
                                                         Description
                                                     </label>
@@ -1419,11 +1448,7 @@ const Edit = (props) => {
 
                                                 {shared.images.length > 0 && (
                                                     <>
-                                                        <h2>
-                                                            Files uploaded when
-                                                            creating
-                                                            advertisment
-                                                        </h2>
+                                                        <h2>{filesUploaded}</h2>
 
                                                         {shared.images.map(
                                                             (file, index) => (
@@ -1482,7 +1507,7 @@ const Edit = (props) => {
                         <div className="w-full max-w-2xl mx-auto mt-4">
                             <PrimaryButton
                                 disabled={processing}
-                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                             >
                                 {processing
                                     ? "Processing..."

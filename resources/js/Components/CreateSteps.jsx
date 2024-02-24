@@ -53,7 +53,7 @@ const CreateSteps = ({ activeStep }) => {
                 {steps.map((step, index) => (
                     <>
                         <div
-                            key={step.id}
+                            key={index}
                             className={`${
                                 activeStep < index && "text-gray-500"
                             } ${

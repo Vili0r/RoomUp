@@ -1,16 +1,27 @@
 import React from "react";
 import InputError from "./InputError";
 import Checkbox from "./Checkbox";
+import { useTranslation } from "react-i18next";
+import {
+    flatmateSmoker,
+    flatmatePets,
+    flatmateOccupation,
+    flatmateGender,
+} from "@/arrays/Array";
 
-const NewFlatmate = ({
-    data,
-    errors,
-    handleOnChange,
-    newFlatmateSmoking,
-    pets,
-    newFlatmateOccupation,
-    newFlatmateGender,
-}) => {
+const NewFlatmate = ({ data, errors, handleOnChange }) => {
+    const { t, i18n } = useTranslation();
+    const {
+        spanStepFive,
+        newFlatmateMinAgeStepFive,
+        newFlatmateMaxAgeStepFive,
+        newFlatmateSmokerStepFive,
+        newFlatmatePetsStepFive,
+        newFlatmateOccupationStepFive,
+        newFlatmateGenderStepFive,
+        newFlatmateCouplesStepFive,
+        newFlatmateReferencesStepFive,
+    } = t("shared.forms.newFlatmate");
     return (
         <div className="max-w-2xl px-8 py-4 mt-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div className="flex items-center justify-between">
@@ -22,17 +33,17 @@ const NewFlatmate = ({
                         onChange={handleOnChange}
                     >
                         <option value="">--</option>
-                        {newFlatmateSmoking.map(({ id, name }) => (
+                        {flatmateSmoker.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {name}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
                     <label
                         htmlFor="new_flatmate_smoker"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Smoker
+                        {newFlatmateSmokerStepFive}
                     </label>
 
                     <InputError
@@ -41,11 +52,15 @@ const NewFlatmate = ({
                     />
                 </div>
                 <span
-                    className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                    className={` ${
+                        i18n.language == "en" ? "text-sm" : "text-xs"
+                    } ${
+                        errors.new_flatmate_smoker ? "mb-11 ml-1" : ""
+                    }px-3 py-1 font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500`}
                     tabIndex="0"
                     role="button"
                 >
-                    Preferences for new tenant
+                    {spanStepFive}
                 </span>
             </div>
             <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
@@ -62,9 +77,9 @@ const NewFlatmate = ({
                     />
                     <label
                         htmlFor="new_flatmate_min_age"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Min age
+                        {newFlatmateMinAgeStepFive}
                     </label>
                     <InputError
                         message={errors.new_flatmate_min_age}
@@ -77,7 +92,7 @@ const NewFlatmate = ({
                         type="text"
                         name="new_flatmate_max_age"
                         id="new_flatmate_max_age"
-                        placeholder="Max age"
+                        placeholder={newFlatmateMaxAgeStepFive}
                         value={data.new_flatmate_max_age}
                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                         autoComplete="off"
@@ -85,9 +100,9 @@ const NewFlatmate = ({
                     />
                     <label
                         htmlFor="new_flatmate_max_age"
-                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                     >
-                        Max Age
+                        {newFlatmateMaxAgeStepFive}
                     </label>
                     <InputError
                         message={errors.new_flatmate_max_age}
@@ -104,17 +119,21 @@ const NewFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {newFlatmateOccupation.map(({ id, name }) => (
-                                <option key={id} value={id}>
-                                    {name}
-                                </option>
-                            ))}
+                            {flatmateOccupation.map(
+                                ({ id, nameEn, nameGr }) => (
+                                    <option key={id} value={id}>
+                                        {i18n.language == "en"
+                                            ? nameEn
+                                            : nameGr}
+                                    </option>
+                                )
+                            )}
                         </select>
                         <label
                             htmlFor="new_flatmate_occupation"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Occupation
+                            {newFlatmateOccupationStepFive}
                         </label>
 
                         <InputError
@@ -133,17 +152,17 @@ const NewFlatmate = ({
                             onChange={handleOnChange}
                         >
                             <option value="">--</option>
-                            {pets.map(({ id, name }) => (
+                            {flatmatePets.map(({ id, nameEn, nameGr }) => (
                                 <option key={id} value={id}>
-                                    {name}
+                                    {i18n.language == "en" ? nameEn : nameGr}
                                 </option>
                             ))}
                         </select>
                         <label
                             htmlFor="new_flatmate_pets"
-                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                         >
-                            Pets
+                            {newFlatmatePetsStepFive}
                         </label>
 
                         <InputError
@@ -161,17 +180,17 @@ const NewFlatmate = ({
                     onChange={handleOnChange}
                 >
                     <option value="">--</option>
-                    {newFlatmateGender.map(({ id, name }) => (
+                    {flatmateGender.map(({ id, nameEn, nameGr }) => (
                         <option key={id} value={id}>
-                            {name}
+                            {i18n.language == "en" ? nameEn : nameGr}
                         </option>
                     ))}
                 </select>
                 <label
                     htmlFor="new_flatmate_gender"
-                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                 >
-                    Gender
+                    {newFlatmateGenderStepFive}
                 </label>
 
                 <InputError
@@ -187,7 +206,7 @@ const NewFlatmate = ({
                         onChange={handleOnChange}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        Couples?
+                        {newFlatmateCouplesStepFive}
                     </span>
                     <InputError
                         message={errors.new_flatmate_couples}
@@ -201,7 +220,7 @@ const NewFlatmate = ({
                         onChange={handleOnChange}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        References?
+                        {newFlatmateReferencesStepFive}
                     </span>
                     <InputError
                         message={errors.new_flatmate_references}
