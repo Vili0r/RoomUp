@@ -2,14 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\DaysAvailable;
-use App\Enums\Furnishings;
-use App\Enums\MaximumStay;
-use App\Enums\MinimumStay;
-use App\Enums\RoomSize;
 use App\Http\Requests\RoomUpdateRequest;
-use Illuminate\Http\Request;
-use App\Http\Resources\EnumResource;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use Illuminate\Http\RedirectResponse;
@@ -31,11 +24,6 @@ class RoomController extends Controller
 
         return Inertia::render('Room/Edit',[
             'room' => new RoomResource($room),
-            'roomSize' => EnumResource::collection(RoomSize::cases()),
-            'furnishings' => EnumResource::collection(Furnishings::cases()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
         ]);
     }
 

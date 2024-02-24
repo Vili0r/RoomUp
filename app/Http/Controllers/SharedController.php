@@ -2,35 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\AvailableRooms;
-use App\Enums\CurrentFlatmateGender;
-use App\Enums\CurrentFlatmateOccupation;
-use App\Enums\CurrentFlatmateSmoking;
-use App\Enums\CurrentOccupants;
-use App\Enums\DaysAvailable;
-use App\Enums\Furnishings;
-use App\Enums\MaximumStay;
-use App\Enums\MinimumStay;
-use App\Enums\Minutes;
-use App\Enums\Mode;
-use App\Enums\NewFlatmateGender;
-use App\Enums\NewFlatmateOccupation;
-use App\Enums\NewFlatmateSmoking;
-use App\Enums\Pets;
-use App\Enums\References;
-use App\Enums\RoomSize;
-use App\Enums\Size;
-use App\Enums\Stations;
-use App\Enums\Type;
-use App\Enums\WhatIAm;
 use App\Http\Requests\SharedStoreRequest;
 use App\Http\Requests\SharedUpdateRequest;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\AmenitiesResource;
-use App\Http\Resources\EnumResource;
 use App\Http\Resources\SharedEditResource;
 use App\Http\Resources\SharedShowResource;
-use App\Models\Amenity;
 use App\Models\Room;
 use App\Models\Shared;
 use App\Models\TemporaryImage;
@@ -46,30 +22,7 @@ class SharedController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render("Shared/Create", [
-            // 'whatIAm' => EnumResource::collection(WhatIAm::cases()),
-            // 'size' => EnumResource::collection(Size::cases()),
-            // 'type' => EnumResource::collection(Type::cases()),
-            // 'availableRooms' => EnumResource::collection(AvailableRooms::cases()),
-            // 'currentOccupants' => EnumResource::collection(CurrentOccupants::cases()),
-            // 'minutes' => EnumResource::collection(Minutes::cases()),
-            // 'mode' => EnumResource::collection(Mode::cases()),
-            // 'stations' => EnumResource::collection(Stations::cases()),
-            // 'amenities' => AmenitiesResource::collection(Amenity::all()),
-            // 'roomSize' => EnumResource::collection(RoomSize::cases()),
-            // 'furnishings' => EnumResource::collection(Furnishings::cases()),
-            // 'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            // 'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            // 'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            // 'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            // 'currentFlatmateSmoking' => EnumResource::collection(CurrentFlatmateSmoking::cases()),
-            // 'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            // 'currentFlatmateGender' => EnumResource::collection(CurrentFlatmateGender::cases()),
-            // 'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            // 'currentFlatmateOccupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
-            // 'pets' => EnumResource::collection(Pets::cases()),
-            // 'references' => EnumResource::collection(References::cases()),
-        ]);
+        return Inertia::render("Shared/Create");
     }
 
     /**
@@ -216,29 +169,7 @@ class SharedController extends Controller
         $shared->load(['amenities', 'advertiser', 'address', 'transport', 'flatmate', 'rooms']);
 
         return Inertia::render("Shared/Edit", [
-            'shared' => new SharedEditResource($shared),
-            'whatIAm' => EnumResource::collection(WhatIAm::cases()),
-            'size' => EnumResource::collection(Size::cases()),
-            'type' => EnumResource::collection(Type::cases()),
-            'availableRooms' => EnumResource::collection(AvailableRooms::cases()),
-            'currentOccupants' => EnumResource::collection(CurrentOccupants::cases()),
-            'minutes' => EnumResource::collection(Minutes::cases()),
-            'mode' => EnumResource::collection(Mode::cases()),
-            'stations' => EnumResource::collection(Stations::cases()),
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'roomSize' => EnumResource::collection(RoomSize::cases()),
-            'furnishings' => EnumResource::collection(Furnishings::cases()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            'currentFlatmateSmoking' => EnumResource::collection(CurrentFlatmateSmoking::cases()),
-            'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            'currentFlatmateGender' => EnumResource::collection(CurrentFlatmateGender::cases()),
-            'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            'currentFlatmateOccupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
-            'pets' => EnumResource::collection(Pets::cases()),
-            'references' => EnumResource::collection(References::cases()),
+            'shared' => new SharedEditResource($shared)
         ]);
     }
 

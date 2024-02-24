@@ -17,16 +17,17 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
+import { useTranslation } from "react-i18next";
+import {
+    furnishings,
+    roomSize,
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+} from "@/arrays/Array";
 
 const Edit = (props) => {
-    const {
-        room,
-        roomSize,
-        furnishings,
-        minimumStay,
-        maximumStay,
-        daysAvailable,
-    } = usePage().props;
+    const { room } = usePage().props;
 
     const {
         data,
@@ -50,6 +51,25 @@ const Edit = (props) => {
         short_term: room.short_term,
         images: [],
     });
+
+    const { t, i18n } = useTranslation();
+    const {
+        titleRoomEdit,
+        descriptionRoomEdit,
+        availableFromRoomEdit,
+        roomCostRoomEdit,
+        roomDepositRoomEdit,
+        roomSizeRoomEdit,
+        roomFurnishedRoomEdit,
+        referencesRoomEdit,
+        minimumStayRoomEdit,
+        maximumStayRoomEdit,
+        daysAvailableRoomEdit,
+        shortTermRoomEdit,
+        filesUploaded,
+        processingBtn,
+        updateBtn,
+    } = t("room.edit");
 
     const showImage = () => {
         return "/storage/";
@@ -132,7 +152,7 @@ const Edit = (props) => {
                                     type="text"
                                     name="sub_title"
                                     id="title"
-                                    placeholder="Title"
+                                    placeholder={titleRoomEdit}
                                     value={data.sub_title}
                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                     autoComplete="off"
@@ -140,9 +160,9 @@ const Edit = (props) => {
                                 />
                                 <label
                                     htmlFor="title"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                 >
-                                    Title
+                                    {titleRoomEdit}
                                 </label>
                                 <InputError
                                     message={errors.sub_title}
@@ -156,7 +176,7 @@ const Edit = (props) => {
                                         type="date"
                                         name="available_from"
                                         id="available_from"
-                                        placeholder="Available From"
+                                        placeholder={availableFromRoomEdit}
                                         value={data.available_from}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
@@ -164,9 +184,9 @@ const Edit = (props) => {
                                     />
                                     <label
                                         htmlFor="available_from"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Available From
+                                        {availableFromRoomEdit}
                                     </label>
 
                                     <InputError
@@ -182,7 +202,7 @@ const Edit = (props) => {
                                         type="text"
                                         name="room_cost"
                                         id="room_cost"
-                                        placeholder="Room cost Per Month"
+                                        placeholder={roomCostRoomEdit}
                                         value={data.room_cost}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
@@ -190,9 +210,9 @@ const Edit = (props) => {
                                     />
                                     <label
                                         htmlFor="room_cost"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Room Cost Per Month
+                                        {roomCostRoomEdit}
                                     </label>
 
                                     <InputError
@@ -205,7 +225,7 @@ const Edit = (props) => {
                                         type="text"
                                         name="room_deposit"
                                         id="room_deposit"
-                                        placeholder="Room Deposit"
+                                        placeholder={roomDepositRoomEdit}
                                         value={data.room_deposit}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
@@ -213,9 +233,9 @@ const Edit = (props) => {
                                     />
                                     <label
                                         htmlFor="room_deposit"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Room Deposit
+                                        {roomDepositRoomEdit}
                                     </label>
 
                                     <InputError
@@ -231,22 +251,24 @@ const Edit = (props) => {
                                         name="room_size"
                                         value={data.room_size}
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        onChange={(event) =>
-                                            handleFormChange(event, index)
-                                        }
+                                        onChange={handleOnChange}
                                     >
                                         <option value="">--</option>
-                                        {roomSize.map(({ id, name }) => (
-                                            <option key={id} value={id}>
-                                                {name}
-                                            </option>
-                                        ))}
+                                        {roomSize.map(
+                                            ({ id, nameEn, nameGr }) => (
+                                                <option key={id} value={id}>
+                                                    {i18n.language == "en"
+                                                        ? nameEn
+                                                        : nameGr}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="room_size"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Room Size
+                                        {roomSizeRoomEdit}
                                     </label>
 
                                     <InputError
@@ -262,17 +284,21 @@ const Edit = (props) => {
                                         onChange={handleOnChange}
                                     >
                                         <option value="">--</option>
-                                        {furnishings.map(({ id, name }) => (
-                                            <option key={id} value={id}>
-                                                {name}
-                                            </option>
-                                        ))}
+                                        {furnishings.map(
+                                            ({ id, nameEn, nameGr }) => (
+                                                <option key={id} value={id}>
+                                                    {i18n.language == "en"
+                                                        ? nameEn
+                                                        : nameGr}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="room_furnished"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Room furnished
+                                        {roomFurnishedRoomEdit}
                                     </label>
 
                                     <InputError
@@ -283,11 +309,11 @@ const Edit = (props) => {
                             </div>
 
                             <div className="flex justify-start gap-2 mt-3">
-                                <span className="mt-1 text-sm font-popp"></span>
+                                <span className="mt-1 text-sm"></span>
                                 <InputLabel
                                     htmlFor="room_references"
-                                    value="References?"
-                                    className="mt-1 text-sm font-popp"
+                                    value={referencesRoomEdit}
+                                    className="mt-1 text-sm"
                                 />
                                 <label className="relative cursor-pointer">
                                     <input
@@ -315,17 +341,21 @@ const Edit = (props) => {
                                             onChange={handleOnChange}
                                         >
                                             <option value="">--</option>
-                                            {minimumStay.map(({ id, name }) => (
-                                                <option key={id} value={id}>
-                                                    {name}
-                                                </option>
-                                            ))}
+                                            {minimumStay.map(
+                                                ({ id, nameEn, nameGr }) => (
+                                                    <option key={id} value={id}>
+                                                        {i18n.language == "en"
+                                                            ? nameEn
+                                                            : nameGr}
+                                                    </option>
+                                                )
+                                            )}
                                         </select>
                                         <label
                                             htmlFor="minimum_stay"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Minimum Stay
+                                            {minimumStayRoomEdit}
                                         </label>
 
                                         <InputError
@@ -341,17 +371,21 @@ const Edit = (props) => {
                                             onChange={handleOnChange}
                                         >
                                             <option value="">--</option>
-                                            {maximumStay.map(({ id, name }) => (
-                                                <option key={id} value={id}>
-                                                    {name}
-                                                </option>
-                                            ))}
+                                            {maximumStay.map(
+                                                ({ id, nameEn, nameGr }) => (
+                                                    <option key={id} value={id}>
+                                                        {i18n.language == "en"
+                                                            ? nameEn
+                                                            : nameGr}
+                                                    </option>
+                                                )
+                                            )}
                                         </select>
                                         <label
                                             htmlFor="maximum_stay"
-                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                         >
-                                            Maximum Stay
+                                            {maximumStayRoomEdit}
                                         </label>
 
                                         <InputError
@@ -371,17 +405,21 @@ const Edit = (props) => {
                                         onChange={handleOnChange}
                                     >
                                         <option value="">--</option>
-                                        {daysAvailable.map(({ id, name }) => (
-                                            <option key={id} value={id}>
-                                                {name}
-                                            </option>
-                                        ))}
+                                        {daysAvailable.map(
+                                            ({ id, nameEn, nameGr }) => (
+                                                <option key={id} value={id}>
+                                                    {i18n.language == "en"
+                                                        ? nameEn
+                                                        : nameGr}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="days_available"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Days available
+                                        {daysAvailableRoomEdit}
                                     </label>
 
                                     <InputError
@@ -390,11 +428,11 @@ const Edit = (props) => {
                                     />
                                 </div>
                                 <div className="flex justify-start gap-2 mt-3">
-                                    <span className="mt-1 text-sm font-popp"></span>
+                                    <span className="mt-1 text-sm"></span>
                                     <InputLabel
                                         htmlFor="short_term"
-                                        value="Short term?"
-                                        className="mt-1 text-sm font-popp"
+                                        value={shortTermRoomEdit}
+                                        className="mt-1 text-sm"
                                     />
                                     <label className="relative cursor-pointer">
                                         <input
@@ -419,7 +457,7 @@ const Edit = (props) => {
                                     name="sub_description"
                                     id="sub_description"
                                     rows="4"
-                                    placeholder="description"
+                                    placeholder={descriptionRoomEdit}
                                     value={data.sub_description}
                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                     autoComplete="off"
@@ -427,9 +465,9 @@ const Edit = (props) => {
                                 />
                                 <label
                                     htmlFor="description"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                 >
-                                    Description
+                                    {descriptionRoomEdit}
                                 </label>
                                 <InputError
                                     message={errors.sub_description}
@@ -459,10 +497,7 @@ const Edit = (props) => {
 
                                 {room.images?.length > 0 && (
                                     <>
-                                        <h2>
-                                            Files uploaded when creating
-                                            advertisment
-                                        </h2>
+                                        <h2>{filesUploaded}</h2>
 
                                         {room.images?.map((file, index) => (
                                             <div
@@ -512,11 +547,9 @@ const Edit = (props) => {
                         <div className="w-full max-w-4xl mx-auto mt-4">
                             <PrimaryButton
                                 disabled={processing}
-                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                             >
-                                {processing
-                                    ? "Processing..."
-                                    : "Update your room"}
+                                {processing ? processingBtn : updateBtn}
                             </PrimaryButton>
                         </div>
                     </form>

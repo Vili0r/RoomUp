@@ -12,6 +12,7 @@ import Modal from "@/Components/Modal";
 import RoomCard from "@/Components/RoomCard";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
+import { useTranslation } from "react-i18next";
 
 const Show = (props) => {
     const { shared, notification } = usePage().props;
@@ -40,6 +41,35 @@ const Show = (props) => {
         contact_number: "",
         details: "",
     });
+
+    const { t, i18n } = useTranslation();
+    const {
+        titleAvailability,
+        liveAtForm,
+        availableForm,
+        cancelAvailabilityBtn,
+        updateBtn,
+    } = t("shared.show.availabilityModal");
+    const {
+        titleVirtualTour,
+        fullNameForm,
+        emailForm,
+        phoneNumberForm,
+        detailsForm,
+        cancelVirtualTourBtn,
+        bookBtn,
+    } = t("shared.show.virtualTourModal");
+    const { titleConfirmation, cancelConfirmationBtn, deleteBtn } = t(
+        "shared.show.deleteConfirmationModal"
+    );
+    const { halted, liveAtSpan, manageRooms, manageRoomsTitle } =
+        t("shared.show.miscs");
+    const {
+        availableRoomsBtn,
+        deletePropertyBtn,
+        manageAvailabilityBtn,
+        virtualTourBtn,
+    } = t("shared.show.buttons");
 
     const showImage = () => {
         return "/storage/";
@@ -95,7 +125,7 @@ const Show = (props) => {
     };
 
     const handleVirtualTour = () => {
-        if (shared.tour.payment_status !== "Successful") {
+        if (shared?.tour?.payment_status !== "Successful") {
             setOpenVirtualTourModal(true);
         }
     };
@@ -154,7 +184,7 @@ const Show = (props) => {
                 <Modal show={openModal} onClose={closeModal}>
                     <form onSubmit={submit} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Manage availablity of your property
+                            {titleAvailability}
                         </h2>
 
                         <div className="relative mt-6">
@@ -162,7 +192,7 @@ const Show = (props) => {
                                 type="date"
                                 name="live_at"
                                 id="live_at"
-                                placeholder="Live at"
+                                placeholder={liveAtForm}
                                 value={data.live_at}
                                 className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 autoComplete="off"
@@ -172,9 +202,9 @@ const Show = (props) => {
                             />
                             <label
                                 htmlFor="live_at"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                             >
-                                Live at
+                                {liveAtForm}
                             </label>
 
                             <InputError
@@ -203,7 +233,10 @@ const Show = (props) => {
                                 </label>
                             </div>
 
-                            <InputLabel htmlFor="available" value="Available" />
+                            <InputLabel
+                                htmlFor="available"
+                                value={availableForm}
+                            />
 
                             <InputError
                                 message={errors.available}
@@ -213,14 +246,14 @@ const Show = (props) => {
 
                         <div className="flex justify-end mt-6">
                             <SecondaryButton onClick={closeModal}>
-                                Cancel
+                                {cancelAvailabilityBtn}
                             </SecondaryButton>
 
                             <PrimaryButton
                                 className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                 disabled={processing}
                             >
-                                Update Availability
+                                {updateBtn}
                             </PrimaryButton>
                         </div>
                     </form>
@@ -231,7 +264,7 @@ const Show = (props) => {
                 >
                     <form onSubmit={storeVirtualTourBooking} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Book a virtual tour for your property
+                            {titleVirtualTour}
                         </h2>
 
                         <div className="mt-2">
@@ -241,16 +274,16 @@ const Show = (props) => {
                                         type="text"
                                         name="contact_name"
                                         value={data.contact_name}
-                                        placeholder="Full Name"
+                                        placeholder={fullNameForm}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow w-contact peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
                                         onChange={handleOnChange}
                                     />
                                     <label
                                         htmlFor="name"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Full Name
+                                        {fullNameForm}
                                     </label>
                                     <InputError
                                         message={errors.contact_name}
@@ -262,16 +295,16 @@ const Show = (props) => {
                                         type="email"
                                         name="email"
                                         value={data.email}
-                                        placeholder="Email Address"
+                                        placeholder={emailForm}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
                                         onChange={handleOnChange}
                                     />
                                     <label
                                         htmlFor="email"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Email Address
+                                        {emailForm}
                                     </label>
                                     <InputError
                                         message={errors.email}
@@ -282,16 +315,16 @@ const Show = (props) => {
                                     <input
                                         name="contact_number"
                                         value={data.contact_number}
-                                        placeholder="Phone Number"
+                                        placeholder={phoneNumberForm}
                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
                                         onChange={handleOnChange}
                                     />
                                     <label
                                         htmlFor="contact_number"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Phone Number
+                                        {phoneNumberForm}
                                     </label>
                                     <InputError
                                         message={errors.contact_number}
@@ -303,16 +336,16 @@ const Show = (props) => {
                                         type="text"
                                         name="details"
                                         value={data.details}
-                                        placeholder="Details"
+                                        placeholder={detailsForm}
                                         className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                         autoComplete="off"
                                         onChange={handleOnChange}
                                     />
                                     <label
                                         htmlFor="details"
-                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                     >
-                                        Details
+                                        {detailsForm}
                                     </label>
                                     <InputError
                                         message={errors.details}
@@ -324,14 +357,14 @@ const Show = (props) => {
 
                         <div className="flex justify-end mt-6">
                             <SecondaryButton onClick={closeVirtualTourModal}>
-                                Cancel
+                                {cancelVirtualTourBtn}
                             </SecondaryButton>
 
                             <PrimaryButton
                                 className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                 disabled={processing}
                             >
-                                Book Virtual Tour
+                                {bookBtn}
                             </PrimaryButton>
                         </div>
                     </form>
@@ -342,19 +375,19 @@ const Show = (props) => {
                 >
                     <form onSubmit={deleteProperty} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Are you sure you want to delete this property?
+                            {titleConfirmation}
                         </h2>
 
                         <div className="flex justify-end mt-6">
                             <SecondaryButton onClick={closeDeleteModal}>
-                                Cancel
+                                {cancelConfirmationBtn}
                             </SecondaryButton>
 
                             <DangerButton
                                 className="ml-3"
                                 disabled={processing}
                             >
-                                Delete Property
+                                {deleteBtn}
                             </DangerButton>
                         </div>
                     </form>
@@ -380,7 +413,11 @@ const Show = (props) => {
                             </svg>
                         </div>
                         <div className="flex items-center justify-between w-full px-4 py-6 bg-white border border-gray-200 rounded-r-lg border-l-transparent">
-                            <div>{notification}</div>
+                            <div>
+                                {visible && i18n.language == "en"
+                                    ? notification
+                                    : "Παρακαλώ ενημερώστε τα δωμάτιά σας μεμονωμένα"}
+                            </div>
                             <button onClick={() => setVisible(false)}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -414,7 +451,7 @@ const Show = (props) => {
                                                     scrollToBottom(650)
                                                 }
                                             >
-                                                Availbale rooms:{" "}
+                                                {availableRoomsBtn}{" "}
                                                 {shared.available_rooms}
                                             </SecondaryButton>
                                         </p>
@@ -438,7 +475,7 @@ const Show = (props) => {
                                                     </svg>
 
                                                     <h2 className="text-sm font-normal">
-                                                        Halted
+                                                        {halted}
                                                     </h2>
                                                 </div>
                                             ) : (
@@ -460,7 +497,7 @@ const Show = (props) => {
                                                     </svg>
 
                                                     <h2 className="text-sm font-normal">
-                                                        Live at{" "}
+                                                        {liveAtSpan}{" "}
                                                         {moment(
                                                             shared.live_at
                                                         ).format(
@@ -477,7 +514,7 @@ const Show = (props) => {
                                                 }
                                                 className="ml-2 text-red-800 hover:underline"
                                             >
-                                                Delete Property
+                                                {deletePropertyBtn}
                                             </button>
                                         </span>
                                     </div>
@@ -535,7 +572,7 @@ const Show = (props) => {
                                             onClick={() => setOpenModal(true)}
                                             className="px-3 py-2 text-sm font-medium leading-6 text-white bg-indigo-600 rounded-lg"
                                         >
-                                            Manage availability
+                                            {manageAvailabilityBtn}
                                         </button>
 
                                         <PrimaryButton
@@ -546,7 +583,7 @@ const Show = (props) => {
                                             }
                                             className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-black border-2 border-black rounded-lg hover:text-white hover:bg-black"
                                         >
-                                            Virtual Tour{" "}
+                                            {virtualTourBtn}{" "}
                                             {shared?.tour?.payment_status ===
                                                 "Successful" &&
                                                 shared.tour.status}
@@ -565,11 +602,10 @@ const Show = (props) => {
                         <div className="items-start justify-between md:flex">
                             <div className="max-w-lg mt-3 px-7">
                                 <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
-                                    Manage Rooms
+                                    {manageRooms}
                                 </h3>
                                 <p className="mt-2 text-gray-600">
-                                    Select each room to edit and upload
-                                    individual room photos
+                                    {manageRoomsTitle}
                                 </p>
                             </div>
                         </div>

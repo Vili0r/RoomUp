@@ -41,32 +41,7 @@ registerPlugin(FilePondPluginImagePreview);
 import { useTranslation } from "react-i18next";
 
 const Edit = (props) => {
-    const {
-        shared,
-        whatIAm,
-        size,
-        type,
-        availableRooms,
-        currentOccupants,
-        minutes,
-        mode,
-        stations,
-        //amenities,
-        roomSize,
-        furnishings,
-        minimumStay,
-        maximumStay,
-        daysAvailable,
-        newFlatmateSmoking,
-        currentFlatmateSmoking,
-        newFlatmateGender,
-        currentFlatmateGender,
-        newFlatmateOccupation,
-        currentFlatmateOccupation,
-        pets,
-        notification,
-        csrf_token,
-    } = usePage().props;
+    const { shared, notification, csrf_token } = usePage().props;
     const { t, i18n } = useTranslation();
     const selectedOptions = shared.amenities.map((item) => {
         return {
@@ -115,6 +90,9 @@ const Edit = (props) => {
         address_2: shared.address.address_2,
         area: shared.address.area,
         city: shared.address.city,
+        lat: shared.address.lat,
+        long: shared.address.long,
+        display_name: shared.address.display_name,
         post_code: shared.address.post_code,
         minutes: shared.transport.minutes,
         mode: shared.transport.mode,
@@ -149,8 +127,24 @@ const Edit = (props) => {
         confirmation,
         filesUploaded,
         inputPlaceholder,
+        amenitiesDisclosureThree,
     } = t("shared.edit.miscs");
 
+    const {
+        availableFromStepThree,
+        roomCostStepThree,
+        roomDepositStepThree,
+        roomSizeStepThree,
+        roomFurnishedStepThree,
+        roomStepThree,
+        referencesStepThree,
+        minimumStayStepThree,
+        maximumStayStepThree,
+        daysAvailableStepThree,
+        shortTermStepThree,
+    } = t("shared.forms.stepThree");
+
+    const { titleStepSix, descriptionStepSix } = t("shared.forms.stepSix");
     const showImage = () => {
         return "/storage/";
     };
@@ -418,13 +412,6 @@ const Edit = (props) => {
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                // availableRooms={availableRooms}
-                                                // size={size}
-                                                // type={type}
-                                                // currentOccupants={
-                                                //     currentOccupants
-                                                // }
-                                                // whatIAm={whatIAm}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -515,9 +502,6 @@ const Edit = (props) => {
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                // minutes={minutes}
-                                                // mode={mode}
-                                                // stations={stations}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -544,7 +528,9 @@ const Edit = (props) => {
                                             <div className="mt-7">
                                                 <InputLabel
                                                     htmlFor="amenties"
-                                                    value="Amenities"
+                                                    value={
+                                                        amenitiesDisclosureThree
+                                                    }
                                                     className="mb-3"
                                                 />
                                                 <Select
@@ -580,7 +566,9 @@ const Edit = (props) => {
                                                                     type="date"
                                                                     name="available_from"
                                                                     id="available_from"
-                                                                    placeholder="Available From"
+                                                                    placeholder={
+                                                                        availableFromStepThree
+                                                                    }
                                                                     value={
                                                                         data
                                                                             .rooms[
@@ -603,8 +591,9 @@ const Edit = (props) => {
                                                                     htmlFor="available_from"
                                                                     className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
-                                                                    Available
-                                                                    From
+                                                                    {
+                                                                        availableFromStepThree
+                                                                    }
                                                                 </label>
                                                                 {Object.keys(
                                                                     errors
@@ -645,7 +634,8 @@ const Edit = (props) => {
                                                             tabIndex="0"
                                                             role="button"
                                                         >
-                                                            Room {index + 1}
+                                                            {roomStepThree}{" "}
+                                                            {index + 1}
                                                         </span>
                                                     </div>
 
@@ -655,7 +645,9 @@ const Edit = (props) => {
                                                                 type="text"
                                                                 name="room_cost"
                                                                 id="room_cost"
-                                                                placeholder="Room cost Per Month"
+                                                                placeholder={
+                                                                    roomCostStepThree
+                                                                }
                                                                 value={
                                                                     data.rooms[
                                                                         index
@@ -676,8 +668,9 @@ const Edit = (props) => {
                                                                 htmlFor="room_cost"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Room Cost Per
-                                                                Month
+                                                                {
+                                                                    roomCostStepThree
+                                                                }
                                                             </label>
 
                                                             {Object.keys(
@@ -715,7 +708,9 @@ const Edit = (props) => {
                                                                 type="text"
                                                                 name="room_deposit"
                                                                 id="room_deposit"
-                                                                placeholder="Room Deposit"
+                                                                placeholder={
+                                                                    roomDepositStepThree
+                                                                }
                                                                 value={
                                                                     data.rooms[
                                                                         index
@@ -737,7 +732,9 @@ const Edit = (props) => {
                                                                 htmlFor="room_deposit"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Room Deposit
+                                                                {
+                                                                    roomDepositStepThree
+                                                                }
                                                             </label>
                                                             {Object.keys(
                                                                 errors
@@ -796,7 +793,8 @@ const Edit = (props) => {
                                                                 {roomSize.map(
                                                                     ({
                                                                         id,
-                                                                        name,
+                                                                        nameEn,
+                                                                        nameGr,
                                                                     }) => (
                                                                         <option
                                                                             key={
@@ -806,9 +804,10 @@ const Edit = (props) => {
                                                                                 id
                                                                             }
                                                                         >
-                                                                            {
-                                                                                name
-                                                                            }
+                                                                            {i18n.language ==
+                                                                            "en"
+                                                                                ? nameEn
+                                                                                : nameGr}
                                                                         </option>
                                                                     )
                                                                 )}
@@ -817,7 +816,9 @@ const Edit = (props) => {
                                                                 htmlFor="room_size"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Room Size
+                                                                {
+                                                                    roomSizeStepThree
+                                                                }
                                                             </label>
 
                                                             {Object.keys(
@@ -875,7 +876,8 @@ const Edit = (props) => {
                                                                 {furnishings.map(
                                                                     ({
                                                                         id,
-                                                                        name,
+                                                                        nameEn,
+                                                                        nameGr,
                                                                     }) => (
                                                                         <option
                                                                             key={
@@ -885,9 +887,10 @@ const Edit = (props) => {
                                                                                 id
                                                                             }
                                                                         >
-                                                                            {
-                                                                                name
-                                                                            }
+                                                                            {i18n.language ==
+                                                                            "en"
+                                                                                ? nameEn
+                                                                                : nameGr}
                                                                         </option>
                                                                     )
                                                                 )}
@@ -896,7 +899,9 @@ const Edit = (props) => {
                                                                 htmlFor="room_furnished"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Room furnished
+                                                                {
+                                                                    roomFurnishedStepThree
+                                                                }
                                                             </label>
 
                                                             {Object.keys(
@@ -935,7 +940,9 @@ const Edit = (props) => {
                                                         <span className="mt-1 text-sm"></span>
                                                         <InputLabel
                                                             htmlFor="room_references"
-                                                            value="References?"
+                                                            value={
+                                                                referencesStepThree
+                                                            }
                                                             className="mt-1 text-sm"
                                                         />
                                                         <label className="relative cursor-pointer">
@@ -999,7 +1006,8 @@ const Edit = (props) => {
                                                                     {minimumStay.map(
                                                                         ({
                                                                             id,
-                                                                            name,
+                                                                            nameEn,
+                                                                            nameGr,
                                                                         }) => (
                                                                             <option
                                                                                 key={
@@ -1009,9 +1017,10 @@ const Edit = (props) => {
                                                                                     id
                                                                                 }
                                                                             >
-                                                                                {
-                                                                                    name
-                                                                                }
+                                                                                {i18n.language ==
+                                                                                "en"
+                                                                                    ? nameEn
+                                                                                    : nameGr}
                                                                             </option>
                                                                         )
                                                                     )}
@@ -1020,7 +1029,9 @@ const Edit = (props) => {
                                                                     htmlFor="minimum_stay"
                                                                     className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
-                                                                    Minimum Stay
+                                                                    {
+                                                                        minimumStayStepThree
+                                                                    }
                                                                 </label>
 
                                                                 {Object.keys(
@@ -1081,7 +1092,8 @@ const Edit = (props) => {
                                                                     {maximumStay.map(
                                                                         ({
                                                                             id,
-                                                                            name,
+                                                                            nameEn,
+                                                                            nameGr,
                                                                         }) => (
                                                                             <option
                                                                                 key={
@@ -1091,9 +1103,10 @@ const Edit = (props) => {
                                                                                     id
                                                                                 }
                                                                             >
-                                                                                {
-                                                                                    name
-                                                                                }
+                                                                                {i18n.language ==
+                                                                                "en"
+                                                                                    ? nameEn
+                                                                                    : nameGr}
                                                                             </option>
                                                                         )
                                                                     )}
@@ -1102,7 +1115,9 @@ const Edit = (props) => {
                                                                     htmlFor="maximum_stay"
                                                                     className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                                 >
-                                                                    Maximum Stay
+                                                                    {
+                                                                        maximumStayStepThree
+                                                                    }
                                                                 </label>
                                                                 {Object.keys(
                                                                     errors
@@ -1165,7 +1180,8 @@ const Edit = (props) => {
                                                                 {daysAvailable.map(
                                                                     ({
                                                                         id,
-                                                                        name,
+                                                                        nameEn,
+                                                                        nameGr,
                                                                     }) => (
                                                                         <option
                                                                             key={
@@ -1175,9 +1191,10 @@ const Edit = (props) => {
                                                                                 id
                                                                             }
                                                                         >
-                                                                            {
-                                                                                name
-                                                                            }
+                                                                            {i18n.language ==
+                                                                            "en"
+                                                                                ? nameEn
+                                                                                : nameGr}
                                                                         </option>
                                                                     )
                                                                 )}
@@ -1186,7 +1203,9 @@ const Edit = (props) => {
                                                                 htmlFor="days_available"
                                                                 className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                             >
-                                                                Days available
+                                                                {
+                                                                    daysAvailableStepThree
+                                                                }
                                                             </label>
                                                             {Object.keys(
                                                                 errors
@@ -1222,7 +1241,9 @@ const Edit = (props) => {
                                                             <span className="mt-1 text-sm"></span>
                                                             <InputLabel
                                                                 htmlFor="short_term"
-                                                                value="Short term?"
+                                                                value={
+                                                                    shortTermStepThree
+                                                                }
                                                                 className="mt-1 text-sm"
                                                             />
                                                             <label className="relative cursor-pointer">
@@ -1315,16 +1336,6 @@ const Edit = (props) => {
                                                     handleOnChange={
                                                         handleOnChange
                                                     }
-                                                    currentFlatmateSmoking={
-                                                        currentFlatmateSmoking
-                                                    }
-                                                    pets={pets}
-                                                    currentFlatmateOccupation={
-                                                        currentFlatmateOccupation
-                                                    }
-                                                    currentFlatmateGender={
-                                                        currentFlatmateGender
-                                                    }
                                                 />
                                             )}
 
@@ -1335,16 +1346,6 @@ const Edit = (props) => {
                                                     handleOnChange={
                                                         handleOnChange
                                                     }
-                                                    newFlatmateSmoking={
-                                                        newFlatmateSmoking
-                                                    }
-                                                    newFlatmateGender={
-                                                        newFlatmateGender
-                                                    }
-                                                    newFlatmateOccupation={
-                                                        newFlatmateOccupation
-                                                    }
-                                                    pets={pets}
                                                 />
                                             )}
                                         </Disclosure.Panel>
@@ -1374,7 +1375,9 @@ const Edit = (props) => {
                                                         type="text"
                                                         name="title"
                                                         id="title"
-                                                        placeholder="Title"
+                                                        placeholder={
+                                                            titleStepSix
+                                                        }
                                                         value={data.title}
                                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                         autoComplete="off"
@@ -1386,7 +1389,7 @@ const Edit = (props) => {
                                                         htmlFor="title"
                                                         className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Title
+                                                        {titleStepSix}
                                                     </label>
                                                 </div>
 
@@ -1403,7 +1406,9 @@ const Edit = (props) => {
                                                         name="description"
                                                         id="description"
                                                         rows="8"
-                                                        placeholder="description"
+                                                        placeholder={
+                                                            descriptionStepSix
+                                                        }
                                                         value={data.description}
                                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                         autoComplete="off"
@@ -1415,7 +1420,7 @@ const Edit = (props) => {
                                                         htmlFor="description"
                                                         className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Description
+                                                        {descriptionStepSix}
                                                     </label>
                                                 </div>
 

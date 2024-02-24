@@ -8,6 +8,7 @@ import InputLabel from "./InputLabel";
 import SecondaryButton from "./SecondaryButton";
 import Modal from "./Modal";
 import PrimaryButton from "./PrimaryButton";
+import { useTranslation } from "react-i18next";
 
 const RoomCard = ({ room }) => {
     const [openModal, setOpenModal] = useState(false);
@@ -24,6 +25,18 @@ const RoomCard = ({ room }) => {
         live_at: room.live_at,
         available: room.available,
     });
+
+    const { t } = useTranslation();
+    const {
+        titleAvailability,
+        liveAtForm,
+        availableForm,
+        cancelAvailabilityBtn,
+        updateBtn,
+    } = t("shared.show.roomCard.availabilityModal");
+    const { halted, liveAtSpan, availableFromMisc, month } = t(
+        "shared.show.roomCard.miscs"
+    );
 
     const showImage = () => {
         return "/storage/";
@@ -72,7 +85,7 @@ const RoomCard = ({ room }) => {
                     <Modal show={openModal} onClose={closeModal}>
                         <form onSubmit={submit} className="p-6">
                             <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                Manage availablity of your property
+                                {titleAvailability}
                             </h2>
 
                             <div className="relative mt-6">
@@ -80,7 +93,7 @@ const RoomCard = ({ room }) => {
                                     type="date"
                                     name="live_at"
                                     id="live_at"
-                                    placeholder="Live at"
+                                    placeholder={liveAtForm}
                                     value={data.live_at}
                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                     autoComplete="off"
@@ -90,9 +103,9 @@ const RoomCard = ({ room }) => {
                                 />
                                 <label
                                     htmlFor="live_at"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                 >
-                                    Live at
+                                    {liveAtForm}
                                 </label>
 
                                 <InputError
@@ -126,7 +139,7 @@ const RoomCard = ({ room }) => {
 
                                 <InputLabel
                                     htmlFor="available"
-                                    value="Available"
+                                    value={availableForm}
                                 />
 
                                 <InputError
@@ -137,14 +150,14 @@ const RoomCard = ({ room }) => {
 
                             <div className="flex justify-end mt-6">
                                 <SecondaryButton onClick={closeModal}>
-                                    Cancel
+                                    {cancelAvailabilityBtn}
                                 </SecondaryButton>
 
                                 <PrimaryButton
                                     className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                     disabled={processing}
                                 >
-                                    Update Availability
+                                    {updateBtn}
                                 </PrimaryButton>
                             </div>
                         </form>
@@ -171,7 +184,7 @@ const RoomCard = ({ room }) => {
                                     </svg>
 
                                     <h2 className="text-sm font-normal">
-                                        Halted
+                                        {halted}
                                     </h2>
                                 </PrimaryButton>
                             ) : (
@@ -193,7 +206,7 @@ const RoomCard = ({ room }) => {
                                     </svg>
 
                                     <h2 className="text-sm font-normal">
-                                        Live at {""}
+                                        {liveAtSpan} {""}
                                         {moment(room.live_at).format(
                                             "MMM DD, YYYY"
                                         )}
@@ -221,7 +234,7 @@ const RoomCard = ({ room }) => {
                                 {room.sub_title}
                             </p>
                             <p className="text-sm text-gray-800">
-                                Available from{" "}
+                                {availableFromMisc}{" "}
                                 <span className="font-semibold">
                                     {moment(room.available_from).format(
                                         "MMM DD, YYYY"
@@ -229,7 +242,7 @@ const RoomCard = ({ room }) => {
                                 </span>
                             </p>
                             <p className="mt-2 text-sm text-gray-800">
-                                <strong>${room.room_cost}</strong> /month
+                                <strong>€{room.room_cost}</strong> /{month}
                             </p>
                         </div>
                         <div className="flex flex-row items-center">

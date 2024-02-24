@@ -206,6 +206,7 @@ const resources = {
                         roomCostStepThree: "Room cost Per Month",
                         roomDepositStepThree: "Room Deposit",
                         roomSizeStepThree: "Room Size",
+                        roomStepThree: "Room",
                         roomFurnishedStepThree: "Room Furnished",
                         referencesStepThree: "References?",
                         minimumStayStepThree: "Minimum Stay",
@@ -366,13 +367,87 @@ const resources = {
                         noResults: "No results for",
                         inputPlaceholder: "Efterpis, Cholargos...",
                         propertyAmenitiesDetails: "Property Amenities details?",
-                        roomDisclosure: "Room",
+                        roomDisclosureThree: "Room",
+                        amenitiesDisclosureThree: "Amenities",
                         advertiserDetails: "Advertiser details?",
                         flatmatesDisclosure: "Flatmates?",
                         confirmation: "Confirmation?",
                         filesUploaded:
                             "Files uploaded when creating advertisment",
                     },
+                },
+                show: {
+                    availabilityModal: {
+                        titleAvailability:
+                            "Manage availablity of your property",
+                        liveAtForm: "Live at",
+                        availableForm: "Available",
+                        cancelAvailabilityBtn: "Cancel",
+                        updateBtn: "Update Availability",
+                    },
+                    virtualTourModal: {
+                        titleVirtualTour:
+                            "Book a virtual tour for your property",
+                        fullNameForm: "Full Name",
+                        emailForm: "Email Address",
+                        phoneNumberForm: "Phone Number",
+                        detailsForm: "Details",
+                        cancelVirtualTourBtn: "Cancel",
+                        bookBtn: "Book Virtual Tour",
+                    },
+                    deleteConfirmationModal: {
+                        titleConfirmation:
+                            "Are you sure you want to delete this property?",
+                        cancelConfirmationBtn: "Cancel",
+                        deleteBtn: "Delete Property",
+                    },
+                    miscs: {
+                        halted: "Halted",
+                        manageRooms: "Manage Rooms",
+                        manageRoomsTitle:
+                            "Select each room to edit and upload individual room photos",
+                    },
+                    buttons: {
+                        availableRoomsBtn: "Availbale rooms:",
+                        deletePropertyBtn: "Delete Property",
+                        manageAvailabilityBtn: "Manage availability",
+                        virtualTourBtn: "Virtual Tour",
+                    },
+                    roomCard: {
+                        availabilityModal: {
+                            title: "Manage availablity of your property",
+                            liveAtForm: "Live at",
+                            availableForm: "Available",
+                            cancelAvailabilityBtn: "Cancel",
+                            updateBtn: "Update Availability",
+                        },
+                        miscs: {
+                            halted: "Halted",
+                            liveAtSpan: "Live at",
+                            availableFromMisc: "Available from",
+                            month: "month",
+                        },
+                    },
+                },
+            },
+            room: {
+                edit: {
+                    titleRoomEdit: "Title",
+                    descriptionRoomEdit: "Description",
+                    availableFromRoomEdit: "Available From",
+                    roomCostRoomEdit: "Room cost Per Month",
+                    roomDepositRoomEdit: "Room Deposit",
+                    roomSizeRoomEdit: "Room Size",
+                    roomRoomEdit: "Room",
+                    roomFurnishedRoomEdit: "Room Furnished",
+                    referencesRoomEdit: "References?",
+                    minimumStayRoomEdit: "Minimum Stay",
+                    maximumStayRoomEdit: "Maximum Stay",
+                    daysAvailableRoomEdit: "Days Available",
+                    shortTermRoomEdit: "Short Term",
+                    filesUploaded: "Files uploaded when creating advertisment",
+                    processingBtn: "Processing...",
+                    updateBtn: "Update your room",
                 },
             },
             blog: {},
@@ -580,6 +655,7 @@ const resources = {
                         roomDepositStepThree: "Προκαταβολή Δωματίου",
                         roomSizeStepThree: "Μέγεθος Δωματίου",
                         roomFurnishedStepThree: "Επιπλωμένο Δωμάτιο",
+                        roomStepThree: "Δωμάτιο",
                         referencesStepThree: "Παραπομπή",
                         minimumStayStepThree: "Διάρκεια Διαμονής Από",
                         maximumStayStepThree: "Διάρκεια Διαμονής Έως",
@@ -765,13 +841,88 @@ const resources = {
                         inputPlaceholder: "Ευτέρπης, Χολαργός...",
                         propertyAmenitiesDetails:
                             "Λεπτομέρειες ανέσεων της ιδιοκτησίας;",
-                        roomDisclosure: "Δωμάτιο",
+                        amenitiesDisclosureThree: "Παροχές",
                         advertiserDetails: "Λεπτομέρειες διαφημιζόμενου;",
                         flatmatesDisclosure: "Συγκάτοικοι;",
                         confirmation: "Επιβεβαίωση;",
-                        ilesUploaded:
-                            "Αρχεία που ανέβηκαν κατά τη δημιουργία διαφήμισης",
+                        filesUploaded:
+                            "Αρχεία που ανέβηκαν κατά τη δημιουργία αγγελίας",
                     },
+                },
+                show: {
+                    availabilityModal: {
+                        titleAvailability:
+                            "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
+                        liveAtForm: "Δημοσίευση στις",
+                        availableForm: "Διαθέσιμο",
+                        cancelAvailabilityBtn: "Άκυρο",
+                        updateBtn: "Ενημέρωση Διαθεσιμότητας",
+                    },
+                    virtualTourModal: {
+                        titleVirtualTour:
+                            "Κάντε κράτηση για εικονική περιήγηση για την ιδιοκτησία σας",
+                        fullNameForm: "Ονοματεπώνυμο",
+                        emailForm: "Διεύθυνση Email",
+                        phoneNumberForm: "Αριθμός Τηλεφώνου",
+                        detailsForm: "Λεπτομέρειες",
+                        cancelVirtualTourBtn: "Άκυρο",
+                        bookBtn: "Κράτηση Εικονικής Περιήγησης",
+                    },
+                    deleteConfirmationModal: {
+                        titleConfirmation:
+                            "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την αγγελία;",
+                        cancelConfirmationBtn: "Άκυρο",
+                        deleteBtn: "Διαγραφή αγγελίας",
+                    },
+                    miscs: {
+                        halted: "Αδημοσίευτο",
+                        liveAtSpan: "Δημοσιεύτηκε στις",
+                        manageRooms: "Διαχείριση Δωματίων",
+                        manageRoomsTitle:
+                            "Επιλέξτε κάθε δωμάτιο για επεξεργασία και μεταφόρτωση μεμονωμένων φωτογραφιών δωματίου",
+                    },
+                    buttons: {
+                        availableRoomsBtn: "Διαθέσιμα δωμάτια:",
+                        deletePropertyBtn: "Διαγραφή αγγελίας",
+                        manageAvailabilityBtn: "Διαχείριση διαθεσιμότητας",
+                        virtualTourBtn: "Εικονική Περιήγηση",
+                    },
+                    roomCard: {
+                        availabilityModal: {
+                            titleAvailability:
+                                "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
+                            liveAtForm: "Δημοσίευση στις",
+                            availableForm: "Διαθέσιμο",
+                            cancelAvailabilityBtn: "Άκυρο",
+                            updateBtn: "Ενημέρωση Διαθεσιμότητας",
+                        },
+                        miscs: {
+                            halted: "Αδημοσίευτο",
+                            liveAtSpan: "Δημοσιεύτηκε στις",
+                            availableFromMisc: "Διαθέσιμο από",
+                            month: "μήνα",
+                        },
+                    },
+                },
+            },
+            room: {
+                edit: {
+                    titleRoomEdit: "Τίτλος",
+                    descriptionRoomEdit: "Περιγραφή",
+                    availableFromRoomEdit: "Διαθέσιμο Από",
+                    roomCostRoomEdit: "Κόστος Δωματίου Ανά Μήνα",
+                    roomDepositRoomEdit: "Κατάθεση Δωματίου",
+                    roomSizeRoomEdit: "Μέγεθος Δωματίου",
+                    roomFurnishedRoomEdit: "Επιπλωμένο Δωμάτιο",
+                    referencesRoomEdit: "Αναφορές;",
+                    minimumStayRoomEdit: "Ελάχιστη Διαμονή",
+                    maximumStayRoomEdit: "Μέγιστη Διαμονή",
+                    daysAvailableRoomEdit: "Διαθέσιμες Ημέρες",
+                    shortTermRoomEdit: "Σύντομη Διάρκεια",
+                    filesUploaded:
+                        "Αρχεία που ανέβηκαν κατά τη δημιουργία της αγγελίας",
+                    processingBtn: "Επεξεργασία...",
+                    updateBtn: "Ενημέρωση του δωματίου σας",
                 },
             },
             blog: {},

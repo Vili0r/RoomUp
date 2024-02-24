@@ -73,31 +73,7 @@ const Create = (props) => {
         },
     ]);
 
-    const {
-        // whatIAm,
-        // size,
-        // type,
-        // availableRooms,
-        // currentOccupants,
-        // minutes,
-        // mode,
-        // stations,
-        //amenities,
-        // roomSize,
-        // furnishings,
-        // minimumStay,
-        // maximumStay,
-        // daysAvailable,
-        // newFlatmateSmoking,
-        // currentFlatmateSmoking,
-        // newFlatmateGender,
-        // currentFlatmateGender,
-        // newFlatmateOccupation,
-        // currentFlatmateOccupation,
-        // pets,
-        // references,
-        csrf_token,
-    } = usePage().props;
+    const { csrf_token } = usePage().props;
 
     const {
         data,
@@ -176,6 +152,7 @@ const Create = (props) => {
         roomDepositStepThree,
         roomSizeStepThree,
         roomFurnishedStepThree,
+        roomStepThree,
         referencesStepThree,
         minimumStayStepThree,
         maximumStayStepThree,
@@ -481,9 +458,6 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            // minutes={minutes}
-                                            // mode={mode}
-                                            // stations={stations}
                                         />
 
                                         <div className="my-6">
@@ -503,11 +477,6 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            // availableRooms={availableRooms}
-                                            // size={size}
-                                            // type={type}
-                                            // currentOccupants={currentOccupants}
-                                            // whatIAm={whatIAm}
                                         />
 
                                         <div className="my-6">
@@ -636,7 +605,8 @@ const Create = (props) => {
                                                         tabindex="0"
                                                         role="button"
                                                     >
-                                                        Room {index + 1}
+                                                        {roomStepThree}{" "}
+                                                        {index + 1}
                                                     </span>
                                                 </div>
 
@@ -1117,16 +1087,6 @@ const Create = (props) => {
                                                 data={data}
                                                 errors={validationErrors}
                                                 handleOnChange={handleOnChange}
-                                                // currentFlatmateSmoking={
-                                                //     currentFlatmateSmoking
-                                                // }
-                                                // pets={pets}
-                                                // currentFlatmateOccupation={
-                                                //     currentFlatmateOccupation
-                                                // }
-                                                // currentFlatmateGender={
-                                                //     currentFlatmateGender
-                                                // }
                                             />
                                         )}
 
@@ -1135,16 +1095,6 @@ const Create = (props) => {
                                                 data={data}
                                                 errors={validationErrors}
                                                 handleOnChange={handleOnChange}
-                                                // newFlatmateSmoking={
-                                                //     newFlatmateSmoking
-                                                // }
-                                                // newFlatmateGender={
-                                                //     newFlatmateGender
-                                                // }
-                                                // newFlatmateOccupation={
-                                                //     newFlatmateOccupation
-                                                // }
-                                                // pets={pets}
                                             />
                                         )}
                                         <div className="my-6">
