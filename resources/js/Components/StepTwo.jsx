@@ -156,7 +156,7 @@ const StepTwo = ({ data, errors, handleOnChange }) => {
                         <option value="">--</option>
                         {minutes.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {i18n.language === "en" ? nameEn : nameGr}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
@@ -181,7 +181,7 @@ const StepTwo = ({ data, errors, handleOnChange }) => {
                         <option value="">--</option>
                         {modes.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {i18n.language === "en" ? nameEn : nameGr}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>
@@ -206,7 +206,7 @@ const StepTwo = ({ data, errors, handleOnChange }) => {
                         <option value="">--</option>
                         {stations.map(({ id, nameEn, nameGr }) => (
                             <option key={id} value={id}>
-                                {i18n.language === "en" ? nameEn : nameGr}
+                                {i18n.language == "en" ? nameEn : nameGr}
                             </option>
                         ))}
                     </select>

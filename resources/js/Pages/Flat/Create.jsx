@@ -34,6 +34,14 @@ import { ValidationError } from "yup";
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 
+import { useTranslation } from "react-i18next";
+import {
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+    amenities,
+} from "@/arrays/Array";
+
 const Create = (props) => {
     const animatedComponents = makeAnimated();
     const [step, setStep] = useState(1);
@@ -42,25 +50,7 @@ const Create = (props) => {
     const [selectedAddress, setSelectedAddress] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
 
-    const {
-        whatIAmFlat,
-        size,
-        type,
-        minutes,
-        mode,
-        stations,
-        amenities,
-        furnishings,
-        minimumStay,
-        maximumStay,
-        daysAvailable,
-        newFlatmateSmoking,
-        newFlatmateGender,
-        newFlatmateOccupation,
-        pets,
-        references,
-        csrf_token,
-    } = usePage().props;
+    const { csrf_token } = usePage().props;
 
     const {
         data,
@@ -121,6 +111,25 @@ const Create = (props) => {
         }
     );
 
+    const { t, i18n } = useTranslation();
+    const {
+        inputPlaceholder,
+        nextBtn,
+        backBtn,
+        noResult,
+        stepSixErrors,
+        processingBtn,
+        placeAdBtn,
+    } = t("flat.miscs");
+    const {
+        amenitiesStepThree,
+        availableFromStepThree,
+        minimumStayStepThree,
+        maximumStayStepThree,
+        daysAvailableStepThree,
+        shortTermStepThree,
+    } = t("flat.forms.stepThreeFlat");
+    const { titleStepSix, descriptionStepSix } = t("flat.forms.stepSix");
     //next step
     const handleNext = async () => {
         clearErrors();
@@ -130,22 +139,22 @@ const Create = (props) => {
             let schema;
             switch (step) {
                 case 1:
-                    schema = stepOneSchema;
+                    schema = stepOneSchema(t);
                     break;
                 case 2:
-                    schema = stepTwoSchema;
+                    schema = stepTwoSchema(t);
                     break;
                 case 3:
-                    schema = stepThreeSchema;
+                    schema = stepThreeSchema(t);
                     break;
                 case 4:
-                    schema = stepFourSchema;
+                    schema = stepFourSchema(t);
                     break;
                 case 5:
-                    schema = stepFiveSchema;
+                    schema = stepFiveSchema(t);
                     break;
                 case 6:
-                    schema = stepSixSchema;
+                    schema = stepSixSchema(t);
                     break;
                 default:
                     break;
@@ -229,7 +238,7 @@ const Create = (props) => {
     //Transforming amenties with label and value as required from react select package
     const options = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });
@@ -277,7 +286,7 @@ const Create = (props) => {
                             <form onSubmit={submit}>
                                 {step == "1" && (
                                     <>
-                                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                        <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold  text-lg">
                                             <AiOutlineSearch className="w-7 h-7" />
                                             <DebounceInput
                                                 value={search}
@@ -289,8 +298,8 @@ const Create = (props) => {
                                                     );
                                                     setSearch(e.target.value);
                                                 }}
-                                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                                                placeholder="Efterpis, Cholargos..."
+                                                className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 "
+                                                placeholder={inputPlaceholder}
                                             />
                                             <button
                                                 onClick={() => {
@@ -339,22 +348,19 @@ const Create = (props) => {
                                                 </div>
                                             ) : (
                                                 <div className="px-3 py-3">
-                                                    No results for "{search}"
+                                                    {noResult} "{search}"
                                                 </div>
                                             ))}
                                         <StepTwo
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            minutes={minutes}
-                                            mode={mode}
-                                            stations={stations}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 Next
                                             </PrimaryButton>
@@ -368,18 +374,14 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            size={size}
-                                            type={type}
-                                            whatIAmFlat={whatIAmFlat}
-                                            furnishings={furnishings}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -390,7 +392,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -403,7 +405,7 @@ const Create = (props) => {
                                         <div className="mt-7">
                                             <InputLabel
                                                 htmlFor="amenties"
-                                                value="Amenities"
+                                                value={amenitiesStepThree}
                                                 className="mb-3"
                                             />
                                             <Select
@@ -433,7 +435,9 @@ const Create = (props) => {
                                                     type="date"
                                                     name="available_from"
                                                     id="available_from"
-                                                    placeholder="Available From"
+                                                    placeholder={
+                                                        availableFromStepThree
+                                                    }
                                                     value={data.available_from}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -441,9 +445,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="available_from"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Available From
+                                                    {availableFromStepThree}
                                                 </label>
                                             </div>
                                             {errors.available_from && (
@@ -466,21 +470,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {minimumStay.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="minimum_stay"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Minimum Stay
+                                                    {minimumStayStepThree}
                                                 </label>
 
                                                 {errors.minimum_stay && (
@@ -501,21 +512,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {maximumStay.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="maximum_stay"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Maximum Stay
+                                                    {maximumStayStepThree}
                                                 </label>
 
                                                 <InputError
@@ -537,21 +555,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {daysAvailable.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="days_available"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Days available
+                                                    {daysAvailableStepThree}
                                                 </label>
                                                 {errors.days_available && (
                                                     <InputError
@@ -563,11 +588,11 @@ const Create = (props) => {
                                                 )}
                                             </div>
                                             <div className="flex justify-start gap-2 mt-3">
-                                                <span className="mt-1 text-sm font-popp"></span>
+                                                <span className="mt-1 text-sm "></span>
                                                 <InputLabel
                                                     htmlFor="short_term"
-                                                    value="Short term"
-                                                    className="mt-1 text-sm font-popp"
+                                                    value={shortTermStepThree}
+                                                    className="mt-1 text-sm "
                                                 />
                                                 <label className="relative cursor-pointer">
                                                     <input
@@ -588,9 +613,9 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -601,7 +626,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -620,9 +645,9 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -633,7 +658,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -647,24 +672,14 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            newFlatmateSmoking={
-                                                newFlatmateSmoking
-                                            }
-                                            newFlatmateGender={
-                                                newFlatmateGender
-                                            }
-                                            newFlatmateOccupation={
-                                                newFlatmateOccupation
-                                            }
-                                            pets={pets}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -675,7 +690,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -706,8 +721,7 @@ const Create = (props) => {
                                                         </div>
                                                         <div className="ml-3">
                                                             <h2 className="font-semibold text-gray-800">
-                                                                Please fix the
-                                                                errors
+                                                                {stepSixErrors}
                                                             </h2>
                                                         </div>
                                                     </div>
@@ -719,7 +733,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="title"
                                                     id="title"
-                                                    placeholder="Title"
+                                                    placeholder={titleStepSix}
                                                     value={data.title}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -727,9 +741,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="title"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Title
+                                                    {titleStepSix}
                                                 </label>
                                             </div>
 
@@ -746,7 +760,9 @@ const Create = (props) => {
                                                     name="description"
                                                     id="description"
                                                     rows="8"
-                                                    placeholder="description"
+                                                    placeholder={
+                                                        descriptionStepSix
+                                                    }
                                                     value={data.description}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -754,9 +770,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="description"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Description
+                                                    {descriptionStepSix}
                                                 </label>
                                             </div>
 
@@ -796,11 +812,11 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 disabled={processing}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {processing
-                                                    ? "Processing..."
-                                                    : "Place your ad"}
+                                                    ? processingBtn
+                                                    : placeAdBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -812,7 +828,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

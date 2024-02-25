@@ -171,6 +171,132 @@ const resources = {
                     verifyBtn: "Verify",
                 },
             },
+            validation: {
+                stepOne: {
+                    address1Required: "Address is required",
+                    address1Max: "Address must be at most 30 characters",
+                    cityRequired: "City is required",
+                    cityMax: "City must be at most 20 characters",
+                    areaRequired: "Area is required",
+                    areaMax: "Area must be at most 20 characters",
+                    postCodeRequired: "Post Code is required",
+                    postCodeMax: "Post code must have maximum 7 characters",
+                    minutesRequired: "Minutes is required",
+                    modeRequired: "Mode is required",
+                    stationRequired: "Station is required",
+                },
+                stepTwoShared: {
+                    availableRoomsRequired: "Available Rooms is required",
+                    availableRoomsTest:
+                        "Available rooms should be smaller than the difference between the Size and Current tenants",
+                    sizeRequired: "Size is required",
+                    sizeTest: "Size must be greater than the available rooms",
+                    typeRequired: "Type is required",
+                    currentOccupantsRequired: "Current occupants is required",
+                    currentOccupantsTest:
+                        "Current occupants must be less than the size of the property",
+                    whatIAmRequired: "Who i am is required",
+                },
+                stepTwoFlat: {
+                    sizeRequired: "Size is required",
+                    typeRequired: "Type is required",
+                    furnishedRequired: "Furnished is required",
+                    costTypeError: "Cost doesn't look like a number",
+                    costRequired: "Cost is required",
+                    depositTypeError: "Deposit doesn't look like a number",
+                    depositRequired: "Deposit is required",
+                    whatIAmRequired: "Who i am is required",
+                },
+                stepThreeShared: {
+                    availableFromTypeError: "Available from must be a date",
+                    availableFromMin:
+                        "Available from date must be in the future",
+                    availableFromRequired: "Available from date is required",
+                    roomCostTypeError: "Room cost doesn't look like a number",
+                    roomCostRequired: "Cost of the room is required",
+                    roomDepositTypeError:
+                        "Room deposit doesn't look like a number",
+                    roomDepositRequired: "Deposit of the room is required",
+                    roomSizeRequired: "Size of the room is required",
+                    roomFurnishedRequired: "Room furnished is required",
+                    minimumStayRequired: "Minimum stay is required",
+                    maximumStayTest:
+                        "Maximum stay must be greater than minimum stay",
+                    maximumStayRequired: "Maximum stay is required",
+                    daysAvailableRequired: "Days available is required",
+                },
+                stepThreeFlat: {
+                    selectedAmenitiesMin: "At least one amenity is required",
+                    selectedAmenitiesRequired: "Amenities are required",
+                    availableFromTypeError: "Available from must be a date",
+                    availableFromMin:
+                        "Available from date must be in the future",
+                    availableFromRequired: "Available from date is required",
+                    minimumStayRequired: "Minimum stay is required",
+                    maximumStayTest:
+                        "Maximum stay must be greater than minimum stay",
+                    maximumStayRequired: "Maximum stay is required",
+                    daysAvailableRequired: "Days available is required",
+                },
+                stepFour: {
+                    firstNameMax:
+                        "First Name must not be greater than 20 characters",
+                    firstNameRequired: "First name is required",
+                    lastNameMax:
+                        "Last Name must not be greater than 20 characters",
+                    lastNameRequired: "Last name is required",
+                    telephoneMin: "Phone number must be at least 8 digits",
+                    telephoneMax: "Phone number cannot be more than 15 digits",
+                    telephoneMaxMatches: "Phone number can only contain digits",
+                    telephoneRequired: "Telephone number is required",
+                },
+                currentFlatmate: {
+                    currentFlatmateAgeTypeError:
+                        "That doesn't look like an age",
+                    currentFlatmateAgeMin:
+                        "You should be more than 18 years old",
+                    currentFlatmateAgeRequired: "Age is required",
+                    currentFlatmateSmokerRequired: "Smoker field is required",
+                    currentFlatmatePetsRequuired: "Pet field is required",
+                    currentFlatmateOccupationRequired:
+                        "Occupation field is required",
+                    currentFlatmateGenderRequired: "Gender field is required",
+                },
+                newFlatmate: {
+                    newFlatmateMinAgeTypeError: "That doesn't look like an age",
+                    newFlatmateMinAgeMin:
+                        "Your new flatmate should be more than 18 years old",
+                    newFlatmateMinAgeRequired:
+                        "New flatmate min age is required",
+                    newFlatmatemaxAgeTypeError: "That doesn't look like an age",
+                    newFlatmatemaxAgeMax:
+                        "Your new flatmate should be more than 18 years old",
+                    newFlatmatemaxAgeRequired:
+                        "New flatmate max age is required",
+                    newFlatmatemaxAgeTest:
+                        "Max age must be greater than the min age",
+                    newFlatmateSmokerRequired: "Smoker field is required",
+                    newFlatmatePetsRequired: "Pet field is required",
+                    newFlatmateOccupationRequired:
+                        "Occupation field is required",
+                    newFlatmateGenderRequired: "Gender field is required",
+                },
+                stepSix: {
+                    amenitiesMin: "At least one amenity is required",
+                    amenitiesRequired: "Amenities are required",
+                    titleMin: "Title must be at least 10 characters long",
+                    titleMax: "Title must be at least 50 characters long",
+                    titleRequired: "Title is required",
+                    descriptionMin:
+                        "Description must be at least 50 characters long",
+                    descriptionMax:
+                        "Description must be at least 500 characters long",
+                    descriptionRequired: "Description is required",
+                    photosMax: "You can upload up to 9 images",
+                    photosFileFormat: "Unsupported file format",
+                    photosFileSize: "File size is too large",
+                },
+            },
             shared: {
                 miscs: {
                     inputPlaceholder: "Efterpis, Cholargos...",
@@ -246,119 +372,6 @@ const resources = {
                         descriptionStepSix: "Description",
                     },
                 },
-                validation: {
-                    stepOne: {
-                        address1Required: "Address is required",
-                        address1Max: "Address must be at most 30 characters",
-                        cityRequired: "City is required",
-                        cityMax: "City must be at most 20 characters",
-                        areaRequired: "Area is required",
-                        areaMax: "Area must be at most 20 characters",
-                        postCodeRequired: "Post Code is required",
-                        postCodeMax: "Post code must have maximum 7 characters",
-                        minutesRequired: "Minutes is required",
-                        modeRequired: "Mode is required",
-                        stationRequired: "Station is required",
-                    },
-                    stepTwo: {
-                        availableRoomsRequired: "Available Rooms is required",
-                        availableRoomsTest:
-                            "Available rooms should be smaller than the difference between the Size and Current tenants",
-                        sizeRequired: "Size is required",
-                        sizeTest:
-                            "Size must be greater than the available rooms",
-                        typeRequired: "Type is required",
-                        currentOccupantsRequired:
-                            "Current occupants is required",
-                        currentOccupantsTest:
-                            "Current occupants must be less than the size of the property",
-                        whatIAmRequired: "Who i am is required",
-                    },
-                    stepThree: {
-                        availableFromTypeError: "Available from must be a date",
-                        availableFromMin:
-                            "Available from date must be in the future",
-                        availableFromRequired:
-                            "Available from date is required",
-                        roomCostTypeError:
-                            "Room cost doesn't look like a number",
-                        roomCostRequired: "Cost of the room is required",
-                        roomDepositTypeError:
-                            "Room deposit doesn't look like a number",
-                        roomDepositRequired: "Deposit of the room is required",
-                        roomSizeRequired: "Size of the room is required",
-                        roomFurnishedRequired: "Room furnished is required",
-                        minimumStayRequired: "Minimum stay is required",
-                        maximumStayTest:
-                            "Maximum stay must be greater than minimum stay",
-                        maximumStayRequired: "Maximum stay is required",
-                        daysAvailableRequired: "Days available is required",
-                    },
-                    stepFour: {
-                        firstNameMax:
-                            "First Name must not be greater than 20 characters",
-                        firstNameRequired: "First name is required",
-                        lastNameMax:
-                            "Last Name must not be greater than 20 characters",
-                        lastNameRequired: "Last name is required",
-                        telephoneMin: "Phone number must be at least 8 digits",
-                        telephoneMax:
-                            "Phone number cannot be more than 15 digits",
-                        telephoneMaxMatches:
-                            "Phone number can only contain digits",
-                        telephoneRequired: "Telephone number is required",
-                    },
-                    currentFlatmate: {
-                        currentFlatmateAgeTypeError:
-                            "That doesn't look like an age",
-                        currentFlatmateAgeMin:
-                            "You should be more than 18 years old",
-                        currentFlatmateAgeRequired: "Age is required",
-                        currentFlatmateSmokerRequired:
-                            "Smoker field is required",
-                        currentFlatmatePetsRequuired: "Pet field is required",
-                        currentFlatmateOccupationRequired:
-                            "Occupation field is required",
-                        currentFlatmateGenderRequired:
-                            "Gender field is required",
-                    },
-                    newFlatmate: {
-                        newFlatmateMinAgeTypeError:
-                            "That doesn't look like an age",
-                        newFlatmateMinAgeMin:
-                            "Your new flatmate should be more than 18 years old",
-                        newFlatmateMinAgeRequired:
-                            "New flatmate min age is required",
-                        newFlatmatemaxAgeTypeError:
-                            "That doesn't look like an age",
-                        newFlatmatemaxAgeMax:
-                            "Your new flatmate should be more than 18 years old",
-                        newFlatmatemaxAgeRequired:
-                            "New flatmate max age is required",
-                        newFlatmatemaxAgeTest:
-                            "Max age must be greater than the min age",
-                        newFlatmateSmokerRequired: "Smoker field is required",
-                        newFlatmatePetsRequired: "Pet field is required",
-                        newFlatmateOccupationRequired:
-                            "Occupation field is required",
-                        newFlatmateGenderRequired: "Gender field is required",
-                    },
-                    stepSix: {
-                        amenitiesMin: "At least one amenity is required",
-                        amenitiesRequired: "Amenities are required",
-                        titleMin: "Title must be at least 10 characters long",
-                        titleMax: "Title must be at least 50 characters long",
-                        titleRequired: "Title is required",
-                        descriptionMin:
-                            "Description must be at least 50 characters long",
-                        descriptionMax:
-                            "Description must be at least 500 characters long",
-                        descriptionRequired: "Description is required",
-                        photosMax: "You can upload up to 9 images",
-                        photosFileFormat: "Unsupported file format",
-                        photosFileSize: "File size is too large",
-                    },
-                },
                 edit: {
                     miscs: {
                         fixErrors: "Please fix the errors",
@@ -374,59 +387,8 @@ const resources = {
                         confirmation: "Confirmation?",
                         filesUploaded:
                             "Files uploaded when creating advertisment",
-                    },
-                },
-                show: {
-                    availabilityModal: {
-                        titleAvailability:
-                            "Manage availablity of your property",
-                        liveAtForm: "Live at",
-                        availableForm: "Available",
-                        cancelAvailabilityBtn: "Cancel",
-                        updateBtn: "Update Availability",
-                    },
-                    virtualTourModal: {
-                        titleVirtualTour:
-                            "Book a virtual tour for your property",
-                        fullNameForm: "Full Name",
-                        emailForm: "Email Address",
-                        phoneNumberForm: "Phone Number",
-                        detailsForm: "Details",
-                        cancelVirtualTourBtn: "Cancel",
-                        bookBtn: "Book Virtual Tour",
-                    },
-                    deleteConfirmationModal: {
-                        titleConfirmation:
-                            "Are you sure you want to delete this property?",
-                        cancelConfirmationBtn: "Cancel",
-                        deleteBtn: "Delete Property",
-                    },
-                    miscs: {
-                        halted: "Halted",
-                        manageRooms: "Manage Rooms",
-                        manageRoomsTitle:
-                            "Select each room to edit and upload individual room photos",
-                    },
-                    buttons: {
-                        availableRoomsBtn: "Availbale rooms:",
-                        deletePropertyBtn: "Delete Property",
-                        manageAvailabilityBtn: "Manage availability",
-                        virtualTourBtn: "Virtual Tour",
-                    },
-                    roomCard: {
-                        availabilityModal: {
-                            title: "Manage availablity of your property",
-                            liveAtForm: "Live at",
-                            availableForm: "Available",
-                            cancelAvailabilityBtn: "Cancel",
-                            updateBtn: "Update Availability",
-                        },
-                        miscs: {
-                            halted: "Halted",
-                            liveAtSpan: "Live at",
-                            availableFromMisc: "Available from",
-                            month: "month",
-                        },
+                        processingBtn: "Processing...",
+                        updateBtn: "Update you ad",
                     },
                 },
             },
@@ -448,6 +410,110 @@ const resources = {
                     filesUploaded: "Files uploaded when creating advertisment",
                     processingBtn: "Processing...",
                     updateBtn: "Update your room",
+                },
+            },
+            flat: {
+                miscs: {
+                    inputPlaceholder: "Efterpis, Cholargos...",
+                    nextBtn: "Next",
+                    backBtn: "Back",
+                    noResult: "No results for",
+                    stepSixErrors: "Please fix the errors",
+                    processingBtn: "Processing...",
+                    placeAdBtn: "Place your ad",
+                },
+                forms: {
+                    stepOneFlat: {
+                        sizeStepOneFlat: "Size",
+                        typeStepOneFlat: "Type",
+                        whatIAmStepOneFlat: "What I am",
+                        costStepOneFlat: "Cost Per Month",
+                        depositStepOneFlat: "Deposit",
+                        furnishedStepOneFlat: "Furnished",
+                    },
+                    stepThreeFlat: {
+                        amenitiesStepThree: "Amenities",
+                        availableFromStepThree: "Available From",
+                        minimumStayStepThree: "Minimum Stay",
+                        maximumStayStepThree: "Maximum Stay",
+                        daysAvailableStepThree: "Days Available",
+                        shortTermStepThree: "Short Term",
+                    },
+                    stepSix: {
+                        titleStepSix: "Title",
+                        descriptionStepSix: "Description",
+                    },
+                },
+                edit: {
+                    miscs: {
+                        fixErrors: "Please fix the errors",
+                        propertyDetails: "Property details?",
+                        propertyAddressDetails: "Property Address details?",
+                        noResults: "No results for",
+                        inputPlaceholder: "Efterpis, Cholargos...",
+                        propertyAmenitiesDetails: "Property Amenities details?",
+                        roomDisclosureThree: "Room",
+                        amenitiesDisclosureThree: "Amenities",
+                        advertiserDetails: "Advertiser details?",
+                        flatmatesDisclosure: "Flatmates?",
+                        confirmation: "Confirmation?",
+                        filesUploaded:
+                            "Files uploaded when creating advertisment",
+                        processingBtn: "Processing...",
+                        updateBtn: "Update you ad",
+                    },
+                },
+            },
+            show: {
+                availabilityModal: {
+                    titleAvailability: "Manage availablity of your property",
+                    liveAtForm: "Live at",
+                    availableForm: "Available",
+                    cancelAvailabilityBtn: "Cancel",
+                    updateBtn: "Update Availability",
+                },
+                virtualTourModal: {
+                    titleVirtualTour: "Book a virtual tour for your property",
+                    fullNameForm: "Full Name",
+                    emailForm: "Email Address",
+                    phoneNumberForm: "Phone Number",
+                    detailsForm: "Details",
+                    cancelVirtualTourBtn: "Cancel",
+                    bookBtn: "Book Virtual Tour",
+                },
+                deleteConfirmationModal: {
+                    titleConfirmation:
+                        "Are you sure you want to delete this property?",
+                    cancelConfirmationBtn: "Cancel",
+                    deleteBtn: "Delete Property",
+                },
+                miscs: {
+                    halted: "Halted",
+                    manageRooms: "Manage Rooms",
+                    manageRoomsTitle:
+                        "Select each room to edit and upload individual room photos",
+                },
+                buttons: {
+                    availableRoomsBtn: "Availbale rooms:",
+                    bedroomsBtn: "Bedrooms:",
+                    deletePropertyBtn: "Delete Property",
+                    manageAvailabilityBtn: "Manage availability",
+                    virtualTourBtn: "Virtual Tour",
+                },
+                roomCard: {
+                    availabilityModal: {
+                        title: "Manage availablity of your property",
+                        liveAtForm: "Live at",
+                        availableForm: "Available",
+                        cancelAvailabilityBtn: "Cancel",
+                        updateBtn: "Update Availability",
+                    },
+                    miscs: {
+                        halted: "Halted",
+                        liveAtSpan: "Live at",
+                        availableFromMisc: "Available from",
+                        month: "month",
+                    },
                 },
             },
             blog: {},
@@ -619,6 +685,161 @@ const resources = {
                     verifyBtn: "Επαλήθευση",
                 },
             },
+            validation: {
+                stepOne: {
+                    address1Required: "Η διεύθυνση είναι υποχρεωτική",
+                    address1Max:
+                        "Η διεύθυνση πρέπει να είναι το πολύ 30 χαρακτήρες",
+                    cityRequired: "Η πόλη είναι υποχρεωτική",
+                    cityMax: "Η πόλη πρέπει να είναι το πολύ 20 χαρακτήρες",
+                    areaRequired: "Η περιοχή είναι υποχρεωτική",
+                    areaMax: "Η περιοχή πρέπει να είναι το πολύ 20 χαρακτήρες",
+                    postCodeRequired:
+                        "Ο ταχυδρομικός κώδικας είναι υποχρεωτικός",
+                    postCodeMax:
+                        "Ο ταχυδρομικός κώδικας πρέπει να έχει το πολύ 7 χαρακτήρες",
+                    minutesRequired: "Τα λεπτά είναι υποχρεωτικά",
+                    modeRequired: "To μέσω μεταφοράς είναι υποχρεωτική",
+                    stationRequired: "Η στάση είναι υποχρεωτική",
+                },
+                stepTwoShared: {
+                    availableRoomsRequired:
+                        "Το πεδίο διαθέσιμα δωμάτια είναι υποχρεωτικό",
+                    availableRoomsTest:
+                        "Τα διαθέσιμα δωμάτια πρέπει να είναι λιγότερα από τη διαφορά μεταξύ του μεγέθους και των τρεχόντων ενοίκων",
+                    sizeRequired: "Το πεδίο μέγεθος είναι υποχρεωτικό",
+                    sizeTest:
+                        "Το μέγεθος πρέπει να είναι μεγαλύτερο από τα διαθέσιμα δωμάτια",
+                    typeRequired: "Το πεδίο τύπος είναι υποχρεωτικό",
+                    currentOccupantsRequired:
+                        "Το πεδίο των τρεχόντων ενοίκων είναι υποχρεωτικό",
+                    currentOccupantsTest:
+                        "Ο αριθμός των τρεχόντων ενοίκων πρέπει να είναι μικρότερος από το μέγεθος της ιδιοκτησίας",
+                    whatIAmRequired:
+                        "Το πεδίο περιγραφής χρήστη είναι υποχρεωτικό",
+                },
+                stepTwoFlat: {
+                    sizeRequired: "Το μέγεθος είναι υποχρεωτικό",
+                    typeRequired: "Ο τύπος είναι υποχρεωτικός",
+                    furnishedRequired: "Επιπλωμένο είναι υποχρεωτικό",
+                    costTypeError: "Το κόστος δεν φαίνεται σαν αριθμός",
+                    costRequired: "Το κόστος είναι υποχρεωτικό",
+                    depositTypeError: "Η κατάθεση δεν φαίνεται σαν αριθμός",
+                    depositRequired: "Η κατάθεση είναι υποχρεωτική",
+                    whatIAmRequired: "Το ποιος είμαι είναι υποχρεωτικό",
+                },
+                stepThreeShared: {
+                    availableFromTypeError:
+                        "Το πεδίο διαθεσιμό απο πρέπει να είναι μια ημερομηνία",
+                    availableFromMin:
+                        "Η ημερομηνία διαθεσιμότητας πρέπει να είναι στο μέλλον",
+                    availableFromRequired:
+                        "Η ημερομηνία διαθεσιμότητας είναι υποχρεωτική",
+                    roomCostTypeError:
+                        "Το κόστος του δωματίου δεν φαίνεται να είναι ένας αριθμός",
+                    roomCostRequired:
+                        "Το κόστος του δωματίου είναι υποχρεωτικό",
+                    roomDepositTypeError:
+                        "Η προκαταβολή του δωματίου δεν φαίνεται να είναι ένας αριθμός",
+                    roomDepositRequired:
+                        "Η προκαταβολή του δωματίου είναι υποχρεωτική",
+                    roomSizeRequired:
+                        "Το μέγεθος του δωματίου είναι υποχρεωτικό",
+                    roomFurnishedRequired:
+                        "Η επίπλωση του δωματίου είναι υποχρεωτική",
+                    minimumStayRequired:
+                        "Το ελάχιστο διάστημα διαμονής είναι υποχρεωτικό",
+                    maximumStayTest:
+                        "Το μέγιστο διάστημα διαμονής πρέπει να είναι μεγαλύτερο από το ελάχιστο διάστημα",
+                    maximumStayRequired:
+                        "Το μέγιστο διάστημα διαμονής είναι υποχρεωτικό",
+                    daysAvailableRequired:
+                        "Οι ημέρες διαθεσιμότητας είναι υποχρεωτικές",
+                },
+                stepThreeFlat: {
+                    selectedParoxesMin: "Απαιτείται τουλάχιστον μία παροχή",
+                    selectedParoxesRequired: "Οι παροχές είναι υποχρεωτικές",
+                    availableFromTypeError:
+                        "Η διαθεσιμότητα από πρέπει να είναι ημερομηνία",
+                    availableFromMin:
+                        "Η διαθεσιμότητα από πρέπει να είναι στο μέλλον",
+                    availableFromRequired:
+                        "Απαιτείται ημερομηνία διαθεσιμότητας",
+                    minimumStayRequired: "Απαιτείται ελάχιστη διαμονή",
+                    maximumStayTest:
+                        "Η μέγιστη διαμονή πρέπει να είναι μεγαλύτερη από την ελάχιστη διαμονή",
+                    maximumStayRequired: "Απαιτείται μέγιστη διαμονή",
+                    daysAvailableRequired:
+                        "Οι διαθέσιμες ημέρες είναι υποχρεωτικές",
+                },
+                stepFour: {
+                    firstNameMax:
+                        "Το όνομα δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
+                    firstNameRequired: "Το όνομα απαιτείται",
+                    lastNameMax:
+                        "Το επώνυμο δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
+                    lastNameRequired: "Το επώνυμο απαιτείται",
+                    telephoneMin:
+                        "Ο αριθμός τηλεφώνου πρέπει να περιέχει τουλάχιστον 8 ψηφία",
+                    telephoneMax:
+                        "Ο αριθμός τηλεφώνου δεν μπορεί να ξεπερνά τα 15 ψηφία",
+                    telephoneMaxMatches:
+                        "Ο αριθμός τηλεφώνου πρέπει να περιέχει μόνο ψηφία",
+                    telephoneRequired: "Απαιτείται ο αριθμός τηλεφώνου",
+                },
+                currentFlatmate: {
+                    currentFlatmateAgeTypeError: "Αυτό δεν μοιάζει με ηλικία",
+                    currentFlatmateAgeMin: "Πρέπει να είστε πάνω από 18 ετών",
+                    currentFlatmateAgeRequired: "Η ηλικία είναι υποχρεωτική",
+                    currentFlatmateSmokerRequired:
+                        "Το πεδίο καπνιστής είναι υποχρεωτικό",
+                    currentFlatmatePetsRequuired:
+                        "Το πεδίο κατοικίδια είναι υποχρεωτικό",
+                    currentFlatmateOccupationRequired:
+                        "Το πεδίο επάγγελμα είναι υποχρεωτικό",
+                    currentFlatmateGenderRequired:
+                        "Το πεδίο φύλο είναι υποχρεωτικό",
+                },
+                newFlatmate: {
+                    newFlatmateMinAgeTypeError: "Αυτό δεν μοιάζει με ηλικία",
+                    newFlatmateMinAgeMin:
+                        "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
+                    newFlatmateMinAgeRequired:
+                        "Η ελάχιστη ηλικία του νέου συγκατοίκου απαιτείται",
+                    newFlatmatemaxAgeTypeError: "Αυτό δεν μοιάζει με ηλικία",
+                    newFlatmatemaxAgeMax:
+                        "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
+                    newFlatmatemaxAgeRequired:
+                        "Η μέγιστη ηλικία του νέου συγκατοίκου απαιτείται",
+                    newFlatmatemaxAgeTest:
+                        "Η μέγιστη ηλικία πρέπει να είναι μεγαλύτερη από την ελάχιστη ηλικία",
+                    newFlatmateSmokerRequired:
+                        "Το πεδίο καπνιστής είναι υποχρεωτικό",
+                    newFlatmatePetsRequired:
+                        "Το πεδίο κατοικίδια είναι υποχρεωτικό",
+                    newFlatmateOccupationRequired:
+                        "Το πεδίο επάγγελμα είναι υποχρεωτικό",
+                    newFlatmateGenderRequired:
+                        "Το πεδίο φύλο είναι υποχρεωτικό",
+                },
+                stepSix: {
+                    amenitiesMin: "Απαιτείται τουλάχιστον μία επιλογή",
+                    amenitiesRequired: "Απαιτείται τουλάχιστον μία επιλογή",
+                    titleMin:
+                        "Ο τίτλος πρέπει να περιλαμβάνει τουλάχιστον 10 χαρακτήρες",
+                    titleMax:
+                        "Ο τίτλος δεν πρέπει να υπερβαίνει τους 50 χαρακτήρες",
+                    titleRequired: "Ο τίτλος απαιτείται",
+                    descriptionMin:
+                        "Η περιγραφή πρέπει να περιλαμβάνει τουλάχιστον 50 χαρακτήρες",
+                    descriptionMax:
+                        "Η περιγραφή δεν πρέπει να υπερβαίνει τους 500 χαρακτήρες",
+                    descriptionRequired: "Η περιγραφή απαιτείται",
+                    photosMax: "Μπορείτε να ανεβάσετε έως και 9 εικόνες",
+                    photosFileFormat: "Μη υποστηριζόμενη μορφή αρχείου",
+                    photosFileSize: "Το μέγεθος του αρχείου είναι πολύ μεγάλο",
+                },
+            },
             shared: {
                 miscs: {
                     inputPlaceholder: "Ευτέρπης, Χολαργός...",
@@ -695,142 +916,6 @@ const resources = {
                         imagesStepSix: "Σύρετε & Αφήστε τα αρχεία σας ή",
                     },
                 },
-                validation: {
-                    stepOne: {
-                        address1Required: "Η διεύθυνση είναι υποχρεωτική",
-                        address1Max:
-                            "Η διεύθυνση πρέπει να είναι το πολύ 30 χαρακτήρες",
-                        cityRequired: "Η πόλη είναι υποχρεωτική",
-                        cityMax: "Η πόλη πρέπει να είναι το πολύ 20 χαρακτήρες",
-                        areaRequired: "Η περιοχή είναι υποχρεωτική",
-                        areaMax:
-                            "Η περιοχή πρέπει να είναι το πολύ 20 χαρακτήρες",
-                        postCodeRequired:
-                            "Ο ταχυδρομικός κώδικας είναι υποχρεωτικός",
-                        postCodeMax:
-                            "Ο ταχυδρομικός κώδικας πρέπει να έχει το πολύ 7 χαρακτήρες",
-                        minutesRequired: "Τα λεπτά είναι υποχρεωτικά",
-                        modeRequired: "To μέσω μεταφοράς είναι υποχρεωτική",
-                        stationRequired: "Η στάση είναι υποχρεωτική",
-                    },
-                    stepTwo: {
-                        availableRoomsRequired:
-                            "Το πεδίο διαθέσιμα δωμάτια είναι υποχρεωτικό",
-                        availableRoomsTest:
-                            "Τα διαθέσιμα δωμάτια πρέπει να είναι λιγότερα από τη διαφορά μεταξύ του μεγέθους και των τρεχόντων ενοίκων",
-                        sizeRequired: "Το πεδίο μέγεθος είναι υποχρεωτικό",
-                        sizeTest:
-                            "Το μέγεθος πρέπει να είναι μεγαλύτερο από τα διαθέσιμα δωμάτια",
-                        typeRequired: "Το πεδίο τύπος είναι υποχρεωτικό",
-                        currentOccupantsRequired:
-                            "Το πεδίο των τρεχόντων ενοίκων είναι υποχρεωτικό",
-                        currentOccupantsTest:
-                            "Ο αριθμός των τρεχόντων ενοίκων πρέπει να είναι μικρότερος από το μέγεθος της ιδιοκτησίας",
-                        whatIAmRequired:
-                            "Το πεδίο περιγραφής χρήστη είναι υποχρεωτικό",
-                    },
-                    stepThree: {
-                        availableFromTypeError:
-                            "Το πεδίο διαθεσιμό απο πρέπει να είναι μια ημερομηνία",
-                        availableFromMin:
-                            "Η ημερομηνία διαθεσιμότητας πρέπει να είναι στο μέλλον",
-                        availableFromRequired:
-                            "Η ημερομηνία διαθεσιμότητας είναι υποχρεωτική",
-                        roomCostTypeError:
-                            "Το κόστος του δωματίου δεν φαίνεται να είναι ένας αριθμός",
-                        roomCostRequired:
-                            "Το κόστος του δωματίου είναι υποχρεωτικό",
-                        roomDepositTypeError:
-                            "Η προκαταβολή του δωματίου δεν φαίνεται να είναι ένας αριθμός",
-                        roomDepositRequired:
-                            "Η προκαταβολή του δωματίου είναι υποχρεωτική",
-                        roomSizeRequired:
-                            "Το μέγεθος του δωματίου είναι υποχρεωτικό",
-                        roomFurnishedRequired:
-                            "Η επίπλωση του δωματίου είναι υποχρεωτική",
-                        minimumStayRequired:
-                            "Το ελάχιστο διάστημα διαμονής είναι υποχρεωτικό",
-                        maximumStayTest:
-                            "Το μέγιστο διάστημα διαμονής πρέπει να είναι μεγαλύτερο από το ελάχιστο διάστημα",
-                        maximumStayRequired:
-                            "Το μέγιστο διάστημα διαμονής είναι υποχρεωτικό",
-                        daysAvailableRequired:
-                            "Οι ημέρες διαθεσιμότητας είναι υποχρεωτικές",
-                    },
-                    stepFour: {
-                        firstNameMax:
-                            "Το όνομα δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
-                        firstNameRequired: "Το όνομα απαιτείται",
-                        lastNameMax:
-                            "Το επώνυμο δεν πρέπει να ξεπερνά τους 20 χαρακτήρες",
-                        lastNameRequired: "Το επώνυμο απαιτείται",
-                        telephoneMin:
-                            "Ο αριθμός τηλεφώνου πρέπει να περιέχει τουλάχιστον 8 ψηφία",
-                        telephoneMax:
-                            "Ο αριθμός τηλεφώνου δεν μπορεί να ξεπερνά τα 15 ψηφία",
-                        telephoneMaxMatches:
-                            "Ο αριθμός τηλεφώνου πρέπει να περιέχει μόνο ψηφία",
-                        telephoneRequired: "Απαιτείται ο αριθμός τηλεφώνου",
-                    },
-                    currentFlatmate: {
-                        currentFlatmateAgeTypeError:
-                            "Αυτό δεν μοιάζει με ηλικία",
-                        currentFlatmateAgeMin:
-                            "Πρέπει να είστε πάνω από 18 ετών",
-                        currentFlatmateAgeRequired:
-                            "Η ηλικία είναι υποχρεωτική",
-                        currentFlatmateSmokerRequired:
-                            "Το πεδίο καπνιστής είναι υποχρεωτικό",
-                        currentFlatmatePetsRequuired:
-                            "Το πεδίο κατοικίδια είναι υποχρεωτικό",
-                        currentFlatmateOccupationRequired:
-                            "Το πεδίο επάγγελμα είναι υποχρεωτικό",
-                        currentFlatmateGenderRequired:
-                            "Το πεδίο φύλο είναι υποχρεωτικό",
-                    },
-                    newFlatmate: {
-                        newFlatmateMinAgeTypeError:
-                            "Αυτό δεν μοιάζει με ηλικία",
-                        newFlatmateMinAgeMin:
-                            "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
-                        newFlatmateMinAgeRequired:
-                            "Η ελάχιστη ηλικία του νέου συγκατοίκου απαιτείται",
-                        newFlatmatemaxAgeTypeError:
-                            "Αυτό δεν μοιάζει με ηλικία",
-                        newFlatmatemaxAgeMax:
-                            "Ο νέος σας συγκάτοικος πρέπει να είναι πάνω από 18 ετών",
-                        newFlatmatemaxAgeRequired:
-                            "Η μέγιστη ηλικία του νέου συγκατοίκου απαιτείται",
-                        newFlatmatemaxAgeTest:
-                            "Η μέγιστη ηλικία πρέπει να είναι μεγαλύτερη από την ελάχιστη ηλικία",
-                        newFlatmateSmokerRequired:
-                            "Το πεδίο καπνιστής είναι υποχρεωτικό",
-                        newFlatmatePetsRequired:
-                            "Το πεδίο κατοικίδια είναι υποχρεωτικό",
-                        newFlatmateOccupationRequired:
-                            "Το πεδίο επάγγελμα είναι υποχρεωτικό",
-                        newFlatmateGenderRequired:
-                            "Το πεδίο φύλο είναι υποχρεωτικό",
-                    },
-                    stepSix: {
-                        amenitiesMin: "Απαιτείται τουλάχιστον μία επιλογή",
-                        amenitiesRequired: "Απαιτείται τουλάχιστον μία επιλογή",
-                        titleMin:
-                            "Ο τίτλος πρέπει να περιλαμβάνει τουλάχιστον 10 χαρακτήρες",
-                        titleMax:
-                            "Ο τίτλος δεν πρέπει να υπερβαίνει τους 50 χαρακτήρες",
-                        titleRequired: "Ο τίτλος απαιτείται",
-                        descriptionMin:
-                            "Η περιγραφή πρέπει να περιλαμβάνει τουλάχιστον 50 χαρακτήρες",
-                        descriptionMax:
-                            "Η περιγραφή δεν πρέπει να υπερβαίνει τους 500 χαρακτήρες",
-                        descriptionRequired: "Η περιγραφή απαιτείται",
-                        photosMax: "Μπορείτε να ανεβάσετε έως και 9 εικόνες",
-                        photosFileFormat: "Μη υποστηριζόμενη μορφή αρχείου",
-                        photosFileSize:
-                            "Το μέγεθος του αρχείου είναι πολύ μεγάλο",
-                    },
-                },
                 edit: {
                     miscs: {
                         fixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
@@ -847,61 +932,8 @@ const resources = {
                         confirmation: "Επιβεβαίωση;",
                         filesUploaded:
                             "Αρχεία που ανέβηκαν κατά τη δημιουργία αγγελίας",
-                    },
-                },
-                show: {
-                    availabilityModal: {
-                        titleAvailability:
-                            "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
-                        liveAtForm: "Δημοσίευση στις",
-                        availableForm: "Διαθέσιμο",
-                        cancelAvailabilityBtn: "Άκυρο",
-                        updateBtn: "Ενημέρωση Διαθεσιμότητας",
-                    },
-                    virtualTourModal: {
-                        titleVirtualTour:
-                            "Κάντε κράτηση για εικονική περιήγηση για την ιδιοκτησία σας",
-                        fullNameForm: "Ονοματεπώνυμο",
-                        emailForm: "Διεύθυνση Email",
-                        phoneNumberForm: "Αριθμός Τηλεφώνου",
-                        detailsForm: "Λεπτομέρειες",
-                        cancelVirtualTourBtn: "Άκυρο",
-                        bookBtn: "Κράτηση Εικονικής Περιήγησης",
-                    },
-                    deleteConfirmationModal: {
-                        titleConfirmation:
-                            "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την αγγελία;",
-                        cancelConfirmationBtn: "Άκυρο",
-                        deleteBtn: "Διαγραφή αγγελίας",
-                    },
-                    miscs: {
-                        halted: "Αδημοσίευτο",
-                        liveAtSpan: "Δημοσιεύτηκε στις",
-                        manageRooms: "Διαχείριση Δωματίων",
-                        manageRoomsTitle:
-                            "Επιλέξτε κάθε δωμάτιο για επεξεργασία και μεταφόρτωση μεμονωμένων φωτογραφιών δωματίου",
-                    },
-                    buttons: {
-                        availableRoomsBtn: "Διαθέσιμα δωμάτια:",
-                        deletePropertyBtn: "Διαγραφή αγγελίας",
-                        manageAvailabilityBtn: "Διαχείριση διαθεσιμότητας",
-                        virtualTourBtn: "Εικονική Περιήγηση",
-                    },
-                    roomCard: {
-                        availabilityModal: {
-                            titleAvailability:
-                                "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
-                            liveAtForm: "Δημοσίευση στις",
-                            availableForm: "Διαθέσιμο",
-                            cancelAvailabilityBtn: "Άκυρο",
-                            updateBtn: "Ενημέρωση Διαθεσιμότητας",
-                        },
-                        miscs: {
-                            halted: "Αδημοσίευτο",
-                            liveAtSpan: "Δημοσιεύτηκε στις",
-                            availableFromMisc: "Διαθέσιμο από",
-                            month: "μήνα",
-                        },
+                        processingBtn: "Επεξεργασία...",
+                        updateBtn: "Ενημέρωση της αγγελίας σας",
                     },
                 },
             },
@@ -923,6 +955,117 @@ const resources = {
                         "Αρχεία που ανέβηκαν κατά τη δημιουργία της αγγελίας",
                     processingBtn: "Επεξεργασία...",
                     updateBtn: "Ενημέρωση του δωματίου σας",
+                },
+            },
+            flat: {
+                miscs: {
+                    inputPlaceholder: "Ευτέρπης, Χολαργός...",
+                    nextBtn: "Επόμενο",
+                    backBtn: "Πίσω",
+                    noResult: "Δεν υπάρχουν αποτελέσματα για",
+                    fixErrors:
+                        "Παρακαλώ διορθώστε τα παρακάτω σφάλματα πριν συνεχίσετε.",
+                    stepSixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                    processingBtn: "Επεξεργασία...",
+                    placeAdBtn: "Δημοσίευση της αγγελίας σας",
+                },
+                forms: {
+                    stepOneFlat: {
+                        sizeStepOneFlat: "Μέγεθος",
+                        typeStepOneFlat: "Τύπος",
+                        whatIAmStepOneFlat: "Ποιος είμαι",
+                        costStepOneFlat: "Κόστος Ανά Μήνα",
+                        depositStepOneFlat: "Κατάθεση",
+                        furnishedStepOneFlat: "Επιπλωμένο",
+                    },
+                    stepThreeFlat: {
+                        amenitiesStepThree: "Παροχές",
+                        availableFromStepThree: "Διαθέσιμο Από",
+                        minimumStayStepThree: "Ελάχιστη Διαμονή",
+                        maximumStayStepThree: "Μέγιστη Διαμονή",
+                        daysAvailableStepThree: "Διαθέσιμες Ημέρες",
+                        shortTermStepThree: "Βραχυπρόθεσμο",
+                    },
+                    stepSix: {
+                        titleStepSix: "Τίτλος",
+                        descriptionStepSix: "Περιγραφή",
+                    },
+                },
+                edit: {
+                    miscs: {
+                        fixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                        propertyDetails: "Λεπτομέρειες ιδιοκτησίας;",
+                        propertyAddressDetails:
+                            "Λεπτομέρειες διεύθυνσης ιδιοκτησίας;",
+                        noResults: "Χωρίς αποτελέσματα για",
+                        inputPlaceholder: "Ευτέρπης, Χολαργός...",
+                        propertyAmenitiesDetails:
+                            "Λεπτομέρειες ανέσεων της ιδιοκτησίας;",
+                        amenitiesDisclosureThree: "Παροχές",
+                        advertiserDetails: "Λεπτομέρειες διαφημιζόμενου;",
+                        flatmatesDisclosure: "Συγκάτοικοι;",
+                        confirmation: "Επιβεβαίωση;",
+                        filesUploaded:
+                            "Αρχεία που ανέβηκαν κατά τη δημιουργία αγγελίας",
+                        processingBtn: "Επεξεργασία...",
+                        updateBtn: "Ενημέρωση της αγγελίας σας",
+                    },
+                },
+            },
+            show: {
+                availabilityModal: {
+                    titleAvailability:
+                        "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
+                    liveAtForm: "Δημοσίευση στις",
+                    availableForm: "Διαθέσιμο",
+                    cancelAvailabilityBtn: "Άκυρο",
+                    updateBtn: "Ενημέρωση Διαθεσιμότητας",
+                },
+                virtualTourModal: {
+                    titleVirtualTour:
+                        "Κάντε κράτηση για εικονική περιήγηση για την ιδιοκτησία σας",
+                    fullNameForm: "Ονοματεπώνυμο",
+                    emailForm: "Διεύθυνση Email",
+                    phoneNumberForm: "Αριθμός Τηλεφώνου",
+                    detailsForm: "Λεπτομέρειες",
+                    cancelVirtualTourBtn: "Άκυρο",
+                    bookBtn: "Κράτηση Εικονικής Περιήγησης",
+                },
+                deleteConfirmationModal: {
+                    titleConfirmation:
+                        "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την αγγελία;",
+                    cancelConfirmationBtn: "Άκυρο",
+                    deleteBtn: "Διαγραφή αγγελίας",
+                },
+                miscs: {
+                    halted: "Αδημοσίευτο",
+                    liveAtSpan: "Δημοσιεύτηκε στις",
+                    manageRooms: "Διαχείριση Δωματίων",
+                    manageRoomsTitle:
+                        "Επιλέξτε κάθε δωμάτιο για επεξεργασία και μεταφόρτωση μεμονωμένων φωτογραφιών δωματίου",
+                },
+                buttons: {
+                    availableRoomsBtn: "Διαθέσιμα δωμάτια:",
+                    bedroomsBtn: "Δωμάτια:",
+                    deletePropertyBtn: "Διαγραφή αγγελίας",
+                    manageAvailabilityBtn: "Διαχείριση διαθεσιμότητας",
+                    virtualTourBtn: "Εικονική Περιήγηση",
+                },
+                roomCard: {
+                    availabilityModal: {
+                        titleAvailability:
+                            "Διαχειριστείτε τη διαθεσιμότητα την αγγελία σας",
+                        liveAtForm: "Δημοσίευση στις",
+                        availableForm: "Διαθέσιμο",
+                        cancelAvailabilityBtn: "Άκυρο",
+                        updateBtn: "Ενημέρωση Διαθεσιμότητας",
+                    },
+                    miscs: {
+                        halted: "Αδημοσίευτο",
+                        liveAtSpan: "Δημοσιεύτηκε στις",
+                        availableFromMisc: "Διαθέσιμο από",
+                        month: "μήνα",
+                    },
                 },
             },
             blog: {},

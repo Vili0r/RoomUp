@@ -2,25 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\DaysAvailable;
-use App\Enums\Furnishings;
-use App\Enums\MaximumStay;
-use App\Enums\MinimumStay;
-use App\Enums\Minutes;
-use App\Enums\Mode;
-use App\Enums\NewFlatmateGender;
-use App\Enums\NewFlatmateOccupation;
-use App\Enums\NewFlatmateSmoking;
-use App\Enums\Pets;
-use App\Enums\References;
-use App\Enums\Size;
-use App\Enums\Stations;
-use App\Enums\Type;
-use App\Enums\WhatIAmFlat;
 use App\Http\Requests\FlatStoreRequest;
 use App\Http\Requests\FlatUpdateRequest;
-use App\Http\Resources\EnumResource;
-use App\Http\Resources\AmenitiesResource;
 use App\Http\Resources\FlatResource;
 use App\Http\Resources\FlatShowResource;
 use App\Models\Amenity;
@@ -38,24 +21,7 @@ class FlatController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render("Flat/Create", [
-            'whatIAmFlat' => EnumResource::collection(WhatIAmFlat::cases()),
-            'size' => EnumResource::collection(Size::cases()),
-            'type' => EnumResource::collection(Type::cases()),
-            'minutes' => EnumResource::collection(Minutes::cases()),
-            'mode' => EnumResource::collection(Mode::cases()),
-            'stations' => EnumResource::collection(Stations::cases()),
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'furnishings' => EnumResource::collection(Furnishings::cases()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            'pets' => EnumResource::collection(Pets::cases()),
-            'references' => EnumResource::collection(References::cases()),
-        ]);
+        return Inertia::render("Flat/Create");
     }
 
     /**
@@ -180,23 +146,7 @@ class FlatController extends Controller
         ]);
 
         return Inertia::render("Flat/Edit", [
-            'flat' => new FlatResource($flat),
-            'whatIAmFlat' => EnumResource::collection(WhatIAmFlat::cases()),
-            'size' => EnumResource::collection(Size::cases()),
-            'type' => EnumResource::collection(Type::cases()),
-            'minutes' => EnumResource::collection(Minutes::cases()),
-            'mode' => EnumResource::collection(Mode::cases()),
-            'stations' => EnumResource::collection(Stations::cases()),
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'furnishings' => EnumResource::collection(Furnishings::cases()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            'pets' => EnumResource::collection(Pets::cases()),
-            'references' => EnumResource::collection(References::cases()),
+            'flat' => new FlatResource($flat)
         ]);
     }
 

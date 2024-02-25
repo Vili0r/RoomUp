@@ -18,6 +18,12 @@ import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
+import {
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+    amenities,
+} from "@/arrays/Array";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -29,35 +35,28 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 
+import { useTranslation } from "react-i18next";
+
 const Edit = (props) => {
-    const {
-        flat,
-        whatIAmFlat,
-        size,
-        type,
-        minutes,
-        mode,
-        stations,
-        amenities,
-        furnishings,
-        minimumStay,
-        maximumStay,
-        daysAvailable,
-        newFlatmateSmoking,
-        newFlatmateGender,
-        newFlatmateOccupation,
-        pets,
-        notification,
-        csrf_token,
-    } = usePage().props;
+    const { flat, notification, csrf_token } = usePage().props;
+    const { t, i18n } = useTranslation();
     const selectedOptions = flat.amenities.map((item) => {
         return {
             label: item.name,
             value: item.id,
         };
     });
+    const selectedOptionsWithLabels = selectedOptions.map((selectedOption) => {
+        const amenity = amenities.find(
+            (amenity) => amenity.id === selectedOption.value
+        );
+        const label = i18n.language === "gr" ? amenity.nameGr : amenity.nameEn;
+        return { ...selectedOption, label };
+    });
     const animatedComponents = makeAnimated();
-    const [selectedAmenities, setSelectedAmenities] = useState(selectedOptions);
+    const [selectedAmenities, setSelectedAmenities] = useState(
+        selectedOptionsWithLabels
+    );
     const [visible, setVisible] = useState(false);
     const [search, setSearch] = useState("");
     const [selectedAddress, setSelectedAddress] = useState([]);
@@ -84,6 +83,9 @@ const Edit = (props) => {
         area: flat.address.area,
         city: flat.address.city,
         post_code: flat.address.post_code,
+        lat: flat.address.lat,
+        long: flat.address.long,
+        display_name: flat.address.display_name,
         minutes: flat.transport.minutes,
         mode: flat.transport.mode,
         station: flat.transport.station,
@@ -109,6 +111,31 @@ const Edit = (props) => {
         new_flatmate_hobbies: flat.flatmate.new_flatmate_hobbies,
         images: [],
     });
+
+    const {
+        fixErrors,
+        propertyDetails,
+        propertyAddressDetails,
+        noResults,
+        propertyAmenitiesDetails,
+        advertiserDetails,
+        flatmatesDisclosure,
+        confirmation,
+        filesUploaded,
+        inputPlaceholder,
+        amenitiesDisclosureThree,
+        processingBtn,
+        updateBtn,
+    } = t("flat.edit.miscs");
+    const {
+        amenitiesStepThree,
+        availableFromStepThree,
+        minimumStayStepThree,
+        maximumStayStepThree,
+        daysAvailableStepThree,
+        shortTermStepThree,
+    } = t("flat.forms.stepThreeFlat");
+    const { titleStepSix, descriptionStepSix } = t("flat.forms.stepSix");
 
     const showImage = () => {
         return "/storage/";
@@ -155,7 +182,7 @@ const Edit = (props) => {
     //Transforming amenties with label and value as required from react select package
     const options = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });
@@ -292,7 +319,7 @@ const Edit = (props) => {
                                     </div>
                                     <div className="ml-3">
                                         <h2 className="font-semibold text-gray-800">
-                                            Please fix the errors
+                                            {fixErrors}
                                         </h2>
                                     </div>
                                 </div>
@@ -303,7 +330,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Property details?</span>
+                                            <span>{propertyDetails}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -317,10 +344,6 @@ const Edit = (props) => {
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                size={size}
-                                                type={type}
-                                                whatIAmFlat={whatIAmFlat}
-                                                furnishings={furnishings}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -333,7 +356,7 @@ const Edit = (props) => {
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                                             <span>
-                                                Property Address details?
+                                                {propertyAddressDetails}
                                             </span>
                                             <ChevronUpIcon
                                                 className={`${
@@ -344,7 +367,7 @@ const Edit = (props) => {
                                             />
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                            <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                                            <div className="mt-10 flex relative items-center p-2 py-3 bg-white border border-[#bcbaba] rounded-full text-black font-bold text-lg">
                                                 <AiOutlineSearch className="w-7 h-7" />
                                                 <DebounceInput
                                                     value={search}
@@ -358,8 +381,10 @@ const Edit = (props) => {
                                                             e.target.value
                                                         );
                                                     }}
-                                                    className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                                                    placeholder="Efterpis, Cholargos..."
+                                                    className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0"
+                                                    placeholder={
+                                                        inputPlaceholder
+                                                    }
                                                 />
                                                 {/* <button
                                                     onClick={() => {
@@ -411,17 +436,13 @@ const Edit = (props) => {
                                                     </div>
                                                 ) : (
                                                     <div className="px-3 py-3">
-                                                        No results for "{search}
-                                                        "
+                                                        {noResults} "{search}"
                                                     </div>
                                                 ))}
                                             <StepTwo
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                minutes={minutes}
-                                                mode={mode}
-                                                stations={stations}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -434,7 +455,7 @@ const Edit = (props) => {
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                                             <span>
-                                                Property Amenities details?
+                                                {propertyAmenitiesDetails}
                                             </span>
                                             <ChevronUpIcon
                                                 className={`${
@@ -448,7 +469,9 @@ const Edit = (props) => {
                                             <div className="mt-7">
                                                 <InputLabel
                                                     htmlFor="amenties"
-                                                    value="Amenities"
+                                                    value={
+                                                        amenitiesDisclosureThree
+                                                    }
                                                     className="mb-3"
                                                 />
                                                 <Select
@@ -478,7 +501,9 @@ const Edit = (props) => {
                                                         type="date"
                                                         name="available_from"
                                                         id="available_from"
-                                                        placeholder="Available From"
+                                                        placeholder={
+                                                            availableFromStepThree
+                                                        }
                                                         value={
                                                             data.available_from
                                                         }
@@ -490,9 +515,9 @@ const Edit = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="available_from"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Available From
+                                                        {availableFromStepThree}
                                                     </label>
                                                 </div>
 
@@ -520,21 +545,28 @@ const Edit = (props) => {
                                                             --
                                                         </option>
                                                         {minimumStay.map(
-                                                            ({ id, name }) => (
+                                                            ({
+                                                                id,
+                                                                nameEn,
+                                                                nameGr,
+                                                            }) => (
                                                                 <option
                                                                     key={id}
                                                                     value={id}
                                                                 >
-                                                                    {name}
+                                                                    {i18n.language ==
+                                                                    "en"
+                                                                        ? nameEn
+                                                                        : nameGr}
                                                                 </option>
                                                             )
                                                         )}
                                                     </select>
                                                     <label
                                                         htmlFor="minimum_stay"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Minimum Stay
+                                                        {minimumStayStepThree}
                                                     </label>
 
                                                     <InputError
@@ -559,21 +591,28 @@ const Edit = (props) => {
                                                             --
                                                         </option>
                                                         {maximumStay.map(
-                                                            ({ id, name }) => (
+                                                            ({
+                                                                id,
+                                                                nameEn,
+                                                                nameGr,
+                                                            }) => (
                                                                 <option
                                                                     key={id}
                                                                     value={id}
                                                                 >
-                                                                    {name}
+                                                                    {i18n.language ==
+                                                                    "en"
+                                                                        ? nameEn
+                                                                        : nameGr}
                                                                 </option>
                                                             )
                                                         )}
                                                     </select>
                                                     <label
                                                         htmlFor="maximum_stay"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Maximum Stay
+                                                        {maximumStayStepThree}
                                                     </label>
 
                                                     <InputError
@@ -601,21 +640,28 @@ const Edit = (props) => {
                                                             --
                                                         </option>
                                                         {daysAvailable.map(
-                                                            ({ id, name }) => (
+                                                            ({
+                                                                id,
+                                                                nameEn,
+                                                                nameGr,
+                                                            }) => (
                                                                 <option
                                                                     key={id}
                                                                     value={id}
                                                                 >
-                                                                    {name}
+                                                                    {i18n.language ==
+                                                                    "en"
+                                                                        ? nameEn
+                                                                        : nameGr}
                                                                 </option>
                                                             )
                                                         )}
                                                     </select>
                                                     <label
                                                         htmlFor="days_available"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Days available
+                                                        {daysAvailableStepThree}
                                                     </label>
 
                                                     <InputError
@@ -626,11 +672,13 @@ const Edit = (props) => {
                                                     />
                                                 </div>
                                                 <div className="flex justify-start gap-2 mt-3">
-                                                    <span className="mt-1 text-sm font-popp"></span>
+                                                    <span className="mt-1 text-sm"></span>
                                                     <InputLabel
                                                         htmlFor="short_term"
-                                                        value="Short term"
-                                                        className="mt-1 text-sm font-popp"
+                                                        value={
+                                                            shortTermStepThree
+                                                        }
+                                                        className="mt-1 text-sm"
                                                     />
                                                     <label className="relative cursor-pointer">
                                                         <input
@@ -664,7 +712,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Advertiser details?</span>
+                                            <span>{advertiserDetails}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -690,7 +738,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Flatmates?</span>
+                                            <span>{flatmatesDisclosure}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -704,16 +752,6 @@ const Edit = (props) => {
                                                 data={data}
                                                 errors={errors}
                                                 handleOnChange={handleOnChange}
-                                                newFlatmateSmoking={
-                                                    newFlatmateSmoking
-                                                }
-                                                newFlatmateGender={
-                                                    newFlatmateGender
-                                                }
-                                                newFlatmateOccupation={
-                                                    newFlatmateOccupation
-                                                }
-                                                pets={pets}
                                             />
                                         </Disclosure.Panel>
                                     </>
@@ -726,7 +764,7 @@ const Edit = (props) => {
                                 {({ open }) => (
                                     <>
                                         <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-indigo-900 bg-indigo-100 rounded-lg hover:bg-indigo-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                            <span>Confirmation?</span>
+                                            <span>{confirmation}</span>
                                             <ChevronUpIcon
                                                 className={`${
                                                     open
@@ -742,7 +780,9 @@ const Edit = (props) => {
                                                         type="text"
                                                         name="title"
                                                         id="title"
-                                                        placeholder="Title"
+                                                        placeholder={
+                                                            titleStepSix
+                                                        }
                                                         value={data.title}
                                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                         autoComplete="off"
@@ -752,9 +792,9 @@ const Edit = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="title"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Title
+                                                        {titleStepSix}
                                                     </label>
                                                 </div>
 
@@ -771,7 +811,9 @@ const Edit = (props) => {
                                                         name="description"
                                                         id="description"
                                                         rows="8"
-                                                        placeholder="description"
+                                                        placeholder={
+                                                            descriptionStepSix
+                                                        }
                                                         value={data.description}
                                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                         autoComplete="off"
@@ -781,9 +823,9 @@ const Edit = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="description"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Description
+                                                        {descriptionStepSix}
                                                     </label>
                                                 </div>
 
@@ -816,11 +858,7 @@ const Edit = (props) => {
 
                                                 {flat.images.length > 0 && (
                                                     <>
-                                                        <h2>
-                                                            Files uploaded when
-                                                            creating
-                                                            advertisment
-                                                        </h2>
+                                                        <h2>{filesUploaded}</h2>
 
                                                         {flat.images.map(
                                                             (file, index) => (
@@ -879,11 +917,9 @@ const Edit = (props) => {
                         <div className="w-full max-w-2xl mx-auto mt-4">
                             <PrimaryButton
                                 disabled={processing}
-                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                             >
-                                {processing
-                                    ? "Processing..."
-                                    : "Update your ad"}
+                                {processing ? processingBtn : updateBtn}
                             </PrimaryButton>
                         </div>
                     </form>

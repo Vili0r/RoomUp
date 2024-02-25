@@ -128,6 +128,8 @@ const Edit = (props) => {
         filesUploaded,
         inputPlaceholder,
         amenitiesDisclosureThree,
+        processingBtn,
+        updateBtn,
     } = t("shared.edit.miscs");
 
     const {
@@ -1514,9 +1516,7 @@ const Edit = (props) => {
                                 disabled={processing}
                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                             >
-                                {processing
-                                    ? "Processing..."
-                                    : "Update your ad"}
+                                {processing ? processingBtn : updateBtn}
                             </PrimaryButton>
                         </div>
                     </form>

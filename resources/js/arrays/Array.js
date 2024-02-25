@@ -10,8 +10,8 @@ export const bedrooms = [
 export const modes = [
     { id: 1, nameEn: "Walk", nameGr: "Περπάτημα" },
     { id: 2, nameEn: "By car", nameGr: "Με αυτοκίνητο" },
-    { id: 3, nameEN: "By bus", nameGr: "Με λεωφορείο" },
-    { id: 4, nameEN: "By bike", nameGr: "Με ποδήλατο" },
+    { id: 3, nameEn: "By bus", nameGr: "Με λεωφορείο" },
+    { id: 4, nameEn: "By bike", nameGr: "Με ποδήλατο" },
 ];
 
 export const furnishings = [
@@ -115,16 +115,16 @@ export const minutes = [
 ];
 
 export const stations = [
-    { id: 1, nameEN: "Sintagma", nameGr: "Σύνταγμα" },
-    { id: 2, nameEN: "Monastiraki", nameGr: "Μοναστηράκι" },
-    { id: 3, nameEN: "Evangelismos", nameGr: "Ευαγγελισμός" },
-    { id: 4, nameEN: "Attiki", nameGr: "Αττική" },
-    { id: 5, nameEN: "Cholargos", nameGr: "Χολαργός" },
-    { id: 6, nameEN: "Omonoia", nameGr: "Ομόνοια" },
-    { id: 7, nameEN: "Akropoli", nameGr: "Ακρόπολη" },
-    { id: 8, nameEN: "Pireas", nameGr: "Πειραιάς" },
-    { id: 9, nameEN: "Mosxato", nameGr: "Μοσχάτο" },
-    { id: 10, nameEN: "kalithea", nameGr: "Καλλιθέα" },
+    { id: 1, nameEn: "Sintagma", nameGr: "Σύνταγμα" },
+    { id: 2, nameEn: "Monastiraki", nameGr: "Μοναστηράκι" },
+    { id: 3, nameEn: "Evangelismos", nameGr: "Ευαγγελισμός" },
+    { id: 4, nameEn: "Attiki", nameGr: "Αττική" },
+    { id: 5, nameEn: "Cholargos", nameGr: "Χολαργός" },
+    { id: 6, nameEn: "Omonoia", nameGr: "Ομόνοια" },
+    { id: 7, nameEn: "Akropoli", nameGr: "Ακρόπολη" },
+    { id: 8, nameEn: "Pireas", nameGr: "Πειραιάς" },
+    { id: 9, nameEn: "Mosxato", nameGr: "Μοσχάτο" },
+    { id: 10, nameEn: "kalithea", nameGr: "Καλλιθέα" },
 ];
 
 export const amenities = [
@@ -185,6 +185,10 @@ export const whatIAm = [
     { id: 3, nameEn: "Current tenant", nameGr: "Τρέχων ενοικιαστής" },
     { id: 4, nameEn: "Agent", nameGr: "Πράκτορας" },
     { id: 5, nameEn: "Former flatmate", nameGr: "Πρώην συγκάτοικος" },
+];
+export const whatIAmFlat = [
+    { id: 1, nameEn: "Landlord", nameGr: "Ιδιοκτήτης" },
+    { id: 2, nameEn: "Agent", nameGr: "Πράκτορας" },
 ];
 
 export const minimumStay = [

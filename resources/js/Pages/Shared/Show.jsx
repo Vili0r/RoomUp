@@ -49,7 +49,7 @@ const Show = (props) => {
         availableForm,
         cancelAvailabilityBtn,
         updateBtn,
-    } = t("shared.show.availabilityModal");
+    } = t("show.availabilityModal");
     const {
         titleVirtualTour,
         fullNameForm,
@@ -58,18 +58,18 @@ const Show = (props) => {
         detailsForm,
         cancelVirtualTourBtn,
         bookBtn,
-    } = t("shared.show.virtualTourModal");
+    } = t("show.virtualTourModal");
     const { titleConfirmation, cancelConfirmationBtn, deleteBtn } = t(
-        "shared.show.deleteConfirmationModal"
+        "show.deleteConfirmationModal"
     );
     const { halted, liveAtSpan, manageRooms, manageRoomsTitle } =
-        t("shared.show.miscs");
+        t("show.miscs");
     const {
         availableRoomsBtn,
         deletePropertyBtn,
         manageAvailabilityBtn,
         virtualTourBtn,
-    } = t("shared.show.buttons");
+    } = t("show.buttons");
 
     const showImage = () => {
         return "/storage/";

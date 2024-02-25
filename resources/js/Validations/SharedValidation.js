@@ -16,7 +16,7 @@ const stepOneSchema = (t) => {
         minutesRequired,
         modeRequired,
         stationRequired,
-    } = t("shared.validation.stepOne");
+    } = t("validation.stepOne");
 
     return yup.object().shape({
         address_1: yup.string().max(30, address1Max).required(address1Required),
@@ -39,7 +39,7 @@ const stepTwoSchema = (t) => {
         currentOccupantsRequired,
         currentOccupantsTest,
         whatIAmRequired,
-    } = t("shared.validation.stepTwo");
+    } = t("validation.stepTwoShared");
 
     return yup.object().shape({
         available_rooms: yup
@@ -88,7 +88,7 @@ const stepThreeSchema = (t) => {
         maximumStayRequired,
         maximumStayTest,
         daysAvailableRequired,
-    } = t("shared.validation.stepThree");
+    } = t("validation.stepThreeShared");
 
     return yup.array().of(
         yup.object().shape({
@@ -139,7 +139,7 @@ const stepFourSchema = (t) => {
         telephoneMax,
         telephoneMaxMatches,
         telephoneRequired,
-    } = t("shared.validation.stepFour");
+    } = t("validation.stepFour");
 
     return yup.object().shape({
         first_name: yup
@@ -165,7 +165,7 @@ const stepFiveSchema = (current_occupants, t) => {
         currentFlatmatePetsRequuired,
         currentFlatmateOccupationRequired,
         currentFlatmateGenderRequired,
-    } = t("shared.validation.currentFlatmate");
+    } = t("validation.currentFlatmate");
     const {
         newFlatmateMinAgeTypeError,
         newFlatmateMinAgeMin,
@@ -178,7 +178,7 @@ const stepFiveSchema = (current_occupants, t) => {
         newFlatmatePetsRequired,
         newFlatmateOccupationRequired,
         newFlatmateGenderRequired,
-    } = t("shared.validation.newFlatmate");
+    } = t("validation.newFlatmate");
 
     return yup.object().shape({
         new_flatmate_min_age: yup
@@ -239,7 +239,7 @@ const stepSixSchema = (t) => {
         photosMax,
         photosFileFormat,
         photosFileSize,
-    } = t("shared.validation.stepSix");
+    } = t("validation.stepSix");
 
     return yup.object().shape({
         electedAmenities: yup

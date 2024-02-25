@@ -33,9 +33,9 @@ const RoomCard = ({ room }) => {
         availableForm,
         cancelAvailabilityBtn,
         updateBtn,
-    } = t("shared.show.roomCard.availabilityModal");
+    } = t("show.roomCard.availabilityModal");
     const { halted, liveAtSpan, availableFromMisc, month } = t(
-        "shared.show.roomCard.miscs"
+        "show.roomCard.miscs"
     );
 
     const showImage = () => {

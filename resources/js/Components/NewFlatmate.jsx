@@ -204,6 +204,7 @@ const NewFlatmate = ({ data, errors, handleOnChange }) => {
                         name="new_flatmate_couples"
                         value={data.new_flatmate_couples}
                         onChange={handleOnChange}
+                        checked={data.new_flatmate_couples ? true : false}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
                         {newFlatmateCouplesStepFive}
@@ -218,6 +219,7 @@ const NewFlatmate = ({ data, errors, handleOnChange }) => {
                         name="new_flatmate_references"
                         value={data.new_flatmate_references}
                         onChange={handleOnChange}
+                        checked={data.new_flatmate_references ? true : false}
                     />
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
                         {newFlatmateReferencesStepFive}
