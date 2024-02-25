@@ -83,7 +83,7 @@ const Create = (props) => {
             mode: "",
             station: "",
             amenities: "",
-            first_name: "",
+            first_name: props.auth.user.first_name,
             last_name: "",
             display_last_name: "",
             telephone: "",

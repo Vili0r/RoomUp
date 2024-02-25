@@ -29,6 +29,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
+import { useTranslation } from "react-i18next";
+import { hobbies, amenities } from "@/arrays/Array";
 
 const Create = (props) => {
     const animatedComponents = makeAnimated();
@@ -54,7 +56,6 @@ const Create = (props) => {
         roomSize,
     } = usePage().props;
 
-    console.log(props);
     const {
         data,
         setData,
@@ -106,6 +107,16 @@ const Create = (props) => {
             resolver: yupResolver(stepOneSchema),
         }
     );
+    const { t, i18n } = useTranslation();
+    const {
+        inputPlaceholder,
+        nextBtn,
+        backBtn,
+        noResult,
+        stepSixErrors,
+        processingBtn,
+        placeAdBtn,
+    } = t("roommate");
 
     //next step
     const handleNext = async () => {
@@ -116,16 +127,16 @@ const Create = (props) => {
             let schema;
             switch (step) {
                 case 1:
-                    schema = stepOneSchema;
+                    schema = stepOneSchema(t);
                     break;
                 case 2:
-                    schema = stepTwoSchema;
+                    schema = stepTwoSchema(t);
                     break;
                 case 3:
-                    schema = stepThreeSchema;
+                    schema = stepThreeSchema(t);
                     break;
                 case 4:
-                    schema = stepFourSchema;
+                    schema = stepFourSchema(t);
                     break;
                 default:
                     break;
@@ -216,14 +227,14 @@ const Create = (props) => {
     //Transforming amenties with label and value as required from react select package
     const options = amenities.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });
 
     const hobbiesOptions = hobbies.map((item) => {
         return {
-            label: item.name,
+            label: i18n.language == "en" ? item.nameEn : item.nameGr,
             value: item.id,
         };
     });

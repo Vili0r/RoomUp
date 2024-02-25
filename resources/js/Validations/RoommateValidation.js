@@ -3,101 +3,180 @@ import * as yup from "yup";
 const maxFiles = 9;
 const supportedFormats = ["image/jpeg", "image/png", "image/jpg"];
 
-const stepOneSchema = yup.object().shape({
-    city: yup.string().max(20).required("City is required"),
-    area: yup.string().max(20).required("Area is required"),
-    available_from: yup
-        .date()
-        .typeError("Available from must be a date")
-        .min(new Date(), "Available from date must be in the future")
-        .required("Available from date is required"),
-    searching_for: yup.string().required("Searching for is required"),
-    room_size: yup.string().required("Room size is required"),
-    minimum_stay: yup.string().required("Minimum stay is required"),
-    maximum_stay: yup
-        .string()
-        .test(
-            "greater-than-minimum",
-            "Maximum stay must be greater than minimum stay",
-            function (value) {
+const stepOneSchema = (t) => {
+    const {
+        cityMax,
+        cityRequired,
+        areaMax,
+        areaRequired,
+        roomSizeRequired,
+        availableFromTypeError,
+        availableFromMin,
+        availableFromRequired,
+        searchingForRequired,
+        minimumStayRequired,
+        maximumStayTest,
+        maximumStayRequired,
+        daysAvailableRequired,
+        budgetTypeError,
+        budgetRequired,
+    } = t("validation.stepOneFlatmate");
+
+    return yup.object().shape({
+        city: yup.string().max(20, cityMax).required(cityRequired),
+        area: yup.string().max(20, areaMax).required(areaRequired),
+        available_from: yup
+            .date()
+            .typeError(availableFromTypeError)
+            .min(new Date(), availableFromMin)
+            .required(availableFromRequired),
+        searching_for: yup.string().required(searchingForRequired),
+        room_size: yup.string().required(roomSizeRequired),
+        minimum_stay: yup.string().required(minimumStayRequired),
+        maximum_stay: yup
+            .string()
+            .test("greater-than-minimum", maximumStayTest, function (value) {
                 const minimumStay = this.resolve(yup.ref("minimum_stay"));
                 if (!minimumStay || !value) {
                     return true; // Allow validation to pass if either field is empty
                 }
                 return parseInt(value, 10) > parseInt(minimumStay, 10);
-            }
-        )
-        .required("Maximum stay is required"),
-    days_available: yup.string().required("Days available is required"),
-    budget: yup
-        .number()
-        .typeError("That doesn't look like a number")
-        .required("Budget is required"),
-});
+            })
+            .required(maximumStayRequired),
+        days_available: yup.string().required(daysAvailableRequired),
+        budget: yup
+            .number()
+            .typeError(budgetTypeError)
+            .required(budgetRequired),
+    });
+};
 
-const stepTwoSchema = yup.object().shape({
-    new_flatmate_min_age: yup
-        .number()
-        .typeError("That doesn't look like an age")
-        .min(18, "Your new flatmate should be more than 18 years old")
-        .required(),
-    new_flatmate_max_age: yup
-        .number()
-        .typeError("That doesn't look like an age")
-        .min(18, "Your new flatmate should be more than 18 years old")
-        .required()
-        .when("new_flatmate_min_age", (new_flatmate_min_age, schema) => {
-            return schema.test({
-                test: (new_flatmate_max_age) =>
-                    new_flatmate_max_age > new_flatmate_min_age,
-                message: "Max age must be greater than the min age",
-            });
-        }),
-    new_flatmate_smoker: yup.string().required("Smoker field is required"),
-    new_flatmate_pets: yup.string().required("Pet field is required"),
-    new_flatmate_occupation: yup
-        .string()
-        .required("Occupation field is required"),
-    new_flatmate_gender: yup.string().required("Gender field is required"),
+const stepTwoSchema = (t) => {
+    const {
+        newFlatmateMinAgeTypeError,
+        newFlatmateMinAgeMin,
+        newFlatmateMinAgeRequired,
+        newFlatmatemaxAgeTypeError,
+        newFlatmatemaxAgeMax,
+        newFlatmatemaxAgeRequired,
+        newFlatmatemaxAgeTest,
+        newFlatmateSmokerRequired,
+        newFlatmatePetsRequired,
+        newFlatmateOccupationRequired,
+        newFlatmateGenderRequired,
+    } = t("validation.newFlatmate");
+    const {
+        myAgeTypeError,
+        myAgeMin,
+        myAgeRequired,
+        mySmokerRequired,
+        myPetsRequired,
+        myOccupationRequired,
+        myGenderRequired,
+    } = t("validation.stepTwoFlatmate");
 
-    age: yup
-        .number()
-        .typeError("That doesn't look like an age")
-        .min(18, "You should be more than 18 years old")
-        .required("Age is required"),
-    smoker: yup.string().required("Smoker field is required"),
-    pets: yup.string().required("Pet field is required"),
-    occupation: yup.string().required("Occupation field is required"),
-    gender: yup.string().required("Gender field is required"),
-});
+    return yup.object().shape({
+        new_flatmate_min_age: yup
+            .number()
+            .typeError(newFlatmateMinAgeTypeError)
+            .min(18, newFlatmateMinAgeMin)
+            .required(newFlatmateMinAgeRequired),
+        new_flatmate_max_age: yup
+            .number()
+            .typeError(newFlatmatemaxAgeTypeError)
+            .min(18, newFlatmatemaxAgeMax)
+            .required(newFlatmatemaxAgeRequired)
+            .when("new_flatmate_min_age", (new_flatmate_min_age, schema) => {
+                return schema.test({
+                    test: (new_flatmate_max_age) =>
+                        new_flatmate_max_age > new_flatmate_min_age,
+                    message: newFlatmatemaxAgeTest,
+                });
+            }),
+        new_flatmate_smoker: yup.string().required(newFlatmateSmokerRequired),
+        new_flatmate_pets: yup.string().required(newFlatmatePetsRequired),
+        new_flatmate_occupation: yup
+            .string()
+            .required(newFlatmateOccupationRequired),
+        new_flatmate_gender: yup.string().required(newFlatmateGenderRequired),
 
-const stepThreeSchema = yup.object().shape({
-    first_name: yup.string().max(20).required("First name is required"),
-    last_name: yup.string().max(20).required("Last name is required"),
-    telephone: yup
-        .string()
-        .min(8, "Phone number must be at least 8 digits")
-        .max(15, "Phone number cannot be more than 15 digits")
-        .matches(/^\d+$/, "Phone number can only contain digits")
-        .required("Telephone number is required"),
-});
+        age: yup
+            .number()
+            .typeError(myAgeTypeError)
+            .min(18, myAgeMin)
+            .required(myAgeRequired),
+        smoker: yup.string().required(mySmokerRequired),
+        pets: yup.string().required(myPetsRequired),
+        occupation: yup.string().required(myOccupationRequired),
+        gender: yup.string().required(myGenderRequired),
+    });
+};
 
-const stepFourSchema = yup.object().shape({
-    title: yup.string().min(10).max(50).required(),
-    description: yup.string().min(50).max(500).required(),
-    photos: yup
-        .array()
-        .max(maxFiles, `You can upload up to ${maxFiles} images`)
-        .of(
-            yup
-                .mixed()
-                .test("fileFormat", "Unsupported file format", (value) =>
-                    supportedFormats.includes(value.type)
-                )
-                .test("fileSize", "File size is too large", (value) =>
-                    value ? value.size <= 1048576 : true
-                )
-        ),
-});
+const stepThreeSchema = (t) => {
+    const {
+        firstNameMax,
+        firstNameRequired,
+        lastNameMax,
+        lastNameRequired,
+        telephoneMin,
+        telephoneMax,
+        telephoneMaxMatches,
+        telephoneRequired,
+    } = t("validation.stepFour");
+
+    return yup.object().shape({
+        first_name: yup
+            .string()
+            .max(20, firstNameMax)
+            .required(firstNameRequired),
+        last_name: yup.string().max(20, lastNameMax).required(lastNameRequired),
+        telephone: yup
+            .string()
+            .min(8, telephoneMin)
+            .max(15, telephoneMax)
+            .matches(/^\d+$/, telephoneMaxMatches)
+            .required(telephoneRequired),
+    });
+};
+
+const stepFourSchema = (t) => {
+    const {
+        titleMin,
+        titleMax,
+        titleRequired,
+        descriptionMin,
+        descriptionMax,
+        descriptionRequired,
+        photosMax,
+        photosFileFormat,
+        photosFileSize,
+    } = t("validation.stepSix");
+
+    return yup.object().shape({
+        title: yup
+            .string()
+            .min(10, titleMin)
+            .max(50, titleMax)
+            .required(titleRequired),
+        description: yup
+            .string()
+            .min(50, descriptionMin)
+            .max(500, descriptionMax)
+            .required(descriptionRequired),
+        photos: yup
+            .array()
+            .max(maxFiles, photosMax)
+            .of(
+                yup
+                    .mixed()
+                    .test("fileFormat", photosFileFormat, (value) =>
+                        supportedFormats.includes(value.type)
+                    )
+                    .test("fileSize", photosFileSize, (value) =>
+                        value ? value.size <= 1048576 : true
+                    )
+            ),
+    });
+};
 
 export { stepOneSchema, stepTwoSchema, stepThreeSchema, stepFourSchema };

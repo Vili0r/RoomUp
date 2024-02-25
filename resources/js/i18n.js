@@ -185,6 +185,25 @@ const resources = {
                     modeRequired: "Mode is required",
                     stationRequired: "Station is required",
                 },
+                stepOneFlatmate: {
+                    cityMax: "City must be at most 20 characters",
+                    cityRequired: "City is required",
+                    areaMax: "Area must be at most 20 characters",
+                    areaRequired: "Area is required",
+                    roomSizeRequired: "Size is required",
+                    availableFromTypeError: "Available from must be a date",
+                    availableFromMin:
+                        "Available from date must be in the future",
+                    availableFromRequired: "Available from date is required",
+                    searchingForRequired: "Searching for is required",
+                    minimumStayRequired: "Minimum stay is required",
+                    maximumStayTest:
+                        "Maximum stay must be greater than minimum stay",
+                    maximumStayRequired: "Maximum stay is required",
+                    daysAvailableRequired: "Days available is required",
+                    budgetTypeError: "That doesn't look like a number",
+                    budgetRequired: "Budget is required",
+                },
                 stepTwoShared: {
                     availableRoomsRequired: "Available Rooms is required",
                     availableRoomsTest:
@@ -206,6 +225,15 @@ const resources = {
                     depositTypeError: "Deposit doesn't look like a number",
                     depositRequired: "Deposit is required",
                     whatIAmRequired: "Who i am is required",
+                },
+                stepTwoFlatmate: {
+                    myAgeTypeError: "That doesn't look like an age",
+                    myAgeMin: "You should be more than 18 years old",
+                    myAgeRequired: "Age is required",
+                    mySmokerRequired: "Smoker field is required",
+                    myPetsRequired: "Pet field is required",
+                    myOccupationRequired: "Occupation field is required",
+                    myGenderRequired: "Gender field is required",
                 },
                 stepThreeShared: {
                     availableFromTypeError: "Available from must be a date",
@@ -516,6 +544,32 @@ const resources = {
                     },
                 },
             },
+            myListings: {
+                misc: {
+                    allProperties: "All properties",
+                    searchProperties:
+                        "Search through your properties and manage them or update them.",
+                    inputPlaceholder: "Search...",
+                    addProperty: "Add property",
+                },
+                table: {
+                    type: "Type",
+                    title: "Title",
+                    bedrooms: "Bedrooms",
+                    createdAt: "Created at",
+                    status: "Status",
+                    action: "Action",
+                    halted: "Halted",
+                    liveAt: "Live at",
+                    manage: "Manage",
+                },
+            },
+            roommate: {},
+            pagination: {
+                page: "Page",
+                previous: "Previous",
+                next: "Next",
+            },
             blog: {},
         },
     },
@@ -702,6 +756,28 @@ const resources = {
                     modeRequired: "To μέσω μεταφοράς είναι υποχρεωτική",
                     stationRequired: "Η στάση είναι υποχρεωτική",
                 },
+                stepOneFlatmate: {
+                    cityMax: "Η πόλη πρέπει να έχει το πολύ 20 χαρακτήρες",
+                    cityRequired: "Απαιτείται η πόλη",
+                    areaMax: "Η περιοχή πρέπει να έχει το πολύ 20 χαρακτήρες",
+                    areaRequired: "Απαιτείται η περιοχή",
+                    roomSizeRequired: "Απαιτείται το μέγεθος",
+                    availableFromTypeError:
+                        "Η διαθεσιμότητα από πρέπει να είναι μια ημερομηνία",
+                    availableFromMin:
+                        "Η διαθεσιμότητα από πρέπει να είναι στο μέλλον",
+                    availableFromRequired: "Απαιτείται η διαθεσιμότητα από",
+                    searchingForRequired: "Απαιτείται η αναζήτηση για",
+                    minimumStayRequired:
+                        "Απαιτείται το ελάχιστο διάστημα διαμονής",
+                    maximumStayTest:
+                        "Η μέγιστη διάρκεια διαμονής πρέπει να είναι μεγαλύτερη από το ελάχιστο διάστημα διαμονής",
+                    maximumStayRequired:
+                        "Απαιτείται η μέγιστη διάρκεια διαμονής",
+                    daysAvailableRequired: "Απαιτείται οι διαθέσιμες ημέρες",
+                    budgetTypeError: "Αυτό δεν μοιάζει με έναν αριθμό",
+                    budgetRequired: "Απαιτείται το budget",
+                },
                 stepTwoShared: {
                     availableRoomsRequired:
                         "Το πεδίο διαθέσιμα δωμάτια είναι υποχρεωτικό",
@@ -727,6 +803,16 @@ const resources = {
                     depositTypeError: "Η κατάθεση δεν φαίνεται σαν αριθμός",
                     depositRequired: "Η κατάθεση είναι υποχρεωτική",
                     whatIAmRequired: "Το ποιος είμαι είναι υποχρεωτικό",
+                },
+                stepTwoFlatmate: {
+                    myAgeTypeError: "Αυτό δεν μοιάζει με ηλικία",
+                    myAgeMin: "Πρέπει να είστε από 18 ετών και άνω",
+                    myAgeRequired: "Απαιτείται η ηλικία",
+                    mySmokerRequired: "Απαιτείται η πληροφορία καπνίσματος",
+                    myPetsRequired: "Απαιτείται η πληροφορία για κατοικίδια",
+                    myOccupationRequired:
+                        "Απαιτείται η πληροφορία για το επάγγελμα",
+                    myGenderRequired: "Απαιτείται η πληροφορία για το φύλο",
                 },
                 stepThreeShared: {
                     availableFromTypeError:
@@ -1067,6 +1153,32 @@ const resources = {
                         month: "μήνα",
                     },
                 },
+            },
+            myListings: {
+                misc: {
+                    allProperties: "Όλες οι ιδιοκτησίες",
+                    searchProperties:
+                        "Αναζητήστε τις ιδιοκτησίες σας και διαχειριστείτε τις ή ενημερώστε τις.",
+                    inputPlaceholder: "Αναζήτηση...",
+                    addProperty: "Προσθήκη ιδιοκτησίας",
+                },
+                table: {
+                    type: "Τύπος",
+                    title: "Τίτλος",
+                    bedrooms: "Υπνοδωμάτια",
+                    createdAt: "Δημιουργήθηκε στις",
+                    status: "Κατάσταση",
+                    action: "Ενέργεια",
+                    halted: "Αδημοσίευτο",
+                    liveAt: "Δημοσίευτηκε στις",
+                    manage: "Διαχείριση",
+                },
+            },
+            roommate: {},
+            pagination: {
+                page: "Σελίδα",
+                previous: "Προηγούμενη",
+                next: "Επόμενη",
             },
             blog: {},
         },

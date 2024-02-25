@@ -10,11 +10,27 @@ import TableHead from "@/Components/TableHead";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { DebounceInput } from "react-debounce-input";
+import { useTranslation } from "react-i18next";
 
 export default function Index(props) {
     const { properties, filters, notification } = usePage().props;
     const [searchInput, setSearchInput] = useState(filters.search);
     const [visible, setVisible] = useState(false);
+
+    const { t } = useTranslation();
+    const { allProperties, searchProperties, inputPlaceholder, addProperty } =
+        t("myListings.misc");
+    const {
+        type,
+        title,
+        bedrooms,
+        createdAt,
+        status,
+        action,
+        halted,
+        liveAt,
+        manage,
+    } = t("myListings.table");
 
     const showImage = () => {
         return "/storage/";
@@ -107,12 +123,10 @@ export default function Index(props) {
                                 <div className="items-start justify-between md:flex">
                                     <div className="max-w-lg">
                                         <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
-                                            All Properties
+                                            {allProperties}
                                         </h3>
                                         <p className="mt-2 text-gray-600">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing and typesetting
-                                            industry.
+                                            {searchProperties}
                                         </p>
                                         <span className="absolute mt-5">
                                             <svg
@@ -138,7 +152,7 @@ export default function Index(props) {
                                             debounceTimeout={500}
                                             value={searchInput}
                                             onChange={handleChange}
-                                            placeholder="Search..."
+                                            placeholder={inputPlaceholder}
                                             className="block w-full mt-3 py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         />
                                     </div>
@@ -147,7 +161,7 @@ export default function Index(props) {
                                             href={route("flat.create")}
                                             className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
-                                            Add property
+                                            {addProperty}
                                         </Link>
                                     </div>
                                 </div>
@@ -157,22 +171,22 @@ export default function Index(props) {
                                             <TableRow>
                                                 <TableHeaderCell></TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Type
+                                                    {type}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Title
+                                                    {title}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Bedrooms
+                                                    {bedrooms}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Created At
+                                                    {createdAt}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Status
+                                                    {status}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Action
+                                                    {action}
                                                 </TableHeaderCell>
                                             </TableRow>
                                         </TableHead>
@@ -242,7 +256,7 @@ export default function Index(props) {
                                                                 </svg>
 
                                                                 <h2 className="text-sm font-normal">
-                                                                    Halted
+                                                                    {halted}
                                                                 </h2>
                                                             </div>
                                                         ) : (
@@ -264,7 +278,7 @@ export default function Index(props) {
                                                                 </svg>
 
                                                                 <h2 className="text-sm font-normal">
-                                                                    Live at{" "}
+                                                                    {liveAt}{" "}
                                                                     {moment(
                                                                         property.live_at
                                                                     ).format(
@@ -282,7 +296,7 @@ export default function Index(props) {
                                                             )}
                                                             className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-indigo-600 border rounded-lg"
                                                         >
-                                                            Manage
+                                                            {manage}
                                                         </Link>
                                                     </TableDataCell>
                                                 </TableRow>

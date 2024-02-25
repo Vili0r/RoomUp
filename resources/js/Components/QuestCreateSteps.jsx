@@ -2,31 +2,37 @@ import React from "react";
 import { VscSymbolProperty } from "react-icons/vsc";
 import { AiOutlineUserAdd, AiOutlineCheck } from "react-icons/ai";
 import { TbFileDescription } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
 
 const steps = [
     {
         id: "1",
         icon: <VscSymbolProperty className="w-full h-full" />,
-        title: "Property",
+        titleEn: "Property",
+        titleGr: "Κατοικία",
     },
     {
         id: "2",
         icon: <TbFileDescription className="w-full h-full" />,
-        title: "Flatmates",
+        titleEn: "Flatmates",
+        titleGr: "Συγκάτοικοι",
     },
     {
         id: "3",
         icon: <AiOutlineUserAdd className="w-full h-full" />,
-        title: "Advertiser",
+        titleEn: "Advertiser",
+        titleGr: "Στοιχεία",
     },
     {
         id: "4",
         icon: <AiOutlineCheck className="w-full h-full" />,
-        title: "Confirm",
+        titleEn: "Confirm",
+        titleGr: "Επιβεβαίωση",
     },
 ];
 
 const CreateSteps = ({ activeStep }) => {
+    const { i18n } = useTranslation();
     return (
         <div className="w-full p-4 mx-4">
             <div className="flex items-center">
@@ -54,7 +60,9 @@ const CreateSteps = ({ activeStep }) => {
                                         : "text-[#F1C40F]"
                                 } absolute top-0 w-32 mt-16 -ml-10 text-xs font-medium text-center uppercase`}
                             >
-                                {step.title}
+                                {i18n.language == "en"
+                                    ? step.titleEn
+                                    : step.titleGr}
                             </div>
                         </div>
                         <div

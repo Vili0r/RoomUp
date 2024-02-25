@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
+import { useTranslation } from "react-i18next";
 
 const Pagination = ({ links, currentPage, lastPage }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="mt-6 sm:flex sm:items-center sm:justify-between ">
             <div className="text-sm text-gray-500 dark:text-gray-400">
-                Page{" "}
+                {t("pagination.page")}{" "}
                 <span className="font-medium text-gray-700 dark:text-gray-100">
                     {currentPage} of {lastPage}
                 </span>
@@ -31,14 +34,14 @@ const Pagination = ({ links, currentPage, lastPage }) => {
                         />
                     </svg>
 
-                    <span>previous</span>
+                    <span>{t("pagination.previous")}</span>
                 </Link>
 
                 <Link
                     href={links[links.length - 1].url}
                     className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md hover:text-gray-100 sm:w-auto gap-x-2 hover:bg-indigo-600 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
                 >
-                    <span>Next</span>
+                    <span>{t("pagination.next")}</span>
 
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
