@@ -9,10 +9,16 @@ import TableBody from "@/Components/TableBody";
 import TableHead from "@/Components/TableHead";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
+import { useTranslation } from "react-i18next";
 
 export default function Index(props) {
     const { roommates } = usePage().props;
     const { data, meta } = roommates;
+
+    const { t } = useTranslation();
+    const { allProperties, addProperty } = t("myListings.misc");
+    const { id, title, createdAt, status, action, halted, liveAt, manage } =
+        t("myListings.table");
 
     const showImage = () => {
         return "/storage/";
@@ -38,36 +44,15 @@ export default function Index(props) {
                                 <div className="items-start justify-between md:flex">
                                     <div className="max-w-lg">
                                         <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
-                                            All Room Quests Advertisments
+                                            {allProperties}
                                         </h3>
-                                        <p className="mt-2 text-gray-600">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing and typesetting
-                                            industry.
-                                        </p>
-                                        <span className="absolute mt-5">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                strokeWidth="1.5"
-                                                stroke="currentColor"
-                                                className="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                                                />
-                                            </svg>
-                                        </span>
                                     </div>
                                     <div className="mt-3 md:mt-0">
                                         <Link
                                             href={route("roommate.create")}
                                             className="inline-block px-4 py-2 font-medium text-white duration-150 bg-[#270740] rounded-lg hover:bg-indigo-600 active:bg-[#270740] md:text-sm"
                                         >
-                                            Add property
+                                            {addProperty}
                                         </Link>
                                     </div>
                                 </div>
@@ -77,22 +62,22 @@ export default function Index(props) {
                                             <TableRow>
                                                 <TableHeaderCell></TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Id
+                                                    {id}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Title
+                                                    {title}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
                                                     Budget
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Created At
+                                                    {createdAt}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Status
+                                                    {status}
                                                 </TableHeaderCell>
                                                 <TableHeaderCell>
-                                                    Action
+                                                    {action}
                                                 </TableHeaderCell>
                                             </TableRow>
                                         </TableHead>
@@ -127,7 +112,7 @@ export default function Index(props) {
                                                         </Link>
                                                     </TableDataCell>
                                                     <TableDataCell>
-                                                        £{roommate.budget}
+                                                        €{roommate.budget}
                                                     </TableDataCell>
                                                     <TableDataCell>
                                                         {moment(
@@ -157,7 +142,7 @@ export default function Index(props) {
                                                                 </svg>
 
                                                                 <h2 className="text-sm font-normal">
-                                                                    Halted
+                                                                    {halted}
                                                                 </h2>
                                                             </div>
                                                         ) : (
@@ -179,7 +164,7 @@ export default function Index(props) {
                                                                 </svg>
 
                                                                 <h2 className="text-sm font-normal">
-                                                                    Live at{" "}
+                                                                    {liveAt}{" "}
                                                                     {moment(
                                                                         roommate.live_at
                                                                     ).format(
@@ -197,7 +182,7 @@ export default function Index(props) {
                                                             )}
                                                             className="py-1.5 px-3 text-gray-600 hover:text-gray-100 duration-150 hover:bg-indigo-600 border rounded-lg"
                                                         >
-                                                            Manage
+                                                            {manage}
                                                         </Link>
                                                     </TableDataCell>
                                                 </TableRow>

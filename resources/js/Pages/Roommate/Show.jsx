@@ -10,6 +10,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import Modal from "@/Components/Modal";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const Show = (props) => {
     const { roommate } = usePage().props;
@@ -30,6 +31,25 @@ const Show = (props) => {
         live_at: roommate.live_at,
         available: roommate.available,
     });
+
+    const { t, i18n } = useTranslation();
+    const {
+        titleAvailability,
+        liveAtForm,
+        availableForm,
+        cancelAvailabilityBtn,
+        updateBtn,
+    } = t("show.availabilityModal");
+    const { titleConfirmation, cancelConfirmationBtn, deleteBtn } = t(
+        "show.deleteConfirmationModal"
+    );
+    const { halted, liveAtSpan } = t("show.miscs");
+    const {
+        budgetBtn,
+        deletePropertyBtn,
+        manageAvailabilityBtn,
+        virtualTourBtn,
+    } = t("show.buttons");
 
     const showImage = () => {
         return "/storage/";
@@ -89,7 +109,7 @@ const Show = (props) => {
                 <Modal show={openModal} onClose={closeModal}>
                     <form onSubmit={submit} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Manage availablity of your room quest advertisment
+                            {titleAvailability}
                         </h2>
 
                         <div className="relative mt-6">
@@ -97,7 +117,7 @@ const Show = (props) => {
                                 type="date"
                                 name="live_at"
                                 id="live_at"
-                                placeholder="Live at"
+                                placeholder={liveAtForm}
                                 value={data.live_at}
                                 className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                 autoComplete="off"
@@ -107,9 +127,9 @@ const Show = (props) => {
                             />
                             <label
                                 htmlFor="live_at"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                             >
-                                Live at
+                                {liveAtForm}
                             </label>
 
                             <InputError
@@ -138,7 +158,10 @@ const Show = (props) => {
                                 </label>
                             </div>
 
-                            <InputLabel htmlFor="available" value="Available" />
+                            <InputLabel
+                                htmlFor="available"
+                                value={availableForm}
+                            />
 
                             <InputError
                                 message={errors.available}
@@ -148,14 +171,14 @@ const Show = (props) => {
 
                         <div className="flex justify-end mt-6">
                             <SecondaryButton onClick={closeModal}>
-                                Cancel
+                                {cancelAvailabilityBtn}
                             </SecondaryButton>
 
                             <PrimaryButton
                                 className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
                                 disabled={processing}
                             >
-                                Update Availability
+                                {updateBtn}
                             </PrimaryButton>
                         </div>
                     </form>
@@ -166,19 +189,19 @@ const Show = (props) => {
                 >
                     <form onSubmit={deleteProperty} className="p-6">
                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Are you sure you want to delete this advertisement?
+                            {titleConfirmation}
                         </h2>
 
                         <div className="flex justify-end mt-6">
                             <SecondaryButton onClick={closeDeleteModal}>
-                                Cancel
+                                {cancelConfirmationBtn}
                             </SecondaryButton>
 
                             <DangerButton
                                 className="ml-3"
                                 disabled={processing}
                             >
-                                Delete Property
+                                {deleteBtn}
                             </DangerButton>
                         </div>
                     </form>
@@ -193,7 +216,7 @@ const Show = (props) => {
                                             {roommate.title}
                                         </h1>
                                         <p className="text-sm font-medium leading-4 text-white sm:text-slate-500 dark:sm:text-slate-400">
-                                            Budget: £{roommate.budget}
+                                            {budgetBtn} £{roommate.budget}
                                         </p>
                                         <span className="mb-3">
                                             {roommate.live_at === "" ? (
@@ -215,7 +238,7 @@ const Show = (props) => {
                                                     </svg>
 
                                                     <h2 className="text-sm font-normal">
-                                                        Halted
+                                                        {halted}
                                                     </h2>
                                                 </div>
                                             ) : (
@@ -237,7 +260,7 @@ const Show = (props) => {
                                                     </svg>
 
                                                     <h2 className="text-sm font-normal">
-                                                        Live at{" "}
+                                                        {liveAtSpan}{" "}
                                                         {moment(
                                                             roommate.live_at
                                                         ).format(
@@ -301,7 +324,7 @@ const Show = (props) => {
                                             onClick={() => setOpenModal(true)}
                                             className="px-3 py-2 text-sm font-medium leading-6 text-white bg-indigo-600 rounded-lg"
                                         >
-                                            Manage availability
+                                            {manageAvailabilityBtn}
                                         </button>
                                         <PrimaryButton
                                             onClick={() =>
@@ -309,7 +332,7 @@ const Show = (props) => {
                                             }
                                             className="px-3 py-2 ml-3 text-sm font-medium leading-6 text-white bg-black rounded-lg"
                                         >
-                                            Delete Property
+                                            {deletePropertyBtn}
                                         </PrimaryButton>
                                     </div>
                                     <p className="col-start-1 mt-4 text-sm leading-6 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">

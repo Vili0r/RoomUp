@@ -2,28 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CurrentFlatmateGender;
-use App\Enums\CurrentFlatmateOccupation;
-use App\Enums\CurrentFlatmateSmoking;
-use App\Enums\DaysAvailable;
-use App\Enums\MaximumStay;
-use App\Enums\MinimumStay;
-use App\Enums\NewFlatmateGender;
-use App\Enums\NewFlatmateOccupation;
-use App\Enums\NewFlatmateSmoking;
-use App\Enums\Pets;
-use App\Enums\RoomSize;
-use App\Enums\SearchingFor;
 use App\Http\Requests\RoommateStoreRequest;
 use App\Http\Requests\RoommateUpdateRequest;
-use App\Http\Resources\AmenitiesResource;
-use App\Http\Resources\EnumResource;
-use App\Http\Resources\HobbiesResource;
 use App\Http\Resources\Roommate\RoommateEditResource;
 use App\Http\Resources\Roommate\RoommateIndexResource;
 use App\Http\Resources\Roommate\RoommateShowResource;
-use App\Models\Amenity;
-use App\Models\Hobby;
 use App\Models\Roommate;
 use App\Models\TemporaryImage;
 use Inertia\Inertia;
@@ -52,22 +35,7 @@ class RoommateController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Roommate/Create', [
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'hobbies' => HobbiesResource::collection(Hobby::all()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'searchingFor' => EnumResource::collection(SearchingFor::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            'smoking' => EnumResource::collection(CurrentFlatmateSmoking::cases()),
-            'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            'gender' => EnumResource::collection(CurrentFlatmateGender::cases()),
-            'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            'occupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
-            'pets' => EnumResource::collection(Pets::cases()),
-            'roomSize' => EnumResource::collection(RoomSize::cases()),
-        ]);
+        return Inertia::render('Roommate/Create');
     }
 
     /**
@@ -172,20 +140,6 @@ class RoommateController extends Controller
 
         return Inertia::render('Roommate/Edit', [
             'roommate' => new RoommateEditResource($roommate),
-            'amenities' => AmenitiesResource::collection(Amenity::all()),
-            'hobbies' => HobbiesResource::collection(Hobby::all()),
-            'daysAvailable' => EnumResource::collection(DaysAvailable::cases()),
-            'searchingFor' => EnumResource::collection(SearchingFor::cases()),
-            'minimumStay' => EnumResource::collection(MinimumStay::cases()),
-            'maximumStay' => EnumResource::collection(MaximumStay::cases()),
-            'newFlatmateSmoking' => EnumResource::collection(NewFlatmateSmoking::cases()),
-            'smoking' => EnumResource::collection(CurrentFlatmateSmoking::cases()),
-            'newFlatmateGender' => EnumResource::collection(NewFlatmateGender::cases()),
-            'gender' => EnumResource::collection(CurrentFlatmateGender::cases()),
-            'newFlatmateOccupation' => EnumResource::collection(NewFlatmateOccupation::cases()),
-            'occupation' => EnumResource::collection(CurrentFlatmateOccupation::cases()),
-            'pets' => EnumResource::collection(Pets::cases()),
-            'roomSize' => EnumResource::collection(RoomSize::cases()),
         ]);
     }
 

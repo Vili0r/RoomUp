@@ -128,7 +128,6 @@ const Edit = (props) => {
         updateBtn,
     } = t("flat.edit.miscs");
     const {
-        amenitiesStepThree,
         availableFromStepThree,
         minimumStayStepThree,
         maximumStayStepThree,

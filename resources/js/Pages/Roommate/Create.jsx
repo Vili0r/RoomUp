@@ -30,7 +30,19 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 import { useTranslation } from "react-i18next";
-import { hobbies, amenities } from "@/arrays/Array";
+import {
+    hobbies,
+    amenities,
+    searchingFor,
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+    roomSize,
+    flatmateGender,
+    flatmateOccupation,
+    flatmatePets,
+    flatmateSmoker,
+} from "@/arrays/Array";
 
 const Create = (props) => {
     const animatedComponents = makeAnimated();
@@ -38,23 +50,6 @@ const Create = (props) => {
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [selectedHobbies, setSelectedHobbies] = useState([]);
     const [validationErrors, setValidationErrors] = useState({});
-
-    const {
-        amenities,
-        hobbies,
-        daysAvailable,
-        minimumStay,
-        maximumStay,
-        newFlatmateSmoking,
-        smoking,
-        newFlatmateGender,
-        gender,
-        searchingFor,
-        newFlatmateOccupation,
-        occupation,
-        pets,
-        roomSize,
-    } = usePage().props;
 
     const {
         data,
@@ -107,16 +102,41 @@ const Create = (props) => {
             resolver: yupResolver(stepOneSchema),
         }
     );
+
     const { t, i18n } = useTranslation();
     const {
-        inputPlaceholder,
         nextBtn,
         backBtn,
-        noResult,
-        stepSixErrors,
+        yourInformation,
+        fixErrors,
         processingBtn,
         placeAdBtn,
-    } = t("roommate");
+    } = t("roommate.misc");
+    const {
+        budgetStepOne,
+        availableFromStepOne,
+        searchingForStepOne,
+        minimumStayStepOne,
+        maximumStayStepOne,
+        roomSizeStepOne,
+        daysAvailableStepOne,
+        shortTermStepOne,
+        cityStepOne,
+        areaStepOne,
+    } = t("roommate.forms.stepOne");
+    const {
+        ageStepTwo,
+        smokerStepTwo,
+        petsStepTwo,
+        occupationStepTwo,
+        genderStepTwo,
+    } = t("roommate.forms.stepTwo");
+    const {
+        amenitiesStepSix,
+        hobbiesStepSix,
+        titleStepSix,
+        descriptionStepSix,
+    } = t("roommate.forms.stepSix");
 
     //next step
     const handleNext = async () => {
@@ -256,7 +276,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="budget"
                                                     id="budget"
-                                                    placeholder="Title"
+                                                    placeholder={budgetStepOne}
                                                     value={data.budget}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -264,9 +284,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="budget"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Budget
+                                                    {budgetStepOne}
                                                 </label>
                                             </div>
 
@@ -281,7 +301,9 @@ const Create = (props) => {
                                                     type="date"
                                                     name="available_from"
                                                     id="available_from"
-                                                    placeholder="Available From"
+                                                    placeholder={
+                                                        availableFromStepOne
+                                                    }
                                                     value={data.available_from}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -289,9 +311,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="available_from"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Available to move from
+                                                    {availableFromStepOne}
                                                 </label>
 
                                                 {errors.available_from && (
@@ -312,21 +334,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {searchingFor.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="searching_for"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Searching For
+                                                    {searchingForStepOne}
                                                 </label>
 
                                                 {errors.searching_for && (
@@ -350,21 +379,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {minimumStay.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="minimum_stay"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Minimum Stay
+                                                    {minimumStayStepOne}
                                                 </label>
 
                                                 {errors.minimum_stay && (
@@ -385,21 +421,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {maximumStay.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="maximum_stay"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Maximum Stay
+                                                    {maximumStayStepOne}
                                                 </label>
 
                                                 {errors.maximum_stay && (
@@ -421,21 +464,28 @@ const Create = (props) => {
                                             >
                                                 <option value="">--</option>
                                                 {roomSize.map(
-                                                    ({ id, name }) => (
+                                                    ({
+                                                        id,
+                                                        nameEn,
+                                                        nameGr,
+                                                    }) => (
                                                         <option
                                                             key={id}
                                                             value={id}
                                                         >
-                                                            {name}
+                                                            {i18n.language ==
+                                                            "en"
+                                                                ? nameEn
+                                                                : nameGr}
                                                         </option>
                                                     )
                                                 )}
                                             </select>
                                             <label
                                                 htmlFor="room_size"
-                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                             >
-                                                Room Size
+                                                {roomSizeStepOne}
                                             </label>
 
                                             {errors.room_size && (
@@ -456,21 +506,28 @@ const Create = (props) => {
                                                 >
                                                     <option value="">--</option>
                                                     {daysAvailable.map(
-                                                        ({ id, name }) => (
+                                                        ({
+                                                            id,
+                                                            nameEn,
+                                                            nameGr,
+                                                        }) => (
                                                             <option
                                                                 key={id}
                                                                 value={id}
                                                             >
-                                                                {name}
+                                                                {i18n.language ==
+                                                                "en"
+                                                                    ? nameEn
+                                                                    : nameGr}
                                                             </option>
                                                         )
                                                     )}
                                                 </select>
                                                 <label
                                                     htmlFor="days_available"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Days available
+                                                    {daysAvailableStepOne}
                                                 </label>
                                                 {errors.days_available && (
                                                     <InputError
@@ -482,11 +539,11 @@ const Create = (props) => {
                                                 )}
                                             </div>
                                             <div className="flex justify-start gap-2 mt-3">
-                                                <span className="mt-1 text-sm font-popp"></span>
+                                                <span className="mt-1 text-sm"></span>
                                                 <InputLabel
                                                     htmlFor="short_term"
-                                                    value="Short term"
-                                                    className="mt-1 text-sm font-popp"
+                                                    value={shortTermStepOne}
+                                                    className="mt-1 text-sm"
                                                 />
                                                 <label className="relative cursor-pointer">
                                                     <input
@@ -509,7 +566,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="city"
                                                     id="city"
-                                                    placeholder="City"
+                                                    placeholder={cityStepOne}
                                                     value={data.city}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -517,9 +574,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="city"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    City
+                                                    {cityStepOne}
                                                 </label>
 
                                                 {errors.city && (
@@ -535,7 +592,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="area"
                                                     id="area"
-                                                    placeholder="Area"
+                                                    placeholder={areaStepOne}
                                                     value={data.area}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -543,9 +600,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="area"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Area
+                                                    {areaStepOne}
                                                 </label>
 
                                                 {errors.area && (
@@ -561,9 +618,9 @@ const Create = (props) => {
                                             <PrimaryButton
                                                 onClick={handleNext}
                                                 type="button"
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
                                     </>
@@ -578,7 +635,7 @@ const Create = (props) => {
                                                         type="text"
                                                         name="age"
                                                         id="age"
-                                                        placeholder="Current flatmate age"
+                                                        placeholder={ageStepTwo}
                                                         value={data.age}
                                                         className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                         autoComplete="off"
@@ -588,9 +645,9 @@ const Create = (props) => {
                                                     />
                                                     <label
                                                         htmlFor="age"
-                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                        className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                     >
-                                                        Age
+                                                        {ageStepTwo}
                                                     </label>
 
                                                     <InputError
@@ -603,7 +660,7 @@ const Create = (props) => {
                                                     tabIndex="0"
                                                     role="button"
                                                 >
-                                                    Your information
+                                                    {yourInformation}
                                                 </span>
                                             </div>
                                             <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5 mt-7">
@@ -620,10 +677,11 @@ const Create = (props) => {
                                                             <option value="">
                                                                 --
                                                             </option>
-                                                            {smoking.map(
+                                                            {flatmateSmoker.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -631,16 +689,19 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
                                                         </select>
                                                         <label
                                                             htmlFor="smoker"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Smoker
+                                                            {smokerStepTwo}
                                                         </label>
 
                                                         <InputError
@@ -665,10 +726,11 @@ const Create = (props) => {
                                                             <option value="">
                                                                 --
                                                             </option>
-                                                            {pets.map(
+                                                            {flatmatePets.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -676,16 +738,19 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
                                                         </select>
                                                         <label
                                                             htmlFor="pets"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Pets
+                                                            {petsStepTwo}
                                                         </label>
 
                                                         <InputError
@@ -712,10 +777,11 @@ const Create = (props) => {
                                                             <option value="">
                                                                 --
                                                             </option>
-                                                            {occupation.map(
+                                                            {flatmateOccupation.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -723,16 +789,19 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
                                                         </select>
                                                         <label
                                                             htmlFor="occupation"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Occupation
+                                                            {occupationStepTwo}
                                                         </label>
 
                                                         <InputError
@@ -757,10 +826,11 @@ const Create = (props) => {
                                                             <option value="">
                                                                 --
                                                             </option>
-                                                            {gender.map(
+                                                            {flatmateGender.map(
                                                                 ({
                                                                     id,
-                                                                    name,
+                                                                    nameEn,
+                                                                    nameGr,
                                                                 }) => (
                                                                     <option
                                                                         key={id}
@@ -768,16 +838,19 @@ const Create = (props) => {
                                                                             id
                                                                         }
                                                                     >
-                                                                        {name}
+                                                                        {i18n.language ==
+                                                                        "en"
+                                                                            ? nameEn
+                                                                            : nameGr}
                                                                     </option>
                                                                 )
                                                             )}
                                                         </select>
                                                         <label
                                                             htmlFor="gender"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
-                                                            Gender
+                                                            {genderStepTwo}
                                                         </label>
 
                                                         <InputError
@@ -795,25 +868,15 @@ const Create = (props) => {
                                             data={data}
                                             errors={validationErrors}
                                             handleOnChange={handleOnChange}
-                                            newFlatmateSmoking={
-                                                newFlatmateSmoking
-                                            }
-                                            newFlatmateGender={
-                                                newFlatmateGender
-                                            }
-                                            newFlatmateOccupation={
-                                                newFlatmateOccupation
-                                            }
-                                            pets={pets}
                                         />
 
                                         <div className="my-6">
                                             <PrimaryButton
                                                 type="button"
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -825,7 +888,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -845,9 +908,9 @@ const Create = (props) => {
                                             <PrimaryButton
                                                 type="button"
                                                 onClick={handleNext}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -859,7 +922,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
@@ -888,8 +951,7 @@ const Create = (props) => {
                                                     </div>
                                                     <div className="ml-3">
                                                         <h2 className="font-semibold text-gray-800">
-                                                            Please fix the
-                                                            errors
+                                                            {fixErrors}
                                                         </h2>
                                                     </div>
                                                 </div>
@@ -898,7 +960,7 @@ const Create = (props) => {
                                         <div className="">
                                             <InputLabel
                                                 htmlFor="amenties"
-                                                value="Amenities"
+                                                value={amenitiesStepSix}
                                                 className="mb-3"
                                             />
                                             <Select
@@ -922,7 +984,7 @@ const Create = (props) => {
                                         <div className="mt-4">
                                             <InputLabel
                                                 htmlFor="hobbies"
-                                                value="Hobbies"
+                                                value={hobbiesStepSix}
                                                 className="mb-3"
                                             />
                                             <Select
@@ -949,7 +1011,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="title"
                                                     id="title"
-                                                    placeholder="Title"
+                                                    placeholder={titleStepSix}
                                                     value={data.title}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -957,9 +1019,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="title"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Title
+                                                    {titleStepSix}
                                                 </label>
                                             </div>
 
@@ -976,7 +1038,9 @@ const Create = (props) => {
                                                     name="description"
                                                     id="description"
                                                     rows="8"
-                                                    placeholder="description"
+                                                    placeholder={
+                                                        descriptionStepSix
+                                                    }
                                                     value={data.description}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
@@ -984,9 +1048,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="description"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Description
+                                                    {descriptionStepSix}
                                                 </label>
                                             </div>
 
@@ -1026,11 +1090,11 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 disabled={processing}
-                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none font-popp"
+                                                className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
                                                 {processing
-                                                    ? "Processing..."
-                                                    : "Place your ad"}
+                                                    ? processingBtn
+                                                    : placeAdBtn}
                                             </PrimaryButton>
                                         </div>
 
@@ -1041,7 +1105,7 @@ const Create = (props) => {
                                                 className="cursor-pointer hover:text-[#F1C40F]"
                                                 onClick={handleBack}
                                             >
-                                                Back
+                                                {backBtn}
                                             </PrimaryButton>
 
                                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

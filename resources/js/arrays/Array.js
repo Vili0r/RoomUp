@@ -186,9 +186,24 @@ export const whatIAm = [
     { id: 4, nameEn: "Agent", nameGr: "Πράκτορας" },
     { id: 5, nameEn: "Former flatmate", nameGr: "Πρώην συγκάτοικος" },
 ];
+
 export const whatIAmFlat = [
     { id: 1, nameEn: "Landlord", nameGr: "Ιδιοκτήτης" },
     { id: 2, nameEn: "Agent", nameGr: "Πράκτορας" },
+];
+
+export const searchingFor = [
+    { id: 1, nameEn: "Me", nameGr: "Για μένα" },
+    {
+        id: 2,
+        nameEn: "Me and my partner",
+        nameGr: "Για μένα και τον/την σύντροφός μου",
+    },
+    {
+        id: 4,
+        nameEn: "Me and a friend",
+        nameGr: "Για μένα και έναν/μια φίλο/η",
+    },
 ];
 
 export const minimumStay = [

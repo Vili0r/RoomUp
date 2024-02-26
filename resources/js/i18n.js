@@ -524,6 +524,7 @@ const resources = {
                 buttons: {
                     availableRoomsBtn: "Availbale rooms:",
                     bedroomsBtn: "Bedrooms:",
+                    budgetBtn: "Budget:",
                     deletePropertyBtn: "Delete Property",
                     manageAvailabilityBtn: "Manage availability",
                     virtualTourBtn: "Virtual Tour",
@@ -555,6 +556,7 @@ const resources = {
                 table: {
                     type: "Type",
                     title: "Title",
+                    id: "Id",
                     bedrooms: "Bedrooms",
                     createdAt: "Created at",
                     status: "Status",
@@ -564,7 +566,55 @@ const resources = {
                     manage: "Manage",
                 },
             },
-            roommate: {},
+            roommate: {
+                misc: {
+                    nextBtn: "Next",
+                    backBtn: "Back",
+                    yourInformation: "Your information",
+                    fixErrors:
+                        "Please fix the following errors before procceding.",
+                    processingBtn: "Processing...",
+                    placeAdBtn: "Place your ad",
+                },
+                forms: {
+                    stepOne: {
+                        budgetStepOne: "Budget",
+                        availableFromStepOne: "Available to move from",
+                        searchingForStepOne: "Searching For",
+                        minimumStayStepOne: "Minimum Stay",
+                        maximumStayStepOne: "Maximum Stay",
+                        roomSizeStepOne: "Room Size",
+                        daysAvailableStepOne: "Days available",
+                        shortTermStepOne: "Short term",
+                        cityStepOne: "City",
+                        areaStepOne: "Area",
+                    },
+                    stepTwo: {
+                        ageStepTwo: "Age",
+                        smokerStepTwo: "Smoker",
+                        petsStepTwo: "Pets",
+                        occupationStepTwo: "Occupation",
+                        genderStepTwo: "Gender",
+                    },
+                    stepSix: {
+                        amenitiesStepSix: "Amenities",
+                        hobbiesStepSix: "Hobbies",
+                        titleStepSix: "Title",
+                        descriptionStepSix: "Description",
+                    },
+                },
+                edit: {
+                    fixErrors: "Please fix the errors",
+                    propertyDetails: "Property details?",
+                    flatmatesDisclosure: "Flatmates?",
+                    yourInformation: "Your information",
+                    advertiserDetails: "Advertiser details?",
+                    confirmation: "Confirmation?",
+                    filesUploaded: "Files uploaded when creating advertisment",
+                    processingBtn: "Processing...",
+                    updateBtn: "Update you ad",
+                },
+            },
             pagination: {
                 page: "Page",
                 previous: "Previous",
@@ -1133,6 +1183,7 @@ const resources = {
                 buttons: {
                     availableRoomsBtn: "Διαθέσιμα δωμάτια:",
                     bedroomsBtn: "Δωμάτια:",
+                    budgetBtn: "Προϋπολογισμός:",
                     deletePropertyBtn: "Διαγραφή αγγελίας",
                     manageAvailabilityBtn: "Διαχείριση διαθεσιμότητας",
                     virtualTourBtn: "Εικονική Περιήγηση",
@@ -1156,15 +1207,16 @@ const resources = {
             },
             myListings: {
                 misc: {
-                    allProperties: "Όλες οι ιδιοκτησίες",
+                    allProperties: "Όλες οι Αγγελίες",
                     searchProperties:
-                        "Αναζητήστε τις ιδιοκτησίες σας και διαχειριστείτε τις ή ενημερώστε τις.",
+                        "Αναζητήστε τις αγγελίες σας και διαχειριστείτε τις ή ενημερώστε τις.",
                     inputPlaceholder: "Αναζήτηση...",
-                    addProperty: "Προσθήκη ιδιοκτησίας",
+                    addProperty: "Προσθήκη αγγελίας",
                 },
                 table: {
                     type: "Τύπος",
                     title: "Τίτλος",
+                    id: "Αριθμός",
                     bedrooms: "Υπνοδωμάτια",
                     createdAt: "Δημιουργήθηκε στις",
                     status: "Κατάσταση",
@@ -1174,7 +1226,56 @@ const resources = {
                     manage: "Διαχείριση",
                 },
             },
-            roommate: {},
+            roommate: {
+                misc: {
+                    nextBtn: "Επόμενο",
+                    backBtn: "Πίσω",
+                    yourInformation: "Οι πληροφορίες σας",
+                    fixErrors:
+                        "Παρακαλώ διορθώστε τα παρακάτω σφάλματα πριν συνεχίσετε.",
+                    processingBtn: "Επεξεργασία...",
+                    placeAdBtn: "Δημοσίευση της αγγελίας σας",
+                },
+                forms: {
+                    stepOne: {
+                        budgetStepOne: "Προϋπολογισμός",
+                        availableFromStepOne: "Διαθέσιμο από",
+                        searchingForStepOne: "Αναζητώ για",
+                        minimumStayStepOne: "Ελάχιστη διάρκεια διαμονής",
+                        maximumStayStepOne: "Μέγιστη διάρκεια διαμονής",
+                        roomSizeStepOne: "Μέγεθος δωματίου",
+                        daysAvailableStepOne: "Διαθέσιμες μέρες",
+                        shortTermStepOne: "Βραχυπρόθεσμα",
+                        cityStepOne: "Πόλη",
+                        areaStepOne: "Περιοχή",
+                    },
+                    stepTwo: {
+                        ageStepTwo: "Ηλικία",
+                        smokerStepTwo: "Καπνιστής",
+                        petsStepTwo: "Κατοικίδια",
+                        occupationStepTwo: "Επάγγελμα",
+                        genderStepTwo: "Φύλο",
+                    },
+                    stepSix: {
+                        amenitiesStepSix: "Παροχές",
+                        hobbiesStepSix: "Χόμπι",
+                        titleStepSix: "Τίτλος",
+                        descriptionStepSix: "Περιγραφή",
+                    },
+                },
+                edit: {
+                    fixErrors: "Παρακαλώ διορθώστε τα σφάλματα",
+                    propertyDetails: "Λεπτομέρειες ιδιοκτησίας;",
+                    yourInformation: "Οι πληροφορίες σας",
+                    flatmatesDisclosure: "Συγκάτοικοι;",
+                    advertiserDetails: "Λεπτομέρειες διαφημιστή;",
+                    confirmation: "Επιβεβαίωση;",
+                    filesUploaded:
+                        "Αρχεία που ανέβηκαν κατά τη δημιουργία διαφήμισης",
+                    processingBtn: "Επεξεργασία...",
+                    updateBtn: "Ενημέρωση της διαφήμισής σας",
+                },
+            },
             pagination: {
                 page: "Σελίδα",
                 previous: "Προηγούμενη",
