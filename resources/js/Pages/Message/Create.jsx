@@ -6,6 +6,8 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { HousePlaceholder } from "@/assets";
 import { BsEyeFill } from "react-icons/bs";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
+import { type } from "@/arrays/Array";
 
 const Create = (props) => {
     const { property } = usePage().props;
@@ -18,6 +20,10 @@ const Create = (props) => {
         owner_type: property.model,
         receiver_id: property.user_id,
     });
+    const { t, i18n } = useTranslation();
+    const { createdAt, sentMessageMisc } = t("message.misc");
+    const { fullName, emailAddress, phoneNumber, message, sentMessageBtn } =
+        t("message.form");
 
     const showImage = () => {
         return "/storage/";
@@ -40,6 +46,14 @@ const Create = (props) => {
         });
     };
 
+    const getTypeName = (id) => {
+        const typeName = type.find((item) => item.id === id);
+        return typeName
+            ? i18n.language === "en"
+                ? typeName.nameEn
+                : typeName.nameGr
+            : "";
+    };
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Sent message to listing advertiser" />
@@ -54,7 +68,7 @@ const Create = (props) => {
                                             {property.title}
                                         </h1>
                                         <p class="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">
-                                            {property.type}
+                                            {getTypeName(property.type)}
                                         </p>
                                     </div>
                                     <div class="grid gap-4 col-start-1 col-end-3 row-start-1">
@@ -117,7 +131,7 @@ const Create = (props) => {
                                     </dl>
                                     <div class="mt-4 col-start-1 row-start-3 self-center">
                                         <div>
-                                            Created at:{" "}
+                                            {createdAt}{" "}
                                             {moment(property.created_at).format(
                                                 "MMM DD, YYYY"
                                             )}
@@ -132,8 +146,8 @@ const Create = (props) => {
 
                         <div className="mt-8 lg:w-3/5">
                             <div className="w-full px-8 py-10 mx-auto overflow-hidden bg-white rounded-lg shadow-2xl dark:bg-gray-900 lg:max-w-xl shadow-gray-300/50 dark:shadow-black/50">
-                                <h1 className="text-lg font-medium leading-6 text-gray-900 font-popp">
-                                    Sent a Message to{" "}
+                                <h1 className="text-lg font-medium leading-6 text-gray-900 ">
+                                    {sentMessageMisc}{" "}
                                     {property.advertiser.first_name}
                                 </h1>
 
@@ -145,7 +159,7 @@ const Create = (props) => {
                                                     type="text"
                                                     name="full_name"
                                                     value={data.full_name}
-                                                    placeholder="Full Name"
+                                                    placeholder={fullName}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
                                                     disabled
@@ -153,9 +167,9 @@ const Create = (props) => {
                                                 />
                                                 <label
                                                     htmlFor="name"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Full Name
+                                                    {fullName}
                                                 </label>
                                                 <InputError
                                                     message={errors.full_name}
@@ -167,16 +181,16 @@ const Create = (props) => {
                                                     type="email"
                                                     name="email"
                                                     value={data.email}
-                                                    placeholder="Email Address"
+                                                    placeholder={emailAddress}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
                                                     onChange={handleOnChange}
                                                 />
                                                 <label
                                                     htmlFor="email"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Email Address
+                                                    {emailAddress}
                                                 </label>
                                                 <InputError
                                                     message={errors.email}
@@ -187,16 +201,16 @@ const Create = (props) => {
                                                 <input
                                                     name="phone_number"
                                                     value={data.phone_number}
-                                                    placeholder="Phone Number"
+                                                    placeholder={phoneNumber}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
                                                     onChange={handleOnChange}
                                                 />
                                                 <label
                                                     htmlFor="phone_number"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Phone Number
+                                                    {phoneNumber}
                                                 </label>
                                                 <InputError
                                                     message={
@@ -210,16 +224,16 @@ const Create = (props) => {
                                                     type="text"
                                                     name="message_text"
                                                     value={data.message_text}
-                                                    placeholder="Message"
+                                                    placeholder={message}
                                                     className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
                                                     onChange={handleOnChange}
                                                 />
                                                 <label
                                                     htmlFor="message"
-                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                 >
-                                                    Message
+                                                    {message}
                                                 </label>
                                                 <InputError
                                                     message={
@@ -241,10 +255,10 @@ const Create = (props) => {
                                                 <AiOutlineMail className="w-5 h-5" />
                                             </span>
                                             <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform bg-black rounded-full ease group-hover:translate-x-full">
-                                                Sent Message
+                                                {sentMessageBtn}
                                             </span>
                                             <span className="relative invisible">
-                                                Sent Message
+                                                {sentMessageBtn}
                                             </span>
                                         </button>
                                     </div>

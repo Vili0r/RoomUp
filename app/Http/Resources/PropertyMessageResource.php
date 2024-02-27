@@ -22,7 +22,7 @@ class PropertyMessageResource extends JsonResource
             'description' => $this->description? $this->description : $this->owner->description,
             'images' => $this->images ? $this->images : $this->owner->images,
             'user_id' => $this->user_id ? $this->user_id : $this->owner->user_id,
-            'type' => $this->type ? Str::replace('_', ' ', $this->type->name) : Str::replace('_', ' ', $this->owner->type->name),
+            'type' => $this->type ? $this->type : $this->owner->type,
             'created_at' => $this->created_at->toDateTimeString(),
             'address' => [
                 'address_1' => $this->address ? $this->address->address_1 : $this->owner->address->address_1,

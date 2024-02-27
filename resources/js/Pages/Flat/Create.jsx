@@ -362,7 +362,7 @@ const Create = (props) => {
                                                 onClick={handleNext}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
-                                                Next
+                                                {nextBtn}
                                             </PrimaryButton>
                                         </div>
                                     </>

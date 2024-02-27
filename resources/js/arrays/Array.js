@@ -183,13 +183,13 @@ export const whatIAm = [
         nameGr: "Ιδιοκτήτης που δεν διαμένει",
     },
     { id: 3, nameEn: "Current tenant", nameGr: "Τρέχων ενοικιαστής" },
-    { id: 4, nameEn: "Agent", nameGr: "Πράκτορας" },
+    { id: 4, nameEn: "Agent", nameGr: "Μεσίτης" },
     { id: 5, nameEn: "Former flatmate", nameGr: "Πρώην συγκάτοικος" },
 ];
 
 export const whatIAmFlat = [
     { id: 1, nameEn: "Landlord", nameGr: "Ιδιοκτήτης" },
-    { id: 2, nameEn: "Agent", nameGr: "Πράκτορας" },
+    { id: 2, nameEn: "Agent", nameGr: "Μεσίτης" },
 ];
 
 export const searchingFor = [
@@ -197,7 +197,7 @@ export const searchingFor = [
     {
         id: 2,
         nameEn: "Me and my partner",
-        nameGr: "Για μένα και τον/την σύντροφός μου",
+        nameGr: "Για μένα και τον/την σύντροφό μου",
     },
     {
         id: 4,
@@ -309,4 +309,46 @@ export const hobbies = [
     { id: 40, nameEn: "Chess", nameGr: "Σκάκι" },
     { id: 41, nameEn: "Martial arts", nameGr: "Πολεμικές τέχνες" },
     { id: 42, nameEn: "Cars", nameGr: "Αυτοκίνητα" },
+];
+
+export const reasonsForReporting = [
+    {
+        id: 1,
+        nameEn: "Property information is incorrect",
+        nameGr: "Οι πληροφορίες της ιδιοκτησίας είναι εσφαλμένες",
+    },
+    {
+        id: 2,
+        nameEn: "Property price is incorrect",
+        nameGr: "Η τιμή της ιδιοκτησίας είναι εσφαλμένη",
+    },
+    {
+        id: 3,
+        nameEn: "Property address is incorrect",
+        nameGr: "Η διεύθυνση της ιδιοκτησίας είναι εσφαλμένη",
+    },
+    {
+        id: 4,
+        nameEn: "Property is no longer available",
+        nameGr: "Η ιδιοκτησία δεν είναι πλέον διαθέσιμη",
+    },
+    {
+        id: 5,
+        nameEn: "Advertiser is not contactable",
+        nameGr: "Ο διαφημιζόμενος δεν είναι δυνατός να επικοινωνηθεί",
+    },
+    {
+        id: 6,
+        nameEn: "Problem with photos or video",
+        nameGr: "Πρόβλημα με φωτογραφίες ή βίντεο",
+    },
+    {
+        id: 7,
+        nameEn: "Inappropriate Content",
+        nameGr: "Ακατάλληλο περιεχόμενο",
+    },
+    { id: 8, nameEn: "Duplicate Listing", nameGr: "Διπλότυπη καταχώριση" },
+    { id: 9, nameEn: "Safety Concern", nameGr: "Ανησυχία για ασφάλεια" },
+    { id: 10, nameEn: "Scam", nameGr: "Απάτη" },
+    { id: 11, nameEn: "Other", nameGr: "Άλλο" },
 ];

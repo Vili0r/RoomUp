@@ -17,6 +17,17 @@ import { FiMapPin } from "react-icons/fi";
 import moment from "moment";
 import Map, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useTranslation } from "react-i18next";
+import {
+    furnishings,
+    type,
+    minimumStay,
+    maximumStay,
+    daysAvailable,
+    minutes,
+    stations,
+    modes,
+} from "@/arrays/Array";
 
 const PropertyDetails = ({ property }) => {
     const { get } = useForm({
@@ -24,8 +35,94 @@ const PropertyDetails = ({ property }) => {
         type: property.model,
     });
 
+    const { t, i18n } = useTranslation();
+    const { inA, month } = t("propertyDetails.misc");
+    const {
+        overview,
+        rooms,
+        typeDetails,
+        availableFrom,
+        where,
+        availability,
+        transport,
+        moreInformation,
+        reportListing,
+    } = t("propertyDetails.details");
+
     const handleClick = () => {
         get(route("reported-listings.create"));
+    };
+
+    const getFurnishingName = (id) => {
+        const furnishing = furnishings.find((item) => item.id === id);
+        return furnishing
+            ? i18n.language === "en"
+                ? furnishing.nameEn
+                : furnishing.nameGr
+            : "";
+    };
+    const getTypeName = (id) => {
+        const typeName = type.find((item) => item.id === id);
+        return typeName
+            ? i18n.language === "en"
+                ? typeName.nameEn
+                : typeName.nameGr
+            : "";
+    };
+    const getMinimumStayName = (id) => {
+        const minimumName = minimumStay.find((item) => item.id === id);
+        return minimumName
+            ? i18n.language === "en"
+                ? minimumName.nameEn
+                : minimumName.nameGr
+            : "";
+    };
+    const getMaximumStayName = (id) => {
+        const maximumName = maximumStay.find((item) => item.id === id);
+        return maximumName
+            ? i18n.language === "en"
+                ? maximumName.nameEn
+                : maximumName.nameGr
+            : "";
+    };
+    const getDaysAvailableName = (id) => {
+        const daysAvailableName = daysAvailable.find((item) => item.id === id);
+        return daysAvailableName
+            ? i18n.language === "en"
+                ? daysAvailableName.nameEn
+                : daysAvailableName.nameGr
+            : "";
+    };
+    const getMinutesName = (id) => {
+        const minutesName = minutes.find((item) => item.id === id);
+        return minutesName
+            ? i18n.language === "en"
+                ? minutesName.nameEn
+                : minutesName.nameGr
+            : "";
+    };
+    const getStattionsName = (id) => {
+        const stationName = stations.find((item) => item.id === id);
+        return stationName
+            ? i18n.language === "en"
+                ? stationName.nameEn
+                : stationName.nameGr
+            : "";
+    };
+    const getModeName = (id) => {
+        const modeName = modes.find((item) => item.id === id);
+        return modeName
+            ? i18n.language === "en"
+                ? modeName.nameEn
+                : modeName.nameGr
+            : "";
+    };
+    const getTermName = (name) => {
+        if (i18n.language === "gr") {
+            return name === "short term" ? "Βραχυπρόθεσμος" : "Μακροπρόθεσμος";
+        } else {
+            return term;
+        }
     };
 
     return (
@@ -33,31 +130,31 @@ const PropertyDetails = ({ property }) => {
             <div className="max-w-screen-xl mx-auto">
                 <div className="flex flex-col gap-6">
                     <div className="mt-[4rem] py-10 sm:px-16">
-                        <h1 className="sm:text-2xl text-xl mb-3 [@media(max-width:350px)]:text-lg font-popp font-bold text-gray-700">
+                        <h1 className="sm:text-2xl text-xl mb-3 [@media(max-width:350px)]:text-lg   font-bold text-gray-700">
                             {property.model === "room"
                                 ? property.sub_title === null
                                     ? property.owner.title
-                                    : `${property.sub_title} in a ${property.owner.title}`
+                                    : `${property.sub_title} ${inA} ${property.owner.title}`
                                 : property.title}
                         </h1>
                         <div className="flex justify-between gap-0 pt-0 mb-10 items-center [@media(max-width:800px)]:flex-col [@media(max-width:800px)]:items-start [@media(max-width:800px)]:gap-2 [@media(max-width:800px)]:pt-2">
                             <div className="flex justify-between gap-4 [@media(max-width:400px)]:flex-col">
                                 <div className="flex">
-                                    <p className="text-base font-semibold xs:text-xl font-popp">
-                                        £
+                                    <p className="text-base font-semibold xs:text-xl ">
+                                        €
                                         {property.owner
                                             ? property.room_cost
                                             : property.cost}
                                     </p>
-                                    <span className="text-base font-semibold xs:text-xl font-popp">
-                                        /month
+                                    <span className="text-base font-semibold xs:text-xl ">
+                                        /{month}
                                     </span>
                                 </div>
                                 <div className="flex [@media(max-width:400px)]:ml-[-6px]">
                                     <span className="flex gap-1 font-semibold underline">
                                         <CiLocationOn className="w-6 h-6" />
 
-                                        <h2 className="text-base font-semibold text-gray-700 xs:text-lg font-popp">
+                                        <h2 className="text-base font-semibold text-gray-700 xs:text-lg ">
                                             {property.owner
                                                 ? property.owner.address
                                                       ?.address_1
@@ -65,7 +162,7 @@ const PropertyDetails = ({ property }) => {
                                             ,
                                         </h2>
 
-                                        <h2 className="text-base font-semibold text-gray-700 xs:text-lg font-popp">
+                                        <h2 className="text-base font-semibold text-gray-700 xs:text-lg ">
                                             {property.owner
                                                 ? property.owner.address?.city
                                                 : property.address?.city}
@@ -91,10 +188,10 @@ const PropertyDetails = ({ property }) => {
                         <div className="flex w-full min-w-0 mt-5 md:mt-0">
                             <dl className="grid grid-cols-1 gap-y-10 gap-x-8 md:max-w-xl lg:max-w-none lg:gap-y-16">
                                 <div className="">
-                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
-                                        Overview
+                                    <h1 className="text-xl font-bold text-gray-700 ">
+                                        {overview}
                                     </h1>
-                                    <p className="mt-5 text-base font-medium text-gray-700 sm:text-lg font-popp">
+                                    <p className="mt-5 text-base font-medium text-gray-700 sm:text-lg ">
                                         {property.description}
                                         <br />
                                         {property.owner &&
@@ -105,22 +202,24 @@ const PropertyDetails = ({ property }) => {
                                             {property.owner
                                                 ? property.owner.size
                                                 : property.size}{" "}
-                                            rooms
+                                            {rooms}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
                                         </span>
                                         <div>
-                                            Type:{" "}
-                                            {property.owner
-                                                ? property.owner.type
-                                                : property.type}
+                                            {typeDetails}:{" "}
+                                            {getTypeName(
+                                                property.owner
+                                                    ? property.owner.type
+                                                    : property.type
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
                                         </span>
                                         <div>
-                                            Available from:{" "}
+                                            {availableFrom}:{" "}
                                             {moment(
                                                 property.owner
                                                     ? property.available_from
@@ -132,9 +231,11 @@ const PropertyDetails = ({ property }) => {
                                             |
                                         </span>
                                         <div>
-                                            {property.owner
-                                                ? property.room_furnished
-                                                : property.furnished}
+                                            {getFurnishingName(
+                                                property.owner
+                                                    ? property.room_furnished
+                                                    : property.furnished
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -154,8 +255,8 @@ const PropertyDetails = ({ property }) => {
 
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                                 <div className="mt-[1rem] mb-10">
-                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
-                                        Where will you live
+                                    <h1 className="text-xl font-bold text-gray-700 ">
+                                        {where}
                                     </h1>
                                     <div className="w-full xs:h-[500px] h-[350px] rounded-xl mt-7">
                                         <Map
@@ -200,16 +301,18 @@ const PropertyDetails = ({ property }) => {
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                                 <div className="">
-                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
-                                        Availability
+                                    <h1 className="text-xl font-bold text-gray-700 ">
+                                        {availability}
                                     </h1>
                                     <div className="sm:flex sm:flex-row items-center gap-3 font-[450px] mt-9 text-neutral-500 grid grid-cols-2 text-base">
                                         <div className="flex items-start gap-2 capitalize ">
                                             <FiMinimize className="w-6 h-6" />
-                                            {property.owner
-                                                ? property.minimum_stay
-                                                : property.availability
-                                                      ?.minimum_stay}
+                                            {getMinimumStayName(
+                                                property.owner
+                                                    ? property.minimum_stay
+                                                    : property.availability
+                                                          ?.minimum_stay
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
@@ -217,45 +320,54 @@ const PropertyDetails = ({ property }) => {
                                         <div className="flex items-start gap-2 capitalize">
                                             <FiMaximize className="w-6 h-6" />
 
-                                            {property.owner
-                                                ? property.maximum_stay
-                                                : property.availability
-                                                      ?.maximum_stay}
+                                            {getMaximumStayName(
+                                                property.owner
+                                                    ? property.maximum_stay
+                                                    : property.availability
+                                                          ?.maximum_stay
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
                                         </span>
                                         <div className="flex items-start gap-2 capitalize">
                                             <BsCalendar4Week className="w-6 h-6" />
-                                            {property.owner
-                                                ? property.days_available
-                                                : property.availability
-                                                      ?.days_available}
+                                            {getDaysAvailableName(
+                                                property.owner
+                                                    ? property.days_available
+                                                    : property.availability
+                                                          ?.days_available
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
                                         </span>
                                         <div className="flex items-start gap-2 capitalize">
                                             <MdShortText className="w-6 h-6" />
-                                            {property.owner
-                                                ? property.short_term
-                                                : property.availability
-                                                      ?.short_term}
+                                            {getTermName(
+                                                property.owner
+                                                    ? property.short_term
+                                                    : property.availability
+                                                          ?.short_term
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                                 <div className="">
-                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
-                                        Transport
+                                    <h1 className="text-xl font-bold text-gray-700 ">
+                                        {transport}
                                     </h1>
                                     <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
                                         <div className="flex items-start gap-2 capitalize">
                                             <MdOutlineHourglassEmpty className="w-6 h-6" />{" "}
-                                            {property.owner
-                                                ? property.owner.transport
-                                                      .minutes
-                                                : property.transport?.minutes}
+                                            {getMinutesName(
+                                                property.owner
+                                                    ? property.owner.transport
+                                                          .minutes
+                                                    : property.transport
+                                                          ?.minutes
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
@@ -263,9 +375,12 @@ const PropertyDetails = ({ property }) => {
                                         <div className="flex items-start gap-2 capitalize">
                                             <MdOutlineAirplanemodeActive className="w-6 h-6" />
 
-                                            {property.owner
-                                                ? property.owner.transport.mode
-                                                : property.transport?.mode}
+                                            {getModeName(
+                                                property.owner
+                                                    ? property.owner.transport
+                                                          .mode
+                                                    : property.transport?.mode
+                                            )}
                                         </div>
                                         <span className="hidden sm:block">
                                             |
@@ -273,17 +388,20 @@ const PropertyDetails = ({ property }) => {
                                         <div className="flex items-start gap-2 capitalize">
                                             <SiTransportforlondon className="w-6 h-6" />
 
-                                            {property.owner
-                                                ? property.owner.transport
-                                                      .station
-                                                : property.transport?.station}
+                                            {getStattionsName(
+                                                property.owner
+                                                    ? property.owner.transport
+                                                          .station
+                                                    : property.transport
+                                                          ?.station
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
                                 <div className="">
-                                    <h1 className="text-xl font-bold text-gray-700 font-popp">
-                                        More Information
+                                    <h1 className="text-xl font-bold text-gray-700 ">
+                                        {moreInformation}
                                     </h1>
                                     <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
                                         <button
@@ -291,7 +409,7 @@ const PropertyDetails = ({ property }) => {
                                             className="flex items-start gap-2 px-5 py-3 capitalize border-2 border-gray-100 rounded-md"
                                         >
                                             <MdOutlineReportProblem className="w-6 h-6" />{" "}
-                                            Report Listing
+                                            {reportListing}
                                         </button>
                                     </div>
                                 </div>

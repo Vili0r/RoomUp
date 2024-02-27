@@ -17,9 +17,9 @@ class AvailabilitySinglePropertyResource extends JsonResource
     {
         return [
             'available_from' => $this->available_from->format('Y-m-d'),
-            'minimum_stay' => Str::replace('_', ' ', $this->minimum_stay->name) ?? '',
-            'maximum_stay' =>  Str::replace('_', ' ', $this->maximum_stay->name) ?? '',
-            'days_available' =>  Str::replace('_', ' ', $this->days_available->name) ?? '',
+            'minimum_stay' => $this->minimum_stay ?? '',
+            'maximum_stay' =>  $this->maximum_stay ?? '',
+            'days_available' =>  $this->days_available ?? '',
             'short_term' => $this->short_term ? "Short term" : "Long term",
         ];
     }

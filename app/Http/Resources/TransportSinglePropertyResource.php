@@ -16,9 +16,9 @@ class TransportSinglePropertyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'minutes' => Str::replace('_', ' ', $this->minutes->name) ?? '',
-            'mode' => Str::replace('_', ' ', $this->mode->name) ?? '',
-            'station' => Str::replace('_', ' ', $this->station->name) ?? '',
+            'minutes' =>  $this->minutes ?? '',
+            'mode' =>  $this->mode ?? '',
+            'station' =>  $this->station ?? '',
         ];
     }
 }

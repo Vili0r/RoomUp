@@ -5,20 +5,42 @@ import {
     AiFillSafetyCertificate,
     AiOutlineMail,
 } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
+import { whatIAm, whatIAmFlat } from "@/arrays/Array";
 
 const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
     const { data, get } = useForm({
         id: id,
         type: model,
     });
+
+    const { t, i18n } = useTranslation();
+    const { advertisedBy, tel, message } = t("propertyDetails.details");
+
     const handleClick = () => {
         get(route("message.create"));
     };
+    const getOccupationName = (id) => {
+        if (model === "flat") {
+            const whatIAmFlatName = whatIAmFlat.find((item) => item.id === id);
+            return whatIAmFlatName
+                ? i18n.language === "en"
+                    ? whatIAmFlatName.nameEn
+                    : whatIAmFlatName.nameGr
+                : "";
+        } else {
+            const whatIAmName = whatIAm.find((item) => item.id === id);
+            return whatIAmName
+                ? i18n.language === "en"
+                    ? whatIAmName.nameEn
+                    : whatIAmName.nameGr
+                : "";
+        }
+    };
+
     return (
         <>
-            <h1 className="text-xl font-bold text-gray-700 font-popp">
-                Advertised by
-            </h1>
+            <h1 className="text-xl font-bold text-gray-700 ">{advertisedBy}</h1>
             <div className="grid grid-cols-[2fr_1fr]">
                 <div className="flex items-center mt-8 -mx-2">
                     <img
@@ -27,14 +49,14 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
                         alt=""
                     />
                     <div className="grid mx-2">
-                        <h1 className="font-semibold text-gray-800 font-popp">
+                        <h1 className="font-semibold text-gray-800 ">
                             {advertiser.first_name}
                         </h1>
-                        <span className="text-sm text-gray-500 font-popp">
-                            {occupation}
+                        <span className="text-sm text-gray-500 ">
+                            {getOccupationName(occupation)}
                         </span>
-                        <span className="text-sm text-gray-500 font-popp">
-                            Tel:{" "}
+                        <span className="text-sm text-gray-500 ">
+                            {tel}:{" "}
                             {advertiser.display_telephone
                                 ? advertiser.telephone
                                 : "Message Me"}
@@ -45,14 +67,14 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
             <div className="flex justify-start gap-4 mt-7">
                 <div className="flex items-center gap-2">
                     <AiFillStar className="w-6 h-6" />
-                    <span className="font-popp text-sm [@media(max-width:350px)]:text-xs">
+                    <span className=" text-sm [@media(max-width:350px)]:text-xs">
                         744 reviews
                     </span>
                 </div>
                 <span>|</span>
                 <div className="flex items-center gap-2">
                     <AiFillSafetyCertificate className="w-6 h-6" />
-                    <span className="font-popp text-sm [@media(max-width:350px)]:text-xs">
+                    <span className=" text-sm [@media(max-width:350px)]:text-xs">
                         Identity certified
                     </span>
                 </div>
@@ -66,10 +88,10 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
                         <AiOutlineMail className="w-5 h-5" />
                     </span>
                     <span className="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform ease group-hover:translate-x-full">
-                        Message {advertiser.first_name}
+                        {message} {advertiser.first_name}
                     </span>
                     <span className="relative invisible">
-                        Message {advertiser.first_name}
+                        {message} {advertiser.first_name}
                     </span>
                 </button>
             </div>

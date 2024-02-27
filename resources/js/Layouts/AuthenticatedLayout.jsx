@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import InputError from "@/Components/InputError";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function Authenticated({ auth, children }) {
     const [replies, setReplies] = useState(null);
@@ -32,6 +33,27 @@ export default function Authenticated({ auth, children }) {
     });
     const repliesEndRef = useRef(null);
 
+    const { t, i18n } = useTranslation();
+    const { support, you, customerSupport, enquiry, loadingSupport, sendBtn } =
+        t("authenticatedLayout.conversationSupport");
+    const {
+        hi,
+        savedProperties,
+        recentlyViewed,
+        messages,
+        inbox,
+        profile,
+        logOut,
+    } = t("authenticatedLayout.navigation");
+    const { welcome, searchBnr } = t("authenticatedLayout.banner");
+    const {
+        dashboard,
+        admin,
+        myProperties,
+        roommateLisiting,
+        verify,
+        account,
+    } = t("authenticatedLayout.navigationHeader");
     const handleOnChange = (event) => {
         setData(event.target.name, event.target.value);
     };
@@ -123,7 +145,7 @@ export default function Authenticated({ auth, children }) {
                     </span>
                     <p className="leading-relaxed">
                         <span className="block font-bold text-gray-700 capitalize">
-                            Support{" "}
+                            {support}{" "}
                         </span>
                         {reply.body}
                     </p>
@@ -150,7 +172,7 @@ export default function Authenticated({ auth, children }) {
                     </span>
                     <p className="leading-relaxed">
                         <span className="block font-bold text-gray-700">
-                            You{" "}
+                            {you}{" "}
                         </span>
                         {reply.body}
                     </p>
@@ -209,7 +231,7 @@ export default function Authenticated({ auth, children }) {
                         </div>
 
                         <span className="block font-[500] mb-[.25rem] text-[#9177a6] text-[.813rem]">
-                            Hi,
+                            {hi},
                         </span>
                         <h1 className="text-[#faf6fe] xs:text-3xl text-xl capitalize">
                             {auth.user.first_name}
@@ -227,7 +249,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <FiBookmark className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Saved Properties
+                                    {savedProperties}
                                 </span>
                             </Link>
                         </li>
@@ -241,7 +263,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <MdSavedSearch className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Recently Viewed
+                                    {recentlyViewed}
                                 </span>
                             </Link>
                         </li>
@@ -255,7 +277,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <BiMessageDetail className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Messages
+                                    {messages}
                                 </span>
                             </Link>
                         </li>
@@ -269,7 +291,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <BsInbox className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Inbox
+                                    {inbox}
                                 </span>
                             </Link>
                         </li>
@@ -284,7 +306,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <CgUser className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Profile
+                                    {profile}
                                 </span>
                             </Link>
                         </li>
@@ -300,7 +322,7 @@ export default function Authenticated({ auth, children }) {
                             >
                                 <FiLogOut className="text-[1.15rem] lg:text-[1.5rem]" />
                                 <span className="[@media(max-width:480px)]:hidden">
-                                    Log Out
+                                    {logOut}
                                 </span>
                             </Link>
                         </li>
@@ -332,9 +354,9 @@ export default function Authenticated({ auth, children }) {
                                             </svg>
                                         </div>
                                         <p className="py-2 font-medium">
-                                            Welcome back to your account!{" "}
+                                            {welcome}{" "}
                                             <span className="font-semibold underline duration-150 hover:text-indigo-100">
-                                                Keep searching for your home.
+                                                {searchBnr}
                                             </span>
                                         </p>
                                     </div>
@@ -378,7 +400,7 @@ export default function Authenticated({ auth, children }) {
                                                     "dashboard"
                                                 )}
                                             >
-                                                Dashboard
+                                                {dashboard}
                                             </NavLink>
                                             {auth.user.roles == "admin" ||
                                             auth.user.roles == "moderator" ||
@@ -389,7 +411,7 @@ export default function Authenticated({ auth, children }) {
                                                         "admin.index"
                                                     )}
                                                 >
-                                                    Admin
+                                                    {admin}
                                                 </NavLink>
                                             ) : (
                                                 ""
@@ -402,7 +424,7 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             >
                                                 <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                My Properties
+                                                {myProperties}
                                             </NavLink>
                                             <NavLink
                                                 className="gap-2"
@@ -412,7 +434,7 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             >
                                                 <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                Roommate
+                                                {roommateLisiting}
                                             </NavLink>
                                             <NavLink
                                                 className="gap-2"
@@ -424,7 +446,7 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             >
                                                 <MdOutlineVerifiedUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                Verify
+                                                {verify}
                                             </NavLink>
                                         </div>
                                     </div>
@@ -435,7 +457,7 @@ export default function Authenticated({ auth, children }) {
                                                 onClick={handleMenuToggle}
                                                 className="relative rounded-md border-2 border-black bg-white px-10 py-3 text-lg font-semibold text-black transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_rgb(41,37,36)] hover:after:absolute hover:after:top-0 hover:after:left-0 hover:after:-bottom-2 hover:after:-right-2 hover:after:-z-10"
                                             >
-                                                Account
+                                                {account}
                                             </button>
                                         </div>
                                     </div>
@@ -474,7 +496,7 @@ export default function Authenticated({ auth, children }) {
                                         href={route("dashboard")}
                                         active={route().current("dashboard")}
                                     >
-                                        Dashboard
+                                        {dashboard}
                                     </ResponsiveNavLink>
                                 </div>
 
@@ -490,7 +512,7 @@ export default function Authenticated({ auth, children }) {
                                                         "admin.index"
                                                     )}
                                                 >
-                                                    Admin
+                                                    {admin}
                                                 </ResponsiveNavLink>
                                             ) : (
                                                 ""
@@ -505,7 +527,7 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             >
                                                 <FaHouseUser className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                My Properties
+                                                {myProperties}
                                             </ResponsiveNavLink>
                                         </div>
                                         <div className="text-sm font-medium text-gray-500">
@@ -517,7 +539,21 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             >
                                                 <TbFriends className="text-[1.15rem] lg:text-[1.5rem]" />
-                                                Roommate
+                                                {roommateLisiting}
+                                            </ResponsiveNavLink>
+                                        </div>
+                                        <div className="text-sm font-medium text-gray-500">
+                                            <ResponsiveNavLink
+                                                className="gap-2"
+                                                href={route(
+                                                    "verification.index"
+                                                )}
+                                                active={route().current(
+                                                    "verification.index"
+                                                )}
+                                            >
+                                                <MdOutlineVerifiedUser className="text-[1.15rem] lg:text-[1.5rem]" />
+                                                {verify}
                                             </ResponsiveNavLink>
                                         </div>
                                     </div>
@@ -528,7 +564,7 @@ export default function Authenticated({ auth, children }) {
                                             href={route("logout")}
                                             as="button"
                                         >
-                                            Log Out
+                                            {logOut}
                                         </ResponsiveNavLink>
                                     </div>
                                 </div>
@@ -564,11 +600,11 @@ export default function Authenticated({ auth, children }) {
                                 >
                                     <div className="flex flex-col space-y-1.5 pb-6">
                                         <h2 className="text-lg font-semibold tracking-tight">
-                                            Customer Support
+                                            {customerSupport}
                                         </h2>
 
                                         <p className="text-sm text-[#6b7280] leading-3">
-                                            Please enter your enquiry.
+                                            {enquiry}
                                         </p>
                                     </div>
                                     <div className="pr-4 h-[324px] overflow-y-auto">
@@ -597,15 +633,22 @@ export default function Authenticated({ auth, children }) {
                                                     </span>
                                                     <p className="leading-relaxed">
                                                         <span className="block font-bold text-gray-700 capitalize">
-                                                            {
-                                                                conversation
-                                                                    .message
-                                                                    .owner
-                                                                    .receiver
-                                                                    .first_name
-                                                            }{" "}
+                                                            {conversation
+                                                                .message
+                                                                .full_name ==
+                                                                "Support" &&
+                                                            i18n.language ==
+                                                                "gr"
+                                                                ? "Υποστήριξη"
+                                                                : conversation
+                                                                      .message
+                                                                      .full_name}{" "}
                                                         </span>
-                                                        {conversation.body}
+                                                        {conversation.body ==
+                                                            "Hi, how can I help you today?" &&
+                                                        i18n.language == "gr"
+                                                            ? "Γεια, πώς μπορώ να σας βοηθήσω σήμερα;"
+                                                            : conversation.body}
                                                     </p>
                                                 </div>
                                                 {replies?.length > 0 && (
@@ -613,7 +656,7 @@ export default function Authenticated({ auth, children }) {
                                                 )}
                                             </>
                                         ) : (
-                                            "Loading..."
+                                            loadingSupport
                                         )}
                                     </div>
 
@@ -646,7 +689,7 @@ export default function Authenticated({ auth, children }) {
                                                 disabled={processing}
                                                 className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-black hover:bg-[#111827E6] h-10 px-4 py-2"
                                             >
-                                                Send
+                                                {sendBtn}
                                             </button>
                                         </form>
                                     </div>

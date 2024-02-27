@@ -1,7 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard(props) {
+    const { t } = useTranslation();
+    const { loggedIn } = t("dashboard");
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -18,7 +21,7 @@ export default function Dashboard(props) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            You're logged in!
+                            {loggedIn}
                         </div>
                     </div>
                 </div>

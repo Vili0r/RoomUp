@@ -32,7 +32,7 @@ const Show = (props) => {
         available: roommate.available,
     });
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const {
         titleAvailability,
         liveAtForm,
@@ -216,7 +216,7 @@ const Show = (props) => {
                                             {roommate.title}
                                         </h1>
                                         <p className="text-sm font-medium leading-4 text-white sm:text-slate-500 dark:sm:text-slate-400">
-                                            {budgetBtn} £{roommate.budget}
+                                            {budgetBtn} €{roommate.budget}
                                         </p>
                                         <span className="mb-3">
                                             {roommate.live_at === "" ? (

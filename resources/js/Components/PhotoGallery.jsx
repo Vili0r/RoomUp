@@ -4,10 +4,13 @@ import { HousePlaceholder } from "@/assets";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import PrimaryButton from "./PrimaryButton";
+import { useTranslation } from "react-i18next";
 
 const PhotoGallery = ({ images, title, id, model, favourite }) => {
     const [showAllPhotos, setShowAllPhotos] = useState(false);
     const { post } = useForm({});
+    const { t } = useTranslation();
+    const { photosof, closePhotos, showMore } = t("propertyDetails.misc");
     const showImage = () => {
         return "/storage/";
     };
@@ -29,7 +32,7 @@ const PhotoGallery = ({ images, title, id, model, favourite }) => {
                 <div className="grid gap-4 p-8 bg-white">
                     <div>
                         <h2 className="mr-48 text-3xl">
-                            Photos of
+                            {photosof}
                             <span className="text-indigo-700"> {title}</span>
                         </h2>
                         <button
@@ -39,7 +42,7 @@ const PhotoGallery = ({ images, title, id, model, favourite }) => {
                             <span className="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
                             <span className="absolute inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-black"></span>
                             <span className="relative text-black group-hover:text-white">
-                                Close photos
+                                {closePhotos}
                             </span>
                         </button>
                     </div>
@@ -92,7 +95,7 @@ const PhotoGallery = ({ images, title, id, model, favourite }) => {
                 className="flex gap-1 absolute bottom-2 right-2 xs:py-2 xs:px-4 py-1 px-2 [@media(max-width:350px)]:py-0 [@media(max-width:350px)]:px-1 bg-white rounded-2xl shadow-md shadow-gray-500"
             >
                 <MdOutlinePhotoSizeSelectActual className="w-6 h-6" />
-                Show more photos
+                {showMore}
             </button>
         </div>
     );

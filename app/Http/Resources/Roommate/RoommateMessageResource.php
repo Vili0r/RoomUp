@@ -21,7 +21,7 @@ class RoommateMessageResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'type' => Str::replace('_', ' ', $this->room_size->name) ?? '',
+            'type' => $this->room_size ?? '',
             'area' => $this->area,
             'city' => $this->city,
             'images' => $this->images,

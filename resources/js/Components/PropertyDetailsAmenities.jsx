@@ -8,34 +8,82 @@ import { GiWashingMachine, GiFruitTree, GiHomeGarage } from "react-icons/gi";
 import { BsSnow, BsWifi } from "react-icons/bs";
 import { BiDish } from "react-icons/bi";
 import { HiOutlineSun } from "react-icons/hi";
+import { useTranslation } from "react-i18next";
 
 const allAmenities = [
-    { id: 1, name: "Parking", icon: <AiFillCar /> },
-    { id: 2, name: "Garden", icon: <GiFruitTree /> },
-    { id: 3, name: "Garage", icon: <GiHomeGarage /> },
-    { id: 4, name: "Balcony", icon: <MdBalcony /> },
-    { id: 5, name: "Disable access", icon: <TbDisabled /> },
-    { id: 6, name: "Living room", icon: <FaCouch /> },
-    { id: 7, name: "Broadband", icon: <BsWifi /> },
-    { id: 8, name: "Air conditioning", icon: <BsSnow /> },
-    { id: 9, name: "Central heating", icon: <HiOutlineSun /> },
-    { id: 10, name: "Dishwasher", icon: <BiDish /> },
-    { id: 11, name: "Microwave", icon: <MdOutlineMicrowave /> },
-    { id: 12, name: "Oven", icon: <TbToolsKitchen2 /> },
-    { id: 13, name: "Washing machine", icon: <GiWashingMachine /> },
-    { id: 14, name: "Refrigirator", icon: <CgSmartHomeRefrigerator /> },
-    { id: 15, name: "Storage", icon: <MdMeetingRoom /> },
+    { id: 1, nameEn: "Parking", nameGr: "Στάθμευση", icon: <AiFillCar /> },
+    { id: 2, nameEn: "Garden", nameGr: "Κήπος", icon: <GiFruitTree /> },
+    { id: 3, nameEn: "Garage", nameGr: "Γκαράζ", icon: <GiHomeGarage /> },
+    { id: 4, nameEn: "Balcony", nameGr: "Μπαλκόνι", icon: <MdBalcony /> },
+    {
+        id: 5,
+        nameEn: "Disable access",
+        nameGr: "Απρόσβατος",
+        icon: <TbDisabled />,
+    },
+    { id: 6, nameEn: "Living room", nameGr: "Καθιστικό", icon: <FaCouch /> },
+    {
+        id: 7,
+        nameEn: "Broadband",
+        nameGr: "Διαδίκτυο",
+        icon: <BsWifi />,
+    },
+    {
+        id: 8,
+        nameEn: "Air conditioning",
+        nameGr: "Κλιματισμός",
+        icon: <BsSnow />,
+    },
+    {
+        id: 9,
+        nameEn: "Central heating",
+        nameGr: "Κεντρική Θέρμανση",
+        icon: <HiOutlineSun />,
+    },
+    {
+        id: 10,
+        nameEn: "Dishwasher",
+        nameGr: "Πλυντήριο Πιάτων",
+        icon: <BiDish />,
+    },
+    {
+        id: 11,
+        nameEn: "Microwave",
+        nameGr: "Φούρνος μικροκυμάτων",
+        icon: <MdOutlineMicrowave />,
+    },
+    { id: 12, nameEn: "Oven", nameGr: "Φούρνος", icon: <TbToolsKitchen2 /> },
+    {
+        id: 13,
+        nameEn: "Washing machine",
+        nameGr: "Πλυντήριο Ρούχων",
+        icon: <GiWashingMachine />,
+    },
+    {
+        id: 14,
+        nameEn: "Refrigirator",
+        nameGr: "Ψυγείο",
+        icon: <CgSmartHomeRefrigerator />,
+    },
+    {
+        id: 15,
+        nameEn: "Storage",
+        nameGr: "Αποθήκευση",
+        icon: <MdMeetingRoom />,
+    },
 ];
 
 const PropertyDetailsAmenities = ({ amenities }) => {
+    const { t, i18n } = useTranslation();
+    const { amenitiesDetails } = t("propertyDetails.details");
     const matchedAmenities = allAmenities.map((element1) => {
-        return amenities.some((element2) => element2.name === element1.name);
+        return amenities.some((element2) => element2.name === element1.nameEn);
     });
 
     return (
         <>
-            <h1 className="text-xl font-bold text-gray-700 font-popp">
-                Amenities
+            <h1 className="text-xl font-bold text-gray-700">
+                {amenitiesDetails}
             </h1>
             <div className="mt-7">
                 <div className="grid md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2">
@@ -49,8 +97,10 @@ const PropertyDetailsAmenities = ({ amenities }) => {
                             } flex justify-start`}
                         >
                             <span className="w-6 h-6 mt-1">{amenity.icon}</span>
-                            <span className="font-medium text-md font-popp">
-                                {amenity.name}
+                            <span className="font-medium text-md">
+                                {i18n.language == "en"
+                                    ? amenity.nameEn
+                                    : amenity.nameGr}
                             </span>
                         </div>
                     ))}
