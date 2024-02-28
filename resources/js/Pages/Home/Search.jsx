@@ -7,6 +7,7 @@ import { HousePlaceholder } from "@/assets";
 import PrimaryButton from "@/Components/PrimaryButton";
 import moment from "moment";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Search = (props) => {
     const { post } = useForm({});
@@ -15,6 +16,8 @@ const Search = (props) => {
     const [nextPage, setNextPage] = useState(results.links.next);
     const target = useRef(null);
 
+    const { t } = useTranslation();
+    const { inA, availableFrom, month } = t("searchFunctionality");
     const showImage = () => {
         return "/storage/";
     };
@@ -145,7 +148,7 @@ const Search = (props) => {
                                                               ?.address_1
                                                         : property.address
                                                               ?.address_1}
-                                                    ,
+                                                    ,{" "}
                                                     {property.owner
                                                         ? property.owner.address
                                                               ?.area
@@ -158,11 +161,12 @@ const Search = (props) => {
                                                           null
                                                             ? property.owner
                                                                   .title
-                                                            : `${property.sub_title} in a ${property.owner.title}`
-                                                        : property.title}
+                                                            : `${property.sub_title} `
+                                                        : //${inA} ${property.owner.title}
+                                                          property.title}
                                                 </p>
                                                 <p className="text-sm text-gray-800">
-                                                    Available from{" "}
+                                                    {availableFrom}{" "}
                                                     <span className="font-semibold">
                                                         {moment(
                                                             property.availability
@@ -177,12 +181,12 @@ const Search = (props) => {
                                                 </p>
                                                 <p className="mt-2 text-sm text-gray-800">
                                                     <strong>
-                                                        £
+                                                        €
                                                         {property.owner
                                                             ? property.room_cost
                                                             : property.cost}
                                                     </strong>{" "}
-                                                    /month
+                                                    /{month}
                                                 </p>
                                             </div>
                                             <div className="flex flex-row items-center">

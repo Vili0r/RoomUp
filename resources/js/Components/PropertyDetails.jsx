@@ -121,7 +121,7 @@ const PropertyDetails = ({ property }) => {
         if (i18n.language === "gr") {
             return name === "short term" ? "Βραχυπρόθεσμος" : "Μακροπρόθεσμος";
         } else {
-            return term;
+            return name;
         }
     };
 
@@ -399,7 +399,7 @@ const PropertyDetails = ({ property }) => {
                                     </div>
                                 </div>
                                 <hr className="w-[95%] mx-auto border-gray-300" />
-                                <div className="">
+                                <div className="mb-5">
                                     <h1 className="text-xl font-bold text-gray-700 ">
                                         {moreInformation}
                                     </h1>

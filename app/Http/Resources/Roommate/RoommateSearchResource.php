@@ -21,7 +21,7 @@ class RoommateSearchResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'budget' => $this->budget,
-            'searching_for' => Str::replace('_', ' ', $this->searching_for->name) ?? '',
+            'searching_for' => $this->searching_for ?? '',
             'area' => $this->area,
             'city' => $this->city,
             'images' => $this->images,

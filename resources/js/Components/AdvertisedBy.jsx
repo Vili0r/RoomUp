@@ -1,12 +1,11 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
-import {
-    AiFillStar,
-    AiFillSafetyCertificate,
-    AiOutlineMail,
-} from "react-icons/ai";
+import { AiFillSafetyCertificate, AiOutlineMail } from "react-icons/ai";
+import { MdFacebook } from "react-icons/md";
+import { FaLinkedinIn, FaTiktok } from "react-icons/fa";
+import { FiInstagram } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { whatIAm, whatIAmFlat } from "@/arrays/Array";
+import { flatmateOccupation, whatIAmFlat } from "@/arrays/Array";
 
 const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
     const { data, get } = useForm({
@@ -29,11 +28,13 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
                     : whatIAmFlatName.nameGr
                 : "";
         } else {
-            const whatIAmName = whatIAm.find((item) => item.id === id);
-            return whatIAmName
+            const flatmateOccupationName = flatmateOccupation.find(
+                (item) => item.id === id
+            );
+            return flatmateOccupationName
                 ? i18n.language === "en"
-                    ? whatIAmName.nameEn
-                    : whatIAmName.nameGr
+                    ? flatmateOccupationName.nameEn
+                    : flatmateOccupationName.nameGr
                 : "";
         }
     };
@@ -66,10 +67,10 @@ const AdvertisedBy = ({ id, model, advertiser, occupation }) => {
             </div>
             <div className="flex justify-start gap-4 mt-7">
                 <div className="flex items-center gap-2">
-                    <AiFillStar className="w-6 h-6" />
-                    <span className=" text-sm [@media(max-width:350px)]:text-xs">
-                        744 reviews
-                    </span>
+                    <FiInstagram className="w-6 h-6" />
+                    <FaTiktok className="w-6 h-6" />
+                    <MdFacebook className="w-6 h-6" />
+                    <FaLinkedinIn className="w-6 h-6" />
                 </div>
                 <span>|</span>
                 <div className="flex items-center gap-2">

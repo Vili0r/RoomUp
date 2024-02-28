@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ReportedListingReason;
 use App\Http\Requests\ReportedListingStoreRequest;
-use App\Http\Resources\EnumResource;
 use App\Http\Resources\PropertyReportedResource;
 use App\Http\Resources\Roommate\RoommateReportedResource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Flat;
-use App\Models\ReportedListing;
 use App\Models\Room;
 use App\Models\Roommate;
 use Illuminate\Http\RedirectResponse;
@@ -27,23 +24,20 @@ class ReportedListingController extends Controller
             $property = Flat::findOrFail($request->id);
             
             return Inertia::render('Reported/Create',[
-                'property' => new PropertyReportedResource($property),
-                'reasons' => EnumResource::collection(ReportedListingReason::cases()),
+                'property' => new PropertyReportedResource($property)
             ]);
         } elseif ($request->type == 'room') {
             $property = Room::findOrFail($request->id);
             $property->load(['owner']);
 
             return Inertia::render('Reported/Create',[
-                'property' => new PropertyReportedResource($property),
-                'reasons' => EnumResource::collection(ReportedListingReason::cases()),
+                'property' => new PropertyReportedResource($property)
             ]);
         } elseif ($request->type == 'roommate') {
             $roommate = Roommate::findOrFail($request->id);
 
             return Inertia::render('Reported/Create',[
-                'property' => new RoommateReportedResource($roommate),
-                'reasons' => EnumResource::collection(ReportedListingReason::cases()),
+                'property' => new RoommateReportedResource($roommate)
             ]);
         }
     }

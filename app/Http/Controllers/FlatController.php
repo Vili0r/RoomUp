@@ -6,7 +6,6 @@ use App\Http\Requests\FlatStoreRequest;
 use App\Http\Requests\FlatUpdateRequest;
 use App\Http\Resources\FlatResource;
 use App\Http\Resources\FlatShowResource;
-use App\Models\Amenity;
 use App\Models\Flat;
 use App\Models\TemporaryImage;
 use Illuminate\Support\Facades\Storage;

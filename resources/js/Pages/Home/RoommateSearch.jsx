@@ -8,6 +8,8 @@ import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
+import { searchingFor } from "@/arrays/Array";
 
 const RoommateSearch = (props) => {
     const { post } = useForm({});
@@ -16,6 +18,20 @@ const RoommateSearch = (props) => {
     const [items, setItems] = useState(results.data);
     const [nextPage, setNextPage] = useState(results.links.next);
     const target = useRef(null);
+
+    const { t, i18n } = useTranslation();
+    const { inputPlaceholder, availableFrom, searchingForRoommate, month } = t(
+        "searchFunctionality.roommate"
+    );
+
+    const getSearchingForName = (id) => {
+        const searchingForName = searchingFor.find((item) => item.id === id);
+        return searchingForName
+            ? i18n.language === "en"
+                ? searchingForName.nameEn
+                : searchingForName.nameGr
+            : "";
+    };
 
     const showImage = () => {
         return "/storage/";
@@ -90,7 +106,7 @@ const RoommateSearch = (props) => {
             <Head title="Search Results" />
             <div className="">
                 <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 mt-[5rem]">
-                    <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                    <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold text-lg">
                         <AiOutlineSearch className="w-7 h-7" />
                         <DebounceInput
                             value={query}
@@ -100,8 +116,8 @@ const RoommateSearch = (props) => {
                                 search(e.target.value);
                                 setQuery(e.target.value);
                             }}
-                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                            placeholder="Enter area, city or title"
+                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0"
+                            placeholder={inputPlaceholder}
                         />
                         <button
                             onClick={() => {
@@ -179,7 +195,7 @@ const RoommateSearch = (props) => {
                                                     {roommate.title}
                                                 </p>
                                                 <p className="text-sm text-gray-800">
-                                                    Available from{" "}
+                                                    {availableFrom}{" "}
                                                     <span className="font-semibold">
                                                         {moment(
                                                             roommate
@@ -191,16 +207,18 @@ const RoommateSearch = (props) => {
                                                     </span>
                                                 </p>
                                                 <p className="text-sm text-gray-800">
-                                                    Searching for{" "}
+                                                    {searchingForRoommate}{" "}
                                                     <span className="font-semibold">
-                                                        {roommate.searching_for}
+                                                        {getSearchingForName(
+                                                            roommate.searching_for
+                                                        )}
                                                     </span>
                                                 </p>
                                                 <p className="mt-2 text-sm text-gray-800">
                                                     <strong>
-                                                        ${roommate.budget}
+                                                        €{roommate.budget}
                                                     </strong>{" "}
-                                                    /month
+                                                    /{month}
                                                 </p>
                                             </div>
                                             <div className="flex flex-row items-center">

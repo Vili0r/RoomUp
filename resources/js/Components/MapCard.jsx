@@ -10,9 +10,13 @@ import Map, {
 } from "react-map-gl";
 import getCenter from "geolib/es/getCenter";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useTranslation } from "react-i18next";
 
 const MapCard = ({ toggleMap, setToggleMap, listings }) => {
     const [popupInfo, setPopupInfo] = useState(null);
+    const { t } = useTranslation();
+    const { showList } = t("searchFunctionality");
+
     const coordinates = listings.map((listing) => ({
         longitude: listing.owner
             ? listing.owner.address.long
@@ -121,7 +125,7 @@ const MapCard = ({ toggleMap, setToggleMap, listings }) => {
                         onClick={() => setToggleMap(false)}
                         className="fixed flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full font-popp"
                     >
-                        Show List
+                        {showList}
                         <VscListSelection className="mt-[3px]" />
                     </button>
                 </div>

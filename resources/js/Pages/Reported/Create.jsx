@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { reasonsForReporting } from "@/arrays/Array";
 
 const Create = (props) => {
-    const { property, reasons } = usePage().props;
+    const { property } = usePage().props;
     const { data, setData, processing, reset, post, errors } = useForm({
         contact_name: props.auth.user?.first_name || "",
         email: "",

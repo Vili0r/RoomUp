@@ -15,6 +15,7 @@ import {
 import { BsEyeFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const HomeSearch = (props) => {
     const { post } = useForm({});
@@ -24,6 +25,11 @@ const HomeSearch = (props) => {
     const [items, setItems] = useState(properties.data);
     const [nextPage, setNextPage] = useState(properties.next_page_url);
     const target = useRef(null);
+
+    const { t } = useTranslation();
+    const { inputPlaceholder, inA, availableFrom, month, showMap } = t(
+        "searchFunctionality"
+    );
 
     const showImage = () => {
         return "/storage/";
@@ -98,7 +104,7 @@ const HomeSearch = (props) => {
             <Head title="Search Results" />
             <div className="mb-10">
                 <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 mt-[5rem]">
-                    <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold font-popp text-lg">
+                    <div className="flex relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold text-lg">
                         <AiOutlineSearch className="w-7 h-7" />
                         <DebounceInput
                             value={query}
@@ -108,8 +114,8 @@ const HomeSearch = (props) => {
                                 search(e.target.value);
                                 setQuery(e.target.value);
                             }}
-                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 font-popp"
-                            placeholder="Enter address, city or zipcode"
+                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0"
+                            placeholder={inputPlaceholder}
                         />
                         <button
                             onClick={() => {
@@ -196,7 +202,7 @@ const HomeSearch = (props) => {
                                                                   .address_1
                                                             : property.address
                                                                   .address_1}
-                                                        ,
+                                                        ,{" "}
                                                         {property.owner
                                                             ? property.owner
                                                                   .address.area
@@ -210,11 +216,12 @@ const HomeSearch = (props) => {
                                                               null
                                                                 ? property.owner
                                                                       .title
-                                                                : `${property.sub_title} in a ${property.owner.title}`
-                                                            : property.title}
+                                                                : `${property.sub_title}`
+                                                            : // ${inA} ${property.owner.title}
+                                                              property.title}
                                                     </p>
                                                     <p className="text-sm text-gray-800">
-                                                        Available from{" "}
+                                                        {availableFrom}{" "}
                                                         <span className="font-semibold">
                                                             {moment(
                                                                 property.availability
@@ -229,12 +236,12 @@ const HomeSearch = (props) => {
                                                     </p>
                                                     <p className="mt-2 text-sm text-gray-800">
                                                         <strong>
-                                                            £
+                                                            €
                                                             {property.owner
                                                                 ? property.room_cost
                                                                 : property.cost}
                                                         </strong>{" "}
-                                                        /month
+                                                        /{month}
                                                     </p>
                                                 </div>
                                                 <div className="flex flex-row items-center">
@@ -263,9 +270,9 @@ const HomeSearch = (props) => {
                         >
                             <button
                                 onClick={() => setToggleMap(true)}
-                                className="flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full font-popp "
+                                className="flex justify-center gap-2 p-3 py-3 text-sm font-semibold text-white bg-gray-800 rounded-full "
                             >
-                                Show map
+                                {showMap}
                                 <SlMap className="mt-1" />
                             </button>
                         </div>
