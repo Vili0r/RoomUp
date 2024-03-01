@@ -3,9 +3,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
 import FavouritePropertyCard from "@/Components/FavouritePropertyCard";
 import Pagination from "@/Components/Pagination";
+import { useTranslation } from "react-i18next";
 
 const Index = (props) => {
     const { properties } = usePage().props;
+    const { t } = useTranslation();
+    const { noFavourites } = t("favourites");
 
     return (
         <AuthenticatedLayout
@@ -28,7 +31,7 @@ const Index = (props) => {
                             />
                         ))
                     ) : (
-                        <div>No property has been added to favourites</div>
+                        <div>{noFavourites}</div>
                     )}
                 </div>
                 <div className="mb-5">

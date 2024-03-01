@@ -5,6 +5,8 @@ import { Link, useForm } from "@inertiajs/react";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import PrimaryButton from "./PrimaryButton";
+import { useTranslation } from "react-i18next";
+import { size, searchingFor, type } from "@/arrays/Array";
 
 const FavouritePropertyCard = ({ property, index }) => {
     const { post, get } = useForm({
@@ -12,8 +14,38 @@ const FavouritePropertyCard = ({ property, index }) => {
         type: property.model,
     });
 
+    const { t, i18n } = useTranslation();
+    const { searchingForCard, typeCard, createdAt, message } = t(
+        "favourites.favouriteCard"
+    );
+
     const showImage = () => {
         return "/storage/";
+    };
+
+    const getSearchingForName = (id) => {
+        const searchingForName = searchingFor.find((item) => item.id === id);
+        return searchingForName
+            ? i18n.language === "en"
+                ? searchingForName.nameEn
+                : searchingForName.nameGr
+            : "";
+    };
+    const getSizeName = (id) => {
+        const sizeName = size.find((item) => item.id === id);
+        return sizeName
+            ? i18n.language === "en"
+                ? sizeName.nameEn
+                : sizeName.nameGr
+            : "";
+    };
+    const getTypeName = (id) => {
+        const typeName = type.find((item) => item.id === id);
+        return typeName
+            ? i18n.language === "en"
+                ? typeName.nameEn
+                : typeName.nameGr
+            : "";
     };
 
     //Handling on submit favourite event
@@ -90,7 +122,7 @@ const FavouritePropertyCard = ({ property, index }) => {
                 >
                     <div className="flex items-center justify-between mb-3">
                         <h5 className="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {property.address_1},{property.area}
+                            {property.address_1}, {property.area}
                         </h5>
                         <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <BsEyeFill className="-mt-0.5 h-5 w-5 text-yellow-700" />
@@ -108,13 +140,18 @@ const FavouritePropertyCard = ({ property, index }) => {
                 <div className="flex flex-row items-center gap-4 mt-4 font-light text-neutral-500">
                     <div>
                         {property.model === "roommate" && (
-                            <span>Searching For:</span>
+                            <span>
+                                {searchingForCard}:{" "}
+                                {getSearchingForName(property.searching_for)}
+                            </span>
                         )}
-                        {property.size}
+                        {getSizeName(property.size)}
                     </div>
-                    <div>Type: {property.type}</div>
                     <div>
-                        Created at:{" "}
+                        {typeCard}: {getTypeName(property.type)}
+                    </div>
+                    <div>
+                        {createdAt}:{" "}
                         {moment(property.created_at).format("MMM DD, YYYY")}
                     </div>
                 </div>
@@ -127,7 +164,7 @@ const FavouritePropertyCard = ({ property, index }) => {
                     type="button"
                     data-ripple-light="true"
                 >
-                    Message {property.first_name}
+                    {message} {property.first_name}
                 </button>
             </div>
         </div>

@@ -2,9 +2,13 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
 import FavouritePropertyCard from "@/Components/FavouritePropertyCard";
+import { useTranslation } from "react-i18next";
 
 const RecentlyViewed = (props) => {
     const { properties, indexLimit } = usePage().props;
+
+    const { t } = useTranslation();
+    const { showViewed, viewedProperties, noViewed } = t("favourites");
 
     return (
         <AuthenticatedLayout
@@ -19,7 +23,7 @@ const RecentlyViewed = (props) => {
             <Head title="My Favourites" />
             <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-4 px-10">
                 <p className="mt-10">
-                    Showing your last {indexLimit} viewed properties
+                    {showViewed} {indexLimit} {viewedProperties}
                 </p>
                 <div className="grid grid-cols-1 mt-[3rem] mb-[3rem] sm:grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4 gap-8">
                     {properties.length > 0 ? (
@@ -30,7 +34,7 @@ const RecentlyViewed = (props) => {
                             />
                         ))
                     ) : (
-                        <div>No property has been added to favourites</div>
+                        <div>{noViewed}</div>
                     )}
                 </div>
             </div>

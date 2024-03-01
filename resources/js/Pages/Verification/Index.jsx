@@ -9,10 +9,28 @@ import { AiOutlinePhone } from "react-icons/ai";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { TfiSettings } from "react-icons/tfi";
 import { HiOutlineIdentification } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 const Index = (props) => {
     const { user } = usePage().props;
     const { processing } = useForm({});
+
+    const { t, i18n } = useTranslation();
+    const {
+        stepOne,
+        accountDetails,
+        stepTwo,
+        email,
+        stepThree,
+        phone,
+        stepFour,
+        socialMedia,
+        stepFive,
+        selfie,
+        stepSix,
+        idStepSix,
+        verify,
+    } = t("verification");
 
     const submit = (e) => {
         e.preventDefault();
@@ -36,13 +54,31 @@ const Index = (props) => {
     const getVerificationMessage = (status) => {
         switch (status) {
             case "Pending":
-                return "Your account verification is pending.";
+                return i18n.language === "gr"
+                    ? "Η επαλήθευση του λογαριασμού σας εκκρεμεί."
+                    : "Your account verification is pending.";
             case "Verified":
-                return "You have successfully verified your account.";
+                return i18n.language === "gr"
+                    ? "Έχετε επιτυχώς επαληθεύσει τον λογαριασμό σας."
+                    : "You have successfully verified your account.";
             case "Cancelled":
-                return "Account has been cancelled.";
+                return i18n.language === "gr"
+                    ? "Ο λογαριασμός ακυρώθηκε."
+                    : "Account has been cancelled.";
             default:
-                return "Go through the steps to verify your account.";
+                return i18n.language === "gr"
+                    ? "Προχωρήστε στα βήματα για να επαληθεύσετε τον λογαριασμό σας."
+                    : "Go through the steps to verify your account.";
+        }
+    };
+    const getStatusMessage = (status) => {
+        switch (status) {
+            case "Pending":
+                return i18n.language === "gr" ? "Εκκρεμεί" : "Pending";
+            case "Verified":
+                return i18n.language === "gr" ? "Επαληθευμένο" : "Verified";
+            case "Cancelled":
+                return i18n.language === "gr" ? "Aκυρώθηκε." : "Cancelled";
         }
     };
 
@@ -76,10 +112,10 @@ const Index = (props) => {
 
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-sm antialiased font-semibold leading-relaxed tracking-normal text-gray-700 xxs:text-base">
-                                            Step 1
+                                            {stepOne}
                                         </h6>
                                         <p className="block xs:pl-9 pl-4 font-sans text-[10px] xxs:text-xs xs:text-base antialiased font-normal leading-relaxed text-gray-700 sm:pl-0">
-                                            Account details
+                                            {accountDetails}
                                         </p>
                                     </div>
                                 </div>
@@ -94,10 +130,10 @@ const Index = (props) => {
 
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-sm antialiased font-semibold leading-relaxed tracking-normal text-gray-700 xxs:text-base">
-                                            Step 2
+                                            {stepTwo}
                                         </h6>
                                         <p className="block font-sans xs:text-base text-[10px] xxs:text-xs antialiased font-normal leading-relaxed text-gray-700">
-                                            Email
+                                            {email}
                                         </p>
                                     </div>
                                 </div>
@@ -111,10 +147,10 @@ const Index = (props) => {
                                     <AiOutlinePhone className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-900">
-                                            Step 3
+                                            {stepThree}
                                         </h6>
                                         <p className="block font-sans xs:text-base text-[10px] xxs:text-xs antialiased font-normal leading-relaxed text-gray-900">
-                                            Phone
+                                            {phone}
                                         </p>
                                     </div>
                                 </div>
@@ -129,10 +165,10 @@ const Index = (props) => {
                                     <TfiSettings className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-900">
-                                            Step 4
+                                            {stepFour}
                                         </h6>
                                         <p className="block font-sans xs:text-base text-[10px] xxs:text-xs antialiased font-normal leading-relaxed text-gray-900">
-                                            Social media
+                                            {socialMedia}
                                         </p>
                                     </div>
                                 </div>
@@ -146,10 +182,10 @@ const Index = (props) => {
                                     <MdOutlinePhotoCamera className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
-                                            Step 5
+                                            {stepFive}
                                         </h6>
                                         <p className="block font-sans xs:text-base text-[10px] xxs:text-xs antialiased font-normal leading-relaxed text-gray-700">
-                                            Selfie
+                                            {selfie}
                                         </p>
                                     </div>
                                 </div>
@@ -164,10 +200,10 @@ const Index = (props) => {
                                     <HiOutlineIdentification className="w-5 h-5 text-white [@media(max-width:400px)]:w-4 [@media(max-width:400px)]:h-4" />
                                     <div className="absolute -bottom-[4.5rem] w-max text-center">
                                         <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
-                                            Step 6
+                                            {stepSix}
                                         </h6>
                                         <p className="block font-sans xs:text-base text-[10px] xxs:text-xs antialiased font-normal leading-relaxed text-gray-700">
-                                            ID
+                                            {idStepSix}
                                         </p>
                                     </div>
                                 </div>
@@ -190,7 +226,9 @@ const Index = (props) => {
                                         }`}
                                     />
                                     <h2 className="block mt-4 font-sans text-3xl antialiased font-extrabold leading-relaxed tracking-normal text-gray-700">
-                                        {user.verification.status}
+                                        {getStatusMessage(
+                                            user.verification.status
+                                        )}
                                     </h2>
                                     <p className="block font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
                                         {getVerificationMessage(
@@ -204,7 +242,7 @@ const Index = (props) => {
                                             className="inline-flex items-center px-4 py-3 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
                                             disabled={processing}
                                         >
-                                            Verify
+                                            {verify}
                                         </PrimaryButton>
                                     </form>
                                 ) : null}
