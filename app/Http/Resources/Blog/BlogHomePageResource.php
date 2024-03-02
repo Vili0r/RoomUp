@@ -17,9 +17,9 @@ class BlogHomePageResource extends JsonResource
         return [
             'id' => $this->id,
             'image' => $this->image,
-            'title' => $this->title,
+            'title' => htmlspecialchars_decode(mb_convert_encoding($this->title, 'UTF-8', 'UTF-8')),
             'slug' => $this->slug,
-            'excerpt' => substr(strip_tags($this->body), 0, 200) . '...',
+            'excerpt' => htmlspecialchars_decode(mb_convert_encoding(substr(strip_tags($this->body), 0, 200), 'UTF-8', 'UTF-8')) . '...',
             'published_at' => $this->published_at->format('Y-m-d'),
             'author' => $this->whenLoaded('author', function () {
                 return new AuthorResource($this->author);

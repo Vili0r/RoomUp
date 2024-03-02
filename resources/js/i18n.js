@@ -767,7 +767,136 @@ const resources = {
                 created: "Created at",
                 selectConversation: "Select a conversation",
             },
-            blog: {},
+            profile: {
+                updateProfileInformations: {
+                    title: "Profile Information",
+                    description:
+                        "Update your account's profile information and email address.",
+                    firstName: "First Name",
+                    lastName: "Last Name",
+                    emailAddress: "Email",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    save: "Save",
+                    saved: "Saved.",
+                    unverifiedEmail: "Your email address is unverified.",
+                    reSendVerificationEmail:
+                        "Click here to re-send the verification email.",
+                    newVerificationLink:
+                        "A new verification link has been sent to your email address.",
+                },
+                updatePhoneNumber: {
+                    title: "Profile Phone Number",
+                    description:
+                        "Enhance your account's security and expand your reach to potential flatmates by updating your profile phone number.",
+                    phoneNumber: "Phone Number ex. +306911234567",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    save: "Save",
+                    saved: "Saved.",
+                    verifyPhoneNumberBtn:
+                        "Click here to verify your phone number.",
+                },
+                updateProfilePhoto: {
+                    title: "Profile Photo",
+                    description:
+                        "Enhance your account's security and expand your reach to potential flatmates by updating your profile photo.",
+                    photoNotUploaded:
+                        "The photo profile has not been uploaded! Try again.",
+                    photoProfile: "Photo Profile",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    save: "Save",
+                    saved: "Saved.",
+                    selectImage: "Please select an image file.",
+                },
+                updateSocialLinks: {
+                    title: "Profile Social Media",
+                    description:
+                        "Enhance your account's security and expand your reach to potential flatmates by updating your social media.",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    save: "Save",
+                    saved: "Saved.",
+                },
+                updatePasswordForm: {
+                    title: "Update Password",
+                    description:
+                        "Ensure your account is using a long, random password to stay secure.",
+                    currentPassword: "Current Password",
+                    newPassword: "New Password",
+                    confirmPassword: "Confrim Password",
+                    save: "Save",
+                    saved: "Saved.",
+                },
+                updateSelfieDocument: {
+                    title: "Verify Selfie",
+                    titleTwo: "Remove hoodies and glasses",
+                    description:
+                        "Enhance your account's security and expand your reach to potential flatmates by verifying your selie",
+                    snap: "Snap!",
+                    noFacePhotoProfile:
+                        "No face detected in the photo profile. Please try again with a different photo.",
+                    noFaceSelfie:
+                        "No face detected in the selfie. Please try again with a different photo.",
+                    newSelfie: "Take a new selfie",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    verify: "Verify",
+                    getSelfie: "Get Selfie",
+                    loading: "Loading...",
+                    verifyingPhotos: "Verifying Photos",
+                },
+                updateIdDocument: {
+                    title: "Verify ID document",
+                    titleTwo: "Provide full size of front page",
+                    description:
+                        "Enhance your account's security and expand your reach to potential flatmates by verifying your Id document",
+                    snap: "Snap!",
+                    noFacePhotoProfile:
+                        "No face detected in the photo profile. Please try again with a different photo.",
+                    noFaceId:
+                        "No face detected in the ID document. Please try again with a different photo.",
+                    newPhoto: "Take a new photo",
+                    verified: "Verified",
+                    unverified: "Unverified",
+                    verify: "Verify",
+                    getPhoto: "Get Photo",
+                    loading: "Loading...",
+                    verifyingPhotos: "Verifying Photos",
+                },
+                deleteUserForm: {
+                    title: "Delete Account",
+                    description:
+                        "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
+                    modalTitle: "Are you sure you want to delete your account?",
+                    modalDescription:
+                        "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+                    passwordFormInput: "Password",
+                    cancelBtn: "Cancel",
+                    deleteAccountBtn: "Delete Account",
+                },
+            },
+            blog: {
+                readMore: "Read More...",
+                relatedPosts: "Related Posts",
+                recentPosts: "Recent Posts",
+                categoriesComponent: "Categories",
+                commentsForm: {
+                    title: "Leave a Comment",
+                    commentForm: "Comment..",
+                    nameForm: "Name..",
+                    emailForm: "Email..",
+                    storeDetails:
+                        "Store my e-mail and name for the next time I comment.",
+                    postCommentBtn: "Post comment",
+                    commentSubmitted: "Comment submitted for review",
+                },
+                getComments: {
+                    commentsComponent: "Comments",
+                    on: "on",
+                },
+            },
         },
     },
     gr: {
@@ -1576,7 +1705,139 @@ const resources = {
                 created: "Δημιουργήθηκε στις",
                 selectConversation: "Επιλέξε μια συνομιλία",
             },
-            blog: {},
+            profile: {
+                updateProfileInformations: {
+                    title: "Πληροφορίες Προφίλ",
+                    description:
+                        "Ενημερώστε τις πληροφορίες του προφίλ σας και τη διεύθυνση email του λογαριασμού σας.",
+                    firstName: "Όνομα",
+                    lastName: "Επώνυμο",
+                    emailAddress: "Email",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη Επαληθευμένο",
+                    save: "Αποθήκευση",
+                    saved: "Αποθηκεύτηκε.",
+                    unverifiedEmail:
+                        "Η διεύθυνση email σας δεν έχει επαληθευτεί.",
+                    reSendVerificationEmail:
+                        "Κάντε κλικ εδώ για να ξαναστείλετε το email επαλήθευσης.",
+                    newVerificationLink:
+                        "Ένας νέος σύνδεσμος επαλήθευσης έχει σταλεί στη διεύθυνση email σας.",
+                },
+                updatePhoneNumber: {
+                    title: "Τηλέφωνο Προφίλ",
+                    description:
+                        "Ενημερώστε τον αριθμό τηλεφώνου του προφίλ σας για να αυξήσετε την ασφάλεια και να φτάσετε περισσότερους συγκάτοικους.",
+                    phoneNumber: "Αριθμός Τηλεφώνου π.χ. +306911234567",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη Επαληθευμένο",
+                    save: "Αποθήκευση",
+                    saved: "Αποθηκεύτηκε.",
+                    verifyPhoneNumberBtn:
+                        "Κάντε κλικ εδώ για να επιβεβαιώσετε τον αριθμό τηλεφώνου σας.",
+                },
+                updateProfilePhoto: {
+                    title: "Φωτογραφία προφίλ",
+                    description:
+                        "Ενημερώστε την φωτογραφία προφίλ σας για να αυξήσετε την ασφάλεια και να φτάσετε περισσότερους συγκάτοικους.",
+                    photoNotUploaded:
+                        "Η φωτογραφία προφίλ δεν έχει ανεβεί! Δοκιμάστε ξανά.",
+                    photoProfile: "Φωτογραφία Προφίλ",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη επαληθευμένο",
+                    save: "Αποθήκευση",
+                    saved: "Αποθηκεύτηκε.",
+                    selectImage: "Παρακαλώ επιλέξτε ένα αρχείο εικόνας.",
+                },
+                updateSocialLinks: {
+                    title: "Κοινωνικά Δίκτυα",
+                    description:
+                        "Ενημερώστε τα socials σας για να αυξήσετε την ασφάλεια και να φτάσετε περισσότερους συγκάτοικους.",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη επαληθευμένο",
+                    save: "Αποθήκευση",
+                    saved: "Αποθηκεύτηκε.",
+                },
+                updatePasswordForm: {
+                    title: "Ενημέρωση Κωδικού Πρόσβασης",
+                    description:
+                        "Βεβαιωθείτε ότι ο λογαριασμός σας χρησιμοποιεί έναν μακρύ, τυχαίο κωδικό πρόσβασης για να παραμείνει ασφαλής.",
+                    currentPassword: "Τρέχων Κωδικός Πρόσβασης",
+                    newPassword: "Νέος Κωδικός Πρόσβασης",
+                    confirmPassword: "Επιβεβαίωση Κωδικού",
+                    save: "Αποθήκευση",
+                    saved: "Αποθηκεύτηκε.",
+                },
+                updateSelfieDocument: {
+                    title: "Επαλήθευση Selfie",
+                    titleTwo: "Αφαιρέστε τις κουκούλες και τα γυαλιά",
+                    description:
+                        "Επαληθεύστε το selfie σας για να αυξήσετε την ασφάλεια και να φτάσετε περισσότερους συγκάτοικους.",
+                    snap: "Τραβήξτε φωτογραφία!",
+                    noFacePhotoProfile:
+                        "Δεν εντοπίστηκε πρόσωπο στη φωτογραφία προφίλ. Παρακαλώ προσπαθήστε ξανά με μια διαφορετική φωτογραφία.",
+                    noFaceSelfie:
+                        "Δεν εντοπίστηκε πρόσωπο στο selfie. Παρακαλώ προσπαθήστε ξανά με μια διαφορετική φωτογραφία.",
+                    newSelfie: "Βγάλτε ένα νέο selfie",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη επαληθευμένο",
+                    verify: "Επαλήθευση",
+                    getSelfie: "Λήψη Selfie",
+                    loading: "Φόρτωση...",
+                    verifyingPhotos: "Επαλήθευση Φωτογραφιών",
+                },
+                updateIdDocument: {
+                    title: "Επαλήθευση εγγράφου ταυτότητας",
+                    titleTwo:
+                        "Βγάλτε φωτογραφία το πλήρες μέγεθος της πρώτης σελίδας",
+                    description:
+                        "Επαληθεύστε το έγγραφο ταυτότητας σας για να αυξήσετε την ασφάλεια και να φτάσετε περισσότερους συγκάτοικους.",
+                    snap: "Τραβήξτε φωτογραφία!",
+                    noFacePhotoProfile:
+                        "Δεν εντοπίστηκε πρόσωπο στη φωτογραφία προφίλ. Παρακαλώ προσπαθήστε ξανά με μια διαφορετική φωτογραφία.",
+                    noFaceId:
+                        "Δεν εντοπίστηκε πρόσωπο στο έγγραφο ταυτότητας. Παρακαλώ προσπαθήστε ξανά με μια διαφορετική φωτογραφία.",
+                    newPhoto: "Βγάλτε μια νέα φωτογραφία",
+                    verified: "Επαληθευμένο",
+                    unverified: "Μη επαληθευμένο",
+                    verify: "Επαλήθευση",
+                    getPhoto: "Λήψη φωτογραφίας",
+                    loading: "Φόρτωση...",
+                    verifyingPhotos: "Επαλήθευση Φωτογραφιών",
+                },
+                deleteUserForm: {
+                    title: "Διαγραφή Λογαριασμού",
+                    description:
+                        "Μόλις διαγράψετε τον λογαριασμό σας, όλοι οι πόροι και οι δεδομένοι του θα διαγραφούν οριστικά. Πριν διαγράψετε τον λογαριασμό σας, παρακαλούμε κατεβάστε οποιαδήποτε δεδομένα ή πληροφορίες που θέλετε να διατηρήσετε.",
+                    modalTitle:
+                        "Είστε σίγουρος ότι θέλετε να διαγράψετε τον λογαριασμό σας;",
+                    modalDescription:
+                        "Μόλις διαγράψετε τον λογαριασμό σας, όλοι οι πόροι και οι δεδομένοι του θα διαγραφούν οριστικά. Παρακαλούμε εισάγετε τον κωδικό πρόσβασής σας για να επιβεβαιώσετε ότι θέλετε να διαγράψετε οριστικά τον λογαριασμό σας.",
+                    passwordFormInput: "Κωδικός",
+                    cancelBtn: "Άκυρο",
+                    deleteAccountBtn: "Διαγραφή Λογαριασμού",
+                },
+            },
+            blog: {
+                readMore: "Διαβάστε περισσότερο...",
+                relatedPosts: "Σχετικές Δημοσιεύσεις",
+                recentPosts: "Πρόσφατες Δημοσιεύσεις",
+                categoriesComponent: "Κατηγορίες",
+                commentsForm: {
+                    title: "Αφήστε ένα Σχόλιο",
+                    commentForm: "Σχόλιο..",
+                    nameForm: "Όνομα..",
+                    emailForm: "Email..",
+                    storeDetails:
+                        "Αποθηκεύστε το email και το όνομά μου για την επόμενη φορά που θα σχολιάσω.",
+                    postCommentBtn: "Υποβολή σχολίου",
+                    commentSubmitted: "Το σχόλιο υποβλήθηκε για επιθεώρηση",
+                },
+                getComments: {
+                    commentsComponent: "Σχόλια",
+                    on: "στις",
+                },
+            },
         },
     },
 };

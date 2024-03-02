@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import parse from "html-react-parser";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Comments = ({ id }) => {
     const [comments, setComments] = useState([]);
@@ -15,12 +16,14 @@ const Comments = ({ id }) => {
         getComments();
     }, [id]);
 
+    const { t } = useTranslation();
+    const { commentsComponent, on } = t("blog.getComments");
     return (
         <>
             {comments?.length > 0 && (
                 <div className="p-8 pb-12 mb-8 bg-white rounded-lg shadow-lg">
                     <h3 className="pb-4 mb-8 text-xl font-semibold border-b">
-                        {comments.length} Comments
+                        {comments.length} {commentsComponent}
                     </h3>
                     {comments.map((comment) => (
                         <div
@@ -29,7 +32,7 @@ const Comments = ({ id }) => {
                         >
                             <p className="mb-4">
                                 <span className="font-semibold">
-                                    {comment.name} on{" "}
+                                    {comment.name} {on}{" "}
                                     {moment(comment.create_at).format(
                                         "MMM DD, YYYY"
                                     )}

@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm, router } from "@inertiajs/react";
 import * as faceapi from "face-api.js";
 import { MdOutlineNotificationsNone } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function UpdateIdDocument({ className, user }) {
     const [hasPhoto, setHasPhoto] = useState(false);
@@ -18,6 +19,22 @@ export default function UpdateIdDocument({ className, user }) {
         id_document: null,
     });
 
+    const { t } = useTranslation();
+    const {
+        title,
+        titleTwo,
+        description,
+        snap,
+        verified,
+        unverified,
+        verify,
+        getPhoto,
+        loading,
+        verifyingPhotos,
+        noFacePhotoProfile,
+        noFaceId,
+        newPhoto,
+    } = t("profile.updateIdDocument");
     const getVideo = async () => {
         try {
             // Request access to the webcam
@@ -87,12 +104,9 @@ export default function UpdateIdDocument({ className, user }) {
                 )
                 .withFaceLandmarks()
                 .withFaceDescriptor();
-            console.log(photoProfileFacedetection);
             // Check if a face was detected in the ID card image
             if (!photoProfileFacedetection) {
-                setSimilarity(
-                    "No face detected in the photo profile. Please try again with a different photo."
-                );
+                setSimilarity(noFacePhotoProfile);
                 setIsVerifying(false);
                 return; // Stop further execution
             }
@@ -108,13 +122,11 @@ export default function UpdateIdDocument({ className, user }) {
 
             // Check if a face was detected in the id
             if (!idDocumentFacedetection) {
-                setSimilarity(
-                    "No face detected in the ID card photo. Please try again with a different photo."
-                );
+                setSimilarity(noFaceId);
                 setIsVerifying(false);
                 return; // Stop further execution
             }
-            console.log(idDocumentFacedetection);
+
             /**
              * Do face comparison only when faces were detected
              */
@@ -127,7 +139,7 @@ export default function UpdateIdDocument({ className, user }) {
                 if (distance <= 0.6) {
                     submitPhoto();
                 } else {
-                    setSimilarity("Take a new photo");
+                    setSimilarity(newPhoto);
                 }
                 setIsVerifying(false);
                 setSimilarity(null);
@@ -147,24 +159,23 @@ export default function UpdateIdDocument({ className, user }) {
             <header>
                 <div className="flex justify-between">
                     <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        Verify ID document
+                        {title}
                     </h2>
                     {user.verification.id_document_verified_at !== null ? (
                         <span className="px-2 py-1 text-white rounded-md bg-green-600/70">
-                            Verified
+                            {verified}
                         </span>
                     ) : (
                         <span className="px-2 py-1 text-white rounded-md bg-gray-600/70">
-                            Unverified
+                            {unverified}
                         </span>
                     )}
                 </div>
                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Provide full size of front page
+                    {titleTwo}
                 </h2>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Verify Id document, which will increase the security and
-                    will reach more flatmates.
+                    {description}
                 </p>
             </header>
 
@@ -215,7 +226,7 @@ export default function UpdateIdDocument({ className, user }) {
                         type="button"
                         className="absolute px-4 py-2 mb-2 text-lg font-medium text-center text-white rounded-lg bottom-3 left-4 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 me-2"
                     >
-                        Snap!
+                        {snap}
                     </button>
                 )}
             </div>
@@ -237,7 +248,7 @@ export default function UpdateIdDocument({ className, user }) {
                         className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
                         onClick={verifyPhotos}
                     >
-                        Verify
+                        {verify}
                     </PrimaryButton>
 
                     {!streamStarted && (
@@ -245,7 +256,7 @@ export default function UpdateIdDocument({ className, user }) {
                             onClick={getVideo}
                             className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase transition duration-150 ease-in-out bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
                         >
-                            Get a Photo
+                            {getPhoto}
                         </PrimaryButton>
                     )}
 
@@ -268,9 +279,9 @@ export default function UpdateIdDocument({ className, user }) {
                                         fill="currentFill"
                                     />
                                 </svg>
-                                <span className="sr-only">Loading...</span>
+                                <span className="sr-only">{loading}</span>
                             </div>
-                            Verifing Photos
+                            {verifyingPhotos}
                         </span>
                     )}
                 </div>

@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const BlogCard = ({ blog }) => {
     const showImage = () => {
         return "/storage/";
     };
 
+    const { t } = useTranslation();
+    const { readMore } = t("blog");
     return (
         <div className="p-0 pb-12 mb-8 bg-white rounded-lg shadow-lg lg:p-8">
             <div className="relative mb-6 overflow-hidden shadow-md pb-80">
@@ -58,7 +61,7 @@ const BlogCard = ({ blog }) => {
             <div className="text-center">
                 <Link href={route("single.blog.show", blog.slug)}>
                     <span className="inline-block px-8 py-3 text-lg font-semibold text-white transition duration-500 transform bg-[#F1C40F] rounded-full cursor-pointer hover:-translate-y-1">
-                        Read more...
+                        {readMore}
                     </span>
                 </Link>
             </div>

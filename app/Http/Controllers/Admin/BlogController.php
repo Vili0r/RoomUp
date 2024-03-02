@@ -63,9 +63,12 @@ class BlogController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('blogs');
 
+            // Convert the content to UTF-8 if it's not already
+            $utf8_body = mb_convert_encoding($request->body, 'UTF-8', 'UTF-8');
+
             Blog::create([
                 'title' => $request->title,
-                'body' => $request->body,
+                'body' => $utf8_body,
                 'published_at' => $request->published_at,
                 'category_id' => $request->category_id,
                 'slug' => Str::slug($request->input('title')),

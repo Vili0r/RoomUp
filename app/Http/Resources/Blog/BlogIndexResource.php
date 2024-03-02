@@ -17,7 +17,7 @@ class BlogIndexResource extends JsonResource
         return [
             'id' => $this->id,
             'image' => $this->image,
-            'title' => substr($this->title, 0, 30) . '...',
+            'title' => htmlspecialchars_decode(mb_convert_encoding(substr($this->title, 0, 30), 'UTF-8', 'UTF-8')) . '...',
             'featured' => $this->featured,
             'published_at' => $this->published_at->format('Y-m-d'),
             'created_at' => $this->created_at->toDateTimeString(),

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import InputError from "./InputError";
+import { useTranslation } from "react-i18next";
 
 const CommentsForm = ({ id }) => {
     const [errors, setErrors] = useState([]);
@@ -11,6 +12,17 @@ const CommentsForm = ({ id }) => {
         name: "",
         email: "",
     });
+
+    const { t } = useTranslation();
+    const {
+        title,
+        commentForm,
+        nameForm,
+        emailForm,
+        storeDetails,
+        postCommentBtn,
+        commentSubmitted,
+    } = t("blog.commentsForm");
 
     useEffect(() => {
         setValues({
@@ -56,14 +68,14 @@ const CommentsForm = ({ id }) => {
     return (
         <div className="p-8 pb-12 mb-8 bg-white rounded-lg shadow-lg">
             <h3 className="pb-4 mb-8 text-xl font-semibold border-b">
-                Leave a Comment
+                {title}
             </h3>
             <form onSubmit={submit}>
                 <div className="grid grid-cols-1 gap-4 mb-4">
                     <textarea
                         onChange={handleOnChange}
                         className="w-full p-4 text-gray-700 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-gray-200"
-                        placeholder="Comment.."
+                        placeholder={commentForm}
                         name="content"
                         id="content"
                     />
@@ -74,7 +86,7 @@ const CommentsForm = ({ id }) => {
                         type="text"
                         onChange={handleOnChange}
                         className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-gray-200"
-                        placeholder="Name.."
+                        placeholder={nameForm}
                         name="name"
                         id="name"
                     />
@@ -83,7 +95,7 @@ const CommentsForm = ({ id }) => {
                         type="email"
                         onChange={handleOnChange}
                         className="w-full px-4 py-2 text-gray-700 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-gray-200"
-                        placeholder="Email.."
+                        placeholder={emailForm}
                         name="email"
                         id="email"
                     />
@@ -101,8 +113,7 @@ const CommentsForm = ({ id }) => {
                             className="ml-2 text-gray-500 cursor-pointer"
                             htmlFor="storeData"
                         >
-                            Store my e-mail and name for the next time I
-                            comment.
+                            {storeDetails}
                         </label>
                     </div>
                 </div>
@@ -111,11 +122,11 @@ const CommentsForm = ({ id }) => {
                         type="submit"
                         className="inline-block px-8 py-3 text-lg text-white transition duration-500 bg-[#F1C40F] rounded-full cursor-pointer ease hover:bg-indigo-900"
                     >
-                        Post comment
+                        {postCommentBtn}
                     </button>
                     {showSuccessMessage && (
                         <span className="float-right mt-3 text-xl font-semibold text-green-500">
-                            Comment submitted for review
+                            {commentSubmitted}
                         </span>
                     )}
                 </div>

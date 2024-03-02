@@ -5,6 +5,7 @@ import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import * as faceapi from "face-api.js";
 import { MdOutlineNotificationsNone } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function UpdateProfilePhoto({ className, user, status }) {
     const imgRef1 = useRef();
@@ -14,6 +15,19 @@ export default function UpdateProfilePhoto({ className, user, status }) {
         useForm({
             avatar: null,
         });
+
+    const { t } = useTranslation();
+    const {
+        title,
+        description,
+        verified,
+        unverified,
+        save,
+        saved,
+        photoNotUploaded,
+        photoProfile,
+        selectImage,
+    } = t("profile.updateProfilePhoto");
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -33,7 +47,7 @@ export default function UpdateProfilePhoto({ className, user, status }) {
             reader.readAsDataURL(file);
             setData("avatar", file);
         } else {
-            setIsFaceInPhoto("Please select an image file.");
+            setIsFaceInPhoto({ selectImage });
         }
     };
 
@@ -75,12 +89,11 @@ export default function UpdateProfilePhoto({ className, user, status }) {
         <section className={className}>
             <header>
                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    Profile Photo
+                    {title}
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Update your account's profile photo, which will increase the
-                    security and will reach more flatmates.
+                    {description}
                 </p>
             </header>
 
@@ -106,8 +119,7 @@ export default function UpdateProfilePhoto({ className, user, status }) {
                         </div>
                         <div className="text-sm font-normal ms-3">
                             <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
-                                The photo profile has not been uploaded! Try
-                                again.
+                                {photoNotUploaded}
                             </span>
                         </div>
                     </div>
@@ -146,18 +158,18 @@ export default function UpdateProfilePhoto({ className, user, status }) {
 
                             <label
                                 htmlFor="avatar"
-                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none font-popp peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                             >
-                                Photo Profile
+                                {photoProfile}
                             </label>
                         </div>
                         {user.verification.photo_verified_at !== null ? (
                             <span className="bg-green-600/70 absolute px-2 py-1 text-white rounded-md top-[12px] right-1">
-                                Verified
+                                {verified}
                             </span>
                         ) : (
                             <span className="bg-gray-600/70 absolute px-2 py-1 text-white rounded-md top-[12px] right-1">
-                                Unverified
+                                {unverified}
                             </span>
                         )}
                     </div>
@@ -169,7 +181,7 @@ export default function UpdateProfilePhoto({ className, user, status }) {
                         className="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
                         disabled={processing}
                     >
-                        Save
+                        {save}
                     </PrimaryButton>
 
                     <Transition
@@ -179,7 +191,7 @@ export default function UpdateProfilePhoto({ className, user, status }) {
                         className="transition ease-in-out"
                     >
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Saved.
+                            {saved}
                         </p>
                     </Transition>
                 </div>
