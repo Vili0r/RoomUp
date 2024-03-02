@@ -6,6 +6,8 @@ import { HousePlaceholder } from "@/assets";
 import { CustomerService } from "@/assets";
 import InputError from "@/Components/InputError";
 import { CgMenuRight } from "react-icons/cg";
+import { useTranslation } from "react-i18next";
+import { type, size } from "@/arrays/Array";
 
 const Index = (props) => {
     const { conversations, getConversation } = usePage().props;
@@ -73,6 +75,15 @@ const Index = (props) => {
         }
     };
 
+    const { t, i18n } = useTranslation();
+    const {
+        allConversationsTitle,
+        inputPlaceholder,
+        sendBtn,
+        created,
+        selectConversation,
+    } = t("conversation");
+
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="Start conversation" />
@@ -86,7 +97,7 @@ const Index = (props) => {
                         } flex-col border-r-2 [@media(min-width:700px)]:overflow-y-hidden [@media(min-width:700px)]:w-2/5 w-full`}
                     >
                         <div className="p-4 text-xl font-semibold">
-                            All Conversations
+                            {allConversationsTitle}
                         </div>
                         {allConversations.map((item) => (
                             <>
@@ -106,10 +117,10 @@ const Index = (props) => {
                                         src={
                                             item.user_id === props.auth.user.id
                                                 ? item.message.owner.receiver
-                                                      .avatar !==
+                                                      ?.avatar !==
                                                   "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                                     ? item.message.owner
-                                                          .receiver.avatar
+                                                          .receiver?.avatar
                                                     : "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
                                                 : item.sender.avatar !==
                                                   "https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp"
@@ -123,6 +134,10 @@ const Index = (props) => {
                                             {item.user_id === props.auth.user.id
                                                 ? item.message.owner.receiver
                                                       ?.first_name
+                                                : item.sender.first_name ==
+                                                      "support" &&
+                                                  i18n.language == "gr"
+                                                ? "Υποστήριξη"
                                                 : item.sender.first_name}
                                         </h2>
                                         <dl className="flex flex-wrap text-sm font-medium leading-6">
@@ -133,14 +148,20 @@ const Index = (props) => {
                                                         : "md:static lg:absolute [@media(max-width:700px)]:absolute"
                                                 }  top-0 right-0 flex items-center space-x-1`}
                                             >
-                                                <dt className="text-[#F5B041]">
+                                                <dt className="text-[#F5B041] text-xs leading-6">
                                                     {item.last_reply}
                                                 </dt>
                                             </div>
 
                                             <div className="flex-none w-full font-normal">
                                                 <dd className="text-slate-400">
-                                                    {item.message.message_text}
+                                                    {item.message
+                                                        .message_text ==
+                                                        "Hi, how can I help y..." &&
+                                                    i18n.language == "gr"
+                                                        ? "Γεια, πώς μπορώ να σας βοηθήσω σήμερα;"
+                                                        : item.message
+                                                              .message_text}
                                                 </dd>
                                             </div>
                                             <div className="flex-none w-full font-normal">
@@ -176,8 +197,12 @@ const Index = (props) => {
                                       props.auth.user.id
                                         ? singleConversation.message.owner
                                               .receiver.first_name
+                                        : singleConversation.sender
+                                              ?.first_name == "support" &&
+                                          i18n.language == "gr"
+                                        ? "Υποστήριξη"
                                         : singleConversation.sender?.first_name
-                                    : "Select a conversation"}
+                                    : selectConversation}
                             </div>
                             {singleConversation && (
                                 <>
@@ -268,9 +293,12 @@ const Index = (props) => {
                                                             </div>
                                                             <div className="relative px-4 py-2 mr-3 text-sm bg-indigo-100 shadow rounded-xl">
                                                                 <div>
-                                                                    {
-                                                                        singleConversation.body
-                                                                    }
+                                                                    {singleConversation.body ==
+                                                                        "Hi, how can I help you today?" &&
+                                                                    i18n.language ==
+                                                                        "gr"
+                                                                        ? "Γεια, πώς μπορώ να σας βοηθήσω σήμερα;"
+                                                                        : singleConversation.body}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -293,9 +321,12 @@ const Index = (props) => {
                                                             </div>
                                                             <div className="relative ml-3 text-sm bg-white shadow xs:px-4 xs:py-2 rounded-xl">
                                                                 <div>
-                                                                    {
-                                                                        singleConversation.body
-                                                                    }
+                                                                    {singleConversation.body ==
+                                                                        "Hi, how can I help you today?" &&
+                                                                    i18n.language ==
+                                                                        "gr"
+                                                                        ? "Γεια, πώς μπορώ να σας βοηθήσω σήμερα;"
+                                                                        : singleConversation.body}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -311,7 +342,9 @@ const Index = (props) => {
                                                     <input
                                                         type="text"
                                                         name="body"
-                                                        placeholder="Type your message..."
+                                                        placeholder={
+                                                            inputPlaceholder
+                                                        }
                                                         value={data.body}
                                                         onChange={
                                                             handleOnChange
@@ -331,7 +364,7 @@ const Index = (props) => {
                                                     className="flex items-center justify-center flex-shrink-0 px-4 py-2 text-white bg-black hover:bg-gray-800 rounded-xl"
                                                 >
                                                     <span className="[@media(max-width:400px)]:hidden">
-                                                        Send
+                                                        {sendBtn}
                                                     </span>
                                                     <span className="ml-2 [@media(max-width:400px)]:ml-0 [@media(max-width:400px)]:py-1">
                                                         <svg
@@ -362,7 +395,12 @@ const Index = (props) => {
                         <div className="w-2/5 px-5 [@media(max-width:1023px)]:hidden border-l-2 sticky">
                             <div className="flex flex-col">
                                 <div className="py-4 text-xl font-semibold">
-                                    {singleConversation.message?.owner.title}
+                                    {singleConversation.message?.owner.title ==
+                                        "Customer Support" &&
+                                    i18n.language == "gr"
+                                        ? "Τεχνική Υποστήριξη"
+                                        : singleConversation.message?.owner
+                                              .title}
                                 </div>
                                 <img
                                     src={
@@ -383,7 +421,7 @@ const Index = (props) => {
                                 "support" ? null : (
                                     <>
                                         <div className="py-4 font-semibold">
-                                            Created{" "}
+                                            {created}{" "}
                                             {moment(
                                                 singleConversation.message
                                                     ?.owner.created_at

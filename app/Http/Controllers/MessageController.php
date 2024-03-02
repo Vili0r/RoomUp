@@ -27,9 +27,9 @@ class MessageController extends Controller
     public function index(): Response
     {
         $messages = Message::with(['owner'])
+            ->where('owner_type', '!=', 'App\Models\Support')
             ->where('receiver_id', auth()->id())
             ->orWhere('user_id', auth()->id())
-            ->where('owner_type', '!=', 'App\Models\Support')
             ->latest()
             ->paginate(5);
 

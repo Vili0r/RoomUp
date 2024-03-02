@@ -704,6 +704,12 @@ const resources = {
                     message: "Message",
                     sentMessageBtn: "Sent Message",
                 },
+                index: {
+                    noMessages: "No message has been received",
+                    createdAt: "Created at",
+                    nameOfRequester: "Name of the requester",
+                    respond: "Respond",
+                },
             },
             reportListing: {
                 title: "Report issue with Listing",
@@ -753,6 +759,13 @@ const resources = {
                 stepSix: "Step 6",
                 idStepSix: "ID",
                 verify: "Verify",
+            },
+            conversation: {
+                allConversationsTitle: "All conversations",
+                inputPlaceholder: "Type your message...",
+                sendBtn: "Send",
+                created: "Created at",
+                selectConversation: "Select a conversation",
             },
             blog: {},
         },
@@ -1499,6 +1512,12 @@ const resources = {
                     message: "Μήνυμα",
                     sentMessageBtn: "Αποστολή Μηνύματος",
                 },
+                index: {
+                    noMessages: "Δεν έχει ληφθεί κάποιο μήνυμα",
+                    createdAt: "Δημιουργήθηκε στις",
+                    nameOfRequester: "Όνομα του αιτούντα",
+                    respond: "Απάντησε",
+                },
             },
             reportListing: {
                 title: "Αναφορά προβλήματος με την καταχώριση",
@@ -1549,6 +1568,13 @@ const resources = {
                 stepSix: "Βήμα 6",
                 idStepSix: "Ταυτότητα",
                 verify: "Επαλήθευση",
+            },
+            conversation: {
+                allConversationsTitle: "Όλες οι συνομιλίες",
+                inputPlaceholder: "Πληκτρολογήστε το μήνυμά σας...",
+                sendBtn: "Αποστολή",
+                created: "Δημιουργήθηκε στις",
+                selectConversation: "Επιλέξε μια συνομιλία",
             },
             blog: {},
         },

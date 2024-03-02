@@ -4,13 +4,35 @@ import { Head, Link, usePage } from "@inertiajs/react";
 import { HousePlaceholder } from "@/assets";
 import moment from "moment";
 import Pagination from "@/Components/Pagination";
+import { useTranslation } from "react-i18next";
+import { type, size } from "@/arrays/Array";
 
 const Index = (props) => {
     const { messages } = usePage().props;
     const showImage = () => {
         return "/storage/";
     };
+    const { t, i18n } = useTranslation();
+    const { createdAt, noMessages, nameOfRequester, respond } =
+        t("message.index");
 
+    const getTypeName = (id) => {
+        const typeName = type.find((item) => item.id === id);
+        return typeName
+            ? i18n.language === "en"
+                ? typeName.nameEn
+                : typeName.nameGr
+            : "";
+    };
+
+    const getSizeName = (id) => {
+        const sizeName = size.find((item) => item.id === id);
+        return sizeName
+            ? i18n.language === "en"
+                ? sizeName.nameEn
+                : sizeName.nameGr
+            : "";
+    };
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -50,19 +72,19 @@ const Index = (props) => {
                                                 <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
                                                 <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                                             </svg>
-                                            {message.owner.address_1},
+                                            {message.owner.address_1},{" "}
                                             {message.owner.area}
                                         </p>
                                         <p className="text-base font-medium leading-4 text-white dark:sm:text-slate-400">
-                                            Created at:{" "}
+                                            {createdAt}:{" "}
                                             {moment(
                                                 message.owner.created_at
                                             ).format("MMM DD, YYYY")}
                                         </p>
                                         <p className="mb-1 text-sm font-medium leading-4 text-white dark:sm:text-slate-400">
-                                            {message.owner.size}
-                                            {"room "}
-                                            {message.owner.type}
+                                            {getSizeName(message.owner.size)}
+                                            {", "}
+                                            {getTypeName(message.owner.type)}
                                         </p>
                                     </div>
                                     <div className="grid col-start-1 col-end-3 row-start-1 gap-4">
@@ -82,7 +104,7 @@ const Index = (props) => {
                                 <div className="p-6">
                                     <h6 className="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-pink-500 uppercase">
                                         <span className="text-sm text-black normal-case">
-                                            Name of the requester:{" "}
+                                            {nameOfRequester}:{" "}
                                         </span>
                                         {message.full_name}
                                     </h6>
@@ -94,9 +116,9 @@ const Index = (props) => {
                                     </p>
                                     <Link
                                         href={route("conversation.index")}
-                                        className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-[#F5B041] uppercase align-middle transition-all rounded-lg select-none hover:text-black hover:bg-[#f6b449] active:bg-[#F5B041] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                        className="flex items-center gap-2 px-6 py-3 font-sans text-sm font-bold text-center text-[#F5B041] align-middle transition-all rounded-lg select-none hover:text-black hover:bg-[#f6b449] active:bg-[#F5B041] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                     >
-                                        Respond
+                                        {respond}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -117,7 +139,7 @@ const Index = (props) => {
                             </div>
                         ))
                     ) : (
-                        <div>No message has been received</div>
+                        <div>{noMessages}</div>
                     )}
                 </div>
                 <Pagination
