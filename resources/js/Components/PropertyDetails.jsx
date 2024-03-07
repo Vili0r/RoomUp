@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PhotoGallery from "./PhotoGallery";
-import AdvertisedBy from "./AdvertisedBy";
 import PropertyDetailsAmenities from "./PropertyDetailsAmenities";
+import AdvertisedBy from "./AdvertisedBy";
+import Drawer from "./Drawer";
 import { CiLocationOn } from "react-icons/ci";
-import { FiMinimize, FiMaximize } from "react-icons/fi";
+import { FiMinimize, FiMaximize, FiActivity } from "react-icons/fi";
 import { BsCalendar4Week } from "react-icons/bs";
 import { SiTransportforlondon } from "react-icons/si";
 import { useForm } from "@inertiajs/react";
@@ -28,6 +29,7 @@ import {
     stations,
     modes,
 } from "@/arrays/Array";
+import { IoIosArrowForward } from "react-icons/io";
 
 const PropertyDetails = ({ property }) => {
     const { get } = useForm({
@@ -35,6 +37,7 @@ const PropertyDetails = ({ property }) => {
         type: property.model,
     });
 
+    const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation();
     const { inA, month } = t("propertyDetails.misc");
     const {
@@ -47,6 +50,7 @@ const PropertyDetails = ({ property }) => {
         transport,
         moreInformation,
         reportListing,
+        neighborhood,
     } = t("propertyDetails.details");
 
     const handleClick = () => {
@@ -125,6 +129,10 @@ const PropertyDetails = ({ property }) => {
         }
     };
 
+    const handleDrawer = () => {
+        setIsOpen(true);
+    };
+
     return (
         <div className="max-w-[2520px] xl:px-20 md:px-10 sm:px-2 px-4">
             <div className="max-w-screen-xl mx-auto">
@@ -183,7 +191,6 @@ const PropertyDetails = ({ property }) => {
                             favourite={property.favouritedBy}
                         />
                     </div>
-
                     <div className="flex flex-col items-start max-w-6xl gap-10 px-6 mx-auto md:flex-row lg:px-8">
                         <div className="flex w-full min-w-0 mt-5 md:mt-0">
                             <dl className="grid grid-cols-1 gap-y-10 gap-x-8 md:max-w-xl lg:max-w-none lg:gap-y-16">
@@ -403,13 +410,26 @@ const PropertyDetails = ({ property }) => {
                                     <h1 className="text-xl font-bold text-gray-700 ">
                                         {moreInformation}
                                     </h1>
-                                    <div className="sm:flex sm:flex-row grid grid-cols-2 items-center gap-4 font-[450px] mt-9 text-neutral-500">
+                                    <div className="grid xs:grid-cols-2 items-center justify-between gap-4 font-[450px] mt-9 text-neutral-500">
                                         <button
                                             onClick={handleClick}
-                                            className="flex items-start gap-2 px-5 py-3 capitalize border-2 border-gray-100 rounded-md"
+                                            className="flex justify-between gap-6 px-5 py-3 capitalize border-2 border-gray-100 rounded-md"
                                         >
-                                            <MdOutlineReportProblem className="w-6 h-6" />{" "}
-                                            {reportListing}
+                                            <span className="flex items-center gap-3">
+                                                <MdOutlineReportProblem className="w-6 h-6" />{" "}
+                                                {reportListing}
+                                            </span>
+                                            <IoIosArrowForward className="w-6 h-6" />
+                                        </button>
+                                        <button
+                                            onClick={handleDrawer}
+                                            className="flex justify-between gap-6 px-5 py-3 capitalize border-2 border-gray-100 rounded-md"
+                                        >
+                                            <span className="flex items-center gap-3">
+                                                <FiActivity className="w-6 h-6" />{" "}
+                                                {neighborhood}
+                                            </span>
+                                            <IoIosArrowForward className="w-6 h-6" />
                                         </button>
                                     </div>
                                 </div>
@@ -435,6 +455,7 @@ const PropertyDetails = ({ property }) => {
                     </div>
                 </div>
             </div>
+            <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
     );
 };

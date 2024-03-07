@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import ThemeContext from "../context/ThemeContext";
 import { logo } from "@/assets";
 import { FaBloggerB } from "react-icons/fa";
@@ -10,6 +10,7 @@ import PlaceAdModal from "@/Components/PlaceAdModal";
 import SearchModal from "@/Components/SearchModal";
 import { IoIosGlobe } from "react-icons/io";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const Header = ({ user }) => {
     const { theme, handleTheme } = useContext(ThemeContext);
@@ -49,9 +50,11 @@ const Header = ({ user }) => {
         if (lng == "en") {
             i18n.changeLanguage("gr");
             setLng("ελ");
+            axios.get("/language/gr");
         } else {
             i18n.changeLanguage("en");
             setLng("en");
+            axios.get("/language/en");
         }
     };
 

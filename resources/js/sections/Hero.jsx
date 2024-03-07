@@ -88,22 +88,21 @@ const Hero = () => {
                     </p>
                     <div
                         onClick={openModal}
-                        className="bg-gray-300 flex justify-between rounded-[.75rem] mb-[2rem] mr-[2.5rem]"
+                        className="bg-gray-300 flex justify-between items-center rounded-[.75rem] mb-[2rem] mr-[2.5rem]"
                         style={{
                             padding: ".35rem .35rem .35rem .75rem",
                             border: "3px solid hsl(228, 12%, 75%)",
                         }}
                     >
-                        <div className="flex items-center justify-between">
-                            <FiMapPin className="text-[rgb(29, 31, 81)] text-[1.25rem]" />
-                            <input
-                                value={query}
-                                className="w-[90%] bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 bg-gray-300 text-black block mt-2 placeholder-gray-400/70  dark:placeholder-gray-500 rounded-lg px-5 py-2.5 focus:border-[#f0a122] focus:ring-[#f0a122] text-xl focus:ring-opacity-40"
-                                style={{ margin: "0 .5rem" }}
-                                placeholder={content}
-                                disabled
-                            />
-                        </div>
+                        <FiMapPin className="text-[rgb(29, 31, 81)] text-[1.25rem]" />
+                        <input
+                            value={query}
+                            className="w-[90%] bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 bg-gray-300 text-black block mt-2 placeholder-gray-400/70  dark:placeholder-gray-500 rounded-lg px-5 py-2.5 focus:border-[#f0a122] focus:ring-[#f0a122] text-xl focus:ring-opacity-40"
+                            style={{ margin: "0 .5rem" }}
+                            placeholder={content}
+                            disabled
+                        />
+
                         <span
                             className="xs:inline-block hidden text-[.938rem] font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
                             style={{

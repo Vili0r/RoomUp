@@ -70,6 +70,7 @@ use App\Http\Controllers\UpdateSocialLinksController;
 use App\Http\Controllers\UserVerificationController;
 use App\Http\Controllers\VirtualTourController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -124,6 +125,11 @@ Route::resource('/blogs.comments', BlogCommentController::class)
 //Report listing Controller
 Route::resource('/reported-listings', ReportedListingController::class)
     ->only(['create', 'store']);
+
+Route::get('/language/{language}', function (string $language) {
+    Session()->put('locale', $language);
+    App::setLocale($language);
+})->name('language');
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
     //Dashboard controller

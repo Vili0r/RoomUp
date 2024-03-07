@@ -30,6 +30,7 @@ const Index = (props) => {
         stepSix,
         idStepSix,
         verify,
+        message,
     } = t("verification");
 
     const submit = (e) => {
@@ -47,7 +48,7 @@ const Index = (props) => {
         if (canBeVerified) {
             router.post("/verification");
         } else {
-            alert("Please go through the steps to verify your account.");
+            alert(message);
         }
     };
 

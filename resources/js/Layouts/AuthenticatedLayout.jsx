@@ -32,7 +32,6 @@ export default function Authenticated({ auth, children }) {
         body: "",
     });
     const repliesEndRef = useRef(null);
-
     const { t, i18n } = useTranslation();
     const { support, you, customerSupport, enquiry, loadingSupport, sendBtn } =
         t("authenticatedLayout.conversationSupport");

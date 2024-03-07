@@ -6,9 +6,12 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import * as faceapi from "face-api.js";
 import { useTranslation } from "react-i18next";
+import {
+    stepOneSchema,
+    stepTwoSchema,
+} from "../../Validations/RegisterValidation";
 
 const genders = [
     {
@@ -47,33 +50,11 @@ const lookingFor = [
 ];
 
 export default function Register() {
-    const stepOneSchema = yup.object().shape({
-        first_name: yup.string().required(),
-        last_name: yup.string().required(),
-        email: yup.string().email().required(),
-        password: yup.string().min(8).max(20).required(),
-        password_confirmation: yup
-            .string()
-            .oneOf([yup.ref("password"), null])
-            .required(),
-    });
-    const stepTwoSchema = yup.object().shape({
-        birthdate: yup
-            .string()
-            .required("DOB is Required")
-            .test(
-                "birthdate",
-                "Please choose a valid date of birth",
-                (date) => moment().diff(moment(date), "years") >= 18
-            ),
-        gender: yup.string().required(),
-        looking_for: yup.string().required(),
-    });
-
     const [showPassword, setShowPassword] = useState("password");
     const [step, setStep] = useState(1);
     const imgRef1 = useRef();
     const [image, setImage] = useState(null);
+    const [validationErrors, setValidationErrors] = useState({});
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm(
             {
@@ -111,28 +92,6 @@ export default function Register() {
         processingBtn,
         registerBtn,
     } = t("register.misc");
-
-    const handleNext = async () => {
-        try {
-            let schema;
-            switch (step) {
-                case 1:
-                    schema = stepOneSchema;
-                    break;
-                case 2:
-                    schema = stepTwoSchema;
-                    break;
-                default:
-                    break;
-            }
-            await schema.validate(data, { abortEarly: false });
-            setStep(step + 1);
-        } catch (errors) {
-            console.log(errors);
-        }
-
-        clearErrors();
-    };
 
     const handleBack = () => {
         setStep(step - 1);
@@ -175,40 +134,69 @@ export default function Register() {
         }
     };
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        const currentSchema = step === 1 ? stepOneSchema(t) : stepTwoSchema(t);
+        try {
+            await currentSchema.validate(data, { abortEarly: false });
 
-        if (data.avatar !== null) {
-            (async () => {
-                // loading the models
-                await faceapi.nets.ssdMobilenetv1.loadFromUri("/models");
-                await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
-                await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
-                await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
-                await faceapi.nets.faceExpressionNet.loadFromUri("/models");
+            if (step === 2) {
+                if (data.avatar !== null) {
+                    (async () => {
+                        // loading the models
+                        await faceapi.nets.ssdMobilenetv1.loadFromUri(
+                            "/models"
+                        );
+                        await faceapi.nets.tinyFaceDetector.loadFromUri(
+                            "/models"
+                        );
+                        await faceapi.nets.faceLandmark68Net.loadFromUri(
+                            "/models"
+                        );
+                        await faceapi.nets.faceRecognitionNet.loadFromUri(
+                            "/models"
+                        );
+                        await faceapi.nets.faceExpressionNet.loadFromUri(
+                            "/models"
+                        );
 
-                // detect a single face from the ID card image
-                const idCardFacedetection = await faceapi
-                    .detectSingleFace(
-                        imgRef1.current,
-                        new faceapi.TinyFaceDetectorOptions()
-                    )
-                    .withFaceLandmarks()
-                    .withFaceDescriptor();
+                        // detect a single face from the ID card image
+                        const idCardFacedetection = await faceapi
+                            .detectSingleFace(
+                                imgRef1.current,
+                                new faceapi.TinyFaceDetectorOptions()
+                            )
+                            .withFaceLandmarks()
+                            .withFaceDescriptor();
 
-                // Check if a face was detected in the ID card image
-                if (!idCardFacedetection) {
-                    setIsFaceInPhoto(
-                        "No face detected in the uploaded Photo. Please try again with a different photo."
-                    );
-                    return;
+                        // Check if a face was detected in the ID card image
+                        if (!idCardFacedetection) {
+                            setIsFaceInPhoto(
+                                "No face detected in the uploaded Photo. Please try again with a different photo."
+                            );
+                            return;
+                        }
+                    })();
                 }
-            })();
-        }
 
-        post(route("register"));
+                post(route("register"));
+                setValidationErrors({});
+            } else {
+                setStep(step + 1);
+            }
+        } catch (errors) {
+            clearErrors();
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
+    console.log(errors);
     return (
         <GuestLayout>
             <Head title="Register" />
@@ -275,9 +263,11 @@ export default function Register() {
                                             {firstNameForm}
                                         </label>
                                     </div>
-                                    {errors.first_name && (
+                                    {validationErrors.first_name && (
                                         <InputError
-                                            message={errors.first_name}
+                                            message={
+                                                validationErrors.first_name
+                                            }
                                             className="mt-2"
                                         />
                                     )}
@@ -303,9 +293,9 @@ export default function Register() {
                                         </label>
                                     </div>
 
-                                    {errors.last_name && (
+                                    {validationErrors.last_name && (
                                         <InputError
-                                            message={errors.last_name}
+                                            message={validationErrors.last_name}
                                             className="mt-2"
                                         />
                                     )}
@@ -331,9 +321,9 @@ export default function Register() {
                                         </label>
                                     </div>
 
-                                    {errors.email && (
+                                    {validationErrors.email && (
                                         <InputError
-                                            message={errors.email}
+                                            message={validationErrors.email}
                                             className="mt-2"
                                         />
                                     )}
@@ -373,9 +363,9 @@ export default function Register() {
                                             {passwordForm}
                                         </label>
                                     </div>
-                                    {errors.password && (
+                                    {validationErrors.password && (
                                         <InputError
-                                            message={errors.password}
+                                            message={validationErrors.password}
                                             className="mt-2"
                                         />
                                     )}
@@ -402,10 +392,10 @@ export default function Register() {
                                             {passwordConfirmationForm}
                                         </label>
                                     </div>
-                                    {errors.password_confirmation && (
+                                    {validationErrors.password_confirmation && (
                                         <InputError
                                             message={
-                                                errors.password_confirmation
+                                                validationErrors.password_confirmation
                                             }
                                             className="mt-2"
                                         />
@@ -414,7 +404,7 @@ export default function Register() {
 
                                 <div className="my-6">
                                     <PrimaryButton
-                                        onClick={handleNext}
+                                        onClick={submit}
                                         className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                     >
                                         {nextBtn}
@@ -444,9 +434,9 @@ export default function Register() {
                                             {DOBForm}
                                         </label>
                                     </div>
-                                    {errors.birthdate && (
+                                    {validationErrors.birthdate && (
                                         <InputError
-                                            message={errors.birthdate}
+                                            message={validationErrors.birthdate}
                                             className="mt-2"
                                         />
                                     )}
@@ -495,9 +485,9 @@ export default function Register() {
                                             {genderForm}
                                         </label>
                                     </div>
-                                    {errors.gender && (
+                                    {validationErrors.gender && (
                                         <InputError
-                                            message={errors.gender}
+                                            message={validationErrors.gender}
                                             className="mt-2"
                                         />
                                     )}
@@ -547,9 +537,11 @@ export default function Register() {
                                         </label>
                                     </div>
 
-                                    {errors.looking_for && (
+                                    {validationErrors.looking_for && (
                                         <InputError
-                                            message={errors.looking_for}
+                                            message={
+                                                validationErrors.looking_for
+                                            }
                                             className="mt-2"
                                         />
                                     )}

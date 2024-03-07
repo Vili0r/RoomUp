@@ -172,6 +172,33 @@ const resources = {
                 },
             },
             validation: {
+                register: {
+                    stepOne: {
+                        firstNameRequired: "First Name is required",
+                        firstNameMax:
+                            "First Name must not exceed 255 characters",
+                        lastNameRequired: "Last Name is required",
+                        lastNameMax: "Last Name must not exceed 255 characters",
+                        emailType: "Please enter a valid email",
+                        emailRequired: "Email is required",
+                        passwordMin:
+                            "Password must be at least 8 characters long",
+                        passwordMatches:
+                            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                        passwordMax:
+                            "Password must not be more than 20 characters long",
+                        passwordRequired: "Password is required",
+                        passwordConfirmationRequired:
+                            "Password Confirmation is required",
+                        passwordConfirmationOneOf: "Password does not match",
+                    },
+                    stepTwo: {
+                        DOBRequired: "DOB is Required",
+                        DOBAboveEighteen: "You must be older than 18 years old",
+                        genderRequired: "Gender is required",
+                        lookingForRequired: "Looking for is required",
+                    },
+                },
                 stepOne: {
                     address1Required: "Address is required",
                     address1Max: "Address must be at most 30 characters",
@@ -670,6 +697,7 @@ const resources = {
                     transport: "Transport",
                     moreInformation: "More Information",
                     reportListing: "Report Listing",
+                    neighborhood: "Neighborhood",
                     amenitiesDetails: "Amenities",
                     advertisedBy: "Advertised By",
                     tel: "Tel",
@@ -759,6 +787,7 @@ const resources = {
                 stepSix: "Step 6",
                 idStepSix: "ID",
                 verify: "Verify",
+                message: "Please go through the steps to verify your account.",
             },
             conversation: {
                 allConversationsTitle: "All conversations",
@@ -1066,6 +1095,39 @@ const resources = {
                 },
             },
             validation: {
+                register: {
+                    stepOne: {
+                        firstNameRequired: "Το Όνομα είναι υποχρεωτικό",
+                        firstNameMax:
+                            "Το Όνομα δεν πρέπει να υπερβαίνει τους 255 χαρακτήρες",
+                        lastNameRequired: "Το Επίθετο είναι υποχρεωτικό",
+                        lastNameMax:
+                            "Το Επίθετο δεν πρέπει να υπερβαίνει τους 255 χαρακτήρες",
+                        emailType:
+                            "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email",
+                        emailRequired: "Το Email είναι υποχρεωτικό",
+                        passwordMin:
+                            "Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 8 χαρακτήρες",
+                        passwordMatches:
+                            "Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα, ένα πεζό γράμμα, έναν αριθμό και έναν ειδικό χαρακτήρα",
+                        passwordMax:
+                            "Ο κωδικός πρόσβασης πρέπει να έχει το πολύ 20 χαρακτήρες",
+                        passwordRequired:
+                            "Ο κωδικός πρόσβασης είναι υποχρεωτικός",
+                        passwordConfirmationRequired:
+                            "Η επιβεβαίωση κωδικού πρόσβασης είναι υποχρεωτική",
+                        passwordConfirmationOneOf:
+                            "Ο κωδικός πρόσβασης δεν ταιριάζει",
+                    },
+                    stepTwo: {
+                        DOBRequired: "Η Ημερομηνία Γέννησης είναι υποχρεωτική",
+                        DOBAboveEighteen:
+                            "Πρέπει να είστε  τουλάχιστον 18 ετών",
+                        genderRequired: "Το Φύλο είναι υποχρεωτικό",
+                        lookingForRequired:
+                            "Το Αναζητώ για πεδίο είναι υποχρεωτικό",
+                    },
+                },
                 stepOne: {
                     address1Required: "Η διεύθυνση είναι υποχρεωτική",
                     address1Max:
@@ -1607,6 +1669,7 @@ const resources = {
                     transport: "Μεταφορά",
                     moreInformation: "Περισσότερες Πληροφορίες",
                     reportListing: "Αναφορά Αγγελίας",
+                    neighborhood: "Γειτονιά",
                     amenitiesDetails: "Παροχές",
                     advertisedBy: "Διαφημισμένο από",
                     tel: "Τηλ",
@@ -1697,6 +1760,8 @@ const resources = {
                 stepSix: "Βήμα 6",
                 idStepSix: "Ταυτότητα",
                 verify: "Επαλήθευση",
+                message:
+                    "Παρακαλούμε ακολουθήστε τα βήματα για την επαλήθευση του λογαριασμού σας.",
             },
             conversation: {
                 allConversationsTitle: "Όλες οι συνομιλίες",
