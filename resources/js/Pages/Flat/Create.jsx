@@ -83,7 +83,7 @@ const Create = (props) => {
             mode: "",
             station: "",
             amenities: "",
-            first_name: props.auth.user.first_name,
+            first_name: "",
             last_name: "",
             display_last_name: "",
             telephone: "",
@@ -130,11 +130,31 @@ const Create = (props) => {
         shortTermStepThree,
     } = t("flat.forms.stepThreeFlat");
     const { titleStepSix, descriptionStepSix } = t("flat.forms.stepSix");
-    //next step
-    const handleNext = async () => {
+
+    //back step
+    const handleBack = () => {
+        //clearing errors before going to previous step as if it is already in the next step it has passed validation
+        setValidationErrors({});
+        clearErrors();
+        setStep(step - 1);
+    };
+
+    //Handling On change
+    const handleOnChange = (event) => {
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
+    };
+
+    //Handling on submit events
+    const submit = async (e) => {
+        e.preventDefault();
         clearErrors();
         setValidationErrors({});
-        //check if the current step has passed validation and only if true then proceed to next
+
         try {
             let schema;
             switch (step) {
@@ -161,7 +181,18 @@ const Create = (props) => {
             }
 
             await schema.validate(data, { abortEarly: false });
-            setStep(step + 1);
+            if (step < 6) {
+                setStep(step + 1);
+            } else {
+                //Transforming amenties so the backend can attach them to the pivot table
+                data.amenities = data.selectedAmenities.map((item) => {
+                    return {
+                        id: item.value,
+                    };
+                });
+
+                post(route("flat.store"));
+            }
         } catch (errors) {
             clearErrors();
             const validationErrors = {};
@@ -173,38 +204,6 @@ const Create = (props) => {
             setValidationErrors(validationErrors);
             setError(validationErrors);
         }
-    };
-
-    //back step
-    const handleBack = () => {
-        //clearing errors before going to previous step as if it is already in the next step it has passed validation
-        setValidationErrors({});
-        clearErrors();
-        setStep(step - 1);
-    };
-
-    //Handling On change
-    const handleOnChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-    };
-
-    //Handling on submit events
-    const submit = (e) => {
-        e.preventDefault();
-
-        //Transforming amenties so the backend can attach them to the pivot table
-        data.amenities = data.selectedAmenities.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
-
-        post(route("flat.store"));
     };
 
     const handleFilePondRevert = (uniqueId, load, error) => {
@@ -359,7 +358,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -378,7 +377,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -612,7 +611,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -644,7 +643,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -676,7 +675,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -723,6 +722,14 @@ const Create = (props) => {
                                                             <h2 className="font-semibold text-gray-800">
                                                                 {stepSixErrors}
                                                             </h2>
+                                                            {errors.images && (
+                                                                <InputError
+                                                                    message={
+                                                                        errors.images
+                                                                    }
+                                                                    className="mt-2"
+                                                                />
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -748,7 +755,7 @@ const Create = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.title}
+                                                message={validationErrors.title}
                                                 className="mt-2"
                                             />
                                         </div>
@@ -777,7 +784,9 @@ const Create = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.description}
+                                                message={
+                                                    validationErrors.description
+                                                }
                                                 className="mt-2"
                                             />
                                         </div>
@@ -805,10 +814,9 @@ const Create = (props) => {
                                         </div>
 
                                         <InputError
-                                            message={errors.images}
+                                            message={validationErrors.images}
                                             className="mt-2"
                                         />
-
                                         <div className="my-6">
                                             <PrimaryButton
                                                 disabled={processing}

@@ -237,12 +237,11 @@ const stepSixSchema = (t) => {
         descriptionMax,
         descriptionRequired,
         photosMax,
-        photosFileFormat,
-        photosFileSize,
+        photosRequired,
     } = t("validation.stepSix");
 
     return yup.object().shape({
-        electedAmenities: yup
+        selectedAmenities: yup
             .array()
             .min(1, amenitiesMin)
             .required(amenitiesRequired),
@@ -256,19 +255,7 @@ const stepSixSchema = (t) => {
             .min(50, descriptionMin)
             .max(500, descriptionMax)
             .required(descriptionRequired),
-        photos: yup
-            .array()
-            .max(maxFiles, photosMax)
-            .of(
-                yup
-                    .mixed()
-                    .test("fileFormat", photosFileFormat, (value) =>
-                        supportedFormats.includes(value.type)
-                    )
-                    .test("fileSize", photosFileSize, (value) =>
-                        value ? value.size <= 1048576 : true
-                    )
-            ),
+        images: yup.array().max(maxFiles, photosMax).required(photosRequired),
     });
 };
 

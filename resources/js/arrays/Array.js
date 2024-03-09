@@ -200,7 +200,7 @@ export const searchingFor = [
         nameGr: "Για μένα και τον/την σύντροφό μου",
     },
     {
-        id: 4,
+        id: 3,
         nameEn: "Me and a friend",
         nameGr: "Για μένα και έναν/μια φίλο/η",
     },

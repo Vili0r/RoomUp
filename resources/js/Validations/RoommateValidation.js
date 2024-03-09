@@ -141,6 +141,8 @@ const stepThreeSchema = (t) => {
 
 const stepFourSchema = (t) => {
     const {
+        amenitiesMin,
+        amenitiesRequired,
         titleMin,
         titleMax,
         titleRequired,
@@ -148,11 +150,18 @@ const stepFourSchema = (t) => {
         descriptionMax,
         descriptionRequired,
         photosMax,
-        photosFileFormat,
-        photosFileSize,
+        photosRequired,
     } = t("validation.stepSix");
 
     return yup.object().shape({
+        selectedAmenities: yup
+            .array()
+            .min(1, amenitiesMin)
+            .required(amenitiesRequired),
+        selectedHobbies: yup
+            .array()
+            .min(1, amenitiesMin)
+            .required(amenitiesRequired),
         title: yup
             .string()
             .min(10, titleMin)
@@ -163,19 +172,7 @@ const stepFourSchema = (t) => {
             .min(50, descriptionMin)
             .max(500, descriptionMax)
             .required(descriptionRequired),
-        photos: yup
-            .array()
-            .max(maxFiles, photosMax)
-            .of(
-                yup
-                    .mixed()
-                    .test("fileFormat", photosFileFormat, (value) =>
-                        supportedFormats.includes(value.type)
-                    )
-                    .test("fileSize", photosFileSize, (value) =>
-                        value ? value.size <= 1048576 : true
-                    )
-            ),
+        images: yup.array().max(maxFiles, photosMax).required(photosRequired),
     });
 };
 

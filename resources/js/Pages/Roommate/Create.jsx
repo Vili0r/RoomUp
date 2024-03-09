@@ -79,7 +79,7 @@ const Create = (props) => {
             maximum_stay: "",
             days_available: "",
             short_term: "",
-            first_name: props.auth.user.first_name,
+            first_name: "",
             last_name: "",
             display_last_name: "",
             telephone: "",
@@ -93,8 +93,10 @@ const Create = (props) => {
             new_flatmate_occupation: "",
             new_flatmate_gender: "",
             new_flatmate_hobbies: "",
-            hobbies: "",
-            amenities: "",
+            selectedHobbies: [],
+            selectedAmenities: [],
+            amenities: [],
+            hobbies: [],
             images: [],
         },
         {
@@ -138,8 +140,27 @@ const Create = (props) => {
         descriptionStepSix,
     } = t("roommate.forms.stepSix");
 
-    //next step
-    const handleNext = async () => {
+    //back step
+    const handleBack = () => {
+        //clearing errors before going to previous step as if it is already in the next step it has passed validation
+        clearErrors();
+        setValidationErrors({});
+        setStep(step - 1);
+    };
+
+    //Handling On change
+    const handleOnChange = (event) => {
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
+    };
+
+    //Handling on submit events
+    const submit = async (e) => {
+        e.preventDefault();
         clearErrors();
         setValidationErrors({});
         //check if the current step has passed validation and only if true then proceed to next
@@ -163,7 +184,24 @@ const Create = (props) => {
             }
 
             await schema.validate(data, { abortEarly: false });
-            setStep(step + 1);
+            if (step < 4) {
+                setStep(step + 1);
+            } else {
+                //Transforming amenties and Hobbies so the backend can attach them to the pivot table
+                data.amenities = data.selectedAmenities.map((item) => {
+                    return {
+                        id: item.value,
+                    };
+                });
+
+                data.hobbies = data.selectedHobbies.map((item) => {
+                    return {
+                        id: item.value,
+                    };
+                });
+
+                post(route("roommate.store"));
+            }
         } catch (errors) {
             clearErrors();
             const validationErrors = {};
@@ -173,46 +211,9 @@ const Create = (props) => {
             });
 
             setValidationErrors(validationErrors);
+            console.log(validationErrors);
             setError(validationErrors);
         }
-    };
-
-    //back step
-    const handleBack = () => {
-        //clearing errors before going to previous step as if it is already in the next step it has passed validation
-        clearErrors();
-        setValidationErrors({});
-        setStep(step - 1);
-    };
-
-    //Handling On change
-    const handleOnChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-    };
-
-    //Handling on submit events
-    const submit = (e) => {
-        e.preventDefault();
-
-        //Transforming amenties and Hobbies so the backend can attach them to the pivot table
-        data.amenities = selectedAmenities.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
-
-        data.hobbies = selectedHobbies.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
-
-        post(route("roommate.store"));
     };
 
     const handleFilePondRevert = (uniqueId, load, error) => {
@@ -616,7 +617,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 type="button"
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
@@ -873,7 +874,7 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 type="button"
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
                                                 {nextBtn}
@@ -907,7 +908,7 @@ const Create = (props) => {
                                         <div className="my-6">
                                             <PrimaryButton
                                                 type="button"
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none"
                                             >
                                                 {nextBtn}
@@ -933,30 +934,40 @@ const Create = (props) => {
                                 {step == "4" && (
                                     <>
                                         {Object.keys(validationErrors)
-                                            .length !== 0 && (
-                                            <div className="w-full max-w-2xl mx-auto mb-5">
-                                                <div className="flex p-5 bg-white rounded-lg shadow">
-                                                    <div>
-                                                        <svg
-                                                            className="w-6 h-6 text-yellow-500 fill-current"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                d="M0 0h24v24H0V0z"
-                                                                fill="none"
-                                                            />
-                                                            <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                                                        </svg>
-                                                    </div>
-                                                    <div className="ml-3">
-                                                        <h2 className="font-semibold text-gray-800">
-                                                            {fixErrors}
-                                                        </h2>
+                                            .length !== 0 ||
+                                            (Object.keys(errors).length !==
+                                                0 && (
+                                                <div className="w-full max-w-2xl mx-auto mb-5">
+                                                    <div className="flex p-5 bg-white rounded-lg shadow">
+                                                        <div>
+                                                            <svg
+                                                                className="w-6 h-6 text-yellow-500 fill-current"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path
+                                                                    d="M0 0h24v24H0V0z"
+                                                                    fill="none"
+                                                                />
+                                                                <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+                                                            </svg>
+                                                        </div>
+                                                        <div className="ml-3">
+                                                            <h2 className="font-semibold text-gray-800">
+                                                                {stepSixErrors}
+                                                            </h2>
+                                                            {errors.images && (
+                                                                <InputError
+                                                                    message={
+                                                                        errors.images
+                                                                    }
+                                                                    className="mt-2"
+                                                                />
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            ))}
                                         <div className="">
                                             <InputLabel
                                                 htmlFor="amenties"
@@ -967,18 +978,22 @@ const Create = (props) => {
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
                                                 onChange={(opt) =>
-                                                    setSelectedAmenities(opt)
+                                                    setData(
+                                                        "selectedAmenities",
+                                                        opt
+                                                    )
                                                 }
                                                 isMulti
                                                 options={options}
-                                                value={selectedAmenities}
+                                                value={data.selectedAmenities}
                                             />
-                                            {errors.amenities && (
-                                                <InputError
-                                                    message={errors.amenities}
-                                                    className="mt-2"
-                                                />
-                                            )}
+
+                                            <InputError
+                                                message={
+                                                    errors.selectedAmenities
+                                                }
+                                                className="mt-2"
+                                            />
                                         </div>
 
                                         <div className="mt-4">
@@ -991,19 +1006,23 @@ const Create = (props) => {
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
                                                 onChange={(opt) =>
-                                                    setSelectedHobbies(opt)
+                                                    setData(
+                                                        "selectedHobbies",
+                                                        opt
+                                                    )
                                                 }
                                                 isMulti
                                                 maxValues={15}
                                                 options={hobbiesOptions}
-                                                value={selectedHobbies}
+                                                value={data.selectedHobbies}
                                             />
-                                            {errors.hobbies && (
-                                                <InputError
-                                                    message={errors.hobbies}
-                                                    className="mt-2"
-                                                />
-                                            )}
+
+                                            <InputError
+                                                message={
+                                                    validationErrors.selectedHobbies
+                                                }
+                                                className="mt-2"
+                                            />
                                         </div>
                                         <div>
                                             <div className="relative mt-7">

@@ -80,6 +80,8 @@ export default function Register() {
         emailForm,
         passwordForm,
         passwordConfirmationForm,
+        emailTaken,
+        passwordBackend,
     } = t("register.stepOneForm");
     const { DOBForm, genderForm, lookingForForm, photoProfileForm } = t(
         "register.stepTwoForm"
@@ -196,7 +198,6 @@ export default function Register() {
         }
     };
 
-    console.log(errors);
     return (
         <GuestLayout>
             <Head title="Register" />
@@ -225,6 +226,18 @@ export default function Register() {
                                     <h2 className="font-semibold text-gray-800">
                                         {fixErrors}
                                     </h2>
+                                    {errors.email && (
+                                        <InputError
+                                            message={emailTaken}
+                                            className="mt-2"
+                                        />
+                                    )}
+                                    {errors.password && (
+                                        <InputError
+                                            message={passwordBackend}
+                                            className="mt-2"
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

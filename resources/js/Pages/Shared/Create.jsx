@@ -111,7 +111,7 @@ const Create = (props) => {
             mode: "",
             station: "",
             amenities: "",
-            first_name: props.auth.user.first_name,
+            first_name: "",
             last_name: "",
             display_last_name: "",
             telephone: "",
@@ -162,79 +162,6 @@ const Create = (props) => {
     const { amenitiesStepSix, titleStepSix, descriptionStepSix } = t(
         "shared.forms.stepSix"
     );
-
-    //next step
-    const handleNext = async () => {
-        clearErrors();
-        setValidationErrors({});
-        //check if the current step has passed validation and only if true then proceed to next
-        try {
-            let schema;
-            switch (step) {
-                case 1:
-                    schema = stepOneSchema(t);
-                    break;
-                case 2:
-                    schema = stepTwoSchema(t);
-                    break;
-                case 3:
-                    schema = stepThreeSchema;
-                    break;
-                case 4:
-                    schema = stepFourSchema(t);
-                    break;
-                case 5:
-                    schema = stepFiveSchema(data.current_occupants, t);
-                    break;
-                case 6:
-                    schema = stepSixSchema(t);
-                    break;
-                default:
-                    break;
-            }
-
-            if (schema === stepThreeSchema) {
-                const isValid = await validateDynamicInputs(t);
-                if (!isValid) {
-                    return;
-                }
-            } else {
-                //checking if the schema validation is true or false
-                await schema.validate(data, { abortEarly: false });
-            }
-
-            //await schema.validate(data, { abortEarly: false });
-            setStep(step + 1);
-        } catch (errors) {
-            clearErrors();
-            const validationErrors = {};
-            errors.inner.forEach((error) => {
-                validationErrors[error.path] = error.message;
-            });
-
-            setValidationErrors(validationErrors);
-            setError(validationErrors);
-        }
-    };
-
-    const validateDynamicInputs = async (t) => {
-        try {
-            await stepThreeSchema(t).validate(roomAttributes, {
-                abortEarly: false,
-            });
-            return true;
-        } catch (errors) {
-            const validationErrors = {};
-            errors.inner.forEach((error) => {
-                const { path, message } = error;
-                const [index, inputName] = path.split(".");
-                validationErrors[`roomAttributes.${index}.${inputName}`] =
-                    message;
-            });
-            setRoomAttributesValidationErrors(validationErrors);
-            return false;
-        }
-    };
 
     //back step
     const handleBack = () => {
@@ -295,17 +222,87 @@ const Create = (props) => {
     };
 
     //Handling on submit events
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        clearErrors();
+        setValidationErrors({});
+        //check if the current step has passed validation and only if true then proceed to next
+        try {
+            let schema;
+            switch (step) {
+                case 1:
+                    schema = stepOneSchema(t);
+                    break;
+                case 2:
+                    schema = stepTwoSchema(t);
+                    break;
+                case 3:
+                    schema = stepThreeSchema;
+                    break;
+                case 4:
+                    schema = stepFourSchema(t);
+                    break;
+                case 5:
+                    schema = stepFiveSchema(data.current_occupants, t);
+                    break;
+                case 6:
+                    schema = stepSixSchema(t);
+                    break;
+                default:
+                    break;
+            }
 
-        //Transforming amenties so the backend can attach them to the pivot table
-        data.amenities = data.selectedAmenities.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
+            if (schema === stepThreeSchema) {
+                const isValid = await validateDynamicInputs(t);
+                if (!isValid) {
+                    return;
+                }
+            } else {
+                //checking if the schema validation is true or false
+                await schema.validate(data, { abortEarly: false });
+            }
 
-        post(route("shared.store"));
+            if (step < 6) {
+                setStep(step + 1);
+            } else {
+                //Transforming amenties so the backend can attach them to the pivot table
+                data.amenities = data.selectedAmenities.map((item) => {
+                    return {
+                        id: item.value,
+                    };
+                });
+
+                post(route("shared.store"));
+            }
+        } catch (errors) {
+            clearErrors();
+            const validationErrors = {};
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+            setError(validationErrors);
+        }
+    };
+
+    const validateDynamicInputs = async (t) => {
+        try {
+            await stepThreeSchema(t).validate(roomAttributes, {
+                abortEarly: false,
+            });
+            return true;
+        } catch (errors) {
+            const validationErrors = {};
+            errors.inner.forEach((error) => {
+                const { path, message } = error;
+                const [index, inputName] = path.split(".");
+                validationErrors[`roomAttributes.${index}.${inputName}`] =
+                    message;
+            });
+            setRoomAttributesValidationErrors(validationErrors);
+            return false;
+        }
     };
 
     const handleFilePondRevert = (uniqueId, load, error) => {
@@ -462,7 +459,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -481,7 +478,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -1026,7 +1023,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -1058,7 +1055,7 @@ const Create = (props) => {
 
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -1099,7 +1096,7 @@ const Create = (props) => {
                                         )}
                                         <div className="my-6">
                                             <PrimaryButton
-                                                onClick={handleNext}
+                                                onClick={submit}
                                                 className="w-full hover:text-black rounded-md bg-black hover:bg-[#AED6F1] px-3 py-4 text-white focus:bg-neutral-800 focus:outline-none "
                                             >
                                                 {nextBtn}
@@ -1146,6 +1143,14 @@ const Create = (props) => {
                                                             <h2 className="font-semibold text-gray-800">
                                                                 {stepSixErrors}
                                                             </h2>
+                                                            {errors.images && (
+                                                                <InputError
+                                                                    message={
+                                                                        errors.images
+                                                                    }
+                                                                    className="mt-2"
+                                                                />
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1170,7 +1175,9 @@ const Create = (props) => {
                                                 value={data.selectedAmenities}
                                             />
                                             <InputError
-                                                message={errors.amenities}
+                                                message={
+                                                    validationErrors.selectedAmenities
+                                                }
                                                 className="mt-2"
                                             />
                                         </div>
@@ -1195,7 +1202,7 @@ const Create = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.title}
+                                                message={validationErrors.title}
                                                 className="mt-2"
                                             />
                                         </div>
@@ -1224,7 +1231,9 @@ const Create = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.description}
+                                                message={
+                                                    validationErrors.description
+                                                }
                                                 className="mt-2"
                                             />
                                         </div>
@@ -1252,7 +1261,7 @@ const Create = (props) => {
                                         </div>
 
                                         <InputError
-                                            message={errors.images}
+                                            message={validationErrors.images}
                                             className="mt-2"
                                         />
 

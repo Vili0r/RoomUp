@@ -128,6 +128,9 @@ const resources = {
                     emailForm: "Email Address",
                     passwordForm: "Password",
                     passwordConfirmationForm: "Confirm Password",
+                    emailTaken: "The email has already been taken.",
+                    passwordBackend:
+                        "The given password has appeared in a data leak. Please choose a different password.",
                 },
                 stepTwoForm: {
                     DOBForm: "Date Of Birth",
@@ -350,6 +353,7 @@ const resources = {
                     photosMax: "You can upload up to 9 images",
                     photosFileFormat: "Unsupported file format",
                     photosFileSize: "File size is too large",
+                    photosRequired: "Images are required",
                 },
             },
             shared: {
@@ -1048,6 +1052,9 @@ const resources = {
                     emailForm: "Email",
                     passwordForm: "Κωδικός",
                     passwordConfirmationForm: "Επιβεβαίωση Κωδικού",
+                    emailTaken: "Το email χρησιμοποιείτε ήδη.",
+                    passwordBackend:
+                        "Ο κωδικός πρόσβασης έχει εμφανιστεί σε διαρροή δεδομένων. Παρακαλώ επιλέξτε έναν διαφορετικό κωδικό πρόσβασης.",
                 },
                 stepTwoForm: {
                     DOBForm: "Ημερομηνία Γέννησης",
@@ -1109,7 +1116,7 @@ const resources = {
                         passwordMin:
                             "Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 8 χαρακτήρες",
                         passwordMatches:
-                            "Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα, ένα πεζό γράμμα, έναν αριθμό και έναν ειδικό χαρακτήρα",
+                            "Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα, ένα μικρό γράμμα, έναν αριθμό και έναν ειδικό χαρακτήρα",
                         passwordMax:
                             "Ο κωδικός πρόσβασης πρέπει να έχει το πολύ 20 χαρακτήρες",
                         passwordRequired:
@@ -1312,6 +1319,7 @@ const resources = {
                     photosMax: "Μπορείτε να ανεβάσετε έως και 9 εικόνες",
                     photosFileFormat: "Μη υποστηριζόμενη μορφή αρχείου",
                     photosFileSize: "Το μέγεθος του αρχείου είναι πολύ μεγάλο",
+                    photosRequired: "Οι εικόνες είναι υποχρεωτικές",
                 },
             },
             shared: {

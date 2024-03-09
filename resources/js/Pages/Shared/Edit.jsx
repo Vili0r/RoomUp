@@ -27,6 +27,15 @@ import {
     daysAvailable,
     amenities,
 } from "@/arrays/Array";
+import {
+    stepOneSchema,
+    stepTwoSchema,
+    stepThreeSchema,
+    stepFourSchema,
+    stepFiveSchema,
+    stepSixSchema,
+} from "../../Validations/SharedValidation";
+import * as yup from "yup";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -57,9 +66,7 @@ const Edit = (props) => {
         return { ...selectedOption, label };
     });
     const animatedComponents = makeAnimated();
-    const [selectedAmenities, setSelectedAmenities] = useState(
-        selectedOptionsWithLabels
-    );
+    const [validationErrors, setValidationErrors] = useState({});
     const [visible, setVisible] = useState(false);
     const [search, setSearch] = useState("");
     const [selectedAddress, setSelectedAddress] = useState([]);
@@ -114,6 +121,7 @@ const Edit = (props) => {
         new_flatmate_hobbies: shared.flatmate.new_flatmate_hobbies,
         rooms: shared.rooms,
         images: [],
+        selectedAmenities: selectedOptionsWithLabels,
     });
 
     const {
@@ -147,6 +155,20 @@ const Edit = (props) => {
     } = t("shared.forms.stepThree");
 
     const { titleStepSix, descriptionStepSix } = t("shared.forms.stepSix");
+
+    // Function to combine all schemas
+    const createCombinedSchema = (t, current_occupants) => {
+        return yup.object().shape({
+            ...stepOneSchema(t).fields,
+            ...stepTwoSchema(t).fields,
+            ...stepFourSchema(t).fields,
+            ...stepFiveSchema(current_occupants, t).fields,
+            ...stepSixSchema(t).fields,
+            // Combine fields from other schemas similarly
+        });
+    };
+    const combinedSchema = createCombinedSchema(t, data.current_occupants);
+
     const showImage = () => {
         return "/storage/";
     };
@@ -227,17 +249,31 @@ const Edit = (props) => {
     }, [props]);
 
     //Handling on submit events
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
+        try {
+            // Validate the data using the combined schema
+            await combinedSchema.validate(data, { abortEarly: false });
 
-        //Transforming amenties so the backend can attach them to the pivot table
-        data.amenities = selectedAmenities.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
+            //Transforming amenties so the backend can attach them to the pivot table
+            data.amenities = data.selectedAmenities.map((item) => {
+                return {
+                    id: item.value,
+                };
+            });
 
-        put(route("shared.update", shared.id));
+            put(route("shared.update", shared.id));
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     //Transforming amenties with label and value as required from react select package
@@ -412,7 +448,7 @@ const Edit = (props) => {
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
                                             <StepOne
                                                 data={data}
-                                                errors={errors}
+                                                errors={validationErrors}
                                                 handleOnChange={handleOnChange}
                                             />
                                         </Disclosure.Panel>
@@ -502,7 +538,7 @@ const Edit = (props) => {
                                                 ))}
                                             <StepTwo
                                                 data={data}
-                                                errors={errors}
+                                                errors={validationErrors}
                                                 handleOnChange={handleOnChange}
                                             />
                                         </Disclosure.Panel>
@@ -541,17 +577,22 @@ const Edit = (props) => {
                                                         animatedComponents
                                                     }
                                                     onChange={(opt) =>
-                                                        setSelectedAmenities(
+                                                        setData(
+                                                            "selectedAmenities",
                                                             opt
                                                         )
                                                     }
                                                     isMulti
                                                     options={options}
-                                                    value={selectedAmenities}
+                                                    value={
+                                                        data.selectedAmenities
+                                                    }
                                                 />
 
                                                 <InputError
-                                                    message={errors.amenities}
+                                                    message={
+                                                        validationErrors.selectedAmenities
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -618,11 +659,14 @@ const Edit = (props) => {
                                                                                     }
                                                                                     className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                                 >
-                                                                                    {
-                                                                                        errors[
-                                                                                            errorKey
-                                                                                        ]
-                                                                                    }
+                                                                                    {errors[
+                                                                                        errorKey
+                                                                                    ] ===
+                                                                                        `The rooms.${index}.available_from field must be a date after today.` &&
+                                                                                    i18n.language ===
+                                                                                        "en"
+                                                                                        ? "Available from date field must be a date after today"
+                                                                                        : "Η ημερομηνία διαθεσιμότητας πρέπει να είναι στο μέλλον"}
                                                                                 </div>
                                                                             );
                                                                         }
@@ -694,11 +738,34 @@ const Edit = (props) => {
                                                                                 }
                                                                                 className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                             >
-                                                                                {
-                                                                                    errors[
-                                                                                        errorKey
-                                                                                    ]
-                                                                                }
+                                                                                {errors[
+                                                                                    errorKey
+                                                                                ].includes(
+                                                                                    `The rooms.${index}.room_cost field must be a number`
+                                                                                ) &&
+                                                                                i18n.language ===
+                                                                                    "en"
+                                                                                    ? `The room cost field in room ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } must be a number`
+                                                                                    : errors[
+                                                                                          errorKey
+                                                                                      ] ===
+                                                                                          `The room cost field in Room ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } is required` &&
+                                                                                      i18n.language ===
+                                                                                          "en"
+                                                                                    ? `Room cost in room ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } is required`
+                                                                                    : `Η προκαταβολή του δωματίου ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } είναι υποχρεωτική`}
                                                                             </div>
                                                                         );
                                                                     }
@@ -757,11 +824,37 @@ const Edit = (props) => {
                                                                                 }
                                                                                 className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                             >
-                                                                                {
-                                                                                    errors[
+                                                                                {errors[
+                                                                                    errorKey
+                                                                                ] &&
+                                                                                    (errors[
                                                                                         errorKey
-                                                                                    ]
-                                                                                }
+                                                                                    ].includes(
+                                                                                        `The rooms.${index}.room_deposit field must be a number`
+                                                                                    ) &&
+                                                                                    i18n.language ===
+                                                                                        "en"
+                                                                                        ? `The room deposit field in room ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } must be a number`
+                                                                                        : errors[
+                                                                                              errorKey
+                                                                                          ] ===
+                                                                                              `The room deposit field in Room ${
+                                                                                                  index +
+                                                                                                  1
+                                                                                              } is required` &&
+                                                                                          i18n.language ===
+                                                                                              "en"
+                                                                                        ? `Room deposit in room ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } is required`
+                                                                                        : `Η προκαταβολή του δωματίου ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } είναι υποχρεωτική`)}
                                                                             </div>
                                                                         );
                                                                     }
@@ -842,11 +935,23 @@ const Edit = (props) => {
                                                                                 }
                                                                                 className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                             >
-                                                                                {
-                                                                                    errors[
-                                                                                        errorKey
-                                                                                    ]
-                                                                                }
+                                                                                {errors[
+                                                                                    errorKey
+                                                                                ] ==
+                                                                                    `The room size field in Room ${
+                                                                                        index +
+                                                                                        1
+                                                                                    } is required` &&
+                                                                                i18n.language ===
+                                                                                    "en"
+                                                                                    ? `The room size field in Room ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } is required`
+                                                                                    : `Το μέγεθος του δωματίου ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } είναι υποχρεωτικό`}
                                                                             </div>
                                                                         );
                                                                     }
@@ -925,11 +1030,23 @@ const Edit = (props) => {
                                                                                 }
                                                                                 className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                             >
-                                                                                {
-                                                                                    errors[
-                                                                                        errorKey
-                                                                                    ]
-                                                                                }
+                                                                                {errors[
+                                                                                    errorKey
+                                                                                ] ===
+                                                                                    `The room furnished field in Room ${
+                                                                                        index +
+                                                                                        1
+                                                                                    } is required` &&
+                                                                                i18n.language ==
+                                                                                    "en"
+                                                                                    ? `The room furnished field in Room ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } is required`
+                                                                                    : `Η επίπλωση του δωματίου ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } είναι υποχρεωτική`}
                                                                             </div>
                                                                         );
                                                                     }
@@ -1057,11 +1174,23 @@ const Edit = (props) => {
                                                                                     }
                                                                                     className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                                 >
-                                                                                    {
-                                                                                        errors[
-                                                                                            errorKey
-                                                                                        ]
-                                                                                    }
+                                                                                    {errors[
+                                                                                        errorKey
+                                                                                    ] ===
+                                                                                        `The minimum stay field in Room ${
+                                                                                            index +
+                                                                                            1
+                                                                                        } is required` &&
+                                                                                    i18n.language ==
+                                                                                        "en"
+                                                                                        ? `The minimum stay field in Room ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } is required`
+                                                                                        : `Το ελάχιστο διάστημα διαμονής του δωματίου ${
+                                                                                              index +
+                                                                                              1
+                                                                                          } είναι υποχρεωτικό`}
                                                                                 </div>
                                                                             );
                                                                         }
@@ -1142,11 +1271,31 @@ const Edit = (props) => {
                                                                                     }
                                                                                     className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                                 >
-                                                                                    {
-                                                                                        errors[
+                                                                                    {errors[
+                                                                                        errorKey
+                                                                                    ] &&
+                                                                                        (errors[
                                                                                             errorKey
-                                                                                        ]
-                                                                                    }
+                                                                                        ].includes(
+                                                                                            `The rooms.${index}.maximum_stay field must be greater than`
+                                                                                        ) &&
+                                                                                        i18n.language ===
+                                                                                            "en"
+                                                                                            ? "Maximum stay must be greater than minimum stay"
+                                                                                            : errors[
+                                                                                                  errorKey
+                                                                                              ] ===
+                                                                                                  `The maximum stay field in Room ${
+                                                                                                      index +
+                                                                                                      1
+                                                                                                  } is required` &&
+                                                                                              i18n.language ===
+                                                                                                  "en"
+                                                                                            ? `The maximum stay field in Room ${
+                                                                                                  index +
+                                                                                                  1
+                                                                                              } is required`
+                                                                                            : `Το μέγιστο διάστημα διαμονής πρέπει να είναι μεγαλύτερο από το ελάχιστο διάστημα`)}
                                                                                 </div>
                                                                             );
                                                                         }
@@ -1228,11 +1377,23 @@ const Edit = (props) => {
                                                                                 }
                                                                                 className="mt-2 text-sm text-red-600 dark:text-red-400"
                                                                             >
-                                                                                {
-                                                                                    errors[
-                                                                                        errorKey
-                                                                                    ]
-                                                                                }
+                                                                                {errors[
+                                                                                    errorKey
+                                                                                ] ===
+                                                                                    `The days available field in Room ${
+                                                                                        index +
+                                                                                        1
+                                                                                    } is required` &&
+                                                                                i18n.language ==
+                                                                                    "en"
+                                                                                    ? `The days available field in Room ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } is required`
+                                                                                    : `Οι ημέρες διαθεσιμότητας του δωματίου ${
+                                                                                          index +
+                                                                                          1
+                                                                                      } είναι υποχρεωτικές`}
                                                                             </div>
                                                                         );
                                                                     }
@@ -1307,7 +1468,7 @@ const Edit = (props) => {
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
                                             <StepFour
                                                 data={data}
-                                                errors={errors}
+                                                errors={validationErrors}
                                                 handleOnChange={handleOnChange}
                                             />
                                         </Disclosure.Panel>
@@ -1334,7 +1495,7 @@ const Edit = (props) => {
                                             {data.current_occupants > 0 && (
                                                 <CurrentFlatmate
                                                     data={data}
-                                                    errors={errors}
+                                                    errors={validationErrors}
                                                     handleOnChange={
                                                         handleOnChange
                                                     }
@@ -1344,7 +1505,7 @@ const Edit = (props) => {
                                             {data.available_rooms > 0 && (
                                                 <NewFlatmate
                                                     data={data}
-                                                    errors={errors}
+                                                    errors={validationErrors}
                                                     handleOnChange={
                                                         handleOnChange
                                                     }
@@ -1396,7 +1557,9 @@ const Edit = (props) => {
                                                 </div>
 
                                                 <InputError
-                                                    message={errors.title}
+                                                    message={
+                                                        validationErrors.title
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -1427,7 +1590,9 @@ const Edit = (props) => {
                                                 </div>
 
                                                 <InputError
-                                                    message={errors.description}
+                                                    message={
+                                                        validationErrors.description
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -1502,7 +1667,9 @@ const Edit = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.images}
+                                                message={
+                                                    validationErrors.images
+                                                }
                                                 className="mt-2"
                                             />
                                         </Disclosure.Panel>
