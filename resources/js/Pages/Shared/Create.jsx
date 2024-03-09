@@ -501,63 +501,11 @@ const Create = (props) => {
 
                                 {step == "3" && (
                                     <>
-                                        {Object.keys(
-                                            roomAttributesValidationErrors
-                                        ).length > 0 && (
-                                            <div className="mt-3 mb-2 border-l-8 border-red-900 bg-red-50">
-                                                <div className="flex items-center">
-                                                    <div className="p-2">
-                                                        <div className="flex items-center">
-                                                            <div className="ml-2">
-                                                                <svg
-                                                                    className="w-8 h-8 mr-2 text-red-900 cursor-pointer"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        strokeWidth="2"
-                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                    />
-                                                                </svg>
-                                                            </div>
-                                                            <p className="px-6 py-4 text-lg font-semibold text-red-900">
-                                                                {fixErrors}
-                                                            </p>
-                                                        </div>
-                                                        <div className="px-16 mb-4">
-                                                            {Object.keys(
-                                                                roomAttributesValidationErrors
-                                                            ).map(
-                                                                (errorKey) => (
-                                                                    <li
-                                                                        key={
-                                                                            errorKey
-                                                                        }
-                                                                        className="text-sm font-bold text-red-500 text-md"
-                                                                    >
-                                                                        {
-                                                                            roomAttributesValidationErrors[
-                                                                                errorKey
-                                                                            ]
-                                                                        }
-                                                                    </li>
-                                                                )
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-
                                         {roomAttributes.map((field, index) => (
                                             <div className="max-w-2xl px-8 py-4 mt-4 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
                                                 <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <div className="relative">
+                                                    <div className="">
+                                                        <div className="relative mr-2">
                                                             <input
                                                                 type="date"
                                                                 name="available_from"
@@ -588,17 +536,52 @@ const Create = (props) => {
                                                                 }
                                                             </label>
                                                         </div>
-                                                        <span className="error">
-                                                            {
-                                                                roomAttributesValidationErrors[
-                                                                    `roomAttrributes.${index}.available_from`
-                                                                ]
+
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "available_from"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                        </span>
+                                                        })}
                                                     </div>
 
                                                     <span
-                                                        className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500"
+                                                        className={`px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500 ${
+                                                            Object.keys(
+                                                                roomAttributesValidationErrors
+                                                            ).some(
+                                                                (errorKey) =>
+                                                                    errorKey.includes(
+                                                                        "available_from"
+                                                                    ) &&
+                                                                    errorKey.includes(
+                                                                        `${index}`
+                                                                    )
+                                                            )
+                                                                ? "mb-12"
+                                                                : ""
+                                                        }`}
                                                         tabindex="0"
                                                         role="button"
                                                     >
@@ -630,17 +613,38 @@ const Create = (props) => {
                                                         />
                                                         <label
                                                             htmlFor="room_cost"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform bg-white pointer-events-none -translate-y-[85%] peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             {roomCostStepThree}
                                                         </label>
 
-                                                        <InputError
-                                                            message={
-                                                                validationErrors.room_cost
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "room_cost"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-4 text-sm text-red-600 dark:text-red-400 "
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                            className="mt-2"
-                                                        />
+                                                        })}
                                                     </div>
                                                     <div className="relative">
                                                         <input
@@ -664,18 +668,39 @@ const Create = (props) => {
                                                         />
                                                         <label
                                                             htmlFor="room_deposit"
-                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
+                                                            className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-[85%] bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
                                                         >
                                                             {
                                                                 roomDepositStepThree
                                                             }
                                                         </label>
-                                                        <InputError
-                                                            message={
-                                                                validationErrors.room_deposit
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "room_deposit"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                            className="mt-2"
-                                                        />
+                                                        })}
                                                     </div>
                                                 </div>
 
@@ -723,13 +748,33 @@ const Create = (props) => {
                                                         >
                                                             {roomSizeStepThree}
                                                         </label>
-
-                                                        <InputError
-                                                            message={
-                                                                validationErrors.room_size
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "room_size"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                            className="mt-2"
-                                                        />
+                                                        })}
                                                     </div>
                                                     <div className="relative">
                                                         <select
@@ -777,12 +822,33 @@ const Create = (props) => {
                                                             }
                                                         </label>
 
-                                                        <InputError
-                                                            message={
-                                                                validationErrors.room_furnished
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "room_furnished"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                            className="mt-2"
-                                                        />
+                                                        })}
                                                     </div>
                                                 </div>
 
@@ -867,12 +933,35 @@ const Create = (props) => {
                                                                 }
                                                             </label>
 
-                                                            <InputError
-                                                                message={
-                                                                    validationErrors.minimum_stay
+                                                            {Object.keys(
+                                                                roomAttributesValidationErrors
+                                                            ).map(
+                                                                (errorKey) => {
+                                                                    if (
+                                                                        errorKey.includes(
+                                                                            "minimum_stay"
+                                                                        ) &&
+                                                                        errorKey.includes(
+                                                                            `${index}`
+                                                                        )
+                                                                    ) {
+                                                                        return (
+                                                                            <div
+                                                                                key={
+                                                                                    errorKey
+                                                                                }
+                                                                                className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                            >
+                                                                                {
+                                                                                    roomAttributesValidationErrors[
+                                                                                        errorKey
+                                                                                    ]
+                                                                                }
+                                                                            </div>
+                                                                        );
+                                                                    }
                                                                 }
-                                                                className="mt-2"
-                                                            />
+                                                            )}
                                                         </div>
                                                         <div className="relative">
                                                             <select
@@ -924,12 +1013,35 @@ const Create = (props) => {
                                                                 }
                                                             </label>
 
-                                                            <InputError
-                                                                message={
-                                                                    validationErrors.maximum_stay
+                                                            {Object.keys(
+                                                                roomAttributesValidationErrors
+                                                            ).map(
+                                                                (errorKey) => {
+                                                                    if (
+                                                                        errorKey.includes(
+                                                                            "maximum_stay"
+                                                                        ) &&
+                                                                        errorKey.includes(
+                                                                            `${index}`
+                                                                        )
+                                                                    ) {
+                                                                        return (
+                                                                            <div
+                                                                                key={
+                                                                                    errorKey
+                                                                                }
+                                                                                className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                            >
+                                                                                {
+                                                                                    roomAttributesValidationErrors[
+                                                                                        errorKey
+                                                                                    ]
+                                                                                }
+                                                                            </div>
+                                                                        );
+                                                                    }
                                                                 }
-                                                                className="mt-2"
-                                                            />
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -980,12 +1092,33 @@ const Create = (props) => {
                                                                 daysAvailableStepThree
                                                             }
                                                         </label>
-                                                        <InputError
-                                                            message={
-                                                                validationErrors.days_available
+                                                        {Object.keys(
+                                                            roomAttributesValidationErrors
+                                                        ).map((errorKey) => {
+                                                            if (
+                                                                errorKey.includes(
+                                                                    "days_available"
+                                                                ) &&
+                                                                errorKey.includes(
+                                                                    `${index}`
+                                                                )
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            errorKey
+                                                                        }
+                                                                        className="mt-2 text-sm text-red-600 dark:text-red-400"
+                                                                    >
+                                                                        {
+                                                                            roomAttributesValidationErrors[
+                                                                                errorKey
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                );
                                                             }
-                                                            className="mt-2"
-                                                        />
+                                                        })}
                                                     </div>
                                                     <div className="flex justify-start gap-2 mt-3">
                                                         <span className="mt-1 text-sm "></span>
