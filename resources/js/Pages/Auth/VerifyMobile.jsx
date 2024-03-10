@@ -1,11 +1,14 @@
+import { useState } from "react";
 import AuxiliaryLayout from "@/Layouts/AuxiliaryLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function VerifyEmail() {
     const { phone_number, status } = usePage().props;
+    const [validationErrors, setValidationErrors] = useState({});
     const { data, setData, post, errors, processing } = useForm({
         code: "",
     });
@@ -20,15 +23,34 @@ export default function VerifyEmail() {
         mobileErrorWaitStatus,
         verifyBtn,
     } = t("auth.verifyMobile");
+    const { codeNumber, codeRequired } = t("validation.verifyMobile");
+
+    const verifyMobileSchema = yup.object().shape({
+        code: yup.number().typeError(codeNumber).required(codeRequired),
+    });
 
     const handleOnChange = (event) => {
         setData(event.target.name, event.target.value);
     };
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        post(route("verification.verify-mobile"));
+        try {
+            // Validate the data using the combined schema
+            await verifyMobileSchema.validate(data, { abortEarly: false });
+
+            post(route("verification.verify-mobile"));
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+            setValidationErrors(validationErrors);
+        }
     };
 
     const maskNumber = (number) => {
@@ -75,6 +97,11 @@ export default function VerifyEmail() {
                             {codeForm}
                         </label>
                     </div>
+
+                    <InputError
+                        message={validationErrors.code}
+                        className="mt-2"
+                    />
                     {errors.code && (
                         <InputError message={errors.code} className="mt-2" />
                     )}

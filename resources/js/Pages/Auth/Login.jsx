@@ -7,15 +7,17 @@ import InputError from "@/Components/InputError";
 import Checkbox from "@/Components/Checkbox";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState("password");
+    const [validationErrors, setValidationErrors] = useState({});
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
         remember: "",
     });
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         googleBtn,
         facebookBtn,
@@ -25,6 +27,13 @@ export default function Login({ status, canResetPassword }) {
         forgotPasswordBtn,
     } = t("login.buttons");
     const { rememberMe } = t("login.loginForm");
+    const { emailType, emailRequired, passwordRequired } = t(
+        "validation.register.stepOne"
+    );
+    const loginSchema = yup.object().shape({
+        email: yup.string().email(emailType).required(emailRequired),
+        password: yup.string().required(passwordRequired),
+    });
 
     useEffect(() => {
         return () => {
@@ -41,10 +50,25 @@ export default function Login({ status, canResetPassword }) {
         );
     };
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        post(route("login"));
+        try {
+            // Validate the data using the combined schema
+            await loginSchema.validate(data, { abortEarly: false });
+
+            post(route("login"));
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     return (
@@ -134,9 +158,19 @@ export default function Login({ status, canResetPassword }) {
                                 Email Address
                             </label>
                             <InputError
-                                message={errors.email}
+                                message={validationErrors.email}
                                 className="mt-2"
                             />
+                            {errors.email && (
+                                <InputError
+                                    message={
+                                        i18n.language === "en"
+                                            ? errors.email
+                                            : "Αυτά τα στοιχεία δεν αντιστοιχούν σε κάποιο χρήστη."
+                                    }
+                                    className="mt-2"
+                                />
+                            )}
                         </div>
                         <div className="relative mt-5">
                             {showPassword == "password" ? (
@@ -167,7 +201,7 @@ export default function Login({ status, canResetPassword }) {
                                 Password
                             </label>
                             <InputError
-                                message={errors.password}
+                                message={validationErrors.password}
                                 className="mt-2"
                             />
                         </div>

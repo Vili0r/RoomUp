@@ -358,6 +358,10 @@ const resources = {
                 reportedListing: {
                     reasonRequired: "Reason for reporting is required.",
                 },
+                verifyMobile: {
+                    codeNumber: "Code number must be a number.",
+                    codeRequired: "Code is required",
+                },
             },
             shared: {
                 miscs: {
@@ -1327,6 +1331,10 @@ const resources = {
                 },
                 reportedListing: {
                     reasonRequired: "Ο λόγος αναφοράς είναι υποχρεωτικός.",
+                },
+                verifyMobile: {
+                    codeNumber: "Ο κωδικός πρέπει να είναι αριθμός.",
+                    codeRequired: "Ο κωδικός είναι υποχρεωτικός.",
                 },
             },
             shared: {

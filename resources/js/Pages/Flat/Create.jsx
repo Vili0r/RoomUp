@@ -30,7 +30,6 @@ import "filepond/dist/filepond.min.css";
 // Import the Image EXIF Orientation and Image Preview plugins
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { ValidationError } from "yup";
 // Register the plugins
 registerPlugin(FilePondPluginImagePreview);
 
