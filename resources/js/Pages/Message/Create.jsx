@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Head, usePage } from "@inertiajs/react";
 import { AiOutlineMail } from "react-icons/ai";
 import InputError from "@/Components/InputError";
@@ -8,11 +8,12 @@ import { BsEyeFill } from "react-icons/bs";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { type } from "@/arrays/Array";
+import messageSchema from "../../Validations/MessageValidation";
 
 const Create = (props) => {
     const { property } = usePage().props;
     const { data, setData, processing, reset, post, errors } = useForm({
-        full_name: props.auth.user.first_name,
+        full_name: "",
         email: "",
         phone_number: "",
         message_text: "",
@@ -20,6 +21,7 @@ const Create = (props) => {
         owner_type: property.model,
         receiver_id: property.user_id,
     });
+    const [validationErrors, setValidationErrors] = useState({});
     const { t, i18n } = useTranslation();
     const { createdAt, sentMessageMisc } = t("message.misc");
     const { fullName, emailAddress, phoneNumber, message, sentMessageBtn } =
@@ -38,12 +40,28 @@ const Create = (props) => {
         );
     };
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        post(route("message.store"), {
-            preserveScroll: true,
-        });
+        try {
+            // Validate the data using the combined schema
+            await messageSchema(t).validate(data, {
+                abortEarly: false,
+            });
+
+            post(route("message.store"), {
+                preserveScroll: true,
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     const getTypeName = (id) => {
@@ -162,7 +180,6 @@ const Create = (props) => {
                                                     placeholder={fullName}
                                                     className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
                                                     autoComplete="off"
-                                                    disabled
                                                     onChange={handleOnChange}
                                                 />
                                                 <label
@@ -172,7 +189,9 @@ const Create = (props) => {
                                                     {fullName}
                                                 </label>
                                                 <InputError
-                                                    message={errors.full_name}
+                                                    message={
+                                                        validationErrors.full_name
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -193,7 +212,9 @@ const Create = (props) => {
                                                     {emailAddress}
                                                 </label>
                                                 <InputError
-                                                    message={errors.email}
+                                                    message={
+                                                        validationErrors.email
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -214,7 +235,7 @@ const Create = (props) => {
                                                 </label>
                                                 <InputError
                                                     message={
-                                                        errors.phone_number
+                                                        validationErrors.phone_number
                                                     }
                                                     className="mt-2"
                                                 />
@@ -237,7 +258,7 @@ const Create = (props) => {
                                                 </label>
                                                 <InputError
                                                     message={
-                                                        errors.message_text
+                                                        validationErrors.message_text
                                                     }
                                                     className="mt-2"
                                                 />

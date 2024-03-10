@@ -954,12 +954,15 @@ const Create = (props) => {
                                                         </div>
                                                         <div className="ml-3">
                                                             <h2 className="font-semibold text-gray-800">
-                                                                {stepSixErrors}
+                                                                {fixErrors}
                                                             </h2>
                                                             {errors.images && (
                                                                 <InputError
                                                                     message={
-                                                                        errors.images
+                                                                        i18n.language ===
+                                                                        "en"
+                                                                            ? errors.images
+                                                                            : "Οι εικόνες είναι υποχρεωτικές"
                                                                     }
                                                                     className="mt-2"
                                                                 />
@@ -1102,7 +1105,7 @@ const Create = (props) => {
                                         </div>
 
                                         <InputError
-                                            message={errors.images}
+                                            message={validationErrors.images}
                                             className="mt-2"
                                         />
 

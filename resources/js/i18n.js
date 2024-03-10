@@ -355,6 +355,9 @@ const resources = {
                     photosFileSize: "File size is too large",
                     photosRequired: "Images are required",
                 },
+                reportedListing: {
+                    reasonRequired: "Reason for reporting is required.",
+                },
             },
             shared: {
                 miscs: {
@@ -551,6 +554,7 @@ const resources = {
                     manageRooms: "Manage Rooms",
                     manageRoomsTitle:
                         "Select each room to edit and upload individual room photos",
+                    alertMessage: "Error creating Stripe session",
                 },
                 buttons: {
                     availableRoomsBtn: "Availbale rooms:",
@@ -1321,6 +1325,9 @@ const resources = {
                     photosFileSize: "Το μέγεθος του αρχείου είναι πολύ μεγάλο",
                     photosRequired: "Οι εικόνες είναι υποχρεωτικές",
                 },
+                reportedListing: {
+                    reasonRequired: "Ο λόγος αναφοράς είναι υποχρεωτικός.",
+                },
             },
             shared: {
                 miscs: {
@@ -1525,6 +1532,7 @@ const resources = {
                     manageRooms: "Διαχείριση Δωματίων",
                     manageRoomsTitle:
                         "Επιλέξτε κάθε δωμάτιο για επεξεργασία και μεταφόρτωση μεμονωμένων φωτογραφιών δωματίου",
+                    alertMessage: "Σφάλμα κατά τη δημιουργία της πληρωμής",
                 },
                 buttons: {
                     availableRoomsBtn: "Διαθέσιμα δωμάτια:",

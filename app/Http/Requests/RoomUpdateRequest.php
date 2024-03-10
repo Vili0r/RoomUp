@@ -29,7 +29,7 @@ class RoomUpdateRequest extends FormRequest
             'room_deposit' => ['required'],
             'room_furnished' => ['required'],
             'room_references' => ['sometimes'],
-            'available_from' => ['required', 'after:tomorrow'],
+            'available_from' => ['required', 'after:today'],
             'minimum_stay' => ['required'],
             'maximum_stay' => ['required','gt:minimum_stay'],
             'days_available' => ['required'],

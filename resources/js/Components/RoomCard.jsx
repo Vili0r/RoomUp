@@ -26,7 +26,7 @@ const RoomCard = ({ room }) => {
         available: room.available,
     });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         titleAvailability,
         liveAtForm,
@@ -108,10 +108,16 @@ const RoomCard = ({ room }) => {
                                     {liveAtForm}
                                 </label>
 
-                                <InputError
-                                    message={errors.live_at}
-                                    className="mt-2"
-                                />
+                                {errors.live_at && (
+                                    <InputError
+                                        message={
+                                            i18n.language == "en"
+                                                ? errors.live_at
+                                                : "Η ημερομηνία δημοσίευσης πρέπει να είναι στο μέλλον."
+                                        }
+                                        className="mt-2"
+                                    />
+                                )}
                             </div>
                             <div className="relative mt-6">
                                 <div className="relative">

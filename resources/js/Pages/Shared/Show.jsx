@@ -13,6 +13,7 @@ import RoomCard from "@/Components/RoomCard";
 import moment from "moment";
 import { HousePlaceholder } from "@/assets";
 import { useTranslation } from "react-i18next";
+import virtualTourSchema from "../../Validations/VirtualTourValidation";
 
 const Show = (props) => {
     const { shared, notification } = usePage().props;
@@ -21,6 +22,7 @@ const Show = (props) => {
     const [openDeletePropertyModal, setOpenDeletePropertyModal] =
         useState(false);
     const [visible, setVisible] = useState(false);
+    const [validationErrors, setValidationErrors] = useState({});
 
     const {
         data,
@@ -62,7 +64,7 @@ const Show = (props) => {
     const { titleConfirmation, cancelConfirmationBtn, deleteBtn } = t(
         "show.deleteConfirmationModal"
     );
-    const { halted, liveAtSpan, manageRooms, manageRoomsTitle } =
+    const { halted, liveAtSpan, manageRooms, manageRoomsTitle, alertMessage } =
         t("show.miscs");
     const {
         availableRoomsBtn,
@@ -130,18 +132,32 @@ const Show = (props) => {
         }
     };
 
-    const storeVirtualTourBooking = (e) => {
+    const storeVirtualTourBooking = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        axios
-            .post("/virtual-tour", data)
-            .then((response) => {
-                // Redirect to Stripe Checkout
-                window.location.href = response.data.url;
-            })
-            .catch((error) => {
-                console.error("Error creating Stripe session", error);
+        try {
+            // Validate the data using the combined schema
+            await virtualTourSchema(t).validate(data, { abortEarly: false });
+
+            axios
+                .post("/virtual-tour", data)
+                .then((response) => {
+                    // Redirect to Stripe Checkout
+                    window.location.href = response.data.url;
+                })
+                .catch((error) => {
+                    alert(alertMessage, error);
+                });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
             });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     const handleOnChange = (event) => {
@@ -207,10 +223,16 @@ const Show = (props) => {
                                 {liveAtForm}
                             </label>
 
-                            <InputError
-                                message={errors.live_at}
-                                className="mt-2"
-                            />
+                            {errors.live_at && (
+                                <InputError
+                                    message={
+                                        i18n.language == "en"
+                                            ? errors.live_at
+                                            : "Η ημερομηνία δημοσίευσης πρέπει να είναι στο μέλλον."
+                                    }
+                                    className="mt-2"
+                                />
+                            )}
                         </div>
                         <div className="relative mt-6">
                             <div className="relative">
@@ -286,7 +308,7 @@ const Show = (props) => {
                                         {fullNameForm}
                                     </label>
                                     <InputError
-                                        message={errors.contact_name}
+                                        message={validationErrors.contact_name}
                                         className="mt-2"
                                     />
                                 </div>
@@ -307,7 +329,7 @@ const Show = (props) => {
                                         {emailForm}
                                     </label>
                                     <InputError
-                                        message={errors.email}
+                                        message={validationErrors.email}
                                         className="mt-2"
                                     />
                                 </div>
@@ -327,7 +349,9 @@ const Show = (props) => {
                                         {phoneNumberForm}
                                     </label>
                                     <InputError
-                                        message={errors.contact_number}
+                                        message={
+                                            validationErrors.contact_number
+                                        }
                                         className="mt-2"
                                     />
                                 </div>
@@ -348,7 +372,7 @@ const Show = (props) => {
                                         {detailsForm}
                                     </label>
                                     <InputError
-                                        message={errors.details}
+                                        message={validationErrors.details}
                                         className="mt-2"
                                     />
                                 </div>

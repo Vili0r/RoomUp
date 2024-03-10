@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Head, usePage } from "@inertiajs/react";
 import { SlFlag } from "react-icons/sl";
 import InputError from "@/Components/InputError";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { useTranslation } from "react-i18next";
 import { reasonsForReporting } from "@/arrays/Array";
+import reportedListingSchema from "../../Validations/ReportedListingValidation";
 
 const Create = (props) => {
     const { property } = usePage().props;
     const { data, setData, processing, reset, post, errors } = useForm({
-        contact_name: props.auth.user?.first_name || "",
+        contact_name: "",
         email: "",
         reason: "",
         details: "",
         owner_id: property.id,
         owner_type: property.model,
     });
+    const [validationErrors, setValidationErrors] = useState({});
     const { t, i18n } = useTranslation();
     const {
         title,
@@ -35,12 +37,28 @@ const Create = (props) => {
         );
     };
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        post(route("reported-listings.store"), {
-            preserveScroll: true,
-        });
+        try {
+            // Validate the data using the combined schema
+            await reportedListingSchema(t).validate(data, {
+                abortEarly: false,
+            });
+
+            post(route("reported-listings.store"), {
+                preserveScroll: true,
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     return (
@@ -74,7 +92,9 @@ const Create = (props) => {
                                             {contactName}
                                         </label>
                                         <InputError
-                                            message={errors.contact_name}
+                                            message={
+                                                validationErrors.contact_name
+                                            }
                                             className="mt-2"
                                         />
                                     </div>
@@ -95,7 +115,7 @@ const Create = (props) => {
                                             {emailAddress}
                                         </label>
                                         <InputError
-                                            message={errors.email}
+                                            message={validationErrors.email}
                                             className="mt-2"
                                         />
                                     </div>
@@ -106,7 +126,7 @@ const Create = (props) => {
                                             className="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             onChange={handleOnChange}
                                         >
-                                            <option value="">Reason</option>
+                                            <option value="">--</option>
                                             {reasonsForReporting.map(
                                                 ({ id, nameEn, nameGr }) => (
                                                     <option key={id} value={id}>
@@ -125,7 +145,7 @@ const Create = (props) => {
                                         </label>
 
                                         <InputError
-                                            message={errors.reason}
+                                            message={validationErrors.reason}
                                             className="mt-2"
                                         />
                                     </div>
@@ -146,7 +166,7 @@ const Create = (props) => {
                                             {detailsForm}
                                         </label>
                                         <InputError
-                                            message={errors.details}
+                                            message={validationErrors.details}
                                             className="mt-2"
                                         />
                                     </div>

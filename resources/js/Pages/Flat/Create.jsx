@@ -725,7 +725,10 @@ const Create = (props) => {
                                                             {errors.images && (
                                                                 <InputError
                                                                     message={
-                                                                        errors.images
+                                                                        i18n.language ===
+                                                                        "en"
+                                                                            ? errors.images
+                                                                            : "Οι εικόνες είναι υποχρεωτικές"
                                                                     }
                                                                     className="mt-2"
                                                                 />

@@ -11,6 +11,13 @@ import StepFour from "@/Components/StepFour";
 import NewFlatmate from "@/Components/NewFlatmate";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { BsCheck, BsTrash } from "react-icons/bs";
+import {
+    stepOneSchema,
+    stepTwoSchema,
+    stepThreeSchema,
+    stepFourSchema,
+} from "../../Validations/RoommateValidation";
+import * as yup from "yup";
 
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
@@ -76,14 +83,8 @@ const Edit = (props) => {
         }
     );
 
+    const [validationErrors, setValidationErrors] = useState({});
     const animatedComponents = makeAnimated();
-    const [selectedAmenities, setSelectedAmenities] = useState(
-        selectedAmenitiesOptionsWithLabels
-    );
-    const [selectedHobbies, setSelectedHobbies] = useState(
-        selectedHobbiesOptionsWithLabels
-    );
-
     const {
         data,
         setData,
@@ -125,6 +126,8 @@ const Edit = (props) => {
         new_flatmate_hobbies: roommate.flatmate.new_flatmate_hobbies,
         hobbies: roommate.hobbies,
         amenities: roommate.amenities,
+        selectedAmenities: selectedAmenitiesOptionsWithLabels,
+        selectedHobbies: selectedHobbiesOptionsWithLabels,
         images: [],
     });
     const {
@@ -164,6 +167,18 @@ const Edit = (props) => {
         descriptionStepSix,
     } = t("roommate.forms.stepSix");
 
+    // Function to combine all schemas
+    const createCombinedSchema = (t) => {
+        return yup.object().shape({
+            ...stepOneSchema(t).fields,
+            ...stepTwoSchema(t).fields,
+            ...stepThreeSchema(t).fields,
+            ...stepFourSchema(t).fields,
+            // Combine fields from other schemas similarly
+        });
+    };
+    const combinedSchema = createCombinedSchema(t);
+
     const showImage = () => {
         return "/storage/";
     };
@@ -179,23 +194,38 @@ const Edit = (props) => {
     };
 
     //Handling on submit events
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
+        try {
+            // Validate the data using the combined schema
+            await combinedSchema.validate(data, { abortEarly: false });
 
-        //Transforming amenties and Hobbies so the backend can attach them to the pivot table
-        data.amenities = selectedAmenities.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
+            //Transforming amenties so the backend can attach them to the pivot table
+            //Transforming amenties and Hobbies so the backend can attach them to the pivot table
+            data.amenities = data.selectedAmenities.map((item) => {
+                return {
+                    id: item.value,
+                };
+            });
 
-        data.hobbies = selectedHobbies.map((item) => {
-            return {
-                id: item.value,
-            };
-        });
+            data.hobbies = data.selectedHobbies.map((item) => {
+                return {
+                    id: item.value,
+                };
+            });
 
-        put(route("roommate.update", roommate.id));
+            put(route("roommate.update", roommate.id));
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     //Deleting images from database
@@ -330,7 +360,9 @@ const Edit = (props) => {
                                                 </div>
 
                                                 <InputError
-                                                    message={errors.budget}
+                                                    message={
+                                                        validationErrors.budget
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -359,14 +391,12 @@ const Edit = (props) => {
                                                         {availableFromStepOne}
                                                     </label>
 
-                                                    {errors.available_from && (
-                                                        <InputError
-                                                            message={
-                                                                errors.available_from
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.available_from
+                                                        }
+                                                        className="mt-2"
+                                                    />
                                                 </div>
                                                 <div className="relative">
                                                     <select
@@ -407,14 +437,12 @@ const Edit = (props) => {
                                                         {searchingForStepOne}
                                                     </label>
 
-                                                    {errors.searching_for && (
-                                                        <InputError
-                                                            message={
-                                                                errors.searching_for
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.searching_for
+                                                        }
+                                                        className="mt-2"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -458,14 +486,12 @@ const Edit = (props) => {
                                                         {minimumStayStepOne}
                                                     </label>
 
-                                                    {errors.minimum_stay && (
-                                                        <InputError
-                                                            message={
-                                                                errors.minimum_stay
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.minimum_stay
+                                                        }
+                                                        className="mt-2"
+                                                    />
                                                 </div>
                                                 <div className="relative">
                                                     <select
@@ -506,14 +532,12 @@ const Edit = (props) => {
                                                         {maximumStayStepOne}
                                                     </label>
 
-                                                    {errors.maximum_stay && (
-                                                        <InputError
-                                                            message={
-                                                                errors.maximum_stay
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.maximum_stay
+                                                        }
+                                                        className="mt-2"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -550,14 +574,12 @@ const Edit = (props) => {
                                                     {roomSizeStepOne}
                                                 </label>
 
-                                                {errors.room_size && (
-                                                    <InputError
-                                                        message={
-                                                            errors.room_size
-                                                        }
-                                                        className="mt-2"
-                                                    />
-                                                )}
+                                                <InputError
+                                                    message={
+                                                        validationErrors.room_size
+                                                    }
+                                                    className="mt-2"
+                                                />
                                             </div>
 
                                             <div className="grid grid-cols-1 gap-6 mt-7 sm:grid-cols-2">
@@ -599,14 +621,13 @@ const Edit = (props) => {
                                                     >
                                                         {daysAvailableStepOne}
                                                     </label>
-                                                    {errors.days_available && (
-                                                        <InputError
-                                                            message={
-                                                                errors.days_available
-                                                            }
-                                                            className="mt-2"
-                                                        />
-                                                    )}
+
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.days_available
+                                                        }
+                                                        className="mt-2"
+                                                    />
                                                 </div>
                                                 <div className="flex justify-start gap-2 mt-3">
                                                     <span className="mt-1 text-sm"></span>
@@ -660,14 +681,12 @@ const Edit = (props) => {
                                                         {cityStepOne}
                                                     </label>
 
-                                                    {errors.city && (
-                                                        <InputError
-                                                            message={
-                                                                errors.city
-                                                            }
-                                                            className="mt-5"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.city
+                                                        }
+                                                        className="mt-5"
+                                                    />
                                                 </div>
 
                                                 <div className="relative ">
@@ -692,14 +711,12 @@ const Edit = (props) => {
                                                         {areaStepOne}
                                                     </label>
 
-                                                    {errors.area && (
-                                                        <InputError
-                                                            message={
-                                                                errors.area
-                                                            }
-                                                            className="mt-5"
-                                                        />
-                                                    )}
+                                                    <InputError
+                                                        message={
+                                                            validationErrors.area
+                                                        }
+                                                        className="mt-5"
+                                                    />
                                                 </div>
                                             </div>
                                         </Disclosure.Panel>
@@ -747,7 +764,9 @@ const Edit = (props) => {
                                                         </label>
 
                                                         <InputError
-                                                            message={errors.age}
+                                                            message={
+                                                                validationErrors.age
+                                                            }
                                                             className="mt-2"
                                                         />
                                                     </div>
@@ -806,7 +825,7 @@ const Edit = (props) => {
 
                                                             <InputError
                                                                 message={
-                                                                    errors.smoker
+                                                                    validationErrors.smoker
                                                                 }
                                                                 className="mt-2"
                                                             />
@@ -859,7 +878,7 @@ const Edit = (props) => {
 
                                                             <InputError
                                                                 message={
-                                                                    errors.pets
+                                                                    validationErrors.pets
                                                                 }
                                                                 className="mt-2"
                                                             />
@@ -914,7 +933,7 @@ const Edit = (props) => {
 
                                                             <InputError
                                                                 message={
-                                                                    errors.occupation
+                                                                    validationErrors.occupation
                                                                 }
                                                                 className="mt-2"
                                                             />
@@ -967,7 +986,7 @@ const Edit = (props) => {
 
                                                             <InputError
                                                                 message={
-                                                                    errors.gender
+                                                                    validationErrors.gender
                                                                 }
                                                                 className="mt-2"
                                                             />
@@ -978,7 +997,7 @@ const Edit = (props) => {
 
                                             <NewFlatmate
                                                 data={data}
-                                                errors={errors}
+                                                errors={validationErrors}
                                                 handleOnChange={handleOnChange}
                                             />
                                         </Disclosure.Panel>
@@ -1003,7 +1022,7 @@ const Edit = (props) => {
                                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
                                             <StepFour
                                                 data={data}
-                                                errors={errors}
+                                                errors={validationErrors}
                                                 handleOnChange={handleOnChange}
                                             />
                                         </Disclosure.Panel>
@@ -1039,22 +1058,22 @@ const Edit = (props) => {
                                                         animatedComponents
                                                     }
                                                     onChange={(opt) =>
-                                                        setSelectedAmenities(
+                                                        setData(
+                                                            "selectedAmenities",
                                                             opt
                                                         )
                                                     }
                                                     isMulti
                                                     options={options}
-                                                    value={selectedAmenities}
+                                                    value={
+                                                        data.selectedAmenities
+                                                    }
                                                 />
-                                                {errors.amenities && (
-                                                    <InputError
-                                                        message={
-                                                            errors.amenities
-                                                        }
-                                                        className="mt-2"
-                                                    />
-                                                )}
+
+                                                <InputError
+                                                    message={errors.amenities}
+                                                    className="mt-2"
+                                                />
                                             </div>
 
                                             <div className="mt-4">
@@ -1069,19 +1088,23 @@ const Edit = (props) => {
                                                         animatedComponents
                                                     }
                                                     onChange={(opt) =>
-                                                        setSelectedHobbies(opt)
+                                                        setData(
+                                                            "selectedHobbies",
+                                                            opt
+                                                        )
                                                     }
                                                     isMulti
                                                     maxValues={15}
                                                     options={hobbiesOptions}
-                                                    value={selectedHobbies}
+                                                    value={data.selectedHobbies}
                                                 />
-                                                {errors.hobbies && (
-                                                    <InputError
-                                                        message={errors.hobbies}
-                                                        className="mt-2"
-                                                    />
-                                                )}
+
+                                                <InputError
+                                                    message={
+                                                        validationErrors.hobbies
+                                                    }
+                                                    className="mt-2"
+                                                />
                                             </div>
                                             <div>
                                                 <div className="relative mt-7">
@@ -1108,7 +1131,9 @@ const Edit = (props) => {
                                                 </div>
 
                                                 <InputError
-                                                    message={errors.title}
+                                                    message={
+                                                        validationErrors.title
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -1139,7 +1164,9 @@ const Edit = (props) => {
                                                 </div>
 
                                                 <InputError
-                                                    message={errors.description}
+                                                    message={
+                                                        validationErrors.description
+                                                    }
                                                     className="mt-2"
                                                 />
                                             </div>
@@ -1214,7 +1241,9 @@ const Edit = (props) => {
                                             </div>
 
                                             <InputError
-                                                message={errors.images}
+                                                message={
+                                                    validationErrors.images
+                                                }
                                                 className="mt-2"
                                             />
                                         </Disclosure.Panel>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
@@ -7,6 +7,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { BsCheck, BsTrash } from "react-icons/bs";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
+import editRoomSchema from "../../Validations/RoomValidation";
+import * as yup from "yup";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -28,7 +30,7 @@ import {
 
 const Edit = (props) => {
     const { room } = usePage().props;
-
+    const [validationErrors, setValidationErrors] = useState({});
     const {
         data,
         setData,
@@ -71,6 +73,13 @@ const Edit = (props) => {
         updateBtn,
     } = t("room.edit");
 
+    // Function to combine all schemas
+    const createCombinedSchema = (t) => {
+        return yup.object().shape({
+            ...editRoomSchema(t).fields,
+        });
+    };
+    const combinedSchema = createCombinedSchema(t);
     const showImage = () => {
         return "/storage/";
     };
@@ -86,10 +95,24 @@ const Edit = (props) => {
     };
 
     //Handling on submit events
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
+        try {
+            // Validate the data using the combined schema
+            await combinedSchema.validate(data, { abortEarly: false });
 
-        put(route("room.update", room.id));
+            put(route("room.update", room.id));
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     //Deleting images from database
@@ -146,6 +169,30 @@ const Edit = (props) => {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <form onSubmit={submit}>
+                        {Object.keys(errors).length !== 0 && (
+                            <div className="w-full max-w-2xl mx-auto mb-5">
+                                <div className="flex p-5 bg-white rounded-lg shadow">
+                                    <div>
+                                        <svg
+                                            className="w-6 h-6 text-yellow-500 fill-current"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M0 0h24v24H0V0z"
+                                                fill="none"
+                                            />
+                                            <path d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-3">
+                                        <h2 className="font-semibold text-gray-800">
+                                            {fixErrors}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className="w-full max-w-4xl p-6 mx-auto mt-4 bg-white rounded-2xl">
                             <div className="relative">
                                 <input
@@ -165,7 +212,7 @@ const Edit = (props) => {
                                     {titleRoomEdit}
                                 </label>
                                 <InputError
-                                    message={errors.sub_title}
+                                    message={validationErrors.sub_title}
                                     className="mt-2"
                                 />
                             </div>
@@ -190,7 +237,9 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.available_from}
+                                        message={
+                                            validationErrors.available_from
+                                        }
                                         className="mt-2"
                                     />
                                 </div>
@@ -216,7 +265,7 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.room_cost}
+                                        message={validationErrors.room_cost}
                                         className="mt-2"
                                     />
                                 </div>
@@ -239,7 +288,7 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.room_deposit}
+                                        message={validationErrors.room_deposit}
                                         className="mt-2"
                                     />
                                 </div>
@@ -272,7 +321,7 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.room_size}
+                                        message={validationErrors.room_size}
                                         className="mt-2"
                                     />
                                 </div>
@@ -302,7 +351,9 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.room_furnished}
+                                        message={
+                                            validationErrors.room_furnished
+                                        }
                                         className="mt-2"
                                     />
                                 </div>
@@ -359,7 +410,9 @@ const Edit = (props) => {
                                         </label>
 
                                         <InputError
-                                            message={errors.minimum_stay}
+                                            message={
+                                                validationErrors.minimum_stay
+                                            }
                                             className="mt-2"
                                         />
                                     </div>
@@ -389,7 +442,9 @@ const Edit = (props) => {
                                         </label>
 
                                         <InputError
-                                            message={errors.maximum_stay}
+                                            message={
+                                                validationErrors.maximum_stay
+                                            }
                                             className="mt-2"
                                         />
                                     </div>
@@ -423,7 +478,9 @@ const Edit = (props) => {
                                     </label>
 
                                     <InputError
-                                        message={errors.days_available}
+                                        message={
+                                            validationErrors.days_available
+                                        }
                                         className="mt-2"
                                     />
                                 </div>
@@ -470,7 +527,7 @@ const Edit = (props) => {
                                     {descriptionRoomEdit}
                                 </label>
                                 <InputError
-                                    message={errors.sub_description}
+                                    message={validationErrors.sub_description}
                                     className="mt-2"
                                 />
                             </div>

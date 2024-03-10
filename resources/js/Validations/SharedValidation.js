@@ -21,7 +21,7 @@ const stepOneSchema = (t) => {
     return yup.object().shape({
         address_1: yup.string().max(30, address1Max).required(address1Required),
         city: yup.string().max(20, cityMax).required(cityRequired),
-        area: yup.string().max(20, areaMax).required(areaRequired),
+        area: yup.string().max(30, areaMax).required(areaRequired),
         post_code: yup.string().max(7, postCodeMax).required(postCodeRequired),
         minutes: yup.string().required(minutesRequired),
         mode: yup.string().required(modeRequired),

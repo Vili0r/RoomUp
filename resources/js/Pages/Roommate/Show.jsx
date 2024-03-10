@@ -32,7 +32,7 @@ const Show = (props) => {
         available: roommate.available,
     });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         titleAvailability,
         liveAtForm,
@@ -44,12 +44,8 @@ const Show = (props) => {
         "show.deleteConfirmationModal"
     );
     const { halted, liveAtSpan } = t("show.miscs");
-    const {
-        budgetBtn,
-        deletePropertyBtn,
-        manageAvailabilityBtn,
-        virtualTourBtn,
-    } = t("show.buttons");
+    const { budgetBtn, deletePropertyBtn, manageAvailabilityBtn } =
+        t("show.buttons");
 
     const showImage = () => {
         return "/storage/";
@@ -132,10 +128,16 @@ const Show = (props) => {
                                 {liveAtForm}
                             </label>
 
-                            <InputError
-                                message={errors.live_at}
-                                className="mt-2"
-                            />
+                            {errors.live_at && (
+                                <InputError
+                                    message={
+                                        i18n.language == "en"
+                                            ? errors.live_at
+                                            : "Η ημερομηνία δημοσίευσης πρέπει να είναι στο μέλλον."
+                                    }
+                                    className="mt-2"
+                                />
+                            )}
                         </div>
                         <div className="relative mt-6">
                             <div className="relative">
