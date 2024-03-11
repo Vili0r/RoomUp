@@ -166,7 +166,7 @@ export default function Login({ status, canResetPassword }) {
                                     message={
                                         i18n.language === "en"
                                             ? errors.email
-                                            : "Αυτά τα στοιχεία δεν αντιστοιχούν σε κάποιο χρήστη."
+                                            : "Αυτά τα στοιχεία αντιστοιχούν σε κάποιον άλλον χρήστη."
                                     }
                                     className="mt-2"
                                 />

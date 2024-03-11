@@ -1,3 +1,4 @@
+import { useState } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -5,14 +6,16 @@ import TextInput from "@/Components/TextInput";
 import { useForm, router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function UpdatePhoneNumber({ className, user }) {
+    const [validationErrors, setValidationErrors] = useState({});
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             phone_number: user.phone_number,
         });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title,
         description,
@@ -23,13 +26,43 @@ export default function UpdatePhoneNumber({ className, user }) {
         phoneNumber,
         verifyPhoneNumberBtn,
     } = t("profile.updatePhoneNumber");
+    const {
+        telephoneMin,
+        telephoneMax,
+        telephoneMaxMatches,
+        telephoneRequired,
+    } = t("validation.stepFour");
 
-    const submit = (e) => {
+    const updatePhoneNumberSchema = yup.object().shape({
+        phone_number: yup
+            .string()
+            .min(12, telephoneMin)
+            .max(15, telephoneMax)
+            .matches(/^\d+$/, telephoneMaxMatches)
+            .required(telephoneRequired),
+    });
+
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        patch(route("profile-phone-number.update"), {
-            preserveScroll: true,
-        });
+        try {
+            // Validate the data using the combined schema
+            await updatePhoneNumberSchema.validate(data, { abortEarly: false });
+
+            patch(route("profile-phone-number.update"), {
+                preserveScroll: true,
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     const handleButtonClick = () => {
@@ -81,8 +114,18 @@ export default function UpdatePhoneNumber({ className, user }) {
                     </div>
                     <InputError
                         className="mt-2"
-                        message={errors.phone_number}
+                        message={validationErrors.phone_number}
                     />
+                    {errors.phone_number && (
+                        <InputError
+                            message={
+                                i18n.language === "en"
+                                    ? errors.phone_number
+                                    : "Αυτός ο αριθμός αντιστοιχεί σε κάποιον άλλον χρήστη."
+                            }
+                            className="mt-2"
+                        />
+                    )}
                 </div>
 
                 {user.phone_number !== null

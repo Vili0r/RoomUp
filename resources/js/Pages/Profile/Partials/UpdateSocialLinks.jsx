@@ -15,7 +15,7 @@ export default function UpdateSocialLinks({ className, user }) {
             linkedin_link: user.linkedin_link,
         });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { title, description, verified, unverified, save, saved } = t(
         "profile.updateSocialLinks"
     );
@@ -63,10 +63,16 @@ export default function UpdateSocialLinks({ className, user }) {
                         }
                     />
 
-                    <InputError
-                        className="mt-2"
-                        message={errors.facebook_link}
-                    />
+                    {errors.facebook_link && (
+                        <InputError
+                            className="mt-2"
+                            message={
+                                i18n.language == "en"
+                                    ? errors.facebook_link
+                                    : "Μη έγκυρο URL προφίλ Facebook"
+                            }
+                        />
+                    )}
                 </div>
                 <div>
                     <InputLabel htmlFor="instagram_link" value="Instagram" />
@@ -79,11 +85,16 @@ export default function UpdateSocialLinks({ className, user }) {
                             setData("instagram_link", e.target.value)
                         }
                     />
-
-                    <InputError
-                        className="mt-2"
-                        message={errors.instagram_link}
-                    />
+                    {errors.instagram_link && (
+                        <InputError
+                            className="mt-2"
+                            message={
+                                i18n.language == "en"
+                                    ? errors.instagram_link
+                                    : "Μη έγκυρο URL προφίλ Instagram"
+                            }
+                        />
+                    )}
                 </div>
                 <div>
                     <InputLabel htmlFor="tiktok_link" value="Tik Tok" />
@@ -95,7 +106,16 @@ export default function UpdateSocialLinks({ className, user }) {
                         onChange={(e) => setData("tiktok_link", e.target.value)}
                     />
 
-                    <InputError className="mt-2" message={errors.tiktok_link} />
+                    {errors.tiktok_link && (
+                        <InputError
+                            className="mt-2"
+                            message={
+                                i18n.language == "en"
+                                    ? errors.tiktok_link
+                                    : "Μη έγκυρο URL προφίλ TikTok"
+                            }
+                        />
+                    )}
                 </div>
                 <div>
                     <InputLabel htmlFor="linkedin_link" value="Linkedin" />
@@ -109,10 +129,16 @@ export default function UpdateSocialLinks({ className, user }) {
                         }
                     />
 
-                    <InputError
-                        className="mt-2"
-                        message={errors.linkedin_link}
-                    />
+                    {errors.linkedin_link && (
+                        <InputError
+                            className="mt-2"
+                            message={
+                                i18n.language == "en"
+                                    ? errors.linkedin_link
+                                    : "Μη έγκυρο URL προφίλ LinkedIn"
+                            }
+                        />
+                    )}
                 </div>
 
                 <div className="flex items-center gap-4">

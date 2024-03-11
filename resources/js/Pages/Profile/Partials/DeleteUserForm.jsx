@@ -7,10 +7,12 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function DeleteUserForm({ className }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef();
+    const [validationErrors, setValidationErrors] = useState({});
 
     const {
         data,
@@ -23,7 +25,7 @@ export default function DeleteUserForm({ className }) {
         password: "",
     });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title,
         description,
@@ -33,20 +35,40 @@ export default function DeleteUserForm({ className }) {
         cancelBtn,
         deleteAccountBtn,
     } = t("profile.deleteUserForm");
+    const { passwordRequired } = t("validation.register.stepOne");
+
+    const deleteUserSchema = yup.object().shape({
+        password: yup.string().required(passwordRequired),
+    });
 
     const confirmUserDeletion = () => {
         setConfirmingUserDeletion(true);
     };
 
-    const deleteUser = (e) => {
+    const deleteUser = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        destroy(route("profile.destroy"), {
-            preserveScroll: true,
-            onSuccess: () => closeModal(),
-            onError: () => passwordInput.current.focus(),
-            onFinish: () => reset(),
-        });
+        try {
+            // Validate the data using the combined schema
+            await deleteUserSchema.validate(data, { abortEarly: false });
+
+            destroy(route("profile.destroy"), {
+                preserveScroll: true,
+                onSuccess: () => closeModal(),
+                onError: () => passwordInput.current.focus(),
+                onFinish: () => reset(),
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     const closeModal = () => {
@@ -99,13 +121,23 @@ export default function DeleteUserForm({ className }) {
                             }
                             className="block w-3/4 mt-1"
                             isFocused
-                            placeholder="Password"
+                            placeholder={passwordFormInput}
                         />
 
                         <InputError
-                            message={errors.password}
+                            message={validationErrors.password}
                             className="mt-2"
                         />
+                        {errors.password && (
+                            <InputError
+                                message={
+                                    i18n.language === "en"
+                                        ? errors.password
+                                        : "Ο κωδικός πρόσβασης είναι εσφαλμένος."
+                                }
+                                className="mt-2"
+                            />
+                        )}
                     </div>
 
                     <div className="flex justify-end mt-6">

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -5,6 +6,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -12,6 +14,7 @@ export default function UpdateProfileInformation({
     className,
     user,
 }) {
+    const [validationErrors, setValidationErrors] = useState({});
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             first_name: user.first_name,
@@ -19,7 +22,7 @@ export default function UpdateProfileInformation({
             email: user.email,
         });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title,
         description,
@@ -34,13 +37,42 @@ export default function UpdateProfileInformation({
         reSendVerificationEmail,
         newVerificationLink,
     } = t("profile.updateProfileInformations");
+    const { emailType, emailRequired } = t("validation.register.stepOne");
+    const { firstNameMax, firstNameRequired, lastNameMax, lastNameRequired } =
+        t("validation.stepFour");
 
-    const submit = (e) => {
+    const updateProfileInformationSchema = yup.object().shape({
+        first_name: yup
+            .string()
+            .max(20, firstNameMax)
+            .required(firstNameRequired),
+        last_name: yup.string().max(20, lastNameMax).required(lastNameRequired),
+        email: yup.string().email(emailType).required(emailRequired),
+    });
+
+    const submit = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        patch(route("profile.update"), {
-            preserveScroll: true,
-        });
+        try {
+            // Validate the data using the combined schema
+            await updateProfileInformationSchema.validate(data, {
+                abortEarly: false,
+            });
+
+            patch(route("profile.update"), {
+                preserveScroll: true,
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     return (
@@ -69,7 +101,10 @@ export default function UpdateProfileInformation({
                         autoComplete="off"
                     />
 
-                    <InputError className="mt-2" message={errors.first_name} />
+                    <InputError
+                        className="mt-2"
+                        message={validationErrors.first_name}
+                    />
                 </div>
 
                 <div>
@@ -96,7 +131,10 @@ export default function UpdateProfileInformation({
                             </span>
                         )}
                     </div>
-                    <InputError className="mt-2" message={errors.last_name} />
+                    <InputError
+                        className="mt-2"
+                        message={validationErrors.last_name}
+                    />
                 </div>
 
                 <div>
@@ -122,7 +160,20 @@ export default function UpdateProfileInformation({
                         )}
                     </div>
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <InputError
+                        message={validationErrors.email}
+                        className="mt-2"
+                    />
+                    {errors.email && (
+                        <InputError
+                            message={
+                                i18n.language === "en"
+                                    ? errors.email
+                                    : "Αυτά τα στοιχεία αντιστοιχούν σε κάποιον άλλον χρήστη."
+                            }
+                            className="mt-2"
+                        />
+                    )}
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

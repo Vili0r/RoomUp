@@ -16,7 +16,7 @@ export default function UpdateProfilePhoto({ className, user, status }) {
             avatar: null,
         });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title,
         description,
@@ -173,7 +173,16 @@ export default function UpdateProfilePhoto({ className, user, status }) {
                             </span>
                         )}
                     </div>
-                    <InputError className="mt-2" message={errors.avatar} />
+                    {errors.avatar && (
+                        <InputError
+                            className="mt-2"
+                            message={
+                                i18n.language == "en"
+                                    ? errors.avatar
+                                    : "H Φωτογραφία προφίλ είναι υποχρεωτική"
+                            }
+                        />
+                    )}
                 </div>
 
                 <div className="flex items-center gap-4">

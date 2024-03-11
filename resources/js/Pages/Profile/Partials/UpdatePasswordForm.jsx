@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -6,10 +6,12 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 export default function UpdatePasswordForm({ className }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
+    const [validationErrors, setValidationErrors] = useState({});
 
     const {
         data,
@@ -25,7 +27,7 @@ export default function UpdatePasswordForm({ className }) {
         password_confirmation: "",
     });
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         title,
         description,
@@ -35,25 +37,66 @@ export default function UpdatePasswordForm({ className }) {
         newPassword,
         confirmPassword,
     } = t("profile.updatePasswordForm");
+    const {
+        passwordMin,
+        passwordMatches,
+        passwordMax,
+        passwordRequired,
+        passwordConfirmationRequired,
+        passwordConfirmationOneOf,
+    } = t("validation.register.stepOne");
+    const { passwordBackend } = t("register.stepOneForm");
 
-    const updatePassword = (e) => {
+    const updatePasswordSchema = yup.object().shape({
+        current_password: yup.string().required(passwordRequired),
+        password: yup
+            .string()
+            .min(8, passwordMin)
+            .max(20, passwordMax)
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                passwordMatches
+            )
+            .required(passwordRequired),
+        password_confirmation: yup
+            .string()
+            .oneOf([yup.ref("password"), null], passwordConfirmationOneOf)
+            .required(passwordConfirmationRequired),
+    });
+
+    const updatePassword = async (e) => {
         e.preventDefault();
+        setValidationErrors({});
 
-        put(route("password.update"), {
-            preserveScroll: true,
-            onSuccess: () => reset(),
-            onError: () => {
-                if (errors.password) {
-                    reset("password", "password_confirmation");
-                    passwordInput.current.focus();
-                }
+        try {
+            // Validate the data using the combined schema
+            await updatePasswordSchema.validate(data, { abortEarly: false });
 
-                if (errors.current_password) {
-                    reset("current_password");
-                    currentPasswordInput.current.focus();
-                }
-            },
-        });
+            put(route("password.update"), {
+                preserveScroll: true,
+                onSuccess: () => reset(),
+                onError: () => {
+                    if (errors.password) {
+                        reset("password", "password_confirmation");
+                        passwordInput.current.focus();
+                    }
+
+                    if (errors.current_password) {
+                        reset("current_password");
+                        currentPasswordInput.current.focus();
+                    }
+                },
+            });
+        } catch (errors) {
+            // Handle validation errors
+            const validationErrors = {};
+
+            errors.inner.forEach((error) => {
+                validationErrors[error.path] = error.message;
+            });
+
+            setValidationErrors(validationErrors);
+        }
     };
 
     return (
@@ -88,9 +131,19 @@ export default function UpdatePasswordForm({ className }) {
                     />
 
                     <InputError
-                        message={errors.current_password}
+                        message={validationErrors.current_password}
                         className="mt-2"
                     />
+                    {errors.current_password && (
+                        <InputError
+                            message={
+                                i18n.language === "en"
+                                    ? errors.current_password
+                                    : "Ο κωδικός πρόσβασης είναι εσφαλμένος."
+                            }
+                            className="mt-2"
+                        />
+                    )}
                 </div>
 
                 <div>
@@ -106,7 +159,16 @@ export default function UpdatePasswordForm({ className }) {
                         autoComplete="new-password"
                     />
 
-                    <InputError message={errors.password} className="mt-2" />
+                    <InputError
+                        message={validationErrors.password}
+                        className="mt-2"
+                    />
+                    {errors.password && (
+                        <InputError
+                            message={passwordBackend}
+                            className="mt-2"
+                        />
+                    )}
                 </div>
 
                 <div>
@@ -127,7 +189,7 @@ export default function UpdatePasswordForm({ className }) {
                     />
 
                     <InputError
-                        message={errors.password_confirmation}
+                        message={validationErrors.password_confirmation}
                         className="mt-2"
                     />
                 </div>
