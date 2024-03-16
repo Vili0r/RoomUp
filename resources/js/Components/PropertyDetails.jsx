@@ -455,7 +455,20 @@ const PropertyDetails = ({ property }) => {
                     </div>
                 </div>
             </div>
-            <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Drawer
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                longitude={
+                    property.owner
+                        ? property.owner.address.long
+                        : property.address.long
+                }
+                latitude={
+                    property.owner
+                        ? property.owner.address.lat
+                        : property.address.lat
+                }
+            />
         </div>
     );
 };

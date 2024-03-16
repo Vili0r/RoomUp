@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\RoommateDeletePhotoController;
 use App\Http\Controllers\Api\SharedDeletePhotoController;
 use App\Http\Controllers\Api\SingleRoommateController;
 use App\Http\Controllers\Api\SupportController;
+use App\Http\Controllers\Api\TripAdvisorController;
 use App\Http\Controllers\Api\VirtualTourController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;

@@ -18,6 +18,7 @@ import Popular4 from "./popular4.jpg";
 import Popular5 from "./popular5.jpg";
 import Headset from "./headset.svg";
 import HousePlaceholder from "./HousePlaceholder.jpeg";
+import RestaurantPlaceholder from "./RestaurantPlaceholder.jpeg";
 import SidebarBg from "./SidebarBg.jpeg";
 import CustomerService from "./CustomerService.png";
 
@@ -44,4 +45,5 @@ export {
     SidebarBg,
     ErrorImage,
     CustomerService,
+    RestaurantPlaceholder,
 };

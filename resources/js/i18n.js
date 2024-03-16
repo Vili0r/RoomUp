@@ -731,6 +731,21 @@ const resources = {
                     hobbiesRoommate: "Hobbies",
                     availability: "Availability",
                 },
+                drawer: {
+                    title: "Restaurant and Attractions around your new home",
+                    chooseType: "Choose a type",
+                    chooseRating: "Choose a rating",
+                    drawerRestaurants: "Restaurants",
+                    drawerAttractions: "Attractions",
+                    drawerAll: "All",
+                    draweAboveThree: "Above 3.0",
+                    draweAboveFour: "Above 4.0",
+                    draweAboveFourPointFive: "Above 4.5",
+                },
+                placesCard: {
+                    placesCardPrice: "Price",
+                    placesCardRanking: "Ranking",
+                },
             },
             message: {
                 misc: {
@@ -1714,6 +1729,21 @@ const resources = {
                     genderRoommate: "Φύλο",
                     hobbiesRoommate: "Χόμπι",
                     availability: "Διαθεσιμότητα",
+                },
+                drawer: {
+                    title: "Εστιατόρια και αξιοθέατα γύρω από το νέο σας σπίτι",
+                    chooseType: "Επιλέξτε έναν τύπο",
+                    chooseRating: "Επιλέξτε μια βαθμολογία",
+                    drawerRestaurants: "Εστιατόρια",
+                    drawerAttractions: "Αξιοθέατα",
+                    drawerAll: "Όλα",
+                    draweAboveThree: "Άνω των 3.0",
+                    draweAboveFour: "Άνω των 4.0",
+                    draweAboveFourPointFive: "Άνω των 4.5",
+                },
+                placesCard: {
+                    placesCardPrice: "Τιμή",
+                    placesCardRanking: "Κατάταξη",
                 },
             },
             message: {
