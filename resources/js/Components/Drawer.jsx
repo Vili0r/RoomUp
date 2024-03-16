@@ -11,6 +11,7 @@ const Drawer = ({ isOpen, setIsOpen, latitude, longitude }) => {
     const [rating, setRating] = useState("");
     const [filteredPlaces, setFilteredPlaces] = useState([]);
     const { t } = useTranslation();
+
     const fetchRestaurants = async () => {
         const options = {
             method: "GET",
@@ -20,8 +21,7 @@ const Drawer = ({ isOpen, setIsOpen, latitude, longitude }) => {
                 longitude: longitude,
             },
             headers: {
-                "X-RapidAPI-Key":
-                    "a93562e483msh5e7685936415f1fp19061djsn5302c733213f",
+                "X-RapidAPI-Key": import.meta.env.VITE_RAPIDAPI_TRAVEL_API_KEY,
                 "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
             },
         };
