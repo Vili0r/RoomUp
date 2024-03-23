@@ -1,294 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { slideIn, staggerContainer, textVariant } from "../utils/motion";
-import { Link, router } from "@inertiajs/react";
-import { home } from "@/assets";
-import { FiMapPin } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
-import Modal from "@/Components/Modal";
-import PrimaryButton from "@/Components/PrimaryButton";
-import { MeiliSearch } from "meilisearch";
-import { DebounceInput } from "react-debounce-input";
-import { HousePlaceholder } from "@/assets";
+import React, { useRef } from "react";
+import { HeroIllustration } from "@/assets";
 import { useTranslation } from "react-i18next";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import SearchBar from "@/Components/SearchBar";
 
 const Hero = () => {
-    const [openQueryModal, setOpenQueryModal] = useState(false);
-    const [searchResults, setSearchResults] = useState(null);
-    const [query, setQuery] = useState("");
-    const [totlaHits, setTotalHits] = useState(0);
-    const [client, setClient] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const line3Ref = useRef(null);
+    const line4Ref = useRef(null);
     const { t } = useTranslation();
-    const { line1, line2, line3 } = t("hero.title");
-    const {
-        content,
-        searchInputHero,
-        contentModal,
-        noResult,
-        inputTitle,
-        found,
-    } = t("hero.searchInput");
-    const showImage = () => {
-        return "/storage/";
-    };
+    const { line1, line2, line3, line4 } = t("hero.title");
 
-    const closeModal = () => {
-        setOpenQueryModal(false);
-    };
+    useGSAP(() => {
+        // Set initial visibility
+        gsap.set(line4Ref.current, { autoAlpha: 0 });
 
-    const openModal = () => {
-        setOpenQueryModal(true);
-    };
+        // Create a timeline that repeats indefinitely
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
 
-    // Front End Meilisearch implementation
-    useEffect(() => {
-        setClient(new MeiliSearch({ host: "http://localhost:7700" }));
-    }, []);
-
-    const search = async (query) => {
-        if (query) {
-            const response = await client.index("addresses").search(query);
-            setSearchResults(response.hits);
-            setTotalHits(response.estimatedTotalHits);
-            setIsLoading(true);
-        }
-    };
-
-    const handleSearch = () => {
-        if (query) {
-            router.visit("/home-search", {
-                data: { search: query },
-                preserveScroll: true,
-            });
-        }
-    };
+        // Sequence the animations for line3 and line4
+        tl.to(line3Ref.current, { autoAlpha: 0, duration: 1 })
+            .to(line4Ref.current, { autoAlpha: 1, duration: 1 }) // Delay the start slightly to ensure line3 fades out first
+            .to(line4Ref.current, { autoAlpha: 0, duration: 1 }, "+=2") // Keep line4 visible for a bit before fading out
+            .to(line3Ref.current, { autoAlpha: 1, duration: 1 }); // Fade line3 back in
+    });
 
     return (
         <section
-            className="section pb-[0] max-xs:pt-[2rem] max-[320px]:mb-[-3rem]"
+            className="w-full bg-center bg-cover h-[38rem]"
             style={{
-                background:
-                    "linear-gradient(91.7deg, rgb(39, 26, 53) -4.3%, rgb(29, 31, 81) 101.8%)",
+                backgroundImage: `url(${HeroIllustration})`,
             }}
         >
-            <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: false, amount: 0.25 }}
-                className="pt-[4rem] pl-[2rem] grid gap-y-[3.5rem] md:grid-cols-2 md:pt-[3rem] lg:pt-[5rem] lg:gap-[2rem] lg:pr-[2rem]"
-            >
-                <motion.div variants={textVariant(1.2)} className="">
-                    <h1 className="xxs:text-[2.55rem] xs:text-[2.75rem] text-[2.25rem] leading-[120%] mb-[1.25rem] mr-[1.25rem] text-gray-300">
-                        {line1} <br /> {line2} <br /> {line3}
-                    </h1>
-                    <p className="mb-[2rem] mr-[2rem] md:w-[75%] text-gray-300 font-bold">
+            <div className="flex items-center justify-center w-full h-full bg-gray-900/10">
+                <div className="mt-[7rem]">
+                    <div className="flex items-center">
+                        <h1 className="flex items-center gap-2 font-bold">
+                            <span className="xs:text-[2.25rem] xxs:text-[1.75rem] text-[1.7rem] leading-[120%] text-[#f0e9e9]">
+                                {line1}
+                            </span>
+                            <span className="xs:text-[2.25rem] xxs:text-[1.75rem] text-[1.7rem] leading-[120%] text-[#f0e9e9]">
+                                {line2}
+                            </span>
+                            <div className="relative mb-8 xs:mb-10">
+                                <span
+                                    ref={line3Ref}
+                                    className="absolute xs:text-[2.25rem] xxs:text-[1.75rem] text-[1.7rem] leading-[120%] text-[#f0e9e9]"
+                                >
+                                    {line3}
+                                </span>
+                                <span
+                                    ref={line4Ref}
+                                    className="absolute opacity-0 xs:text-[2.25rem] xxs:text-[1.75rem] text-[1.7rem] leading-[120%] text-[#f0e9e9] "
+                                >
+                                    {line4}
+                                </span>
+                            </div>
+                        </h1>
+                    </div>
+
+                    <p className="sm:mb-[2rem] mb-2 mr-[2rem] md:text-[1rem] sm:text-[0.825rem] text-[0.79rem] text-gray-100 font-bold">
                         {t("hero.description")}
                     </p>
-                    <div
-                        onClick={openModal}
-                        className="bg-gray-300 flex justify-between items-center rounded-[.75rem] mb-[2rem] mr-[2.5rem]"
-                        style={{
-                            padding: ".35rem .35rem .35rem .75rem",
-                            border: "3px solid hsl(228, 12%, 75%)",
-                        }}
-                    >
-                        <FiMapPin className="text-[rgb(29, 31, 81)] text-[1.25rem]" />
-                        <input
-                            value={query}
-                            className="w-[90%] bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 bg-gray-300 text-black block mt-2 placeholder-gray-400/70  dark:placeholder-gray-500 rounded-lg px-5 py-2.5 focus:border-[#f0a122] focus:ring-[#f0a122] text-xl focus:ring-opacity-40"
-                            style={{ margin: "0 .5rem" }}
-                            placeholder={content}
-                            disabled
-                        />
-
-                        <span
-                            className="xs:inline-block hidden text-[.938rem] font-medium text-white cursor-pointer rounded-[.5rem] mb-1 bg-[#F1C40F] hover:bg-orange-400"
-                            style={{
-                                boxShadow: "0 4px 8px #f0a122",
-                                padding: "14px 28px",
-                                transition: ".3s",
-                            }}
-                        >
-                            {searchInputHero}
-                        </span>
-                    </div>
-                    <Modal show={openQueryModal} onClose={closeModal}>
-                        <div className="p-6">
-                            <div className="flex justify-between mt-8 sm:mt-0">
-                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                    {contentModal}
-                                </h2>
-                                <button onClick={closeModal}>
-                                    <AiOutlineClose size={20} />
-                                </button>
-                            </div>
-
-                            <div className="relative mt-5">
-                                {/* <input
-                                    type="search"
-                                    name="query"
-                                    id="query"
-                                    placeholder="Address..."
-                                    value={query}
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    autoComplete="off"
-                                    onChange={(e) => setQuery(e.target.value)}
-                                /> */}
-                                <DebounceInput
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-md shadow peer shadow-gray-100 placeholder:text-transparent focus:border-gray-500 focus:outline-none"
-                                    placeholder="Search here..."
-                                    minLength={1}
-                                    debounceTimeout={500}
-                                    onChange={(e) => {
-                                        search(e.target.value);
-                                        setQuery(e.target.value);
-                                    }}
-                                    value={query}
-                                />
-                                <label
-                                    htmlFor="email"
-                                    className="absolute top-0 left-0 px-1 ml-3 text-sm text-gray-500 transition-all duration-100 ease-in-out origin-left transform -translate-y-1/2 bg-white pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:ml-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-0 peer-focus:ml-3 peer-focus:text-sm peer-focus:text-gray-800"
-                                >
-                                    {inputTitle}
-                                </label>
-                            </div>
-                            {isLoading && (
-                                <div className="top-[85px] right-[30px] mt-10 sm:mt-3 mr-4 spinner"></div>
-                            )}
-
-                            {query.length >= 2 &&
-                                (searchResults?.length > 0 ? (
-                                    <div className="w-full mt-4 overflow-y-auto text-sm rounded max-h-80">
-                                        <ul>
-                                            {searchResults.map(
-                                                (property, index) => (
-                                                    <li className="border-b border-gray-200">
-                                                        <Link
-                                                            href={route(
-                                                                "property.show",
-                                                                [
-                                                                    property.model ===
-                                                                    "shared"
-                                                                        ? "room"
-                                                                        : "flat",
-                                                                    property
-                                                                        .owner
-                                                                        .id,
-                                                                ]
-                                                            )}
-                                                            key={index}
-                                                            className="flex items-center w-full px-3 py-3 transition border-b hover:bg-gray-200 tansition-all hover:rounded-t-md"
-                                                        >
-                                                            <img
-                                                                src={
-                                                                    property
-                                                                        .owner
-                                                                        .images[0]
-                                                                        ? showImage() +
-                                                                          property
-                                                                              .owner
-                                                                              .images[0]
-                                                                        : HousePlaceholder
-                                                                }
-                                                                className="w-[6rem]"
-                                                            />
-                                                            <span className="ml-4">
-                                                                {
-                                                                    property
-                                                                        .owner
-                                                                        .title
-                                                                }
-                                                            </span>
-                                                        </Link>
-                                                    </li>
-                                                )
-                                            )}
-                                        </ul>
-                                    </div>
-                                ) : (
-                                    <div className="px-3 py-3">
-                                        {noResult} "{query}"
-                                    </div>
-                                ))}
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    {" "}
-                                    {searchResults?.length > 0 && (
-                                        <span>
-                                            {found}: {totlaHits} result(s)
-                                        </span>
-                                    )}
-                                </div>
-                                <PrimaryButton
-                                    onClick={handleSearch}
-                                    className="px-4 py-2 ml-3 text-white bg-black rounded-lg"
-                                >
-                                    {searchInputHero}
-                                </PrimaryButton>
-                            </div>
-                        </div>
-                    </Modal>
-                    <div className="flex gap-3 justify-between w-[75%]">
-                        <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300">
-                                9k <span className="text-orange-400">+</span>
-                            </h1>
-                            <span className="flex font-light text-gray-300">
-                                Premium <br />
-                                Product
-                            </span>
-                        </div>
-                        <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300">
-                                2K <span className="text-orange-400">+</span>
-                            </h1>
-                            <span className="flex font-light text-gray-300">
-                                Happy <br />
-                                Customer
-                            </span>
-                        </div>
-                        <div className="">
-                            <h1 className="text-[1.5rem] font-medium text-gray-300">
-                                28K <span className="text-orange-400">+</span>
-                            </h1>
-                            <span className="flex font-light text-gray-300">
-                                Award <br />
-                                Winning
-                            </span>
-                        </div>
-                    </div>
-                </motion.div>
-
-                <motion.div
-                    variants={slideIn("right", "tween", 0.2, 1)}
-                    className="relative flex items-center"
-                >
-                    <div
-                        className="w-[265px] h-[284px] md:w-[340px] md:h-[265px] lg:w-[505px] lg:h-[611px] lg:rounded-[256px 256px 0 0] max-[320px]:w-[240px] max-[320px]:h-[264px] md:self-end"
-                        style={{
-                            background:
-                                "linear-gradient(180deg, hsl(0, 0%, 16%) 93%, hsl(0, 0%, 67%) 100%)",
-                            borderRadius: "135px 135px 0 0",
-                            boxShadow: "0 16px 32px hsla(228, 66%, 25%, .24)",
-                        }}
-                    ></div>
-                    <div
-                        className="absolute w-[250px] h-[335px] md:w-[320px] md:h-[320px] lg:w-[487px] lg:h-[660px] overflow-hidden inline-flex items-end bottom-[-3rem] md:bottom-[-4rem] left-2 max-[320px]:w-[220px] max-[320px]:h-[280px] max-[320px]:bottom-[-1rem]"
-                        style={{
-                            borderRadius: "125px 125px 12px 12px",
-                            boxShadow: "0 16px 32px hsla(228, 66%, 25%, .25)",
-                        }}
-                    >
-                        <img
-                            src={home}
-                            className="w-full h-full"
-                            alt="hero_image"
-                        />
-                    </div>
-                </motion.div>
-            </motion.div>
+                    <SearchBar />
+                </div>
+            </div>
         </section>
     );
 };

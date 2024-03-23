@@ -1,33 +1,30 @@
-import React, { useState, useContext } from "react";
-import { Link, usePage, router } from "@inertiajs/react";
-import ThemeContext from "../context/ThemeContext";
+import React, { useState } from "react";
+import { Link, usePage } from "@inertiajs/react";
 import { logo } from "@/assets";
-import { FaBloggerB } from "react-icons/fa";
-import { AiOutlineTeam } from "react-icons/ai";
-import { RiAdvertisementLine } from "react-icons/ri";
-import { BiSearch } from "react-icons/bi";
+import { AiOutlineMenu } from "react-icons/ai";
 import PlaceAdModal from "@/Components/PlaceAdModal";
 import SearchModal from "@/Components/SearchModal";
 import { IoIosGlobe } from "react-icons/io";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
 
 const Header = ({ user }) => {
-    const { theme, handleTheme } = useContext(ThemeContext);
     const [navColor, setNavColor] = useState(false);
     const { url } = usePage();
     const [isOpen, setIsOpen] = useState(false);
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [isMenuIconOpen, setIsMenuIconOpen] = useState(false);
     const { i18n } = useTranslation();
     const [lng, setLng] = useState(i18n.language);
     const { t } = useTranslation();
     const { placeAd, blog, searchHeader, login } = t("header");
+
     const closeModal = () => {
         setIsOpen(false);
     };
 
     const openModal = () => {
         setIsOpen(true);
+        setIsMenuIconOpen(false);
     };
 
     const closeSearchModal = () => {
@@ -36,6 +33,7 @@ const Header = ({ user }) => {
 
     const openSearchModal = () => {
         setIsSearchModalOpen(true);
+        setIsMenuIconOpen(false);
     };
 
     const changeColor = () => {
@@ -50,11 +48,9 @@ const Header = ({ user }) => {
         if (lng == "en") {
             i18n.changeLanguage("gr");
             setLng("ελ");
-            axios.get("/language/gr");
         } else {
             i18n.changeLanguage("en");
             setLng("en");
-            axios.get("/language/en");
         }
     };
 
@@ -87,79 +83,39 @@ const Header = ({ user }) => {
                         RoomUp
                     </span>
                 </Link>
+                <PlaceAdModal isOpen={isOpen} closeModal={closeModal} />
+                <SearchModal
+                    isOpen={isSearchModalOpen}
+                    closeModal={closeSearchModal}
+                />
 
-                {/* {url.includes("/home-search") && (
-                    <div className="flex md:relative items-center p-2 py-3 bg-white border border-[#f3f2f2] hover:border-[#bcbaba] rounded-full text-black font-bold  text-lg">
-                        <AiOutlineSearch className="w-7 h-7" />
-                        <input
-                            type="text"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="w-full px-3 text-lg bg-transparent border-none focus:outline-none focus:border-none focus:ring-0 "
-                            placeholder="Enter address, city or zipcode"
-                        />
-                    </div>
-                )} */}
-                <div className="ml-[auto] md:mr-[3rem] [@media(max-width:320px)]:mr-[-0.5rem]">
+                <div className="ml-[auto] md:mr-[3rem] [@media(max-width:639px)]:hidden">
                     <ul className="flex justify-between items-center gap-0 sm:gap-1 md:gap-[4rem]">
-                        {/* <li>
-                            <Link
-                                href={route("welcome")}
-                                className="flex justify-between text-[hsl(228, 12%, 75%)] items-center gap-2 py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                            >
-                                <AiOutlineHome
-                                    className="sm:hidden"
-                                    style={{ fontSize: "1.25rem" }}
-                                />
-                                <span className="[@media(max-width:640px)]:hidden ">
-                                    Home
-                                </span>
-                            </Link>
-                        </li> */}
                         <li>
                             <button
                                 onClick={openModal}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex items-center justify-between gap-2 pl-3 pr-4 text-gray-600 md:hover:bg-transparent hover:text-black md:p-0"
                             >
-                                <RiAdvertisementLine
-                                    className="sm:hidden"
-                                    style={{ fontSize: "1.25rem" }}
-                                />
-                                <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
+                                <span className="  md:m-[-2rem]">
                                     {placeAd}
                                 </span>
                             </button>
                         </li>
-                        <PlaceAdModal isOpen={isOpen} closeModal={closeModal} />
-                        <SearchModal
-                            isOpen={isSearchModalOpen}
-                            closeModal={closeSearchModal}
-                        />
 
                         <li>
                             <Link
                                 href={route("blog")}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex items-center justify-between gap-2 pl-3 pr-4 text-gray-600 md:hover:bg-transparent hover:text-black md:p-0"
                             >
-                                <FaBloggerB
-                                    className="sm:hidden"
-                                    style={{ fontSize: "1.25rem" }}
-                                />
-                                <span className="[@media(max-width:639px)]:hidden ">
-                                    {blog}
-                                </span>
+                                {blog}
                             </Link>
                         </li>
                         <li>
                             <button
                                 onClick={openSearchModal}
-                                className="flex justify-between items-center gap-2 pl-3 pr-4 md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className="flex items-center justify-between gap-2 pl-3 pr-4 text-gray-600 md:hover:bg-transparent hover:text-black md:p-0"
                             >
-                                <BiSearch
-                                    className="sm:hidden"
-                                    style={{ fontSize: "1.25rem" }}
-                                />
-                                <span className="[@media(max-width:639px)]:hidden  md:m-[-2rem]">
+                                <span className=" md:m-[-2rem]">
                                     {searchHeader}
                                 </span>
                             </button>
@@ -169,15 +125,9 @@ const Header = ({ user }) => {
                                 url !== "/dashboard" ? (
                                     <Link
                                         href={route("dashboard")}
-                                        className="font-semibold md:hover:bg-transparent hover:text-[#F1C40F] md:p-0 md:dark:hover:text-white"
+                                        className="font-semibold text-gray-600 md:hover:bg-transparent hover:text-dark md:p-0"
                                     >
-                                        <AiOutlineTeam
-                                            className="mr-2 sm:hidden"
-                                            style={{ fontSize: "1.25rem" }}
-                                        />
-                                        <span className="[@media(max-width:639px)]:hidden ">
-                                            Dashboard
-                                        </span>
+                                        Dashboard
                                     </Link>
                                 ) : (
                                     ""
@@ -186,31 +136,57 @@ const Header = ({ user }) => {
                                 <>
                                     <Link
                                         href={route("login")}
-                                        className="sm:text-white sm:bg-[#F1C40F] [@media(max-width:639px)]:hover:text-[#F1C40F] sm:hover:bg-orange-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:hover:bg-[#6D4C41] dark:bg-[#3E4147]"
+                                        className=" sm:text-white sm:bg-[#F1C40F] [@media(max-width:639px)]:hover:text-[#F1C40F] sm:hover:bg-orange-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:-mr-10 dark:hover:bg-[#6D4C41] dark:bg-[#3E4147]"
                                     >
-                                        <AiOutlineTeam
-                                            className="sm:hidden"
-                                            style={{ fontSize: "1.25rem" }}
-                                        />
-                                        <span className="[@media(max-width:639px)]:hidden ">
-                                            {login}
-                                        </span>
+                                        {login}
                                     </Link>
                                 </>
                             )}
                         </li>
                         <li>
                             <button
-                                className="flex items-center gap-1 hover:text-[#F1C40F]"
+                                className="flex items-center gap-1 text-gray-600 hover:text-black"
                                 onClick={changeLanguage}
                             >
                                 <IoIosGlobe style={{ fontSize: "1.25rem" }} />
-                                <span className="[@media(max-width:639px)]:hidden">
-                                    {lng}
-                                </span>
+                                {lng}
                             </button>
                         </li>
                     </ul>
+                </div>
+                <div
+                    onClick={() => setIsMenuIconOpen((prev) => !prev)}
+                    className="[@media(min-width:640px)]:hidden z-10"
+                >
+                    <AiOutlineMenu className="w-6 h-6 text-white" />
+                </div>
+                <div
+                    className={`${
+                        isMenuIconOpen ? "right-0" : "right-[-50%]"
+                    } absolute bg-black h-[100vh] text-white w-[50%] top-0 transition-all duration-1000 ease-in flex flex-col justify-center items-center font-thin text-base space-y-8`}
+                >
+                    <button onClick={openModal}>{placeAd}</button>
+                    <button onClick={openSearchModal}>{searchHeader}</button>
+                    <Link href={route("blog")}>{blog}</Link>
+                    {user ? (
+                        url !== "/dashboard" ? (
+                            <Link href={route("dashboard")}>Dashboard</Link>
+                        ) : (
+                            ""
+                        )
+                    ) : (
+                        <>
+                            <Link href={route("login")}>{login}</Link>
+                        </>
+                    )}
+                    <Link href={route("register")}>Sign up</Link>
+                    <button
+                        className="flex items-center gap-1 "
+                        onClick={changeLanguage}
+                    >
+                        <IoIosGlobe style={{ fontSize: "1.25rem" }} />
+                        {lng}
+                    </button>
                 </div>
             </nav>
         </header>

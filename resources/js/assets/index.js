@@ -1,6 +1,7 @@
 import logo from "./logo.png";
 import text from "./text.png";
 import Hero1 from "./Hero1.png";
+import HeroIllustration from "./HeroIllustration.png";
 import Hero2 from "./Hero2.png";
 import Hero3 from "./Hero3.png";
 import Hero5 from "./Hero5.png";
@@ -27,6 +28,7 @@ export {
     text,
     LogoText,
     Hero1,
+    HeroIllustration,
     Hero2,
     Hero3,
     Hero5,

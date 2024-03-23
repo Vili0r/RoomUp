@@ -85,17 +85,17 @@ const resources = {
                 title: {
                     line1: "Find",
                     line2: "Your Perfect",
-                    line3: "Property / Flatmate",
+                    line3: "Property",
+                    line4: "Flatmate",
                 },
                 description:
                     "Effortlessly search for compatible roommates and secure your next living arrangement",
-                searchInput: {
+                searchBar: {
                     content: "Search by location...",
-                    searchInputHero: "Search",
-                    contentModal: "Enter the address or a post code",
-                    inputTitle: "Address or a post code",
-                    noResult: "No results for",
-                    found: "Found",
+                    rent: "Rent",
+                    flatmate: "Flatmate",
+                    minimumPrice: "Min Price",
+                    maximumPrice: "Max Price",
                 },
             },
             login: {
@@ -1034,17 +1034,17 @@ const resources = {
                 title: {
                     line1: "Βρες",
                     line2: "Το Ιδανικό",
-                    line3: "Ακίνητο / Συγκάτοικο",
+                    line3: "Ακίνητο",
+                    line4: "Συγκάτοικο",
                 },
                 description:
                     "Αναζητήστε εύκολα συμβατούς συγκάτοικους και εξασφαλίστε την επόμενη κατοικία σας",
-                searchInput: {
-                    content: "Χολαργός, Νίκαια",
-                    searchInputHero: "Αναζήτηση",
-                    contentModal: "Εισάγετε διεύθυνση ή περιοχή...",
-                    inputTitle: "Διεύθυνση ή περιοχή...",
-                    noResult: "Δεν υπάρχουν αποτελέσματα για",
-                    found: "Βρέθηκαν",
+                searchBar: {
+                    content: "Διεύθυνση ή περιοχή...",
+                    rent: "Κατοικία",
+                    flatmate: "Συγκάτοικο",
+                    minimumPrice: "Ελάχιστη Τιμή",
+                    maximumPrice: "Μέγιστη Τιμή",
                 },
             },
             login: {
