@@ -18,7 +18,6 @@ const SearchBar = () => {
     };
 
     const handleHomeSearch = () => {
-        console.log(type, minPrice, maxPrice);
         let href = "/home-search?";
 
         if (type === "rent") {
@@ -28,7 +27,6 @@ const SearchBar = () => {
             if (maxPrice !== 10000000 && maxPrice !== "" && maxPrice !== 0) {
                 href += "filter[max_price]=" + maxPrice;
             }
-            console.log(href);
 
             router.visit(
                 href,
@@ -47,7 +45,6 @@ const SearchBar = () => {
             if (maxPrice !== 10000000 && maxPrice !== "" && maxPrice !== 0) {
                 href += "filter[max_budget]=" + maxPrice;
             }
-            console.log(href);
 
             router.visit(
                 href,

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { textContainer, textVariant2 } from "../utils/motion";
+import { textVariant2 } from "../utils/motion";
 
 export const TitleText = ({ title, textStyles }) => (
     <motion.h2

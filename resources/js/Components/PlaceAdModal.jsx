@@ -63,7 +63,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                 </button>
                                             </div>
                                             <div className="flex w-full gap-10 px-10 overflow-x-scroll scrollbar-hide snap-x snap-mandatory scroll-px-10 scroll-smooth">
-                                                <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
+                                                <div className="relative aspect-[2/3] w-[80%] xxs:w-[60%] xs:w-[50%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
                                                             {room}
@@ -85,7 +85,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                     </Link>
                                                 </div>
 
-                                                <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
+                                                <div className="relative aspect-[2/3] w-[80%] xxs:w-[60%] xs:w-[50%] shrink-0 snap-start snap-always rounded-xl bg-orange-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
                                                             {whole}
@@ -106,7 +106,7 @@ const PlaceAdModal = ({ isOpen, closeModal }) => {
                                                     </Link>
                                                 </div>
 
-                                                <div className="md:2/3 relative aspect-[2/3] w-[90%] shrink-0 snap-start snap-always rounded-xl bg-blue-100 sm:w-[44%] md:w-[30%]">
+                                                <div className="relative aspect-[2/3] w-[80%] xxs:w-[60%] xs:w-[50%] shrink-0 snap-start snap-always rounded-xl bg-blue-100 sm:w-[44%] md:w-[30%]">
                                                     <div className="absolute bottom-0 z-10 w-full px-5 py-3 rounded-xl bg-gradient-to-t from-black">
                                                         <h2 className="mt-4 text-xl font-bold text-white">
                                                             {roomWanted}

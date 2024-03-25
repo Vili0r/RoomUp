@@ -163,7 +163,7 @@ const Header = ({ user }) => {
                 <div
                     className={`${
                         isMenuIconOpen ? "right-0" : "right-[-50%]"
-                    } absolute bg-black h-[100vh] text-white w-[50%] top-0 transition-all duration-1000 ease-in flex flex-col justify-center items-center font-thin text-base space-y-8`}
+                    } absolute bg-zinc h-[100vh] text-white w-[50%] top-0 transition-all duration-1000 ease-in flex flex-col justify-center items-center font-thin text-base space-y-8`}
                 >
                     <button onClick={openModal}>{placeAd}</button>
                     <button onClick={openSearchModal}>{searchHeader}</button>

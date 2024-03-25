@@ -24,6 +24,9 @@ module.exports = {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
                 popp: ["Poppins"],
             },
+            colors: {
+                zinc: "#101010",
+            },
         },
     },
 

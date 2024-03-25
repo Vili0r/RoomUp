@@ -1,19 +1,11 @@
 import React from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { logo } from "@/assets";
-import { motion } from "framer-motion";
-import { footerVariants } from "../utils/motion";
 import { BsFacebook, BsTwitter, BsInstagram, BsLinkedin } from "react-icons/bs";
 
 const Footer = () => {
-    const { url } = usePage();
     return (
-        <motion.footer
-            variants={url !== "/dashboard" && footerVariants}
-            initial="hidden"
-            whileInView="show"
-            className="bg-white dark:bg-gray-900"
-        >
+        <footer className="bg-white dark:bg-gray-900">
             <div className="grid gap-y-[2.5rem] ml-[1.5rem] mr-[1.5rem] md:grid-cols-2">
                 <div className="mt-4">
                     <Link className="flex items-center">
@@ -169,7 +161,6 @@ const Footer = () => {
                 </div>
             </div>
             <div className="ml-[1.5rem] mr-[1.5rem] flex pb-[1rem] font-popp flex-col mt-[5.5rem] text-center gap-[1.5rem] dark:text-gray-400 md:flex-row md:justify-between md:pb-[2rem]">
-                <div className="border-t-[0.1rem] border-[#2E86C1] opacity-10"></div>
                 <span className="text-[.813rem] font-[500] text-[hsl(228, 15%, 50%)]">
                     &#169; RoomUp. All right reserved
                 </span>
@@ -178,7 +169,7 @@ const Footer = () => {
                     <Link>Privacy Policy</Link>
                 </div>
             </div>
-        </motion.footer>
+        </footer>
     );
 };
 

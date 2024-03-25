@@ -43,7 +43,7 @@ const FeaturedFlats = () => {
     const [active, setActive] = useState("featured-2");
     return (
         <section
-            className="w-full dark:bg-gray-900 lg:mt-[-5rem]"
+            className="w-full dark:bg-gray-900"
             style={{ padding: "1rem 0 5rem" }}
         >
             <motion.div
