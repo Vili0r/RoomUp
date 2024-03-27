@@ -5,6 +5,7 @@ import { staggerContainer } from "../utils/motion";
 import { TypingText } from "@/Components/TypingText";
 import { TitleText } from "@/Components/TitleText";
 import FeaturedCard from "@/Components/FeaturedCard";
+import { useTranslation } from "react-i18next";
 
 const featured = [
     {
@@ -41,6 +42,9 @@ const featured = [
 
 const FeaturedFlats = () => {
     const [active, setActive] = useState("featured-2");
+
+    const { t } = useTranslation();
+    const { titleOne, titleTwo, titleThree } = t("welcome.featuredFlats");
     return (
         <section
             className="w-full dark:bg-gray-900"
@@ -54,14 +58,14 @@ const FeaturedFlats = () => {
                 className="2xl:max-w-[1280px] w-full mx-auto flex flex-col px-[4rem]"
             >
                 <TypingText
-                    title="|Featured Properties"
+                    title={titleOne}
                     textStyles="text-center mt-[4rem] dark:text-gray-400"
                 />
                 <TitleText
                     title={
                         <span className="dark:text-gray-400">
-                            Choose a property you want{" "}
-                            <br className="hidden md:block" /> to explore
+                            {titleTwo} <br className="hidden md:block" />{" "}
+                            {titleThree}
                             <span className="text-[#F5B041]">.</span>
                         </span>
                     }

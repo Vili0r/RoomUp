@@ -9,6 +9,8 @@ import {
     BentoNeighborhood,
 } from "@/assets";
 import { MdArrowForwardIos } from "react-icons/md";
+import { useTranslation } from "react-i18next";
+import { Link } from "@inertiajs/react";
 
 const Services = () => {
     const bentoGrid1Ref = useRef(null);
@@ -16,6 +18,16 @@ const Services = () => {
     const bentoGrid3Ref = useRef(null);
     const bentoGrid4Ref = useRef(null);
     const bentoGrid5Ref = useRef(null);
+
+    const { t } = useTranslation();
+    const {
+        title,
+        bentoGridOneTitle,
+        bentoGridTwoTitle,
+        bentoGridThreeTitle,
+        bentoGridFourTitle,
+        bentoGridFiveTitle,
+    } = t("welcome.services");
 
     useGSAP(() => {
         gsap.set(bentoGrid1Ref.current, { scale: 1 });
@@ -63,7 +75,7 @@ const Services = () => {
     return (
         <section className="bg-[#F9F9FA]">
             <h1 className=" dark:text-gray-400 lg:text-[2.75rem] text-center text-[#3E4147] mb-5 md:text-[1.75rem] xs:text-[1rem] font-[800] items-center uppercase">
-                What are our differentiators
+                {title}
                 <span className="text-[#F5B041]">?</span>
             </h1>
 
@@ -79,13 +91,16 @@ const Services = () => {
                         }}
                     >
                         <p className="items-start text-3xl font-bold text-left mt-7 text-zinc">
-                            Add your listing for free.
+                            {bentoGridOneTitle}
                         </p>
 
                         <div className="absolute items-end mt-4 bottom-5 right-5">
-                            <div className="flex justify-center items-center h-10 w-10 bg-[#F1C40F] rounded-full">
+                            <Link
+                                href={route("flat.create")}
+                                className="flex justify-center items-center h-10 w-10 bg-[#F1C40F] rounded-full"
+                            >
                                 <MdArrowForwardIos className="w-6 h-6 text-white " />
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
@@ -93,42 +108,69 @@ const Services = () => {
                         ref={bentoGrid2Ref}
                         onMouseEnter={handleMouseEnterbentoGrid2}
                         onMouseLeave={handleMouseLeavebentoGrid2}
-                        className="flex items-start justify-start p-4 rounded-[5px] bg-center bg-cover"
+                        className="flex items-start justify-start p-4 rounded-[5px] bg-center bg-cover relative cursor-pointer"
                         style={{
                             backgroundImage: `url(${BentoVirtualTour})`,
                         }}
                     >
                         <p className="text-lg font-semibold text-zinc">
-                            Virtual Tours available.
+                            {bentoGridTwoTitle}
                         </p>
+
+                        <div className="absolute items-end mt-4 bottom-5 right-5">
+                            <Link
+                                href="/home-search"
+                                className="flex justify-center items-center h-10 w-10 bg-[#F1C40F] rounded-full"
+                            >
+                                <MdArrowForwardIos className="w-6 h-6 text-white " />
+                            </Link>
+                        </div>
                     </div>
 
                     <div
                         ref={bentoGrid3Ref}
                         onMouseEnter={handleMouseEnterbentoGrid3}
                         onMouseLeave={handleMouseLeavebentoGrid3}
-                        className="flex items-start justify-start p-4 rounded-[5px] bg-center bg-cover text-white"
+                        className="flex items-start justify-start p-4 rounded-[5px] bg-center bg-cover relative cursor-pointer text-white"
                         style={{
                             backgroundImage: `url(${BentoChat})`,
                         }}
                     >
                         <p className="text-lg font-semibold text-white">
-                            Chat in real-time.
+                            {bentoGridThreeTitle}
                         </p>
+
+                        <div className="absolute items-end mt-4 bottom-5 right-5">
+                            <Link
+                                href={route("dashboard")}
+                                className="flex justify-center items-center h-10 w-10 bg-[#F1C40F] rounded-full"
+                            >
+                                <MdArrowForwardIos className="w-6 h-6 text-white " />
+                            </Link>
+                        </div>
                     </div>
 
                     <div
                         ref={bentoGrid4Ref}
                         onMouseEnter={handleMouseEnterbentoGrid4}
                         onMouseLeave={handleMouseLeavebentoGrid4}
-                        className="flex items-end justify-start p-4 bg-[#8DE4AF] rounded-[5px] bg-center bg-cover"
+                        className="flex items-start justify-start p-4 rounded-[5px] bg-center bg-cover relative cursor-pointer"
                         style={{
                             backgroundImage: `url(${BentoNeighborhood})`,
                         }}
                     >
-                        <p className="text-lg font-semibold text-zinc">
-                            Find your perfect neighborhood.
+                        <p className="text-lg font-semibold text-[#17304c]">
+                            {bentoGridFourTitle}
                         </p>
+
+                        <div className="absolute items-end mt-4 bottom-5 right-5">
+                            <Link
+                                href="/home-search"
+                                className="flex justify-center items-center h-10 w-10 bg-[#F1C40F] rounded-full"
+                            >
+                                <MdArrowForwardIos className="w-6 h-6 text-white " />
+                            </Link>
+                        </div>
                     </div>
 
                     <div
@@ -137,20 +179,19 @@ const Services = () => {
                         onMouseLeave={handleMouseLeavebentoGrid5}
                         className="flex items-center cursor-pointer justify-center col-span-2 text-white bg-sky-500 rounded-[5px]"
                     >
-                        <div className="max-w-md mx-auto ">
+                        <Link
+                            href={route("verification.index")}
+                            className="max-w-md mx-auto"
+                        >
                             <img
                                 src={BentoShield}
                                 className="w-20 h-20 rounded-full place-items-center"
                             />
 
                             <div className="pt-5 space-y-6 text-base leading-7 text-white ">
-                                <p>
-                                    Enhance your safety. Check if the user is
-                                    verified to ensure secure interactions and
-                                    peace of mind.
-                                </p>
+                                <p>{bentoGridFiveTitle}</p>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

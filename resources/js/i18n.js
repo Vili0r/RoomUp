@@ -152,9 +152,24 @@ const resources = {
                             "Seal the deal with your new flatmate, sign the lease, and embark on your shared housing adventure.",
                     },
                 },
-                services: {},
-                featuredFlats: {},
-                footer: {},
+                services: {
+                    title: "What are our differentiators",
+                    bentoGridOneTitle: "Add your listing for free.",
+                    bentoGridTwoTitle: "Virtual Tours available.",
+                    bentoGridThreeTitle: "Chat in real-time.",
+                    bentoGridFourTitle: "Find your perfect neighborhood.",
+                    bentoGridFiveTitle:
+                        "Enhance your safety. Check if the user is erified to ensure secure interactions and peace of mind.",
+                },
+                featuredFlats: {
+                    titleOne: "|Featured Properties",
+                    titleTwo: "Choose a property you want",
+                    titleThree: "to explore",
+                },
+                footer: {
+                    missionOne: "Our mission is to make all people",
+                    missionTwo: "to find the best place to live.",
+                },
             },
             login: {
                 buttons: {
@@ -1159,9 +1174,25 @@ const resources = {
                             "Κλείστε τη συμφωνία με τον νέο σας συγκάτοικο, υπογράψτε τη μίσθωση και ξεκινήστε την κοινή σας περιπέτεια στη συγκατοίκηση.",
                     },
                 },
-                services: {},
-                featuredFlats: {},
-                footer: {},
+                services: {
+                    title: "Ποιες είναι οι διαφοροποιήσεις μας",
+                    bentoGridOneTitle: "Προσθέστε την αγγελία σας δωρεάν.",
+                    bentoGridTwoTitle: "Διαθέσιμες Εικονικές Περιηγήσεις.",
+                    bentoGridThreeTitle: "Συνομιλήστε σε πραγματικό χρόνο.",
+                    bentoGridFourTitle: "Βρείτε την τέλεια γειτονιά.",
+                    bentoGridFiveTitle:
+                        "Αυξήστε την ασφάλειά σας. Ελέγξτε αν ο χρήστης έχει επαληθευτεί για να εξασφαλίσετε ασφαλείς αλληλεπιδράσεις και ηρεμία.",
+                },
+                featuredFlats: {
+                    titleOne: "|Προτεινόμενα Ακίνητα",
+                    titleTwo: "Επιλέξτε ένα ακίνητο που θέλετε",
+                    titleThree: "να εξερευνήσετε",
+                },
+                footer: {
+                    missionOne:
+                        "Η αποστολή μας είναι να κάνουμε όλους τους ανθρώπους",
+                    missionTwo: "να βρουν τον καλύτερο τόπο για να ζήσουν.",
+                },
             },
             login: {
                 buttons: {

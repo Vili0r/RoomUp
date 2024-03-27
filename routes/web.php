@@ -87,8 +87,10 @@ Route::get('/', [HomeController::class, 'welcome'])
     ->name('welcome'); 
 Route::get('/blog', [HomeController::class, 'blog'])
     ->name('blog');
-Route::get('/about-us', [HomeController::class, 'aboutUs'])
-    ->name('about-us');
+Route::get('/faqs', [HomeController::class, 'faqs'])
+    ->name('faqs');
+Route::get('/terms', [HomeController::class, 'terms'])
+    ->name('terms');
 Route::get('/search', SearchController::class)
     ->name('search');
 Route::get('/home-search', HomeSearchController::class)
