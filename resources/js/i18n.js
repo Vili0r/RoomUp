@@ -81,22 +81,80 @@ const resources = {
                     },
                 },
             },
-            hero: {
-                title: {
-                    line1: "Find",
-                    line2: "Your Perfect",
-                    line3: "Property",
-                    line4: "Flatmate",
+            welcome: {
+                hero: {
+                    title: {
+                        line1: "Find",
+                        line2: "Your Perfect",
+                        line3: "Property",
+                        line4: "Flatmate",
+                    },
+                    description:
+                        "Effortlessly search for compatible roommates and secure your next living arrangement",
+                    searchBar: {
+                        content: "Search by location...",
+                        rent: "Rent",
+                        flatmate: "Flatmate",
+                        minimumPrice: "Min Price",
+                        maximumPrice: "Max Price",
+                    },
                 },
-                description:
-                    "Effortlessly search for compatible roommates and secure your next living arrangement",
-                searchBar: {
-                    content: "Search by location...",
-                    rent: "Rent",
-                    flatmate: "Flatmate",
-                    minimumPrice: "Min Price",
-                    maximumPrice: "Max Price",
+                howItWorks: {
+                    section1: {
+                        section1Title1: "Flat Search",
+                        section1Description1:
+                            "Looking for your perfect space? It’s simple.",
+                        section1SubTitle1: "Explore Listings:",
+                        section1SubDescription1:
+                            "Dive into a variety of listings that fit your lifestyle and budget. Our intuitive search lets you filter by location, price, and amenities.",
+                        section1SubTitle2: "Inspect Details:",
+                        section1SubDescription2:
+                            " View high-resolution photos and read about the property specifics to make sure it's the right fit for you.",
+                        section1SubTitle3: "Contact & Visit:",
+                        section1SubDescription3:
+                            "Send a message directly to homeowners to inquire more or schedule a visit.",
+                        section1SubTitle4: "Make It Home:",
+                        section1SubDescription4:
+                            "Found the one? Discuss the lease, sign the agreement, and get the keys to your new flat!",
+                    },
+                    section2: {
+                        section2Title1: "Room Search",
+                        section2Description1:
+                            "Not ready to commit to a whole flat? A room might be just right.",
+                        section2SubTitle1: "Find Shared Spaces:",
+                        section2SubDescription1:
+                            "Filter your search to look for available rooms in shared flats. Find spaces that are welcoming and match your preferences.",
+                        section2SubTitle2: "Reach Out:",
+                        section2SubDescription2:
+                            " Connect with the lister to learn more about the space, the existing flatmates, and the living arrangements.",
+                        section2SubTitle3: "Arrange a Meetup:",
+                        section2SubDescription3:
+                            "Check out the room, meet your potential flatmates, and get a feel of the place.",
+                        section2SubTitle4: "Move In:",
+                        section2SubDescription4:
+                            "Agree on the details, set up the moving date, and start packing. Your new shared life awaits!",
+                    },
+                    section3: {
+                        section3Title3: "Flatmate Search",
+                        section3Description3:
+                            "Want to team up and find a place together? Here’s how.",
+                        section3SubTitle1: "Create a Profile:",
+                        section3SubDescription1:
+                            "Tell us a bit about yourself, your interests, and what you’re looking for in a flatmate and home.",
+                        section3SubTitle2: "Search & Chat:",
+                        section3SubDescription2:
+                            "Search for potential flatmates based on compatibility. Start a conversation and see if you click.",
+                        section3SubTitle3: "Joint Search:",
+                        section3SubDescription3:
+                            "Team up with your new-found flatmate to search for the perfect flat that meets both your needs.",
+                        section3SubTitle4: "New Beginnings:",
+                        section3SubDescription4:
+                            "Seal the deal with your new flatmate, sign the lease, and embark on your shared housing adventure.",
+                    },
                 },
+                services: {},
+                featuredFlats: {},
+                footer: {},
             },
             login: {
                 buttons: {
@@ -1030,22 +1088,80 @@ const resources = {
                     },
                 },
             },
-            hero: {
-                title: {
-                    line1: "Βρες",
-                    line2: "Το Ιδανικό",
-                    line3: "Ακίνητο",
-                    line4: "Συγκάτοικο",
+            welcome: {
+                hero: {
+                    title: {
+                        line1: "Βρες",
+                        line2: "Το Ιδανικό",
+                        line3: "Ακίνητο",
+                        line4: "Συγκάτοικο",
+                    },
+                    description:
+                        "Αναζητήστε εύκολα συμβατούς συγκάτοικους και εξασφαλίστε την επόμενη κατοικία σας",
+                    searchBar: {
+                        content: "Διεύθυνση ή περιοχή...",
+                        rent: "Κατοικία",
+                        flatmate: "Συγκάτοικο",
+                        minimumPrice: "Ελάχιστη Τιμή",
+                        maximumPrice: "Μέγιστη Τιμή",
+                    },
                 },
-                description:
-                    "Αναζητήστε εύκολα συμβατούς συγκάτοικους και εξασφαλίστε την επόμενη κατοικία σας",
-                searchBar: {
-                    content: "Διεύθυνση ή περιοχή...",
-                    rent: "Κατοικία",
-                    flatmate: "Συγκάτοικο",
-                    minimumPrice: "Ελάχιστη Τιμή",
-                    maximumPrice: "Μέγιστη Τιμή",
+                howItWorks: {
+                    section1: {
+                        section1Title1: "Αναζήτηση Διαμερίσματος",
+                        section1Description1:
+                            "Αναζητάτε το τέλειο χώρο σας; Είναι απλό.",
+                        section1SubTitle1: "Εξερευνήστε Αγγελίες:",
+                        section1SubDescription1:
+                            "Βυθιστείτε σε μια ποικιλία αγγελιών που ταιριάζουν στον τρόπο ζωής και τον προϋπολογισμό σας. Η διαισθητική μας αναζήτηση σας επιτρέπει να φιλτράρετε βάσει τοποθεσίας, τιμής και παροχών.",
+                        section1SubTitle2: "Ελέγξτε Λεπτομέρειες:",
+                        section1SubDescription2:
+                            "Δείτε φωτογραφίες υψηλής ανάλυσης και διαβάστε για τις λεπτομέρειες του ακινήτου για να βεβαιωθείτε ότι είναι το κατάλληλο για εσάς.",
+                        section1SubTitle3: "Επικοινωνία & Επίσκεψη:",
+                        section1SubDescription3:
+                            "Στείλτε άμεσα μήνυμα στους ιδιοκτήτες για να μάθετε περισσότερα ή να κανονίσετε μια επίσκεψη.",
+                        section1SubTitle4: "Κάντε το Σπίτι σας:",
+                        section1SubDescription4:
+                            "Βρήκατε αυτό που θέλατε; Συζητήστε τη μίσθωση, υπογράψτε τη συμφωνία και πάρτε τα κλειδιά για το νέο σας διαμέρισμα!",
+                    },
+                    section2: {
+                        section2Title1: "Αναζήτηση Δωματίου",
+                        section2Description1:
+                            "Δεν είστε έτοιμοι να δεσμευτείτε για ένα ολόκληρο διαμέρισμα; Ένα δωμάτιο μπορεί να είναι ακριβώς ό,τι χρειάζεστε.",
+                        section2SubTitle1: "Βρείτε Κοινόχρηστους Χώρους:",
+                        section2SubDescription1:
+                            "Φιλτράρετε την αναζήτησή σας για να ανακαλύψετε διαθέσιμα δωμάτια σε κοινόχρηστα διαμερίσματα. Εντοπίστε χώρους που είναι φιλόξενοι και ανταποκρίνονται στις προτιμήσεις σας.",
+                        section2SubTitle2: "Επικοινωνήστε:",
+                        section2SubDescription2:
+                            "Επικοινωνήστε με τον διαφημιζόμενο για να μάθετε περισσότερα για το χώρο, τους υπάρχοντες συγκατοίκους και τις συνθήκες διαβίωσης.",
+                        section2SubTitle3: "Οργανώστε Συνάντηση:",
+                        section2SubDescription3:
+                            "Δείτε το δωμάτιο, γνωρίστε τους πιθανούς συγκατοίκους σας και αποκτήστε μια αίσθηση του χώρου.",
+                        section2SubTitle4: "Μετακομίστε:",
+                        section2SubDescription4:
+                            "Συμφωνήστε στις λεπτομέρειες, ορίστε την ημερομηνία μετακόμισης και αρχίστε να τακτοποιείτε τα πράγματά σας. Η νέα σας κοινόχρηστη ζωή σας περιμένει!",
+                    },
+                    section3: {
+                        section3Title3: "Αναζήτηση Συγκατοίκου",
+                        section3Description3:
+                            "Θέλετε να συνεργαστείτε και να βρείτε μαζί έναν χώρο; Ιδού πώς.",
+                        section3SubTitle1: "Δημιουργήστε Προφίλ:",
+                        section3SubDescription1:
+                            "Μοιραστείτε μαζί μας λίγα πράγματα για τον εαυτό σας, τα ενδιαφέροντά σας και τι αναζητάτε σε έναν συγκάτοικο και σπίτι.",
+                        section3SubTitle2: "Αναζήτηση & Συνομιλία:",
+                        section3SubDescription2:
+                            "Αναζητήστε πιθανούς συγκατοίκους με βάση τη συμβατότητα. Ξεκινήστε μια συνομιλία και δείτε αν ταιριάζετε.",
+                        section3SubTitle3: "Κοινή Αναζήτηση:",
+                        section3SubDescription3:
+                            "Συνεργαστείτε με τον νέο σας συγκάτοικο για να βρείτε το ιδανικό διαμέρισμα που ικανοποιεί τις ανάγκες και των δύο.",
+                        section3SubTitle4: "Νέα Αρχή:",
+                        section3SubDescription4:
+                            "Κλείστε τη συμφωνία με τον νέο σας συγκάτοικο, υπογράψτε τη μίσθωση και ξεκινήστε την κοινή σας περιπέτεια στη συγκατοίκηση.",
+                    },
                 },
+                services: {},
+                featuredFlats: {},
+                footer: {},
             },
             login: {
                 buttons: {

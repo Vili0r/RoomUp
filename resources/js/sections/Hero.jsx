@@ -9,7 +9,7 @@ const Hero = () => {
     const line3Ref = useRef(null);
     const line4Ref = useRef(null);
     const { t } = useTranslation();
-    const { line1, line2, line3, line4 } = t("hero.title");
+    const { line1, line2, line3, line4 } = t("welcome.hero.title");
 
     useGSAP(() => {
         // Set initial visibility
@@ -60,7 +60,7 @@ const Hero = () => {
                     </div>
 
                     <p className="sm:mb-[2rem] mb-2 mr-[2rem] md:text-[1rem] sm:text-[0.825rem] text-[0.79rem] text-gray-100 font-bold">
-                        {t("hero.description")}
+                        {t("welcome.hero.description")}
                     </p>
                     <SearchBar />
                 </div>

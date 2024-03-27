@@ -65,7 +65,7 @@ const FeaturedFlats = () => {
                             <span className="text-[#F5B041]">.</span>
                         </span>
                     }
-                    textStyles="text-center lg:text-[2.75rem] text-center text-[#3E4147] mb-5 md:text-[1.75rem] xs:text-[1rem] font-[800] items-center uppercase"
+                    textStyles="mt-[8px] text-center lg:text-[2.75rem] text-center text-[#3E4147] mb-5 md:text-[1.75rem] xs:text-[1rem] font-[800] items-center uppercase"
                 />
                 <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
                     {featured.map((item, index) => (

@@ -22,6 +22,11 @@ import HousePlaceholder from "./HousePlaceholder.jpeg";
 import RestaurantPlaceholder from "./RestaurantPlaceholder.jpeg";
 import SidebarBg from "./SidebarBg.jpeg";
 import CustomerService from "./CustomerService.png";
+import BentoIllustration1 from "./BentoIllustration1.png";
+import BentoShield from "./BentoShield.png";
+import BentoChat from "./BentoChat.png";
+import BentoVirtualTour from "./BentoVirtualTour.png";
+import BentoNeighborhood from "./BentoNeighborhood.png";
 
 export {
     logo,
@@ -48,4 +53,9 @@ export {
     ErrorImage,
     CustomerService,
     RestaurantPlaceholder,
+    BentoIllustration1,
+    BentoShield,
+    BentoChat,
+    BentoVirtualTour,
+    BentoNeighborhood,
 };

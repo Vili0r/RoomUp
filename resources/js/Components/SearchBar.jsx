@@ -10,8 +10,9 @@ const SearchBar = () => {
     const [maxPrice, setMaxPrice] = useState(0);
 
     const { t } = useTranslation();
-    const { content, rent, flatmate, minimumPrice, maximumPrice } =
-        t("hero.searchBar");
+    const { content, rent, flatmate, minimumPrice, maximumPrice } = t(
+        "welcome.hero.searchBar"
+    );
 
     const switchType = (val) => {
         setType(val);

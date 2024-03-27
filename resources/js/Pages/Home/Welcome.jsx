@@ -12,8 +12,8 @@ export default function Welcome(props) {
             <Head title="Welcome" />
             <div className="overflow-hidden">
                 <Hero />
-                <Services />
                 <HowItWorks />
+                <Services />
                 <FeaturedFlats />
             </div>
         </GuestLayout>
