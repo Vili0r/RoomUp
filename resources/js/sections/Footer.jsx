@@ -99,6 +99,7 @@ const Footer = ({ scrollToServices }) => {
                             </li>
                             <li className="">
                                 <Link
+                                    href={route("customer-contact.create")}
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >

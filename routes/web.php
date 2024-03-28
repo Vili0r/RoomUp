@@ -28,6 +28,7 @@ use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationReplyController;
+use App\Http\Controllers\CustomerContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteIndexController;
 use App\Http\Controllers\FlatAvailabilityController;
@@ -97,6 +98,8 @@ Route::get('/home-search', HomeSearchController::class)
     ->name('home-search');
 Route::get('/flatmate-search', SearchRoommateController::class)
     ->name('flatmate-search');
+Route::resource('/customer-contact', CustomerContactController::class)
+    ->only(['create', 'store']);
   
 //Socials routes
 Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
@@ -127,11 +130,6 @@ Route::resource('/blogs.comments', BlogCommentController::class)
 //Report listing Controller
 Route::resource('/reported-listings', ReportedListingController::class)
     ->only(['create', 'store']);
-
-Route::get('/language/{language}', function (string $language) {
-    Session()->put('locale', $language);
-    App::setLocale($language);
-})->name('language');
 
 Route::group(['middleware' => ['auth', 'verified']], function() {
     //Dashboard controller

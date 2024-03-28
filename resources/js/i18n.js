@@ -915,6 +915,15 @@ const resources = {
                 detailsForm: "Details",
                 reportListingBtn: "Report Listing",
             },
+            customerContact: {
+                title: "Contact RoomUp",
+                firstName: "First Name",
+                lastName: "Last Name",
+                emailAddress: "Email Address",
+                reasonFor: "Reason",
+                detailsForm: "Details",
+                customerContactBtn: "Contact",
+            },
             searchFunctionality: {
                 inputPlaceholder: "Enter address, city or zipcode",
                 showList: "Show List",
@@ -2059,6 +2068,15 @@ const resources = {
                 natureForm: "Φύση της αναφοράς",
                 detailsForm: "Λεπτομέρειες",
                 reportListingBtn: "Αναφορά Αγγελίας",
+            },
+            customerContact: {
+                title: "Επικοινώνησε με το RoomUp",
+                firstName: "Όνομα",
+                lastName: "Επώνυμο",
+                emailAddress: "Διεύθυνση Email",
+                reasonFor: "Λόγος",
+                detailsForm: "Περιγραφή",
+                customerContactBtn: "Αποστολή",
             },
             searchFunctionality: {
                 inputPlaceholder:
