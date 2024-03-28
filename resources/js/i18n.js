@@ -9,7 +9,7 @@ const resources = {
     en: {
         translation: {
             header: {
-                placeAd: "Place Ad",
+                placeAd: "List your property",
                 blog: "Blog",
                 searchHeader: "Search",
                 login: "Login",
@@ -169,6 +169,74 @@ const resources = {
                 footer: {
                     missionOne: "Our mission is to make all people",
                     missionTwo: "to find the best place to live.",
+                    about: "About",
+                    features: "Features",
+                    blog: "News & Blog",
+                    faq: "FAQs",
+                    support: "Support",
+                    supportCenter: "Support Center",
+                    contact: "Contact us",
+                    follow: "Follow us",
+                    rights: "All rights reserved.",
+                    terms: "Terms & Conditions",
+                },
+                faq: {
+                    firstFAQTitle: "How can I list my flat for sharing ?",
+                    firstFAQDescription:
+                        "Listing your flat is simple. After signing up and verifying your account, click on the 'List Your Property' option, fill in the details about your flat, upload high-quality photos, and submit your listing. After submitting you choose when you want the listing to go live.",
+                    secondFAQTitle: "Is listing my flat free ?",
+                    secondFAQDescription:
+                        "Yes, listing your flat on our platform is completely free. We believe in making flat sharing accessible to everyone.",
+                    thirdFAQTitle: "How do I find a flatmate ?",
+                    thirdFAQDescription:
+                        "You can browse through profiles of individuals looking for a flat share and use our advanced search functionality to find potential flatmates that match your criteria. Once you find someone compatible, you can initiate contact directly through our platform.",
+                    fourthFAQTitle:
+                        "What safety measures are in place for users ?",
+                    fourthFAQDescription:
+                        "User safety is our top priority. We verify the identity of all our users andprovide a secure messaging system forcommunication. We encourage users toreport any suspicious activityimmediately. All the verified users willhave a checked status.",
+                    fifthFAQTitle: "Can I take a virtual tour of a property ?",
+                    fifthFAQDescription:
+                        "Yes, many of our listings include virtual tours that allow you to explore properties from the comfort of your home. However, this is up to the property owner to opt for it.",
+                    sixthFAQTitle: "How do I report a problem or get support ?",
+                    sixthFAQDescription:
+                        "If you encounter any issues or have questions, we encourage you to sign in and contact our support team through the dashboard. We're here to help.",
+                },
+                terms: {
+                    title: "Terms & Conditions",
+                    subTitle: "Welcome to RoomUp!",
+                    description:
+                        "These terms and conditions outline the rules and regulations for the use of RoomUp's Website and App.",
+                    subDescription:
+                        "By accessing this app we assume you accept these terms and conditions. Do not continue to use RoomUp if you do not agree to take all of the terms and conditions stated on this page.",
+                    titleTermOne: "User Accounts:",
+                    descriptionOneTermOne:
+                        "-Users must be 18 years or older to create an account.",
+                    descriptionTwoTermOne:
+                        "-All information provided during account creation must be accurate and truthful.",
+                    descriptionThreeTermOne:
+                        "-Users are responsible for maintaining the confidentiality of their account details.",
+                    titleTermTwo: "Listing and Interactions:",
+                    descriptionOneTermTwo:
+                        "-Users must own or have explicit permission to list a property for sharing.",
+                    descriptionTwoTermTwo:
+                        "-All listings must provide accurate and current information about the property.",
+                    descriptionThreeTermTwo:
+                        "-Harassment, discrimination, and any form of abuse are strictly prohibited.",
+                    titleTermThree: "Intellectual Property Rights:",
+                    descriptionOneTermThree:
+                        "Other than the content you own, under these Terms, RoomUp and/or its licensors own all the intellectual property rights and materials contained in this app.",
+                    titleTermFour: "Limitation of Liability:",
+                    descriptionOneTermFour:
+                        "RoomUp is not liable for any direct, indirect, special, or consequential loss or damage that may occur from the use of the app.",
+                    titleTermFive: "Changes to Terms and Conditions:",
+                    descriptionOneTermFive:
+                        "Roomup reserves the right to modify these terms and conditions at any time. Users will be notified of any changes.",
+                    titleTermSix: "Governing Law:",
+                    descriptionOneTermSix:
+                        "These terms and conditions are governed by [applicable law] and any disputes will be resolved in accordance with the laws of [Jurisdiction].",
+                    titleTermSeven: "Contact Us:",
+                    descriptionOneTermSeven:
+                        "For any questions or inquiries regarding our terms and conditions, please contact us.",
                 },
             },
             login: {
@@ -1192,6 +1260,78 @@ const resources = {
                     missionOne:
                         "Η αποστολή μας είναι να κάνουμε όλους τους ανθρώπους",
                     missionTwo: "να βρουν τον καλύτερο τόπο για να ζήσουν.",
+                    about: "About",
+                    features: "Χαρακτηριστικά",
+                    blog: "Νέα & Blog",
+                    faq: "Συχνές Ερωτήσεις",
+                    support: "Υποστήριξη",
+                    supportCenter: "Κέντρο Υποστήριξης",
+                    contact: "Επικοινωνία",
+                    follow: "Ακολουθήστε μας",
+                    rights: "All rights reserved",
+                    terms: "Όροι & Προϋποθέσεις",
+                },
+                faq: {
+                    firstFAQTitle:
+                        "Πώς μπορώ να καταχωρίσω το διαμέρισμά μου ;",
+                    firstFAQDescription:
+                        "Η καταχώριση του διαμερίσματός σας είναι απλή. Αφού εγγραφείτε και επαληθεύσετε τον λογαριασμό σας, κάντε κλικ στην επιλογή 'Καταχώρηση Αγγελίας', συμπληρώστε τις λεπτομέρειες για το διαμέρισμά σας, ανεβάστε φωτογραφίες υψηλής ποιότητας και υποβάλετε την καταχώρησή σας. Μετά την υποβολή, επιλέγετε πότε θέλετε να ενεργοποιηθεί η καταχώρηση.",
+                    secondFAQTitle:
+                        "Είναι δωρεάν η καταχώρηση του διαμερίσματός μου ;",
+                    secondFAQDescription:
+                        "Ναι, η καταχώρηση της αγγελίες σας στην πλατφόρμα μας είναι εντελώς δωρεάν. Πιστεύουμε στη διευκόλυνση της κοινής χρήσης διαμερισμάτων για όλους.",
+                    thirdFAQTitle: "Πώς μπορώ να βρω συγκάτοικο ;",
+                    thirdFAQDescription:
+                        "Μπορείτε να περιηγηθείτε σε προφίλ ατόμων που ψάχνουν για κοινή χρήση διαμερίσματος και να χρησιμοποιήσετε την προηγμένη λειτουργία αναζήτησης για να βρείτε πιθανούς συγκατοίκους που ταιριάζουν στα κριτήριά σας. Μόλις βρείτε κάποιον συμβατό, μπορείτε να ξεκινήσετε επικοινωνία απευθείας μέσω της πλατφόρμας μας.",
+                    fourthFAQTitle:
+                        "Ποια μέτρα ασφαλείας έχουν ληφθεί για τους χρήστες ;",
+                    fourthFAQDescription:
+                        "Η ασφάλεια των χρηστών είναι η πρώτη μας προτεραιότητα. Επαληθεύουμε την ταυτότητα όλων των χρηστών μας και παρέχουμε ένα ασφαλές σύστημα μηνυμάτων για την επικοινωνία. Ενθαρρύνουμε τους χρήστες να αναφέρουν άμεσα οποιαδήποτε ύποπτη δραστηριότητα. Όλοι οι επαληθευμένοι χρήστες θα έχουν έναν checked σήμα.",
+                    fifthFAQTitle:
+                        "Μπορώ να κάνω εικονική περιήγηση σε ένα ακίνητο ;",
+                    fifthFAQDescription:
+                        "Ναι, πολλές από τις καταχωρήσεις μας περιλαμβάνουν εικονικές περιηγήσεις που σας επιτρέπουν να εξερευνήσετε ακίνητα από την άνεση του σπιτιού σας. Ωστόσο, αυτό εξαρτάται από τον ιδιοκτήτη του ακινήτου αν θα επιλέξει να το προσφέρει.",
+                    sixthFAQTitle:
+                        "Πώς μπορώ να αναφέρω ένα πρόβλημα ή να λάβω υποστήριξη ;",
+                    sixthFAQDescription:
+                        "Εάν αντιμετωπίσετε οποιοδήποτε πρόβλημα ή έχετε ερωτήσεις, σας ενθαρρύνουμε να συνδεθείτε και να επικοινωνήσετε με την ομάδα υποστήριξής μας μέσω του dashboard. Είμαστε εδώ για να βοηθήσουμε.",
+                },
+                terms: {
+                    title: "Όροι & Προϋποθέσεις",
+                    subTitle: "Καλώς ήρθατε στο RoomUp!",
+                    description:
+                        "Οι παρόντες όροι και προϋποθέσεις καθορίζουν τους κανόνες και τις ρυθμίσεις για τη χρήση της Ιστοσελίδας και της Εφαρμογής του RoomUp.",
+                    subDescription:
+                        "Χρησιμοποιώντας αυτήν την εφαρμογή υποθέτουμε ότι αποδέχεστε αυτούς τους όρους και προϋποθέσεις. Μην συνεχίσετε να χρησιμοποιείτε το RoomUp εάν δεν συμφωνείτε να αποδεχτείτε όλους τους όρους και τις προϋποθέσεις που αναφέρονται σε αυτήν τη σελίδα.",
+                    titleTermOne: "Λογαριασμοί Χρηστών:",
+                    descriptionOneTermOne:
+                        "-Οι χρήστες πρέπει να είναι 18 ετών ή μεγαλύτεροι για να δημιουργήσουν λογαριασμό.",
+                    descriptionTwoTermOne:
+                        "-Όλες οι πληροφορίες που παρέχονται κατά τη δημιουργία λογαριασμού πρέπει να είναι ακριβείς και αληθινές.",
+                    descriptionThreeTermOne:
+                        "-Οι χρήστες είναι υπεύθυνοι για τη διατήρηση της εμπιστευτικότητας των στοιχείων του λογαριασμού τους.",
+                    titleTermTwo: "Καταχωρήσεις και Αλληλεπιδράσεις:",
+                    descriptionOneTermTwo:
+                        "-Οι χρήστες πρέπει να είναι ιδιοκτήτες ή να έχουν ρητή άδεια για να καταχωρίσουν ένα ακίνητο προς κοινή χρήση.",
+                    descriptionTwoTermTwo:
+                        "-Όλες οι καταχωρήσεις πρέπει να παρέχουν ακριβείς και επίκαιρες πληροφορίες σχετικά με το ακίνητο.",
+                    descriptionThreeTermTwo:
+                        "-Η παρενόχληση, η διάκριση και κάθε μορφή κακοποίησης απαγορεύονται αυστηρά.",
+                    titleTermThree: "Δικαιώματα Πνευματικής Ιδιοκτησίας:",
+                    descriptionOneTermThree:
+                        "Εκτός από το περιεχόμενο που κατέχετε, υπό αυτούς τους Όρους, το RoomUp και/ή οι αδειοδοτούντες του κατέχουν όλα τα δικαιώματα πνευματικής ιδιοκτησίας και τα υλικά που περιέχονται σε αυτήν την εφαρμογή.",
+                    titleTermFour: "Περιορισμός Ευθύνης:",
+                    descriptionOneTermFour:
+                        "Το RoomUp δεν ευθύνεται για άμεσες, έμμεσες, ειδικές ή παρεπόμενες ζημιές ή ζημίες που μπορεί να προκύψουν από τη χρήση της εφαρμογής.",
+                    titleTermFive: "Αλλαγές στους Όρους και Προϋποθέσεις:",
+                    descriptionOneTermFive:
+                        "Το RoomUp διατηρεί το δικαίωμα να τροποποιήσει αυτούς τους όρους και προϋποθέσεις ανά πάσα στιγμή. Οι χρήστες θα ειδοποιούνται για οποιεσδήποτε αλλαγές.",
+                    titleTermSix: "Εφαρμοστέο Δίκαιο:",
+                    descriptionOneTermSix:
+                        "Αυτοί οι όροι και προϋποθέσεις διέπονται από το [εφαρμοστέο δίκαιο] και οποιεσδήποτε διαφορές θα επιλύονται σύμφωνα με τους νόμους της [Δικαιοδοσίας].",
+                    titleTermSeven: "Επικοινωνήστε Μαζί Μας:",
+                    descriptionOneTermSeven:
+                        "Για οποιεσδήποτε ερωτήσεις ή απορίες σχετικά με τους όρους και προϋποθέσεις μας, παρακαλούμε επικοινωνήστε μαζί μας.",
                 },
             },
             login: {

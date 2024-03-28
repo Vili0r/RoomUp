@@ -6,7 +6,20 @@ import { useTranslation } from "react-i18next";
 
 const Footer = ({ scrollToServices }) => {
     const { t } = useTranslation();
-    const { missionOne, missionTwo } = t("welcome.footer");
+    const {
+        missionOne,
+        missionTwo,
+        about,
+        features,
+        blog,
+        faq,
+        support,
+        supportCenter,
+        contact,
+        follow,
+        rights,
+        terms,
+    } = t("welcome.footer");
 
     return (
         <footer className="bg-white dark:bg-gray-900">
@@ -32,7 +45,7 @@ const Footer = ({ scrollToServices }) => {
                 >
                     <div>
                         <h3 className="font-[1.25rem] mb-[1rem] dark:text-gray-400">
-                            About
+                            {about}
                         </h3>
                         <ul className="gap-[0.5rem]">
                             <li
@@ -47,7 +60,7 @@ const Footer = ({ scrollToServices }) => {
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >
-                                    Features
+                                    {features}
                                 </button>
                             </li>
                             <li className="">
@@ -56,14 +69,14 @@ const Footer = ({ scrollToServices }) => {
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >
-                                    News & Blog
+                                    {blog}
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="font-[1.25rem] mb-[1rem] dark:text-gray-400">
-                            Support
+                            {support}
                         </h3>
                         <ul className="gap-y-[0.5rem]">
                             <li className="">
@@ -72,7 +85,7 @@ const Footer = ({ scrollToServices }) => {
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >
-                                    FAQs
+                                    {faq}
                                 </Link>
                             </li>
                             <li className="">
@@ -81,7 +94,7 @@ const Footer = ({ scrollToServices }) => {
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >
-                                    Support center
+                                    {supportCenter}
                                 </Link>
                             </li>
                             <li className="">
@@ -89,14 +102,14 @@ const Footer = ({ scrollToServices }) => {
                                     className="text-[hsl(228, 15%, 50%)] hover:text-[hsl(228, 57%, 28%)] dark:text-gray-400"
                                     style={{ transition: ".3s" }}
                                 >
-                                    Contact Us
+                                    {contact}
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <div className="">
                         <h3 className="font-[1.25rem] mb-[1rem] dark:text-gray-400">
-                            Follow us
+                            {follow}
                         </h3>
                         <ul className="flex gap-[1rem]">
                             <a
@@ -133,10 +146,10 @@ const Footer = ({ scrollToServices }) => {
             </div>
             <div className="ml-[1.5rem] mr-[1.5rem] flex pb-[1rem] flex-col mt-[5.5rem] text-center gap-[1.5rem] dark:text-gray-400 md:flex-row md:justify-between md:pb-[2rem]">
                 <span className="text-[.813rem] font-[500] text-[hsl(228, 15%, 50%)]">
-                    &#169; RoomUp. All right reserved.
+                    &#169; RoomUp. {rights}
                 </span>
                 <div className="flex text-[.813rem] font-[500] text-[hsl(228, 15%, 50%)] justify-center gap-[1.25rem] dark:text-gray-400">
-                    <Link href={route("terms")}>Terms & Conditions</Link>
+                    <Link href={route("terms")}>{terms}</Link>
                 </div>
             </div>
         </footer>

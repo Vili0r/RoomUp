@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head } from "@inertiajs/react";
 import { MdAdd } from "react-icons/md";
 import { FiMinus } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const FAQs = (props) => {
+    const [openQuestion, setOpenQuestion] = useState(0);
+
+    const { t } = useTranslation();
+    const {
+        firstFAQTitle,
+        firstFAQDescription,
+        secondFAQTitle,
+        secondFAQDescription,
+        thirdFAQTitle,
+        thirdFAQDescription,
+        fourthFAQTitle,
+        fourthFAQDescription,
+        fifthFAQTitle,
+        fifthFAQDescription,
+        sixthFAQTitle,
+        sixthFAQDescription,
+    } = t("welcome.faq");
+
+    const hanldeOpenQuestion = (index) => {
+        setOpenQuestion(index);
+    };
     return (
         <GuestLayout user={props.auth.user}>
             <Head title="FAQs" />
@@ -17,75 +39,176 @@ const FAQs = (props) => {
                     <hr className="my-6 border-gray-200 dark:border-gray-700" />
 
                     <div>
-                        <div>
-                            <button className="flex items-center focus:outline-none">
-                                <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                        <div
+                            onClick={() => hanldeOpenQuestion(1)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 1 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
 
                                 <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                                    How can I pay for my appointment ?
+                                    {firstFAQTitle}
                                 </h1>
-                            </button>
-
-                            <div className="flex mt-8 md:mx-10">
-                                <span className="border border-[#F1C40F]"></span>
-
-                                <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Magni, eum quae. Harum
-                                    officiis reprehenderit ex quia ducimus
-                                    minima id provident molestias optio nam vel,
-                                    quidem iure voluptatem, repellat et ipsa.
-                                </p>
                             </div>
+
+                            {openQuestion === 1 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {firstFAQDescription}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
-                        <div>
-                            <button className="flex items-center focus:outline-none">
-                                <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                        <div
+                            onClick={() => hanldeOpenQuestion(2)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 2 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
 
                                 <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                                    What can I expect at my first consultation ?
+                                    {secondFAQTitle}
                                 </h1>
-                            </button>
+                            </div>
+
+                            {openQuestion === 2 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {secondFAQDescription}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
-                        <div>
-                            <button className="flex items-center focus:outline-none">
-                                <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                        <div
+                            onClick={() => hanldeOpenQuestion(3)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 3 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
 
                                 <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                                    What are your opening hours ?
+                                    {thirdFAQTitle}
                                 </h1>
-                            </button>
+                            </div>
+
+                            {openQuestion === 3 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {thirdFAQDescription}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
-                        <div>
-                            <button className="flex items-center focus:outline-none">
-                                <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                        <div
+                            onClick={() => hanldeOpenQuestion(4)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 4 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
 
                                 <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                                    Do I need a referral ?
+                                    {fourthFAQTitle}
                                 </h1>
-                            </button>
+                            </div>
+
+                            {openQuestion === 4 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {fourthFAQDescription}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <hr className="my-8 border-gray-200 dark:border-gray-700" />
 
-                        <div>
-                            <button className="flex items-center focus:outline-none">
-                                <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                        <div
+                            onClick={() => hanldeOpenQuestion(5)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 5 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
 
                                 <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                                    Is the cost of the appointment covered by
-                                    private health insurance ?
+                                    {fifthFAQTitle}
                                 </h1>
-                            </button>
+                            </div>
+
+                            {openQuestion === 5 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {fifthFAQDescription}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        <hr className="my-8 border-gray-200 dark:border-gray-700" />
+
+                        <div
+                            onClick={() => hanldeOpenQuestion(6)}
+                            className="cursor-pointer"
+                        >
+                            <div className="flex items-center focus:outline-none">
+                                {openQuestion === 6 ? (
+                                    <FiMinus className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                ) : (
+                                    <MdAdd className="flex-shrink-0 text- w-7 h-7 text-[#F1C40F]" />
+                                )}
+
+                                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
+                                    {sixthFAQTitle}
+                                </h1>
+                            </div>
+
+                            {openQuestion === 6 && (
+                                <div className="flex mt-8 md:mx-10">
+                                    <span className="border border-[#F1C40F]"></span>
+
+                                    <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                                        {sixthFAQDescription}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
