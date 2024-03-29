@@ -24,7 +24,9 @@ class CustomerContactController extends Controller
      */
     public function store(CustomerContactStoreRequest $request): RedirectResponse
     {
-        CustomerContact::create($request->validated());
+        CustomerContact::create($request->validated() + [
+            'status' => 1,
+        ]);
         
         return to_route('dashboard');
     }

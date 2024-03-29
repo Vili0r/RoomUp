@@ -12,6 +12,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoShieldCheckmark } from "react-icons/io5";
 import SidebarNavLink from "../Components/SidebarNavLink";
 import { GiProtectionGlasses } from "react-icons/gi";
+import { TfiHeadphoneAlt } from "react-icons/tfi";
 
 export default function AdminLayoutII({ auth, children }) {
     const [showSidebarMenu, setShowSidebarMenu] = useState(false);
@@ -61,7 +62,7 @@ export default function AdminLayoutII({ auth, children }) {
                         } grid grid-cols-2 space-x-[.5rem] lg:transition-padding lg:duration-400`}
                     >
                         <Link
-                            href={route("welcome")}
+                            href={route("dashboard")}
                             className="inline-flex space-x-2"
                         >
                             <img className="w-[37px]" src={logo} />
@@ -401,6 +402,33 @@ export default function AdminLayoutII({ auth, children }) {
                                     } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
                                 >
                                     Virtual Tours
+                                </span>
+                            </SidebarNavLink>
+                            <SidebarNavLink
+                                href={route("admin.customer-contacts.index")}
+                                active={route().current(
+                                    "admin.customer-contacts.index"
+                                )}
+                                className=""
+                                style={{ transition: "background .3s" }}
+                            >
+                                <TfiHeadphoneAlt className="text-xl text-[#F2F2F2]" />
+                                <span
+                                    className="font-[500]"
+                                    style={{
+                                        trnasition: "color .4s, opacity .4s",
+                                    }}
+                                >
+                                    Customer Contact
+                                </span>
+                                <span
+                                    className={`${
+                                        showSidebarMenu
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                    } block text-xs max-w-max mx-auto absolute left-[-20px] right-0 bottom-[2px]`}
+                                >
+                                    Customer Contact
                                 </span>
                             </SidebarNavLink>
                             <SidebarNavLink

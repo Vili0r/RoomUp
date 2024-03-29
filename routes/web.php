@@ -5,6 +5,11 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BlogFeaturedController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\CustomerContactDestroyController;
+use App\Http\Controllers\Admin\CustomerContactEmailController;
+use App\Http\Controllers\Admin\CustomerContactIndexController;
+use App\Http\Controllers\Admin\CustomerContactResolveController;
+use App\Http\Controllers\Admin\CustomerContactShowController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ReportedListingDeletePropertyController;
 use App\Http\Controllers\Admin\ReportedListingEmailListingOwnerController;
@@ -282,6 +287,22 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
         //Virtual Tours resolve controller
         Route::post('/virtual-tours/{virtual_tour}/email', VirtualTourEmailListingOwnerController::class)
             ->name('virtual-tours.email-listing-owner');
+
+        //Customer Contact index controller
+        Route::get('/customer-contacts', CustomerContactIndexController::class)
+            ->name('customer-contacts.index');
+        //Customer Contact show controller
+        Route::get('/customer-contacts/{customer_contact}', CustomerContactShowController::class)
+            ->name('customer-contacts.show');
+        //Customer Contact show controller
+        Route::delete('/customer-contacts/{customer_contact}', CustomerContactDestroyController::class)
+            ->name('customer-contacts.delete');
+        //Reported listings resolve controller
+        Route::put('/customer-contacts/{customer_contact}/resolve', CustomerContactResolveController::class)
+            ->name('customer-contacts.resolved');
+        //Reported listings resolve controller
+        Route::post('/customer-contacts/{customer_contact}/email', CustomerContactEmailController::class)
+            ->name('customer-contacts.email-customer');
 
         //User & Permissions & Roles
         Route::middleware(['role:admin'])->group(function () {
