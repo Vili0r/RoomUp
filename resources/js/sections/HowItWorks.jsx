@@ -104,6 +104,10 @@ const HowItWorks = () => {
 
     return (
         <div className="relative overflow-x-hidden wrapper bg-[#F9F9FA]">
+            <h1 className=" dark:text-gray-400 lg:text-[2.75rem] text-center text-[#3E4147] mb-5 md:text-[1.75rem] xs:text-[1rem] font-[800] items-center uppercase mt-[10rem]">
+                How It Works
+                <span className="text-[#F5B041]">?</span>
+            </h1>
             <div
                 ref={container1Ref}
                 className="flex w-[300vw] container1 scrollx"
