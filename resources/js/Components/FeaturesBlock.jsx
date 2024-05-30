@@ -5,7 +5,7 @@ import { BsChatDots } from "react-icons/bs";
 import { BiSupport } from "react-icons/bi";
 import { MdAttractions } from "react-icons/md";
 
-const SocialsBlock = () => {
+const FeaturesBlock = () => {
     return (
         <>
             <motion.div
@@ -128,4 +128,4 @@ const SocialsBlock = () => {
     );
 };
 
-export default SocialsBlock;
+export default FeaturesBlock;

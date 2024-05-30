@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 
-const EmailListBlock = () => {
+const SearchBlock = () => {
     return (
         <div className="col-span-12 p-6 border rounded-lg border-neutral-700 bg-neutral-800 md:col-span-9">
             <div className="flex items-center gap-2">
@@ -21,4 +21,4 @@ const EmailListBlock = () => {
     );
 };
 
-export default EmailListBlock;
+export default SearchBlock;

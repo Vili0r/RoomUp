@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import HeaderBlock from "@/Components/HeaderBlock";
-import SocialsBlock from "@/Components/SocialsBlock";
+import FeaturesBlock from "@/Components/FeaturesBlock";
 import AboutBlock from "@/Components/AboutBlock";
-import EmailListBlock from "@/Components/EmailListBlock";
-import LocationBlock from "@/Components/LocationBlock";
+import SearchBlock from "@/Components/SearchBlock";
+import SecurityBlock from "@/Components/SecurityBlock";
 
 const Services = () => {
     const { t } = useTranslation();
@@ -35,10 +35,10 @@ const Services = () => {
                 className="grid max-w-4xl grid-cols-12 gap-4 mx-auto grid-flow-dense pb-[5rem] mt-[5rem]"
             >
                 <HeaderBlock />
-                <SocialsBlock />
+                <FeaturesBlock />
                 <AboutBlock />
-                <LocationBlock />
-                <EmailListBlock />
+                <SecurityBlock />
+                <SearchBlock />
             </motion.div>
         </section>
     );
