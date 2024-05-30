@@ -241,7 +241,7 @@ export default function Authenticated({ auth, children }) {
                         <li className="nav__item">
                             <Link
                                 href={route("favourites.index")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
@@ -255,7 +255,7 @@ export default function Authenticated({ auth, children }) {
                         <li className="nav__item">
                             <Link
                                 href={route("property.viewed")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
@@ -269,7 +269,7 @@ export default function Authenticated({ auth, children }) {
                         <li className="nav__item">
                             <Link
                                 href={route("message.index")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
@@ -283,7 +283,7 @@ export default function Authenticated({ auth, children }) {
                         <li className="nav__item">
                             <Link
                                 href={route("conversation.index")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
@@ -298,7 +298,7 @@ export default function Authenticated({ auth, children }) {
                         <li className="nav__item">
                             <Link
                                 href={route("profile.edit")}
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
@@ -314,7 +314,7 @@ export default function Authenticated({ auth, children }) {
                                 method="post"
                                 href={route("logout")}
                                 as="button"
-                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[rgb(145, 119, 166)] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
+                                className="lg:text-[1.25rem] hover:text-[#d6bdeb] text-[#9177A6] inline-flex items-center gap-[1rem] text-[.813rem] font-[500]"
                                 style={{
                                     tranisition: ".3s",
                                 }}
