@@ -31,7 +31,7 @@ const FeaturesBlock = () => {
                     rotate: "2.5deg",
                     scale: 1.1,
                 }}
-                className="p-6 bg-red-500 border rounded-lg md:col-span-3 border-zinc-700 bg-zinc-800"
+                className="col-span-6 p-6 bg-red-500 border rounded-lg md:col-span-3 border-zinc-700 bg-zinc-800"
             >
                 <span className="grid h-full text-3xl text-white place-content-center">
                     <GiSteampunkGoggles />
