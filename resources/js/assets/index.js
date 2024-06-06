@@ -18,6 +18,7 @@ import HousePlaceholder from "./HousePlaceholder.jpeg";
 import RestaurantPlaceholder from "./RestaurantPlaceholder.jpeg";
 import SidebarBg from "./SidebarBg.jpeg";
 import CustomerService from "./CustomerService.png";
+import facebook from "./facebook.png";
 
 export {
     logo,
@@ -40,4 +41,5 @@ export {
     ErrorImage,
     CustomerService,
     RestaurantPlaceholder,
+    facebook,
 };
